@@ -1,0 +1,230 @@
+classdef zSpineInfill < handle
+    % Hidden properties will not be displayed when you access the property
+    % list using get(object) or object.property
+    properties (Hidden) 
+    end       
+    
+    % These properties are the same for all instances of of the class
+    properties (Constant) 
+    end
+     
+    % For SetAcess = protected you can only access the properties from the 
+    % class or subclass. 
+    % For SetAccess = public you can access the properties from anywhere
+    % For SetAccess = private you can access the properties from class
+    % members only (not subclasses)
+    properties (SetAccess = protected)
+        % zSpineInfill number
+        number
+        % Story
+        story
+        % Bay number
+        zBay
+        % zDirection column line number
+        xDirectionColumnLine
+        % East-West strut start joint node number
+        southNorthStrutStartJointNodeNumber
+        % West-East strut start joint node number
+        northSouthStrutStartJointNodeNumber
+        % East-West strut end joint node number
+        southNorthStrutEndJointNodeNumber
+        % West-East strut end joint node number
+        northSouthStrutEndJointNodeNumber
+        % Central east-west strut start node openSees tag
+        centralSouthNorthStrutStartNodeOpenSeesTag
+        % Central west-east strut start node openSees tag
+        centralNorthSouthStrutStartNodeOpenSeesTag
+        % Central east-west strut end node openSees tag
+        centralSouthNorthStrutEndNodeOpenSeesTag
+        % Central west-east strut end node openSees tag
+        centralNorthSouthStrutEndNodeOpenSeesTag
+        % Offset east-west strut start node openSees tag
+        offsetSouthNorthStrutStartNodeOpenSeesTag
+        % Offset west-east strut start node openSees tag
+        offsetNorthSouthStrutStartNodeOpenSeesTag
+        % Offset east-west strut end node openSees tag
+        offsetSouthNorthStrutEndNodeOpenSeesTag
+        % Offset west-east strut end node openSees tag
+        offsetNorthSouthStrutEndNodeOpenSeesTag
+        % Central east-west strut OpenSees element tag
+        centralSouthNorthStrutOpenSeesTag
+        % Central west-east strut OpenSees element tag
+        centralNorthSouthStrutOpenSeesTag
+        % Offset east-west strut OpenSees element tag
+        offsetSouthNorthStrutOpenSeesTag
+        % Offset west-east strut OpenSees element tag
+        offsetNorthSouthStrutOpenSeesTag
+        % Infill strut stiffness
+        Kstrut
+        % Infill strut yield strength
+        FyStrut
+        % Infill strut strain hardening ratio
+        strainHardeningRatio
+        % Infill strut strain softening ratio
+        strainSofteningRatio
+        % Infill strut length
+        length
+        % Infill strut deltaC/deltaY
+        deltaCOverDeltaY
+    end    
+    
+    methods
+        % Constructor function
+        function zSpineInfillObject = zSpineInfill(number,story,...
+                XColumnLineNumber,zBayNumber,jointNodes,...
+                SpinInfillPropertiesLocation,buildingGeometry)
+            
+            % Attach zSpineInfill number
+            zSpineInfillObject.number = number;  
+            
+            % Attach zSpineInfill story
+            zSpineInfillObject.story = story;  
+            
+            % Attach infill zDirection bay number
+            zSpineInfillObject.zBay = zBayNumber;  
+            
+            % Attach infill xDirection column line number
+            zSpineInfillObject.xDirectionColumnLine = XColumnLineNumber; 
+            
+            % Attach south-north start joint node number
+            zSpineInfillObject.southNorthStrutStartJointNodeNumber = ...
+                (story - 1)*length(jointNodes(1,1,:))*...
+                length(jointNodes(1,:,1)) + ...
+                (zBayNumber - 1)*length(jointNodes(1,:,1)) + ...
+                XColumnLineNumber;  
+            
+            % Attach south-north end joint node number
+            zSpineInfillObject.southNorthStrutEndJointNodeNumber = ...
+                (story)*length(jointNodes(1,1,:))*...
+                length(jointNodes(1,:,1)) + ...
+                (zBayNumber)*length(jointNodes(1,:,1)) + ...
+                XColumnLineNumber;  
+            
+            % Attach north-south start joint node number
+            zSpineInfillObject.northSouthStrutStartJointNodeNumber = ...
+                (story - 1)*length(jointNodes(1,1,:))*...
+                length(jointNodes(1,:,1)) + ...
+                (zBayNumber)*length(jointNodes(1,:,1)) + ...
+                XColumnLineNumber;  
+            
+            % Attach north-south end joint node number
+            zSpineInfillObject.northSouthStrutEndJointNodeNumber = ...
+                (story)*length(jointNodes(1,1,:))*...
+                length(jointNodes(1,:,1)) + ...
+                (zBayNumber - 1)*length(jointNodes(1,:,1)) + ...
+                XColumnLineNumber;  
+            
+            % Attach central south-north strut start node openSees tag
+            zSpineInfillObject. ...
+                centralSouthNorthStrutStartNodeOpenSeesTag ...
+                = jointNodes{story,XColumnLineNumber,...
+                zBayNumber}.openSeesTag; 
+            
+            % Attach central south-north strut end node openSees tag
+            zSpineInfillObject.centralSouthNorthStrutEndNodeOpenSeesTag ...
+                = jointNodes{story + 1,XColumnLineNumber,...
+                zBayNumber + 1}.openSeesTag; 
+            
+            % Attach central north-south strut start node openSees tag
+            zSpineInfillObject. ...
+                centralNorthSouthStrutStartNodeOpenSeesTag ...
+                = jointNodes{story,XColumnLineNumber,...
+                zBayNumber + 1}.openSeesTag; 
+            
+            % Attach central north-south strut end node openSees tag
+            zSpineInfillObject.centralNorthSouthStrutEndNodeOpenSeesTag ...
+                = jointNodes{story + 1,XColumnLineNumber,...
+                zBayNumber}.openSeesTag; 
+            
+            % Attach offset south-north strut start node openSees tag
+            zSpineInfillObject. ...
+                offsetSouthNorthStrutStartNodeOpenSeesTag ...
+                = strcat(jointNodes{story,XColumnLineNumber,...
+                zBayNumber}.openSeesTag,num2str(4)); 
+            
+            % Attach offset south-north strut end node openSees tag
+            zSpineInfillObject.offsetSouthNorthStrutEndNodeOpenSeesTag ...
+                = strcat(jointNodes{story + 1,XColumnLineNumber,...
+                zBayNumber + 1}.openSeesTag,num2str(2)); 
+            
+            % Attach offset north-south strut start node openSees tag
+            zSpineInfillObject. ...
+                offsetNorthSouthStrutStartNodeOpenSeesTag ...
+                = strcat(jointNodes{story,XColumnLineNumber,...
+                zBayNumber + 1}.openSeesTag,num2str(4)); 
+            
+            % Attach offset north-south strut end node openSees tag
+            zSpineInfillObject.offsetNorthSouthStrutEndNodeOpenSeesTag ...
+                = strcat(jointNodes{story + 1,XColumnLineNumber,...
+                zBayNumber}.openSeesTag,num2str(2)); 
+            
+            % Attach south-north central strut openSees tag
+            zSpineInfillObject.centralSouthNorthStrutOpenSeesTag = ...
+                strcat(num2str(5),...
+                zSpineInfillObject. ...
+                centralSouthNorthStrutStartNodeOpenSeesTag,...
+                zSpineInfillObject. ...
+                centralSouthNorthStrutEndNodeOpenSeesTag);
+            
+            % Attach north-south central strut openSees tag
+            zSpineInfillObject.centralNorthSouthStrutOpenSeesTag = ...
+                strcat(num2str(5),...
+                zSpineInfillObject. ...
+                centralNorthSouthStrutStartNodeOpenSeesTag,...
+                zSpineInfillObject. ...
+                centralNorthSouthStrutEndNodeOpenSeesTag);
+            
+            % Attach south-north offset strut openSees tag
+            zSpineInfillObject.offsetSouthNorthStrutOpenSeesTag = ...
+                strcat(num2str(5),...
+                zSpineInfillObject. ...
+                offsetSouthNorthStrutStartNodeOpenSeesTag,...
+                zSpineInfillObject. ...
+                offsetSouthNorthStrutEndNodeOpenSeesTag);
+            
+            % Attach north-south offset strut openSees tag
+            zSpineInfillObject.offsetNorthSouthStrutOpenSeesTag = ...
+                strcat(num2str(5),...
+                zSpineInfillObject. ...
+                offsetNorthSouthStrutStartNodeOpenSeesTag,...
+                zSpineInfillObject. ...
+                offsetNorthSouthStrutEndNodeOpenSeesTag);
+            
+            % Go to folder where structural properties are stored
+            cd(SpinInfillPropertiesLocation)
+            
+            % Attach infill strut stiffness
+            InfillStrutK = load('Kstrut.txt');
+            zSpineInfillObject.Kstrut = InfillStrutK(story,...
+                (zBayNumber - 1)*(buildingGeometry.numberOfXBays + 1)...
+                + XColumnLineNumber);
+            
+            % Attach infill strut yield strength
+            InfillStrutFy = load('FyStrut.txt');
+            zSpineInfillObject.FyStrut = InfillStrutFy(story,...
+                (zBayNumber - 1)*(buildingGeometry.numberOfXBays + 1)...
+                + XColumnLineNumber);
+            
+            % Attach infill strut length
+            InfillStrutLength= load('length.txt');
+            zSpineInfillObject.length = InfillStrutLength(story,...
+                (zBayNumber - 1)*(buildingGeometry.numberOfXBays + 1)...
+                + XColumnLineNumber);
+            
+            % Attach strain hardening ratio
+            zSpineInfillObject.strainHardeningRatio = ...
+                load('strainHardeningRatio.txt');
+            
+            % Attach strain softening ratio
+            zSpineInfillObject.strainSofteningRatio = ...
+                load('strainSofteningRatio.txt');
+
+            % Attach strain softening ratio
+            zSpineInfillObject.deltaCOverDeltaY = ...
+                load('deltaCOverDeltaY.txt');
+        end      
+        
+    end
+    
+end
+

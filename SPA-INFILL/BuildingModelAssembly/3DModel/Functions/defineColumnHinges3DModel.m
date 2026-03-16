@@ -1,0 +1,124 @@
+% This function is used to generate the tcl file that defines the column
+% hinges for a 3D Model in OpenSees     
+function defineColumnHinges3DModel(buildingGeometry,...
+    columnHingeObjects,BuildingModelDirectory,AnalysisType)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              Generating Tcl File with Column Hinges Defined             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Go to model data direction
+    cd(BuildingModelDirectory)
+
+    % Make folder used to store OpenSees models
+    cd OpenSees3DModels
+    cd(AnalysisType)
+
+    % Opening and defining Tcl file
+    fid = fopen('DefineColumnHinges3DModel.tcl','wt');
+
+    % Writing file description into tcl file
+    fprintf(fid,'%s\n','# This file will be used to define column hinges');
+    fprintf(fid,'%s\n','');
+    fprintf(fid,'%s\n','');
+
+    % Defining column hinges
+    fprintf(fid,'%s\n','# Define column hinges');
+    % Looping over all stories
+    for i = 1:buildingGeometry.numberOfStories 
+        % Defining column hinges at bottom of story
+        fprintf(fid,'%s\n',strcat('# Columm Hinges Bottom of Story ',...
+            num2str(i)));
+        % Looping over the number of Z-direction column lines
+        for j = 1:(buildingGeometry.numberOfZBays + 1)
+            % Looping over the number of X-direction column lines
+            for k = 1:(buildingGeometry.numberOfXBays + 1)
+                % Hinge at bottom of Column
+                fprintf(fid,'%s\t','rotColSpring3DModIKModel');
+                fprintf(fid,'%s\t',...
+                    columnHingeObjects{i,k,j}.startHingeOpenSeesTag);  
+                fprintf(fid,'%s\t',...
+                    columnHingeObjects{i,k,j}.startJointNodeOpenSeesTag);  
+                fprintf(fid,'%s\t',...
+                    columnHingeObjects{i,k,j}.startHingeNodeOpenSeesTag);
+                if i ~= 1
+                    fprintf(fid,'%s\t','$StiffMat');
+                else
+                    if buildingGeometry.foundationUplift == 1
+                        fprintf(fid,'%s\t','$CompressionOnlyMat');
+                    else
+                        fprintf(fid,'%s\t','$StiffMat');
+                    end
+                end
+                considerColumnShearFailure = cell2mat(...
+                    columnHingeObjects{1,1,1}.considerColumnShearFailure);
+                if considerColumnShearFailure  == 1
+                    fprintf(fid,'%s\t',strcat(...
+                        '$ColumnShearXHingeMatStory',...
+                    num2str(i),'Pier',num2str(k),num2str(j))); 
+                    fprintf(fid,'%s\t',strcat(...
+                        '$ColumnShearZHingeMatStory',...
+                    num2str(i),'Pier',num2str(k),num2str(j))); 
+                else
+                    fprintf(fid,'%s\t','$StiffMat'); 
+                    fprintf(fid,'%s\t','$StiffMat');
+                end
+                fprintf(fid,'%s\t','$StiffMat');
+                fprintf(fid,'%s\t',strcat(...
+                    '$ColumnGlobalZAxisFlexuralHingeMatStory',...
+                 num2str(i),'Pier',num2str(k),num2str(j)));
+                fprintf(fid,'%s',strcat(...
+                    '$ColumnGlobalXAxisFlexuralHingeMatStory',...
+                num2str(i),'Pier',num2str(k),num2str(j)));          
+                fprintf(fid,'%s\n',';');
+            end
+        end
+        fprintf(fid,'%s\n','');
+                
+        % Defining column hinges at top of story
+        fprintf(fid,'%s\n',strcat('# Columm Hinges Top of Story ',...
+            num2str(i)));
+        % Looping over the number of Z-direction column lines
+        for j = 1:(buildingGeometry.numberOfZBays + 1)
+            % Looping over the number of X-direction column lines
+            for k = 1:(buildingGeometry.numberOfXBays + 1)   
+                % Hinge at top of Column
+                fprintf(fid,'%s\t','rotColSpring3DModIKModel');
+                fprintf(fid,'%s\t',...
+                    columnHingeObjects{i,k,j}.endHingeOpenSeesTag);  
+                fprintf(fid,'%s\t',...
+                    columnHingeObjects{i,k,j}.endJointNodeOpenSeesTag);  
+                fprintf(fid,'%s\t',...
+                    columnHingeObjects{i,k,j}.endHingeNodeOpenSeesTag);
+                fprintf(fid,'%s\t','$StiffMat'); 
+                if considerColumnShearFailure == 1
+                    fprintf(fid,'%s\t',strcat(...
+                        '$ColumnShearXHingeMatStory',...
+                    num2str(i),'Pier',num2str(k),num2str(j))); 
+                    fprintf(fid,'%s\t',strcat(...
+                        '$ColumnShearZHingeMatStory',...
+                    num2str(i),'Pier',num2str(k),num2str(j))); 
+                else
+                    fprintf(fid,'%s\t','$StiffMat');
+                    fprintf(fid,'%s\t','$StiffMat');
+                end
+                fprintf(fid,'%s\t','$StiffMat');
+                fprintf(fid,'%s\t',strcat(...
+                    '$ColumnGlobalZAxisFlexuralHingeMatStory',...
+                 num2str(i),'Pier',num2str(k),num2str(j)));
+                fprintf(fid,'%s',strcat(...
+                    '$ColumnGlobalXAxisFlexuralHingeMatStory',...
+                num2str(i),'Pier',num2str(k),num2str(j)));          
+                fprintf(fid,'%s\n',';');
+            end
+        end  
+        fprintf(fid,'%s\n','');
+    end
+    fprintf(fid,'%s\n','puts "column hinge defined"');
+    fprintf(fid,'%s\n','');
+
+    % Closing and saving tcl file
+    fclose(fid);
+
+end
+

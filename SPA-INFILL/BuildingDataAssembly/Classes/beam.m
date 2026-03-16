@@ -1,0 +1,145 @@
+classdef beam < handle
+    % Hidden properties will not be displayed when you access the property
+    % list using get(object) or object.property
+    properties (Hidden) 
+    end       
+    
+    % These properties are the same for all instances of of the class
+    properties (Constant) 
+    end
+     
+    % For SetAcess = protected you can only access the properties from the 
+    % class or subclass. 
+    % For SetAccess = public you can access the properties from anywhere
+    % For SetAccess = private you can access the properties from class
+    % members only (not subclasses)
+    properties (SetAccess = protected)
+        % Beam number
+        number
+        % Floor level
+        level
+        % xDirection beam line number
+        xDirectionbeamLine
+        % xDirection beam line
+        zDirectionbeamLine
+        % Start joint node number
+        startJointNodeNumber
+        % End joint node number
+        endJointNodeNumber
+        % Start joint node openSees tag
+        startJointNodeOpenSeesTag
+        % End joint node openSees tag
+        endJointNodeOpenSeesTag
+        % Start hinge node openSees tag
+        startHingeNodeOpenSeesTag
+        % End hinge node openSees tag
+        endHingeNodeOpenSeesTag
+        % OpenSees element tag
+        openSeesTag
+        % Width
+        width
+        % Depth
+        depth
+        % Length
+        length
+        % Cross sectional area
+        area
+        % Modulus of elasticity
+        E
+        % Gross transformed moment of inertia
+        Igtr
+        % Cracking stiffness factor EIeff/EIg
+        EIeffOverEIg
+        % Larger number used to represent product of rotational moment 
+        % of inertia and shear modulus
+        GJ   
+        
+    end    
+    
+    methods
+        % Constructor function
+        function beamObject = beam(number,story,XbeamLineNumber,...
+                ZbeamLineNumber,jointNodes,beamPropertiesLocation,...
+                buildingGeometry)
+            
+            % Attach beam number
+            beamObject.number = number;  
+            
+            % Attach beam story
+            beamObject.story = story;  
+            
+            % Attach beam xDirection beam line number
+            beamObject.xDirectionbeamLine = XbeamLineNumber;  
+            
+            % Attach beam zDirection beam line number
+            beamObject.zDirectionbeamLine = ZbeamLineNumber; 
+            
+            % Attach start joint node number
+            beamObject.startJointNodeNumber = (story - 1)*...
+                length(jointNodes(1,1,:))*length(jointNodes(1,:,1)) + ...
+                (ZbeamLineNumber - 1)*length(jointNodes(1,:,1)) + ...
+                XbeamLineNumber;  
+            
+            % Attach end joint node number
+            beamObject.endJointNodeNumber = story*...
+                length(jointNodes(1,1,:))*length(jointNodes(1,:,1)) + ...
+                (ZbeamLineNumber - 1)*length(jointNodes(1,:,1)) + ...
+                XbeamLineNumber;  
+            
+            % Attach start joint node OpenSees Tag
+            beamObject.startJointNodeOpenSeesTag = jointNodes{story,...
+                XbeamLineNumber,ZbeamLineNumber}.openSeesTag;
+            
+            % Attach end joint node OpenSees Tag
+            beamObject.endJointNodeOpenSeesTag = jointNodes{story + 1,...
+                XbeamLineNumber,ZbeamLineNumber}.openSeesTag;
+            
+            
+            % Attach start hinge node OpenSees Tag
+            beamObject.startHingeNodeOpenSeesTag = strcat(...
+                beamObject.startJointNodeOpenSeesTag,num2str(4));
+            
+            % Attach end hinge node OpenSees Tag
+            beamObject.endHingeNodeOpenSeesTag = strcat(...
+                beamObject.endJointNodeOpenSeesTag,num2str(2));
+            
+            % Attach OpenSees Tag for beam element
+            beamObject.openSeesTag = strcat(num2str(3),...
+                beamObject.startHingeNodeOpenSeesTag,...
+                beamObject.endHingeNodeOpenSeesTag);
+            
+            % Go to folder where structural properties are stored
+            cd(beamPropertiesLocation)
+            
+            % Attach beam length
+            beamObject.length = buildingGeometry.storyHeights(story);
+            
+            % Attach concrete modulus
+            beamObject.E = load('E.txt');
+            
+            % Attach GJ
+            beamObject.GJ = load('GJ.txt');
+            
+            % beam cross section areaa
+            beamAreas = load('A.txt');
+            beamObject.area = beamAreas(story,(ZbeamLineNumber ...
+                - 1)* (buildingGeometry.numberOfZBays + 1) + ...
+                XbeamLineNumber);
+            
+            % beam gross transformed moment of inertia
+            beamIgtr = load('Igtr.txt');
+            beamObject.Igtr  = beamIgtr(story,(ZbeamLineNumber -...
+                1)* (buildingGeometry.numberOfZBays + 1) + ...
+                XbeamLineNumber);
+
+            % beam cracked stiffness factor EIeff/EIg
+            beamEIeffOverEIg = load('EIeffOverEIg.txt');
+            beamObject.EIeffOverEIg  = beamEIeffOverEIg(story,...
+                (ZbeamLineNumber - 1)* (buildingGeometry.numberOfZBays...
+                + 1) + XbeamLineNumber);
+        end      
+        
+    end
+    
+end
+

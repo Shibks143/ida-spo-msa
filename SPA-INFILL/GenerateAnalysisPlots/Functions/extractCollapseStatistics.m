@@ -1,0 +1,73 @@
+% This function is used to extract all EDPs from a collapse analysis 
+% for a  3D model. 
+function collapseResults = extractCollapseStatistics(...
+    BuildingModelDirectory,dynamicAnalysisParameters,Model,...
+    FrameLineNumber)
+    
+    % Defining path to collapse results and number of ground motions used
+    % for data extraction
+    if strcmp(Model,'3DModel') == 1
+        % Collapse results folder
+        CollapseOutputDataLocation = strcat(BuildingModelDirectory,...
+            '\OpenSees3DModels\DynamicAnalysis\',...
+            '\ModelBiDirectionalIDAToCollapseOutput');
+        
+        % Number of ground motions for data extraction
+        NumberOfGroundMotions = dynamicAnalysisParameters. ...
+            NumberOfBiDirectionGroundMotions;
+    elseif strcmp(Model,'XDirection2DModel') == 1
+        % Collapse results folder
+        FrameLineModelFolder = sprintf('Line_%d',FrameLineNumber);
+        CollapseOutputDataLocation = strcat(BuildingModelDirectory,...
+        '\OpenSees2DModels\XDirectionFrameLines\',FrameLineModelFolder,...
+        '\DynamicAnalysis\ModelCollapseOutput');
+        
+        % Number of ground motions for data extraction
+        NumberOfGroundMotions = dynamicAnalysisParameters. ...
+            NumberOfUniDirectionGroundMotions;
+    else
+        % Collapse results folder
+        FrameLineModelFolder = sprintf('Line_%d',FrameLineNumber);
+        CollapseOutputDataLocation = strcat(BuildingModelDirectory,...
+        '\OpenSees2DModels\ZDirectionFrameLines\',FrameLineModelFolder,...
+        '\DynamicAnalysis\ModelCollapseOutput');
+        
+        % Number of ground motions for data extraction
+        NumberOfGroundMotions = dynamicAnalysisParameters. ...
+            NumberOfUniDirectionGroundMotions;
+    end
+        
+    
+    % Go to directory used to store collapse output data
+    cd(CollapseOutputDataLocation)
+    
+    % Extracting SaLevels and collapse Sas
+    cd IDAGMScales
+    for i = 1:NumberOfGroundMotions
+        SaLevelFile = sprintf('EQ_%d.txt',i);
+        collapseResults.empiricalCollapseSas(i) = max(load(...
+            SaLevelFile))*dynamicAnalysisParameters.SaMCE/100; 
+    end
+    
+     % Compute empirical collapse Sa Levels
+    collapseResults.sortedEmpiricalCollapseSas = (sort(collapseResults. ...
+        empiricalCollapseSas))';    
+    collapseResults.empiricalCollapseProbabilities = (1/...
+        NumberOfGroundMotions):(1/NumberOfGroundMotions):1;
+    collapseResults.empiricalCollapseProbabilities = (collapseResults. ...
+        empiricalCollapseProbabilities)';
+    
+    % Computing lognormal distribution parameters    
+    collapseResults.lognormalDispersion = std(log(collapseResults. ...
+        empiricalCollapseSas));
+    collapseResults.medianCollapseSa = median(collapseResults. ...
+        empiricalCollapseSas);
+    
+    % Computing lognormal collapse fragility data
+    collapseResults.lognormalSas = 0:.01:ceil(2*max(collapseResults. ...
+        empiricalCollapseSas));
+    collapseResults.lognormalSas = (collapseResults.lognormalSas)';
+    collapseResults.lognormalCollapseProbabilities = ...
+            normcdf(log(collapseResults.lognormalSas/collapseResults. ...
+            medianCollapseSa)/collapseResults.lognormalDispersion);
+end
