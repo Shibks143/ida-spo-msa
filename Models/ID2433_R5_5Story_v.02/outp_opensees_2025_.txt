@@ -1,0 +1,86 @@
+
+
+         OpenSees -- Open System For Earthquake Engineering Simulation
+                 Pacific Earthquake Engineering Research Center
+                        Version 3.8.0 64-Bit
+
+      (c) Copyright 1999-2016 The Regents of the University of California
+                              All Rights Reserved
+  (Copyright and Disclaimer @ http://www.berkeley.edu/OpenSees/copyright.html)
+
+
+Wiped
+SPO_INDEX from MATLAB: 1 
+Variables defined 
+
+
+ Functions defined 
+
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+
+ Analysis options are set 
+
+Check: Gravity Load Applied!
+
+ Model is set up 
+
+Current Directory is: E:/OpenSees_PracticeExamples/ida-spo-temp
+CHECK: Running Eigen Analysis for Matlab
+Starting eigen analysis
+Did first eigen analysis
+Starting eigen Vector analysis
+numLevels is 6
+Determined eigen Vectors.
+
+ Wiped 
+
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+Running Pushover...
+Re-Setting up the model...
+Functions re-defined
+Variables re-defined
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+Analysis options are re-set
+Check: Gravity Load Applied!
+Model is re-set up
+Domain::addLoadPattern - cannot add as LoadPattern with tag1 already exists in model
+WARNING could not add load pattern to the domain Load Pattern: 1
+  Scale Factor: 1
+Linear Series: constant factor: 1
+  Nodal Loads: 
+
+numComponents: 0
+
+  Elemental Loads: 
+
+numComponents: 0
+
+  Single Point Constraints: 
+
+numComponents: 0
+expected integer but got "Linear"
+    while executing
+"pattern Plain 1 Linear {
+# node    FX      FY   MZ
+    load 206013 0.0733581833 0.0 0.0
+    load 206023 0.1467163667 0.0 0.0
+    load 206033 0.1467163..."
+    (file "psb_DefinePushoverLoading.tcl" line 31)
+    invoked from within
+"source psb_DefinePushoverLoading.tcl"
+    invoked from within
+"if {$runPushover == "YES"} {
+
+	puts "Running Pushover..."
+
+	# Set up the model
+	source psb_RedefineEverythingAndReSetUpModel.tcl
+
+	# Define pushover l..."
+    (file "psb_RunPushoverIfSpecified.tcl" line 19)
+    invoked from within
+"source psb_RunPushoverIfSpecified.tcl"
+    (file "psb_RunMeanAnalysis.tcl" line 56)

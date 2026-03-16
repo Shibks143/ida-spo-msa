@@ -1,0 +1,2 @@
+function Prak_clearVarsForProcessing(saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis)
+clear saLevelsForIDAPlotLIST maxDriftRatioForPlotLIST collapseSaLevel saLevelsRunForCollapseAnalysis

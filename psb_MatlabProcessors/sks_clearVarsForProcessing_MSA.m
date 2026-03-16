@@ -1,0 +1,4 @@
+% 
+% 
+function sks_clearVarsForProcessing(saLevelsForMSAPlotLIST, maxDriftRatioForPlotLIST, saLevelsRunForCollapseAnalysis)
+clear saLevelsForMSAPlotLIST maxDriftRatioForPlotLIST saLevelsRunForCollapseAnalysis
