@@ -3,4 +3,5 @@ _superseded/
 DesignModels/
 HazardAnalysis/
 randomPractice/
-masterCopy.xlsx/
+masterCopy.xlsx
+*.asv
