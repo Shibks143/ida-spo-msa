@@ -153,7 +153,7 @@ g = 9810;
 % Input how many seconds at the end of the EQ should be used to comput residual drifts.  The residual drift is used as the avergae of the min and max
 %   values over the last X seconds of the EQ (assuming that the dT is not split over these last few seconds, so if it is split, then it effectively 
 %   averages over a bit more time at the end.
-    secAtEnfOfEQForResidual = 3.0; % have patience, this param is used far below around line number 850, 906 of this code (PSB)
+    secAtEndOfEQForResidual = 3.0; % have patience, this param is used far below around line number 850, 906 of this code (PSB)
 
 % First change the directory to get into the correct folder for processing
 cd ..;
@@ -845,7 +845,7 @@ end
 %     roofDriftRatio.AbsMax = max(abs(roofDriftRatio.TH)); 
     
     % Compute the residual drift ratios.  Take the average of the nax and min drifts over the last few seconds of the EQ.
-    numPointsAtEndOfEQToUse = round(secAtEnfOfEQForResidual / dtForAnalysis);
+    numPointsAtEndOfEQToUse = round(secAtEndOfEQForResidual / dtForAnalysis);
     lastPointNumAtEndOfEQ = length(roofDriftRatio.TH);
     pointNumAtStartOfResidualCalc = lastPointNumAtEndOfEQ - numPointsAtEndOfEQToUse;
         
@@ -903,7 +903,7 @@ for floorNum = 2:length(floorHeightsLIST)
 
     
     % Compute the residual drift ratios.  Take the average of the nax and min drifts over the last few seconds of the EQ.
-        numPointsAtEndOfEQToUse = round(secAtEnfOfEQForResidual / dtForAnalysis);
+        numPointsAtEndOfEQToUse = round(secAtEndOfEQForResidual / dtForAnalysis);
         lastPointNumAtEndOfEQ = length(storyDriftRatio{storyNum}.TH);
         pointNumAtStartOfResidualCalc = lastPointNumAtEndOfEQ - numPointsAtEndOfEQToUse;
         

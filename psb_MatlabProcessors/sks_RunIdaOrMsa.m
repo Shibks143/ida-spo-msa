@@ -1,6 +1,4 @@
-
-
- function sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs)
+function sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs)
 
 % clear; clc;
 % cd E:\OpenSees_PracticeExamples\ida-spo-temp\Models\psb_Sensitivity_Analysis

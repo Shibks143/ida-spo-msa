@@ -189,7 +189,7 @@ idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
 % idaInputs.timeTakenInMinsForEachAnalysis =      timeTakenInMinsForEachAnalysis;
 idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
 % idaInputs.openseesFileToUse =                   openseesFileToUse;
-
+idaInputs.markerTypeLine    =                   markerTypeLine;
 
 msaInputs.dtForCollapseMATLAB                 = dtForCollapseMATLAB;
 msaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB ;
@@ -304,8 +304,7 @@ end
             isCollapsedForEachRun = 0;
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
         end
         % [STANDARD] Process GM Set D - tested/works(6-29-06)
         if strcmp(eqListID,'setD')    
