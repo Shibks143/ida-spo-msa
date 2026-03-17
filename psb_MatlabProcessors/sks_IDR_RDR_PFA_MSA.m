@@ -71,11 +71,11 @@ for saLevelIndex = 1:numSa
     for eqIndex = 1:numEQ
 
         driftMat = absStoryDrift_all{eqIndex};
-        driftProfile = 100*driftMat(:,saLevelIndex);   % convert to %
-
-        driftMatrix(:,eqIndex) = driftProfile;
-
-        driftStep  = repelem(driftProfile,2);
+        driftProfile = 100*driftMat(:,saLevelIndex);   % full values convert to %
+        driftMatrix(:,eqIndex) = driftProfile;         % store original
+        
+        driftPlot = min(driftProfile,8);                % truncate at 8%
+        driftStep  = repelem(driftPlot,2);
         heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
 
         driftStep  = [driftStep; driftProfile(end)];
@@ -94,18 +94,36 @@ for saLevelIndex = 1:numSa
     p16Drift    = prctile(driftMatrix,16,2);
     p84Drift    = prctile(driftMatrix,84,2);
 
+    % ---- Truncate ONLY for plotting ----
+    medianPlot = min(medianDrift,8);
+    p16Plot    = min(p16Drift,8);
+    p84Plot    = min(p84Drift,8);
+
     % ---- Convert to Step Profiles ----
     heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
     heightStep = [heightStep; storyLevel(end)];
 
-    medStep = repelem(medianDrift,2);
-    medStep = [medStep; medianDrift(end)];
+    medStep = repelem(medianPlot,2);
+    medStep = [medStep; medianPlot(end)];
 
-    p16Step = repelem(p16Drift,2);
-    p16Step = [p16Step; p16Drift(end)];
+    p16Step = repelem(p16Plot,2);
+    p16Step = [p16Step; p16Plot(end)];
 
-    p84Step = repelem(p84Drift,2);
-    p84Step = [p84Step; p84Drift(end)];
+    p84Step = repelem(p84Plot,2);
+    p84Step = [p84Step; p84Plot(end)];
+    
+    % % ---- Convert to Step Profiles ----
+    % heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
+    % heightStep = [heightStep; storyLevel(end)];
+    % 
+    % medStep = repelem(medianDrift,2);
+    % medStep = [medStep; medianDrift(end)];
+    % 
+    % p16Step = repelem(p16Drift,2);
+    % p16Step = [p16Step; p16Drift(end)];
+    % 
+    % p84Step = repelem(p84Drift,2);
+    % p84Step = [p84Step; p84Drift(end)];
 
 
     % ---- Shaded Dispersion Band ----
@@ -126,8 +144,13 @@ for saLevelIndex = 1:numSa
     yticks(storyLevel)
     ylim([storyLevel(1) storyLevel(end)])
 
-    xlim([0 22])
-    xticks(0:1:22)
+    xMax = 8;
+    margin = 0.05 * xMax;   % 5% margin
+    xlim([0 xMax + margin])
+    xticks(0:1:8)
+
+    % xlim([0 8])
+    % xticks(0:1:8)
     xtickformat('%.0f')
 
     title(sprintf('Sa = %.2f g',validSa(saLevelIndex)))
@@ -161,44 +184,65 @@ for saLevelIndex = 1:numSa
 
     % ---- Individual EQ profiles ----
     for eqIndex = 1:numEQ
-
+    
         residualDriftMat = absResidualDrift_all{eqIndex};
-        residualProfile = 100*residualDriftMat(:,saLevelIndex);
-        residualMatrix(:,eqIndex) = residualProfile;
-
-        driftStep  = repelem(residualProfile,2);
+        residualProfile  = 100*residualDriftMat(:,saLevelIndex);  % FULL data
+    
+        residualMatrix(:,eqIndex) = residualProfile;              % store original
+    
+        % ---- Truncate ONLY for plotting ----
+        residualPlot = min(residualProfile,4);
+    
+        driftStep  = repelem(residualPlot,2);
         heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
-
-        driftStep  = [driftStep; residualProfile(end)];
+    
+        driftStep  = [driftStep; residualPlot(end)];
         heightStep = [heightStep; storyLevel(end)];
-
+    
         if eqIndex == 1
             hEQ = plot(driftStep,heightStep,'Color',[0.7 0.7 0.7],'LineWidth',1.2);
         else
             plot(driftStep,heightStep,'Color',[0.7 0.7 0.7],'LineWidth',1.2);
         end
-
+    
     end
 
 
-    % ---- Percentiles ----
+      % ---- Percentiles (FULL data) ----
     medianResidual = median(residualMatrix,2);
     p16Residual    = prctile(residualMatrix,16,2);
     p84Residual    = prctile(residualMatrix,84,2);
-
-
+    
+    % ---- Truncate ONLY for plotting ----
+    medianPlot = min(medianResidual,4);
+    p16Plot    = min(p16Residual,4);
+    p84Plot    = min(p84Residual,4);
+    
     % ---- Convert to Step Profiles ----
     heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
     heightStep = [heightStep; storyLevel(end)];
+    
+    medStep = repelem(medianPlot,2);
+    medStep = [medStep; medianPlot(end)];
+    
+    p16Step = repelem(p16Plot,2);
+    p16Step = [p16Step; p16Plot(end)];
+    
+    p84Step = repelem(p84Plot,2);
+    p84Step = [p84Step; p84Plot(end)];
 
-    medStep = repelem(medianResidual,2);
-    medStep = [medStep; medianResidual(end)];
 
-    p16Step = repelem(p16Residual,2);
-    p16Step = [p16Step; p16Residual(end)];
-
-    p84Step = repelem(p84Residual,2);
-    p84Step = [p84Step; p84Residual(end)];
+    % heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
+    % heightStep = [heightStep; storyLevel(end)];
+    % 
+    % medStep = repelem(medianResidual,2);
+    % medStep = [medStep; medianResidual(end)];
+    % 
+    % p16Step = repelem(p16Residual,2);
+    % p16Step = [p16Step; p16Residual(end)];
+    % 
+    % p84Step = repelem(p84Residual,2);
+    % p84Step = [p84Step; p84Residual(end)];
 
 
     % ---- Shaded Dispersion Band ----
@@ -219,7 +263,11 @@ for saLevelIndex = 1:numSa
     yticks(storyLevel)
     ylim([storyLevel(1) storyLevel(end)])
 
-    xticks(0:1:6)
+    xMax = 4;
+    margin = 0.05 * xMax;
+
+    xlim([0 xMax + margin])
+    xticks(0:1:4)
     xtickformat('%.0f')
 
     title(sprintf('Sa = %.2f g',validSa(saLevelIndex)))
