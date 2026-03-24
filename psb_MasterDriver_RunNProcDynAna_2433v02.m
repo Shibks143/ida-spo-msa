@@ -54,7 +54,7 @@ IDA_or_MSA = 'MSA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        1        1           1         0              0               1];
+    analyzeProcessPlotIndex = [1        1        1           1         0              0               1];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,11 +108,10 @@ IDA_or_MSA = 'MSA';
     maxNumRuns = 60;
     perturbationForNonConvSingular = 0.03;   
     
-% Sa list for stripe processing - this is the list of Sa levels to make
-% stripe files for
-     saLevelsForStripes = [0.53  0.63  0.70  0.85  0.88  1.06  1.32  1.58];
-    % saLevelsForStripes = [0.05	0.10	0.15	0.20	0.25	0.30	0.35	0.40	0.50	0.55	0.60	0.70	0.80	0.90	1.00	1.20	1.40	1.60	1.80   2.00   2.40   2.80];
-
+% Sa list for stripe processing - this is the list of Sa levels to make stripe files for
+     
+    saLevelsForStripes = [0.53  0.63  0.70  0.85  0.88  1.06  1.32  1.58];
+   
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -166,129 +165,6 @@ isPlotCollapseIDAs = true;   % or false
 isConvertToSaKircher = false;   % or true (depending on need)
 isCollapsedForEachRun = false;   % or true (depending on logic)
 
-%% remove the following after making sure that the simplified input structures work 
-%%%%%%%%%%%%% START OF THE BLOCK TO BE REMOVED
-% idaInputs.dtForCollapseMATLAB =                 dtForCollapseMATLAB;
-% idaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB; 
-% idaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB;
-% idaInputs.eqFormatForCollapseList =             eqFormatForCollapseList;
-% idaInputs.sensModelLIST =                       sensModelLIST;
-% idaInputs.sensVariableNameLIST =                sensVariableNameLIST;
-% idaInputs.sensVariableValueLIST =               sensVariableValueLIST;
-% idaInputs.eqNumberLIST =                        eqNumberLIST;
-% idaInputs.saStartLevel =                        saStartLevel;
-% idaInputs.startStepSize =                       startStepSize;
-% idaInputs.tolerance =                           tolerance; 
-% idaInputs.maxNumRuns =                          maxNumRuns;
-% idaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular;
-% idaInputs.flagForEQFileFormat =                 flagForEQFileFormat;
-% idaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions;
-% idaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef;
-% idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
-% % idaInputs.timeTakenInMinsForEachAnalysis =      timeTakenInMinsForEachAnalysis;
-% idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
-% % idaInputs.openseesFileToUse =                   openseesFileToUse;
-% idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
-% idaInputs.dataSavingOption =                    dataSavingOption;
-% idaInputs.markerTypeLine =                      markerTypeLine;
-% idaInputs.markerTypeDot =                       markerTypeDot;
-% idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
-% idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
-% idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
-% idaInputs.analysisTypeLIST =                    analysisTypeLIST;
-% idaInputs.analysisType =                        analysisType;
-% idaInputs.modelNameLIST =                       modelNameLIST;
-% idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
-% idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
-% idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
-% idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
-% idaInputs.sigmaLnModeling =                     sigmaLnModeling;
-% 
-% 
-% msaInputs.dtForCollapseMATLAB                 = dtForCollapseMATLAB;
-% msaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB ;
-% msaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB ;
-% msaInputs.eqFormatForCollapseList =             eqFormatForCollapseList ;
-% msaInputs.sensModelLIST =                       sensModelLIST ;
-% msaInputs.sensVariableNameLIST =                sensVariableNameLIST ;
-% msaInputs.sensVariableValueLIST =               sensVariableValueLIST ;
-% msaInputs.eqNumberLIST =                        eqNumberLIST ;
-% msaInputs.saStartLevel =                        saStartLevel ;
-% msaInputs.startStepSize =                       startStepSize ;
-% msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-% msaInputs.tolerance =                           tolerance ;
-% msaInputs.maxNumRuns =                          maxNumRuns ;
-% msaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular ;
-% msaInputs.flagForEQFileFormat =                 flagForEQFileFormat ;
-% msaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions ;
-% msaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef ;
-% msaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis ;
-% msaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted ;
-% msaInputs.collapseDriftThreshold =              collapseDriftThreshold;
-% msaInputs.dataSavingOption =                    dataSavingOption;
-% msaInputs.markerTypeLine =                      markerTypeLine;
-% msaInputs.markerTypeDot =                       markerTypeDot;
-% msaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
-% msaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
-% msaInputs.analysisTypeLIST =                    analysisTypeLIST;
-% msaInputs.analysisType =                        analysisType;                
-% msaInputs.modelNameLIST =                       modelNameLIST;
-% msaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
-% msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-% msaInputs.saLevelsForStripes =                  saLevelsForStripes;
-% msaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
-% msaInputs.isConvertToSaKircher =                isConvertToSaKircher;
-%%%%%%%%%%%%% END OF THE BLOCK TO BE REMOVED
-
-%% Simplifying Input structures
-% COMMON inputs
-idaInputs.dtForCollapseMATLAB =                 dtForCollapseMATLAB;
-idaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB; 
-idaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB;
-idaInputs.eqFormatForCollapseList =             eqFormatForCollapseList;
-idaInputs.sensModelLIST =                       sensModelLIST;
-idaInputs.sensVariableNameLIST =                sensVariableNameLIST;
-idaInputs.sensVariableValueLIST =               sensVariableValueLIST;
-idaInputs.eqNumberLIST =                        eqNumberLIST;
-idaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular;
-idaInputs.flagForEQFileFormat =                 flagForEQFileFormat;
-idaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions;
-idaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef;
-idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
-idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
-idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
-idaInputs.dataSavingOption =                    dataSavingOption;
-idaInputs.markerTypeLine =                      markerTypeLine;
-idaInputs.markerTypeDot =                       markerTypeDot;
-idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
-idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
-idaInputs.analysisTypeLIST =                    analysisTypeLIST;
-idaInputs.analysisType =                        analysisType;
-idaInputs.modelNameLIST =                       modelNameLIST;
-idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
-idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
-idaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
-idaInputs.sigmaLnModeling =                     sigmaLnModeling;
-
-msaInputs = idaInputs;
-
-% IDA-specific inputs
-idaInputs.saStartLevel =                        saStartLevel;
-idaInputs.startStepSize =                       startStepSize;
-idaInputs.tolerance =                           tolerance; 
-idaInputs.maxNumRuns =                          maxNumRuns;
-idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
-idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
-idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
-
-% MSA-specific inputs
-msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-baseFolder = pwd;
 
 switch eqListID
     case 'setC'
@@ -319,6 +195,55 @@ switch eqListID
 
 end
 
+%% Simplifying Input structures
+% COMMON inputs
+idaInputs.dtForCollapseMATLAB =                 dtForCollapseMATLAB;
+idaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB; 
+idaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB;
+idaInputs.eqFormatForCollapseList =             eqFormatForCollapseList;
+idaInputs.sensModelLIST =                       sensModelLIST;
+idaInputs.sensVariableNameLIST =                sensVariableNameLIST;
+idaInputs.sensVariableValueLIST =               sensVariableValueLIST;
+idaInputs.eqNumberLIST =                        eqNumberLIST;
+idaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular;
+idaInputs.flagForEQFileFormat =                 flagForEQFileFormat;
+idaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions;
+idaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef;
+idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
+idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
+idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
+idaInputs.dataSavingOption =                    dataSavingOption;
+idaInputs.markerTypeLine =                      markerTypeLine;
+idaInputs.markerTypeDot =                       markerTypeDot;
+idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
+idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
+idaInputs.analysisTypeLIST =                    analysisTypeLIST;
+idaInputs.analysisType =                        analysisType;
+idaInputs.modelNameLIST =                       modelNameLIST;
+idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
+idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
+idaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
+idaInputs.sigmaLnModeling =                     sigmaLnModeling;
+idaInputs.maxNumRuns =                          maxNumRuns;
+
+msaInputs = idaInputs;
+
+% IDA-specific inputs
+idaInputs.saStartLevel =                        saStartLevel;
+idaInputs.startStepSize =                       startStepSize;
+idaInputs.tolerance =                           tolerance; 
+idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
+idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
+idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
+
+% MSA-specific inputs
+msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+baseFolder = pwd;
 
 if analyzeProcessPlotIndex(1) == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

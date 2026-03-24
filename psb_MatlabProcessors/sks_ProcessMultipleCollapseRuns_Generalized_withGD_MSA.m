@@ -15,8 +15,6 @@ function sks_ProcessMultipleCollapseRuns_Generalized_withGD_MSA(msaInputs)
 
 analysisTypeLIST =           msaInputs.analysisTypeLIST;
 modelNameLIST =              msaInputs.modelNameLIST;
-% eqNumberLIST_forProcessing = msaInputs.eqNumberLIST_forProcessing;
-% eqNumberLIST_forStripes =    msaInputs.eqNumberLIST_forStripes;
 saLevelsForStripes =         msaInputs.saLevelsForStripes;
 isCollapsedForEachRun =      msaInputs.isCollapsedForEachRun;
 collapseDriftThreshold =     msaInputs.collapseDriftThreshold;
