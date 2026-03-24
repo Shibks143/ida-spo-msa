@@ -1,5 +1,15 @@
 function [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisTypeFolder, eqNumberLIST, eqListForCollapseIDAs_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRat, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha)
 baseFolder = pwd; 
+
+
+% input code in the master driver, if needed.
+    % optimizeCordovaParams = 1; alphaDefault = 0.50; % used ONLY IF optimizeCordovaParams is 1
+    % periodRatDefault = 2.00; % used ONLY IF optimizeCordovaParams is 0
+    % T1 = periodUsedForScalingGroundMotions; dampRatForCordova = dampingRatioUsedForSaDef;
+    % doPlotSaveCDF = 1;  doPlotSaveCAlpha = 1; % 1- plot optimum C-alpha and optimum sigma graphs. WORKD ONLY IF optimizeCordovaParams = 1
+    % processAllComp = 0; % 1- all component; 0- control component
+
+
 % eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
 % eqListForCollapseIDAs_Name_SetC = 'GMSetC';
 % eqNumberLIST_forCollapseIDAs_SetC = [12011	12012	12041	12052	12061	12062	12071	12072	12081	12082	12091	12092	12101	12102	12111	12121	12122	12132	12141	12142	12151	12171];

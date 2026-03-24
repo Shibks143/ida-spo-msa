@@ -53,8 +53,8 @@ IDA_or_MSA = 'MSA';
     eqListID = 'setTest';
 
 
-%                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     cordova    IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        1        1           1         0              0               0           1];
+%                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
+    analyzeProcessPlotIndex = [0        1        1           1         0              0               1];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -161,22 +161,87 @@ IDA_or_MSA = 'MSA';
         eqFormatForCollapseList_SetTest = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
         flagForEQFileFormat_SetTest = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
    
-
-eqNumberLIST = eqNumberLIST_forProcessing_SetTest;
-eqNumberLIST_forStripes    = eqNumberLIST_forProcessing_SetTest;
-eqFormatForCollapseList = eqFormatForCollapseList_SetTest;
-flagForEQFileFormat = flagForEQFileFormat_SetTest;
 isProcessMultipleCollapseRuns = true;   % or false
 isPlotCollapseIDAs = true;   % or false
-eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;
-eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
 isConvertToSaKircher = false;   % or true (depending on need)
 isCollapsedForEachRun = false;   % or true (depending on logic)
 
+%% remove the following after making sure that the simplified input structures work 
+%%%%%%%%%%%%% START OF THE BLOCK TO BE REMOVED
+% idaInputs.dtForCollapseMATLAB =                 dtForCollapseMATLAB;
+% idaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB; 
+% idaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB;
+% idaInputs.eqFormatForCollapseList =             eqFormatForCollapseList;
+% idaInputs.sensModelLIST =                       sensModelLIST;
+% idaInputs.sensVariableNameLIST =                sensVariableNameLIST;
+% idaInputs.sensVariableValueLIST =               sensVariableValueLIST;
+% idaInputs.eqNumberLIST =                        eqNumberLIST;
+% idaInputs.saStartLevel =                        saStartLevel;
+% idaInputs.startStepSize =                       startStepSize;
+% idaInputs.tolerance =                           tolerance; 
+% idaInputs.maxNumRuns =                          maxNumRuns;
+% idaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular;
+% idaInputs.flagForEQFileFormat =                 flagForEQFileFormat;
+% idaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions;
+% idaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef;
+% idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
+% % idaInputs.timeTakenInMinsForEachAnalysis =      timeTakenInMinsForEachAnalysis;
+% idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
+% % idaInputs.openseesFileToUse =                   openseesFileToUse;
+% idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
+% idaInputs.dataSavingOption =                    dataSavingOption;
+% idaInputs.markerTypeLine =                      markerTypeLine;
+% idaInputs.markerTypeDot =                       markerTypeDot;
+% idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
+% idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
+% idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
+% idaInputs.analysisTypeLIST =                    analysisTypeLIST;
+% idaInputs.analysisType =                        analysisType;
+% idaInputs.modelNameLIST =                       modelNameLIST;
+% idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
+% idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
+% idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
+% idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
+% idaInputs.sigmaLnModeling =                     sigmaLnModeling;
+% 
+% 
+% msaInputs.dtForCollapseMATLAB                 = dtForCollapseMATLAB;
+% msaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB ;
+% msaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB ;
+% msaInputs.eqFormatForCollapseList =             eqFormatForCollapseList ;
+% msaInputs.sensModelLIST =                       sensModelLIST ;
+% msaInputs.sensVariableNameLIST =                sensVariableNameLIST ;
+% msaInputs.sensVariableValueLIST =               sensVariableValueLIST ;
+% msaInputs.eqNumberLIST =                        eqNumberLIST ;
+% msaInputs.saStartLevel =                        saStartLevel ;
+% msaInputs.startStepSize =                       startStepSize ;
+% msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+% msaInputs.tolerance =                           tolerance ;
+% msaInputs.maxNumRuns =                          maxNumRuns ;
+% msaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular ;
+% msaInputs.flagForEQFileFormat =                 flagForEQFileFormat ;
+% msaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions ;
+% msaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef ;
+% msaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis ;
+% msaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted ;
+% msaInputs.collapseDriftThreshold =              collapseDriftThreshold;
+% msaInputs.dataSavingOption =                    dataSavingOption;
+% msaInputs.markerTypeLine =                      markerTypeLine;
+% msaInputs.markerTypeDot =                       markerTypeDot;
+% msaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
+% msaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
+% msaInputs.analysisTypeLIST =                    analysisTypeLIST;
+% msaInputs.analysisType =                        analysisType;                
+% msaInputs.modelNameLIST =                       modelNameLIST;
+% msaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
+% msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+% msaInputs.saLevelsForStripes =                  saLevelsForStripes;
+% msaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
+% msaInputs.isConvertToSaKircher =                isConvertToSaKircher;
+%%%%%%%%%%%%% END OF THE BLOCK TO BE REMOVED
 
-
-
+%% Simplifying Input structures
+% COMMON inputs
 idaInputs.dtForCollapseMATLAB =                 dtForCollapseMATLAB;
 idaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB; 
 idaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB;
@@ -185,777 +250,172 @@ idaInputs.sensModelLIST =                       sensModelLIST;
 idaInputs.sensVariableNameLIST =                sensVariableNameLIST;
 idaInputs.sensVariableValueLIST =               sensVariableValueLIST;
 idaInputs.eqNumberLIST =                        eqNumberLIST;
-idaInputs.saStartLevel =                        saStartLevel;
-idaInputs.startStepSize =                       startStepSize;
-idaInputs.tolerance =                           tolerance; 
-idaInputs.maxNumRuns =                          maxNumRuns;
 idaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular;
 idaInputs.flagForEQFileFormat =                 flagForEQFileFormat;
 idaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions;
 idaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef;
 idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
-% idaInputs.timeTakenInMinsForEachAnalysis =      timeTakenInMinsForEachAnalysis;
 idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
-% idaInputs.openseesFileToUse =                   openseesFileToUse;
 idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
 idaInputs.dataSavingOption =                    dataSavingOption;
 idaInputs.markerTypeLine =                      markerTypeLine;
 idaInputs.markerTypeDot =                       markerTypeDot;
 idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
 idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
-idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
 idaInputs.analysisTypeLIST =                    analysisTypeLIST;
 idaInputs.analysisType =                        analysisType;
 idaInputs.modelNameLIST =                       modelNameLIST;
 idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
-idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
-idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
+idaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
 idaInputs.sigmaLnModeling =                     sigmaLnModeling;
 
+msaInputs = idaInputs;
 
-msaInputs.dtForCollapseMATLAB                 = dtForCollapseMATLAB;
-msaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB ;
-msaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB ;
-msaInputs.eqFormatForCollapseList =             eqFormatForCollapseList ;
-msaInputs.sensModelLIST =                       sensModelLIST ;
-msaInputs.sensVariableNameLIST =                sensVariableNameLIST ;
-msaInputs.sensVariableValueLIST =               sensVariableValueLIST ;
-msaInputs.eqNumberLIST =                        eqNumberLIST ;
-msaInputs.saStartLevel =                        saStartLevel ;
-msaInputs.startStepSize =                       startStepSize ;
-msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-msaInputs.tolerance =                           tolerance ;
-msaInputs.maxNumRuns =                          maxNumRuns ;
-msaInputs.perturbationForNonConvSingular =      perturbationForNonConvSingular ;
-msaInputs.flagForEQFileFormat =                 flagForEQFileFormat ;
-msaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotions ;
-msaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef ;
-msaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis ;
-msaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted ;
-msaInputs.collapseDriftThreshold =              collapseDriftThreshold;
-msaInputs.dataSavingOption =                    dataSavingOption;
-msaInputs.markerTypeLine =                      markerTypeLine;
-msaInputs.markerTypeDot =                       markerTypeDot;
-msaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
-msaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
-msaInputs.analysisTypeLIST =                    analysisTypeLIST;
-msaInputs.analysisType =                        analysisType;                
-msaInputs.modelNameLIST =                       modelNameLIST;
-msaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
+% IDA-specific inputs
+idaInputs.saStartLevel =                        saStartLevel;
+idaInputs.startStepSize =                       startStepSize;
+idaInputs.tolerance =                           tolerance; 
+idaInputs.maxNumRuns =                          maxNumRuns;
+idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
+idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
+idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
+
+% MSA-specific inputs
 msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-msaInputs.saLevelsForStripes =                  saLevelsForStripes;
-msaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
-msaInputs.isConvertToSaKircher =                isConvertToSaKircher;
- 
-
+msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 baseFolder = pwd;
 
+switch eqListID
+    case 'setC'
+        eqNumberLIST = eqNumberLIST_forProcessing_SetC;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetC;         flagForEQFileFormat = flagForEQFileFormat_SetC;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetC;
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
+    case 'setD'
+        eqNumberLIST = eqNumberLIST_forProcessing_SetD;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetD;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetD;         flagForEQFileFormat = flagForEQFileFormat_SetD;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetD;        
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetD;
+    case 'setDNotC'
+        eqNumberLIST = eqNumberLIST_forProcessing_SetDNotC;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetDNotC;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetDNotC;         flagForEQFileFormat = flagForEQFileFormat_SetDNotC;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetDNotC;
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetDNotC;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetDNotC;
+    case 'setG'
+        eqNumberLIST = eqNumberLIST_forProcessing_SetG;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetG;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetG;         flagForEQFileFormat = flagForEQFileFormat_SetG;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetG;        
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetG;
+    case 'setTest'
+        eqNumberLIST = eqNumberLIST_forProcessing_SetTest;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetTest;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetTest;         flagForEQFileFormat = flagForEQFileFormat_SetTest;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;        
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
+
+end
+
+
 if analyzeProcessPlotIndex(1) == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Run the analyses 
-    
+
 % Go to folder
     cd Models
     cd psb_Sensitivity_Analysis
-
-    if strcmp(eqListID,'setC')
-    % [STANDARD for JS - Summer of 2008 ATC-63-1 study] Run GM Set C
-        eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-         eqFormatForCollapseList = eqFormatForCollapseList_SetC;
-        flagForEQFileFormat = flagForEQFileFormat_SetC;
         [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-%         File for recovery being saved in RunCollapseAnaMATLAB_NEWER_proc towards the very end
 %        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
         sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-    end         
-    % [STANDARD] Run GM Set D (Set D is Set C plus some more records)
-    if strcmp(eqListID,'setD')
-        eqNumberLIST = eqNumberLIST_forProcessing_SetD;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetD;
-        flagForEQFileFormat = flagForEQFileFormat_SetD;
-        [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-                        % File for recovery being saved in RunCollapseAnaMATLAB_NEWER_proc towards the very end
-%        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
-        sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-    end
-    % Run GMs that are in Set D but not in Set C
-    if strcmp(eqListID,'setDNotC')
-        eqNumberLIST = eqNumberLIST_forProcessing_SetInDNotC;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetInDNotC;
-        flagForEQFileFormat = flagForEQFileFormat_SetInDNotC; 
-        [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-                       % File for recovery being saved in RunCollapseAnaMATLAB_NEWER_proc towards the very end
-%        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
-        sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-    end
-        % [OPTIONAL] Run GM Set G
-    if strcmp(eqListID,'setG')
-        eqNumberLIST = eqNumberLIST_forProcessing_SetG;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetG;
-        flagForEQFileFormat = flagForEQFileFormat_SetG;
-        [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-                       % File for recovery being saved in RunCollapseAnaMATLAB_NEWER_proc towards the very end
-%        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
-        sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-    end
-    % Run GM Set TEST - Just for testing
-    if strcmp(eqListID,'setTest')    
-        eqNumberLIST = eqNumberLIST_forProcessing_SetTest;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetTest;
-        flagForEQFileFormat = flagForEQFileFormat_SetTest;
-        % [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-                       % File for recovery being saved in RunCollapseAnaMATLAB_NEWER_proc towards the very end
-%        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
-        sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-    end
 %     % Go back to starting folder
 end
     cd(baseFolder)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Process and plot for the collapse analyses
     % Go to Matlab Processor folder
         cd psb_MatlabProcessors
-    % Process analysis
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    if analyzeProcessPlotIndex(2) == 1
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] Process GM Set C - tested/works(6-29-06)
-        if strcmp(eqListID,'setC')	
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetC;
-            eqNumberLIST               = eqNumberLIST_forProcessing;
-            eqNumberLIST_forStripes = eqNumberLIST_forProcessing;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-            eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
-            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
-            isProcessMultipleCollapseRuns = 1;
-            isPlotCollapseIDAs = 0;
-            isPlotCollapseMSAs = 0;
-             msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
-            isCollapsedForEachRun = 0;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-        end
-        % [STANDARD] Process GM Set D - tested/works(6-29-06)
-        if strcmp(eqListID,'setD')    
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetD;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetD;
-            isProcessMultipleCollapseRuns = 1;
-            isPlotCollapseIDAs = 0;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-        end
-        % [OPTIONAL] Process GM Set G
-        if strcmp(eqListID,'setG')
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetG;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetG;
-            isProcessMultipleCollapseRuns = 1;
-            isPlotCollapseIDAs = 0;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-           Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-        end
-        % Process GM Set TEST - just for testing
-        if strcmp(eqListID,'setTest')    
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;
-            eqNumberLIST               = eqNumberLIST_forProcessing;
-            eqNumberLIST_forStripes = eqNumberLIST_forProcessing;
-            % eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetTest;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
-            isProcessMultipleCollapseRuns = 1;
-            isPlotCollapseMSAs = 0;
-            msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
-            isCollapsedForEachRun = 0;
-            isPlotCollapseIDAs = 0;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
-            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-        end
-    end
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Plot and save IDAs/MSAs
-    if analyzeProcessPlotIndex(3) == 1
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Plot and save IDAs for GM Set C  - Sa,GEOMEAN - tested/works(6-29-06)
-        if strcmp(eqListID,'setC')	
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetC;
-            eqNumberLIST               = eqNumberLIST_forProcessing;
-            eqNumberLIST_forStripes = eqNumberLIST_forProcessing;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-            eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
-            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
-            isProcessMultipleCollapseRuns = 0;
-            isPlotCollapseIDAs = 1;
-            isPlotCollapseMSAs = 1;
-            msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
-            isCollapsedForEachRun = 0;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
-            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-            close;      close; % close figure 
-        end
-
-%         % [STANDARD] Plot and save IDAs for GM Set D - Sa,GEOMEAN
-        if strcmp(eqListID,'setD')	
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetD;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetD;
-            isProcessMultipleCollapseRuns = 0;
-            isPlotCollapseIDAs = 1;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            close;      close; % close figure 
-        end
-%  %          [OPTIONAL] Plot and save IDAs for GM Set D - Sa, ATC-63
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %         if strcmp(eqListID,'setD')	
-            %             eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetD;
-            %             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-            %             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetD;
-            %             isProcessMultipleCollapseRuns = 0;
-            %             isPlotCollapseIDAs = 1;
-            %             isConvertToSaKircher = 1;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-            % %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            %             Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            %             close;      close; % close figure 
-            %         end
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-        % [OPTIONAL] Plot and save IDAs for GM Set G - Sa,GEOMEAN
-        if strcmp(eqListID,'setG')	
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetG;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetG;
-            isProcessMultipleCollapseRuns = 0;
-            isPlotCollapseIDAs = 1;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            close;      close; % close figure 
-        end
-        % [OPTIONAL] Plot and save IDAs for GM Set G - Sa,ATC63
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %         if strcmp(eqListID,'setG')	
-            %             eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetG;
-            %             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            %             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetG;
-            %             isProcessMultipleCollapseRuns = 0;
-            %             isPlotCollapseIDAs = 1;
-            %             isConvertToSaKircher = 1;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-            % %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            %             Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            %             close;      close; % close figure 
-            %         end
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-        % Plot and save IDAs for GM Set TEST - Sa,GEOMEAN - just for testing
-        if strcmp(eqListID,'setTest')	
-            eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;
-            eqNumberLIST_forStripes = eqNumberLIST_forProcessing;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
-            eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
-            isProcessMultipleCollapseRuns = 0;
-            isPlotCollapseIDAs = 1;
-            isPlotCollapseMSAs = 1;
-            msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
-            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isConvertToSaKircher, eqListForCollapseMSAs_Name)
-            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-            close;      close; % close figure 
-        end
-        % Plot and save IDAs for GM Set TEST - Sa,ATC63 - just for testing
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %         if strcmp(eqListID,'setTest')	
-            %             eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;
-            %             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            %             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
-            %             isProcessMultipleCollapseRuns = 0;
-            %             isPlotCollapseIDAs = 1;
-            %             isConvertToSaKircher = 1;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-            % %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            %             Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            %             close;      close; % close figure 
-            %         end
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    end
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Collapse CDF plots
-    if analyzeProcessPlotIndex(4) == 1
-%          % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Make the collapse CDF plots for GM Set C - Sa,GeoMean - tested/works(6-29-06)
-        if strcmp(eqListID,'setC')	
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
-            figNum = 100;
-            % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            % sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher) %% not required anymore (11-Feb-2026)
-            sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-            close; % close figure
-            
-            figNum = 101;
-            % PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            % sks_PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher) %% not required anymore (11-Feb-2026)
-            close; % close figure
-        end
-%         % [OPTIONAL] Make the collapse CDF plots for GM Set C - Sa, ATC63
-%         if strcmp(eqListID,'setC')	
-%             isConvertToSaKircher = 1;   % We can use this to instead plot Sa,Kircher.
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-%             figNum = 100;
-%             PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-%             close; % close figure
-%             figNum = 101;
-%             PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-%             close; % close figure
-%         end
-
-%         % [STANDARD] Make the collapse CDF plots for GM Set D - Sa,GEOMEAN
-        if strcmp(eqListID,'setD')
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-            figNum = 102;
-            PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            close; % close figure
-            figNum = 103;
-            PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            close; % close figure
-        end
-%         % [OPTIONAL] Make the collapse CDF plots for GM Set D - Sa, ATC63
-%         if strcmp(eqListID,'setD')
-%             isConvertToSaKircher = 1;   % We can use this to instead plot Sa,Kircher.
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-%             figNum = 102;
-%             PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-%             close; % close figure
-%             figNum = 103;
-%             PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-%             close; % close figure
-%         end
-
-        % [STANDARD] Make the collapse CDF plots for GM Set G - Sa,GEOMEAN
-        if strcmp(eqListID,'setG')
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            figNum = 104;
-            PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            close; % close figure
-            figNum = 105;
-            PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            close; % close figure   
-        end
-%         % [OPTIONAL] Make the collapse CDF plots for GM Set G - Sa,ATC63
-%         if strcmp(eqListID,'setG')
-            %isConvertToSaKircher = 1;   % We can use this to instead plot Sa,Kircher.
-            %eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            %figNum = 104;
-            %PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            %close; % close figure
-            %figNum = 105;
-            %PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            %close; % close figure  
-%         end
-
-    % Make the collapse CDF plots for GM Set TEST - Sa,GEOMEAN - just for testing
-        if strcmp(eqListID,'setTest')
-            isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-            saLevelForEachRun =0;
-            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
-            eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            figNum = 104;
-            % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            % sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher)
-            sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-            % close; % close figure
-            % figNum = 105;
-            % PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher)
-             % sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(analysisTypeLIST, eqNumberLIST, isConvertToSaKircher)
-            % close; % close figure
-
-        end
-    end
-%             
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Create plots of Sa-epsilon for collapse capacity - SIMPLER PROCEDURE
-    
-    % (11-11-15, PSB) this works! by putting random-valued (as yet) mat files in the C:\OpenSeesProcessingFiles\Epsilon_Files_Saved directory
-    
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] Create the Sa-Epsilon plots for GM Set C tested/works for GM Set C (6-29-06)
-%             groundMotionSetUsed = 'GMSetC';
-%             CreatePlotsOfSaVSEpsilon_proc(analysisType, groundMotionSetUsed, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
-%             close;        close;      close;     close; % close figures  
-        % [STANDARD] Create the Sa-Epsilon plots for GM Set D - tested/works for GM Set C (6-29-06)
-%             groundMotionSetUsed = 'GMSetD';
-%             CreatePlotsOfSaVSEpsilon_proc(analysisType, groundMotionSetUsed, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
-%             close;        close;      close;     close; % close figures  
-        % Create the Sa-Epsilon plots for GM Set TEST - just for testing
-%             groundMotionSetUsed = 'GMSetTest';
-%             CreatePlotsOfSaVSEpsilon_proc(analysisType, groundMotionSetUsed, dampingRatioUsedForSaDef);
-%             close;        close;      close;     close; % close figures  
-            
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Create plots of Sa-epsilon for collapse capacity - MORE COMPLEX
-    % PROCEDURE WITH MANY FIT TYPES - This is not really needed; I was just
-    % usind this to check some things for ATC-63.
-        % [STANDARD] Create the Sa-Epsilon (for collapse) plots for GM Set D - tested/works for GM Set C (6-29-06)
-%             groundMotionSetUsed = 'GMSetD';
-%             % Use the NEW PROCEDURE with binning and other regression methods.
-%             numberOfBins = 6;
-%             CreatePlotsOfSaVSEpsilon_proc_withOtherFitTypes(analysisType, groundMotionSetUsed, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, numberOfBins);
-%             close;        close;      close;     close; % close figures  
-            
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Create plots of Sa-epsilon for INTERSTORY DRIFT RESPONSE - Added on
-    % 11-1-07
-        % Create the Sa-Epsilon plots for INTERSTORY DRIFT RESPONSE for GM Set C
-            %groundMotionSetUsed = 'GMSetC';
-            % ADD this if desired.
-        % Create the Sa-Epsilon plots for INTERSTORY DRIFT
-        % RESPONSE for GM Set D
-%             groundMotionSetUsed = 'GMSetD';
-%             saLevel = 0.40;
-%             CreatePlotsOfSaVSEpsilon_forMIDR_proc(analysisType, groundMotionSetUsed, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, saLevel);
-%             close;        close;      close;     close; % close figures  
-            
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Create diagrams of building failures AT collapse
-    if analyzeProcessPlotIndex(5) == 1
-        cd MovieAndVisualProcessors
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] Create the collapse mode plots for Set C - just for testing
-        if strcmp(eqListID,'setC')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-            psb_CreateAllSubPlotsOfFrameAtCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close;      close;  	close;      close; % close figure
-            cd ..;
-        end
-        % [STANDARD] Create the collapse mode plots for Set D tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setD')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetD;
-            psb_CreateAllSubPlotsOfFrameAtCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close;      close;  	close;      close; % close figure
-            cd ..;
-        end
-        % [STANDARD] Create the collapse mode plots for Set G tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setG')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetG;
-            psb_CreateAllSubPlotsOfFrameAtCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close;      close;  	close;      close; % close figure
-            cd ..;
-        end
-        % Create the collapse mode plots for Set D and G combined - tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setDandG')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetDandG;
-            psb_CreateAllSubPlotsOfFrameAtCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close;      close;  	close;      close; % close figure
-            cd ..;
-        end
-        % Create the collapse mode plots for Set Test - tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setTest')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetTest;
-            psb_CreateAllSubPlotsOfFrameAtCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close;      close;  	close;      close; % close figure
-            cd ..;            
-        end
-    end
-            
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Create diagrams of building failures JUST BEFORE collapse 
-    if analyzeProcessPlotIndex(6) == 1
-        cd MovieAndVisualProcessors
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] Create the plots of response just before collapse for Set C - just for testing
-        if strcmp(eqListID,'setC')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-            psb_CreateAllSubPlotsOfFrameJustBeforeCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close; % close figure   
-            cd ..;
-        end
-        % [STANDARD] Create the plots of response just before collapse for Set D tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setD')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetD;
-            psb_CreateAllSubPlotsOfFrameJustBeforeCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close; % close figure   
-            cd ..;
-        end
-        % [STANDARD] Create the plots of response just before collapse for Set G tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setG')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetG;
-            psb_CreateAllSubPlotsOfFrameJustBeforeCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close; % close figure   
-            cd ..;
-        end
-        % Create the plots of response just before collapse for Set D and G combined - tested/works (at least starts right) (6-29-06)
-        if strcmp(eqListID,'setDandG')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetDandG;
-            psb_CreateAllSubPlotsOfFrameJustBeforeCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close; % close figure   
-            cd ..;
-        end
-        % Create the plots of response just before collapse for Set TEST
-        if strcmp(eqListID,'setTest')	
-            eqNumberLIST = eqNumberLIST_forProcessing_SetTest;
-            psb_CreateAllSubPlotsOfFrameJustBeforeCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
-            close; % close figure   
-            cd ..;
-        end
-    end
-            
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Process stripes and create stripe files. This makes a stripe file for
-    % each Sa level and then makes one summary file for all stripes.
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Process Stripes for GM Set C - Sa,GEOMEAN
-            % eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
-            % eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-            % saLevelsForStripes;           % Defined previously
-            % isConvertToSaKircher = 0;     % We can use this to instead process and save files based on Sa,Kircher;
-            % isConvertToSaComponent = 0;   % We can use this to instead process and save files based on Sa,Component;
-            % ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent, dampingRatioUsedForSaDef);
-%         % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Process Stripes for GM Set C - Sa,ATC63
-%             eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-%             saLevelsForStripes;     % Defined previously
-%             isConvertToSaKircher = 1;   % We can use this to instead process and save files based on Sa,Kircher;
-%             isConvertToSaComponent = 0;   % We can use this to instead process and save files based on Sa,Component;
-%             ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent);
-%         % [STANDARD] Process Stripes for GM Set D - Sa,GEOMEAN
-            % eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetD;
-            % eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-            % saLevelsForStripes;         % Defined previously
-            % isConvertToSaKircher = 0;   % We can use this to instead process and save files based on Sa,Kircher;
-            % isConvertToSaComponent = 0;  % We can use this to instead process and save files based on Sa,Component;
-            % ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent);
-% %         % [NEW AND OPTIONAL] Process Stripes for GM Set D - Sa,COMPONENT -
-% %         % I added this Sa,component option on 11-2-07.
-% %         % NOTICE - I made this and it did not work since I did not have the
-% %         % raw structural analysis data on my computer.  Therefore, this hsa
-% %         % not been testing, though I do not see a problem with this working
-% %         % if the raw data is available.
-%             eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetD;
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-%             saLevelsForStripes;     % Defined previously
-%             isConvertToSaKircher = 0;   % We can use this to instead process and save files based on Sa,Kircher;
-%             isConvertToSaComponent = 1;   % We can use this to instead process and save files based on Sa,Component;
-%             ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent);
-        % [OPTIONAL] Process Stripes for GM Set G - Sa,GEOMEAN
-            %eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetG;
-            %eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            %saLevelsForStripes;     % Defined previously
-            %isConvertToSaKircher = 0;   % We can use this to instead process and save files based on Sa,Kircher;
-            %isConvertToSaComponent = 0;   % We can use this to instead process and save files based on Sa,Component;
-            %ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent);
-        % [OPTIONAL] Process Stripes for GM Set G - Sa,ATC63
-            %eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetG;
-            %eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            %saLevelsForStripes;     % Defined previously
-            %isConvertToSaKircher = 1;   % We can use this to instead process and save files based on Sa,Kircher;
-            %isConvertToSaComponent = 0;   % We can use this to instead process and save files based on Sa,Component;
-            %ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent);
-        % Process Stripes for GM Set Test - Sa,GEOMEAN
-            % eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetTest;
-            % eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            % saLevelsForStripes;     % Defined previously
-            % isConvertToSaKircher = 0;   % We can use this to instead process and save files based on Sa,Kircher;
-            % isConvertToSaComponent = 0;   % We can use this to instead process and save files based on Sa,Component;
-            % ProcessStripeStatisticsForCollapseRuns_proc(analysisType,eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent);
-            
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Plot stripe IDAs
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Plot Stripe IDAs - SaGeoMean and for GM Set C
-%             saLevelsForStripes;     % Defined previously
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-%             saTypeForIDAPlotting = 'SaGeoMean';     % This corresponds to part of the stripe file name
-%             isConvertToSaKircher = 0;   % This just controls the plot label and need to be =0 if we want to put Sa,geoMean(T1) on the plot and =1 if we want to put Sa,ATC(1s) on the plot
-%             PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Plot Stripe IDAs - Sa,ATC63 and for GM Set C
-%             saLevelsForStripes;     % Defined previously
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-%             saTypeForIDAPlotting = 'SaATC63';     % This corresponds to part of the stripe file name
-%             isConvertToSaKircher = 1;   % This just controls the plot label and need to be =0 if we want to put Sa,geoMean(T1) on the plot and =1 if we want to put Sa,ATC(1s) on the plot
-%             PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);            
-%         % [STANDARD] Plot Stripe IDAs - SaGeoMean and for GM Set D
-%             saLevelsForStripes;     % Defined previously
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-%             saTypeForIDAPlotting = 'SaGeoMean';     % This corresponds to part of the stripe file name
-%             isConvertToSaKircher = 0;   % This just controls the plot label and need to be =0 if we want to put Sa,geoMean(T1) on the plot and =1 if we want to put Sa,ATC(1s) on the plot
-%             PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);
-        % [OPTIONAL] Plot Stripe IDAs - SaGeoMean and for GM Set G
-%             saLevelsForStripes;     % Defined previously
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-%             saTypeForIDAPlotting = 'SaGeoMean';     % This corresponds to part of the stripe file name
-%             isConvertToSaKircher = 0;   % This just controls the plot label and need to be =0 if we want to put Sa,geoMean(T1) on the plot and =1 if we want to put Sa,ATC(1s) on the plot
-%             PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);
-        % [OPTIONAL] Plot Stripe IDAs - SaATC63 and for GM Set G
-            %saLevelsForStripes;     % Defined previously
-            %eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;
-            %saTypeForIDAPlotting = 'SaATC63';     % This corresponds to part of the stripe file name
-            %isConvertToSaKircher = 1;   % This just controls the plot label and need to be =0 if we want to put Sa,geoMean(T1) on the plot and =1 if we want to put Sa,ATC(1s) on the plot
-            %PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);
-         % Plot Stripe IDAs - SaGeoMean and for GM Set TEST - for testing only
-%             saLevelsForStripes;     % Defined previously
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-%             saTypeForIDAPlotting = 'SaGeoMean';     % This corresponds to part of the stripe file name
-%             isConvertToSaKircher = 0;   % This just controls the plot label and need to be =0 if we want to put Sa,geoMean(T1) on the plot and =1 if we want to put Sa,ATC(1s) on the plot
-%             PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Plot the drift ratios just before collapse (save data in a file also)
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Plot and for GM Set C
-%             eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-%             RetrieveDriftRatiosJustBeforeCollapseThenSaveAndPlot(eqNumberLIST, eqListForCollapseIDAs_Name, analysisType, modelNameLIST{1});
-%             close; % close figure
-        % [STANDARD] Plot and for GM Set D
-%             eqNumberLIST = eqNumberLIST_forProcessing_SetD;
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;
-%             RetrieveDriftRatiosJustBeforeCollapseThenSaveAndPlot(eqNumberLIST, eqListForCollapseIDAs_Name, analysisType, modelNameLIST{1});
-%             close; % close figure
-        % [STANDARD for JS - Summer of 2008 ATC-63-1 study] [STANDARD] Plot and for GM Set Test
-%             eqNumberLIST = eqNumberLIST_forProcessing_SetTest;
-%             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-%             RetrieveDriftRatiosJustBeforeCollapseThenSaveAndPlot(eqNumberLIST, eqListForCollapseIDAs_Name, analysisType, modelNameLIST{1});
-%             close; % close figure
-
-
+% Process analysis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Plot and save IDAs for CORDOVA INDEX. Collapse CDF plots
-if analyzeProcessPlotIndex(7) == 1
-    cd ..
-    cd psb_IntensityMeasures
-
-    optimizeCordovaParams = 1;
-    alphaDefault = 0.50; % used ONLY IF optimizeCordovaParams is 1
-    periodRatDefault = 2.00; % used ONLY IF optimizeCordovaParams is 0
-
-%% [Find the optimum parameters for Cordvoa Intensity Measures] GM Set C
-    if strcmp(eqListID,'setC')	
-        eqNumberLIST_forCordovaIDA = eqNumberLIST_forCollapseIDAs_SetC;
-        eqListForCollapseIDAs_Cordova_Name = eqListForCollapseIDAs_Name_SetC;
-        T1 = periodUsedForScalingGroundMotions; dampRatForCordova = dampingRatioUsedForSaDef;
-        doPlotSaveCDF = 1;  doPlotSaveCAlpha = 1; % 1- plot optimum C-alpha and optimum sigma graphs. WORKD ONLY IF optimizeCordovaParams = 1
-    %%%%%%%%%%%%%%%%%
-    %     processAllComp = 1; % 1- all component; 0- control component
-    %     [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
-    %     psb_PlotCDF_Cordova(analysisType, eqListForCollapseIDAs_Cordova_Name, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-    %     disp(['Using All Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
-    %     close;        close;        close;  
-    %%%%%%%%%%%%%%%%%
-        processAllComp = 0; % 1- all component; 0- control component
-        [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
-        psb_PlotCDF_Cordova(analysisType, eqListForCollapseIDAs_Cordova_Name, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-        disp(['Using Control Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
-        close;            close;            close;
-    end
-
-%% [Find the optimum parameters for Cordvoa Intensity Measures] GM Set D
-    if strcmp(eqListID,'setD')	
-        eqNumberLIST_forCordovaIDA = eqNumberLIST_forCollapseIDAs_SetD;
-        eqListForCollapseIDAs_Cordova_Name = eqListForCollapseIDAs_Name_SetD;
-        T1 = periodUsedForScalingGroundMotions; dampRatForCordova = dampingRatioUsedForSaDef;
-        doPlotSaveCDF = 1;  doPlotSaveCAlpha = 1; % 1- plot optimum C-alpha and optimum sigma graphs. WORKD ONLY IF optimizeCordovaParams = 1
-    %%%%%%%%%%%%%%%%%
-    %     processAllComp = 1; % 1- all component; 0- control component
-    %     [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
-    %     psb_PlotCDF_Cordova(analysisType, eqListForCollapseIDAs_Cordova_Name, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-    %     disp(['Using All Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
-    %     close;        close;        close;  
-    %%%%%%%%%%%%%%%%%
-        processAllComp = 0; % 1- all component; 0- control component
-        [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
-        psb_PlotCDF_Cordova(analysisType, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-        disp(['Using Control Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
-        close;        close;        close;
-    end
+if analyzeProcessPlotIndex(2) == 1
+        isProcessMultipleCollapseRuns = 1;
+        isPlotCollapseIDAs = 0;
+        isPlotCollapseMSAs = 0;
+         msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
+        isCollapsedForEachRun = 0;
+        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
+%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+        sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plot and save IDAs/MSAs
+if analyzeProcessPlotIndex(3) == 1
+        isProcessMultipleCollapseRuns = 0;
+        isPlotCollapseIDAs = 1;
+        isPlotCollapseMSAs = 1;
+        msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
+        isCollapsedForEachRun = 0;
+        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
+%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+        % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+        % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+        sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
+        close;      close; % close figure 
+end
     
-%% [Find the optimum parameters for Cordvoa Intensity Measures] GM Set G
-    if strcmp(eqListID,'setG')	
-        eqNumberLIST_forCordovaIDA = eqNumberLIST_forCollapseIDAs_SetG;
-        eqListForCollapseIDAs_Cordova_Name = eqListForCollapseIDAs_Name_SetG;
-        T1 = periodUsedForScalingGroundMotions; dampRatForCordova = dampingRatioUsedForSaDef;
-        doPlotSaveCDF = 1;  doPlotSaveCAlpha = 1; % 1- plot optimum C-alpha and optimum sigma graphs. WORKD ONLY IF optimizeCordovaParams = 1
-    %%%%%%%%%%%%%%%%%
-    %     processAllComp = 1; % 1- all component; 0- control component
-    %     [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
-    %     psb_PlotCDF_Cordova(analysisType, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-    %     disp(['Using All Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
-    %     close;    close;    close;
-    %%%%%%%%%%%%%%%%%
-        processAllComp = 0; % 1- all component; 0- control component
-        [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
-        psb_PlotCDF_Cordova(analysisType, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-        disp(['Using Control Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
-        close;    close;    close;
-    end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Collapse CDF plots
+if analyzeProcessPlotIndex(4) == 1
+        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
+        saLevelForEachRun =0;
+        figNum = 104;
+        % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
+        % sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher)
+        sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Create diagrams of building failures AT collapse
+if analyzeProcessPlotIndex(5) == 1
+    cd MovieAndVisualProcessors
+    psb_CreateAllSubPlotsOfFrameAtCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
+    close;      close;  	close;      close; % close figure
+    cd ..;
+end
+            
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Create diagrams of building failures JUST BEFORE collapse 
+if analyzeProcessPlotIndex(6) == 1
+    cd MovieAndVisualProcessors
+        psb_CreateAllSubPlotsOfFrameJustBeforeCol_proc(analysisTypeLIST,modelNameLIST, bldgID, eqNumberLIST);
+        close; % close figure   
+        cd ..;
+end
+        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Process stripes and create stripe files. This makes a stripe file for
+    % each Sa level and then makes one summary file for all stripes.
+        % ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent, dampingRatioUsedForSaDef);
+    % Plot stripe IDAs
+        % PlotIDAs_proc(analysisType, saLevelsForStripes, eqListForCollapseIDAs_Name, saTypeForIDAPlotting, isConvertToSaKircher);
+        % RetrieveDriftRatiosJustBeforeCollapseThenSaveAndPlot(eqNumberLIST, eqListForCollapseIDAs_Name, analysisType, modelNameLIST{1});
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Plot and save IDAs for CORDOVA INDEX. Collapse CDF plots
+    % [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
+    % psb_PlotCDF_Cordova(analysisType, eqListForCollapseIDAs_Cordova_Name, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
+    % disp(['Using Control Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % IDR-RDR-PFA plots (added on 13-Mar-2026 by Shivakumar KS from IIT Madras)
-if analyzeProcessPlotIndex(8) == 1
-    %  % [STANDARD] Make the IDR-RDR-PFA plots for GM Set C - Sa,GEOMEAN
-    if strcmp(eqListID,'setC')	
+if analyzeProcessPlotIndex(7) == 1
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-        
         sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
-
         close all % close all figures  
-    end
-
-    %         % [STANDARD] Make the IDR-RDR-PFA plots for GM Set D - Sa,GEOMEAN
-    if strcmp(eqListID,'setD')
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-       
-        sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
-
-        close all % close all figures 
-  
-    end
-
-    % [STANDARD] Make the IDR-RDR-PFA plots for GM Set G - Sa,GEOMEAN
-    if strcmp(eqListID,'setDNotC')
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-        
-        sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
-
-        close all % close all figures  
-    end
-   
-    % [STANDARD] Make the IDR-RDR-PFA plots for GM Set G - Sa,GEOMEAN
-    if strcmp(eqListID,'setG')
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-
-        sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
-
-        close all % close all figures  
-    end
-
-
-    % Make the IDR-RDR-PFA plots for GM Set TEST - Sa,GEOMEAN - just for testing
-    if strcmp(eqListID,'setTest')
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-        
-        sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
-        
-        close all % close all figures 
-    end
 end
 
 %% If we reached here, save a file on desktop stating the same. Since, I am running two analyses back to back, I wouldn't be able to know if there 
