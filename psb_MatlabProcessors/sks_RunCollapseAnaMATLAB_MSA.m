@@ -38,7 +38,7 @@ eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreForma
     % Loop through all models to run
     for sensModelIndex = 1:length(sensModelLIST)
         sensModel = sensModelLIST{sensModelIndex};
-        numStories = str2double(regexp(sensModel,'_(\d+)Story','tokens','once'));
+        % numStories = str2double(regexp(sensModel,'_(\d+)Story','tokens','once'));
         % numFloors  = numStories + 1;
 
         % Loop through all 
@@ -122,11 +122,10 @@ eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreForma
     cd(sensDir)  
       
      
-
             parfor eqNumberIndex = 1:length(eqNumberLIST)
                    eqNumber = eqNumberLIST(eqNumberIndex);
-                   numFloors  = numStories + 1;
                    numSaLevels = min(numel(saLevelsForStripes), maxNumRuns);
+                   % numFloors  = numStories + 1;
                    % maxNumRuns =  msaInputs.maxNumRuns; 
           
                    
@@ -140,59 +139,14 @@ eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreForma
                     isNonConvForEachRun        = zeros(1,numSaLevels);
                     maxDriftForEachRun         = zeros(1,numSaLevels);
                     minDriftForEachRun         = zeros(1,numSaLevels);
-                    maxResidualDriftForEachRun = zeros(1,numSaLevels);
-                    minResidualDriftForEachRun = zeros(1,numSaLevels);
-                    absResidualDriftForEachRun = zeros(1,numSaLevels);
-
-
-                    % saLevelForEachRun          = zeros(1,maxNumRuns);
-                    % scaleFactorForEachRun      = zeros(1,maxNumRuns);
-                    % isCollapsedForEachRun      = zeros(1,maxNumRuns);
-                    % isSingularForEachRun       = zeros(1,maxNumRuns);
-                    % isNonConvForEachRun        = zeros(1,maxNumRuns);
-                    % maxDriftForEachRun         = zeros(1,maxNumRuns);
-                    % minDriftForEachRun         = zeros(1,maxNumRuns);
-                    % maxResidualDriftForEachRun = zeros(1,maxNumRuns);
-                    % minResidualDriftForEachRun = zeros(1,maxNumRuns);
-                    % absResidualDriftForEachRun = zeros(1,maxNumRuns);
-
-                    % ---  INSERT NEW STORY-LEVEL ARRAYS HERE ---
-
-                    % Story-level drift ratios
-                    maxStoryDriftRatioAtEachStoryAtEachRun = zeros(numStories, numSaLevels);
-                    minStoryDriftRatioAtEachStoryAtEachRun = zeros(numStories, numSaLevels);
-                    absStoryDriftRatioAtEachStoryAtEachRun = zeros(numStories, numSaLevels);
-
-                    % maxStoryDriftRatioAtEachStoryAtEachRun          = zeros(numStories, maxNumRuns);
-                    % minStoryDriftRatioAtEachStoryAtEachRun          = zeros(numStories, maxNumRuns);
-                    % absStoryDriftRatioAtEachStoryAtEachRun          = zeros(numStories, maxNumRuns);
-
-                    % Story-level residual drift ratios, 
-                    maxStoryResidualDriftRatioAtEachStoryAtEachRun = zeros(numStories, numSaLevels);
-                    minStoryResidualDriftRatioAtEachStoryAtEachRun = zeros(numStories, numSaLevels);
-                    absStoryResidualDriftRatioAtEachStoryAtEachRun = zeros(numStories, numSaLevels);
-
-                    % maxStoryResidualDriftRatioAtEachStoryAtEachRun  = zeros(numStories, maxNumRuns);
-                    % minStoryResidualDriftRatioAtEachStoryAtEachRun  = zeros(numStories, maxNumRuns);
-                    % absStoryResidualDriftRatioAtEachStoryAtEachRun  = zeros(numStories, maxNumRuns);
-
-                    % Story-level peak floor accelerations, 
-                    maxPeakFloorAccelerationAtEachFloorAtEachRun = zeros(numFloors, numSaLevels);
-                    minPeakFloorAccelerationAtEachFloorAtEachRun = zeros(numFloors, numSaLevels);
-                    absPeakFloorAccelerationAtEachFloorAtEachRun = zeros(numFloors, numSaLevels);
-
-                    % maxPeakFloorAccelerationAtEachFloorAtEachRun    = zeros(numFloors, maxNumRuns);
-                    % minPeakFloorAccelerationAtEachFloorAtEachRun    = zeros(numFloors, maxNumRuns);
-                    % absPeakFloorAccelerationAtEachFloorAtEachRun    = zeros(numFloors, maxNumRuns);
-                    
+                
                     
                     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                     %%%%%%%%%%%%%%% Start - runs to through every sa stripe value %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                    
                         %% MSA loop for stripes
 
-                        
-
+                       
                         % numSaLevels = numel(saLevelsForStripes);
                         for saLevelIndex = 1:numSaLevels
                             currentSaLevel = saLevelsForStripes(saLevelIndex);
@@ -297,135 +251,13 @@ sensModel
     cd RunInformation;
     
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % LOAD FLOOR HEIGHTS
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    floorHeights = load('floorHeightLISTOUT.out');
-    storyHeights = diff(floorHeights);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % LOAD NODE LIST
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    allNodes = load('nodeNumToRecordLISTOUT.out');
-    floorNodes = allNodes(mod(allNodes,1000) == 13); % Extract only nodes ending with 013 (top joint nodes)
-    floorControlNodes = sort(floorNodes);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % CREATE NODE PAIRS FOR STORY DRIFT
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-    nodePairs = [floorControlNodes(1:end-1) floorControlNodes(2:end)];
-
-    % Safety check
-    if size(nodePairs,1) ~= numStories
-        error('Mismatch between number of stories and node pairs.');
-    end
-
-
 % Now, load the needed data for this run
    isCollapsed                               = load('isCollapsedOUT.out'); 
    isSingular                                = load('isSingularOUT.out'); 
    isNonConv                                 = load('isNonConvOUT.out');
    maxStoryDriftRatioForFullStr              = load('maxStoryDriftRatioForFullStrOUT.out'); 
    minStoryDriftRatioForFullStr              = load('minStoryDriftRatioForFullStrOUT.out'); 
-   maxStoryResidualDriftRatioForFullStr      = load('maxStoryResidualDriftRatioForFullStrOUT.out');
-   minStoryResidualDriftRatioForFullStr      = load('minStoryResidualDriftRatioForFullStrOUT.out');
-   absStoryResidualDriftRatioForFullStr      = load('absStoryResidualDriftRatioForFullStrOUT.out');
-    
-   
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   % EXTRACT STORY RESPONSES FROM TH NODE FILES added on (03-Mar-2026)
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-   % Go back to Sa folder
-   cd ..;        % Back to Sa_xx
-   cd Nodes;
-   cd DisplTH;
- 
-   % ------------------------------------------------------------------
-   % Read all node displacement files into a struct for easier access
-   % ------------------------------------------------------------------
-   allNodeDisp = struct();  % store each node's displacement
-   uniqueNodes = unique(nodePairs(:));
-
-   for nodeNum = uniqueNodes'
-       fileName = sprintf('THNodeDispl_%d.out', nodeNum);
-
-       if exist(fileName,'file')
-           allNodeDisp.(sprintf('node%d',nodeNum)) = load(fileName);
-       else
-           warning('File %s not found.',fileName);
-       end
-   end
-   
-
-% ------------------------------------------------------------------
-% 1) STORY DRIFT FROM NODE DISPLACEMENTS
-% ------------------------------------------------------------------
-   
-    for storyIndex = 1:numStories
-        lowerStoryNode = nodePairs(storyIndex,1);
-        upperStoryNode = nodePairs(storyIndex,2);
-    
-        % Use the pre-read data from allNodeData struct
-        % Extract displacement matrices
-        lowerStoryNodeDisp = allNodeDisp.(sprintf('node%d', lowerStoryNode));
-        upperStoryNodeDisp = allNodeDisp.(sprintf('node%d', upperStoryNode));
-
-        % Time and displacement
-        timeVector = lowerStoryNodeDisp(:,1);      % used for residual drift extraction
-        lowerStoryDisp = lowerStoryNodeDisp(:,2);  % DOF 1 assumed (X)
-        upperStoryDisp = upperStoryNodeDisp(:,2);  % DOF 1 assumed (X)
-
-        driftRatio = (upperStoryDisp - lowerStoryDisp) / storyHeights(storyIndex);
-    
-        maxStoryDriftRatioAtEachStoryAtEachRun(storyIndex, saLevelIndex) = max(driftRatio);
-        minStoryDriftRatioAtEachStoryAtEachRun(storyIndex, saLevelIndex) = min(driftRatio);
-        absStoryDriftRatioAtEachStoryAtEachRun(storyIndex, saLevelIndex) = max(abs(driftRatio));
-    
-        % ----------------------------------------------------
-        % Residual drift from last extraSecondsToRunAnalysis
-        % ----------------------------------------------------
-        analysisEndTime = timeVector(end);
-        residualStartTime = analysisEndTime - extraSecondsToRunAnalysis;
-
-        residualIndices = timeVector >= residualStartTime;
-        residualDrift = mean(driftRatio(residualIndices));
-
-        maxStoryResidualDriftRatioAtEachStoryAtEachRun(storyIndex, saLevelIndex) = residualDrift;
-        minStoryResidualDriftRatioAtEachStoryAtEachRun(storyIndex, saLevelIndex) = residualDrift;
-        absStoryResidualDriftRatioAtEachStoryAtEachRun(storyIndex, saLevelIndex) = abs(residualDrift); % only value needed for further
-       
-    end
-
-   cd ..
-
-   % ------------------------------------------------------------------
-   % 2) FLOOR ACCELERATION FROM NODE ACCEL FILES (FLOOR-WISE)
-   % ------------------------------------------------------------------
-   cd AccelTH
-
-   numFloors = length(floorControlNodes);   % it includes ground floor
-   % numFloors = length(floorControlNodes) - 1; % it does not includes ground floor
-
-     % for floorIndex = 1:length(floorControlNodes)
-   for floorIndex = 1:numFloors
-       floorNode = floorControlNodes(floorIndex);
-       accelTH = load(sprintf('THNodeAccel_%d.out', floorNode));
-       accelX = accelTH(:,2);
-
-       maxPeakFloorAccelerationAtEachFloorAtEachRun(floorIndex, saLevelIndex) = max(accelX);
-       minPeakFloorAccelerationAtEachFloorAtEachRun(floorIndex, saLevelIndex) = min(accelX);
-       absPeakFloorAccelerationAtEachFloorAtEachRun(floorIndex, saLevelIndex) = max(abs(accelX));
-   end
-
-   cd ..
-   cd ..
-
- 
 % Go back to starting directory (sens. dir.)
     cd(sensDirForComingBack)
 
@@ -438,10 +270,7 @@ sensModel
                                 isNonConvForEachRun(saLevelIndex)        =  isNonConv;
                                 maxDriftForEachRun(saLevelIndex)         =  maxStoryDriftRatioForFullStr;
                                 minDriftForEachRun(saLevelIndex)         =  minStoryDriftRatioForFullStr;
-                                maxResidualDriftForEachRun(saLevelIndex) =  maxStoryResidualDriftRatioForFullStr;
-                                minResidualDriftForEachRun(saLevelIndex) =  minStoryResidualDriftRatioForFullStr;
-                                absResidualDriftForEachRun(saLevelIndex) =  absStoryResidualDriftRatioForFullStr;
-
+                            
                                 % disp(pwd)
                                 % cd ..
 
@@ -451,20 +280,10 @@ sensModel
                     eqNumber, eqNumberForGeoMean, eqNumberIndex, eqNumberLIST, flagForEQFileFormat, isCollapsed, isCollapsedForEachRun, ...
                     isNonConv, isNonConvForEachRun, isRunTimeError, isSingular, isSingularForEachRun, isStoppedDueToSingular, ...
                     maxDriftForEachRun, numSaLevels, maxStoryDriftRatioForFullStr, minDriftForEachRun, minStoryDriftRatioForCollapseMATLAB, ...
-                    minStoryDriftRatioForFullStr, maxResidualDriftForEachRun, maxStoryResidualDriftRatioForFullStr, minResidualDriftForEachRun, ...
-                    minStoryResidualDriftRatioForFullStr, absResidualDriftForEachRun, absStoryResidualDriftRatioForFullStr, modelIndex, modelNameLIST, ...
+                    minStoryDriftRatioForFullStr,  modelIndex, modelNameLIST, ...
                     myFileStream, periodUsedForScalingGroundMotions, saCompScaled, saFolder, saGeoMeanScaled, saLevelForEachRun, saLevelIndex, ...
                     scaleFactorForEachRun, scaleFactorForRunFromMatlab, sensDir, sensModel, sensModelIndex, sensModelLIST, sensVariableIndex, ...
-                    sensVariableName, sensVariableNameLIST, sensVariableValue, sensVariableValueLIST,...     
-                    maxStoryDriftRatioAtEachStoryAtEachRun, ...
-                    minStoryDriftRatioAtEachStoryAtEachRun, ...
-                    absStoryDriftRatioAtEachStoryAtEachRun, ...
-                    maxStoryResidualDriftRatioAtEachStoryAtEachRun, ...
-                    minStoryResidualDriftRatioAtEachStoryAtEachRun, ...
-                    absStoryResidualDriftRatioAtEachStoryAtEachRun, ...
-                    maxPeakFloorAccelerationAtEachFloorAtEachRun, ...
-                    minPeakFloorAccelerationAtEachFloorAtEachRun, ...
-                    absPeakFloorAccelerationAtEachFloorAtEachRun);
+                    sensVariableName, sensVariableNameLIST, sensVariableValue, sensVariableValueLIST);
                     
 
                         end % End MSA loop here (7-Jan-2026)    

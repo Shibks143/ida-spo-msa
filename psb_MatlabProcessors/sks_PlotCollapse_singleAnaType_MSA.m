@@ -30,7 +30,20 @@
 % -------------------
 
 
-function sks_PlotCollapse_singleAnaType_MSA(analysisType, analysisTypeLIST, eqNumberLIST, markerTypeLine, markerTypeDot, isPlotIndividualPoints, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, collapseDriftThreshold, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+function sks_PlotCollapse_singleAnaType_MSA(msaInputs)
+
+% analysisType =                msaInputs.analysisType;
+analysisTypeLIST =            msaInputs.analysisTypeLIST;
+eqNumberLIST =                msaInputs.eqNumberLIST;
+markerTypeLine =              msaInputs.markerTypeLine;
+markerTypeDot =               msaInputs.markerTypeDot;
+isPlotIndividualPoints =      msaInputs.isPlotIndividualPoints;
+% eqNumberLIST_forStripes =     msaInputs.eqNumberLIST_forStripes;
+saLevelsForStripes =          msaInputs.saLevelsForStripes;
+isCollapsedForEachRun =       msaInputs.isCollapsedForEachRun;
+collapseDriftThreshold =      msaInputs.collapseDriftThreshold;
+isConvertToSaKircher =        msaInputs.isConvertToSaKircher;
+
 
 
 % ==============================================================

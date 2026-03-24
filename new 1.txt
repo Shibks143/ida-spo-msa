@@ -1,0 +1,9 @@
+Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+	Prak_ProcessMultipleCollapseRuns_Generalized_withGD(analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, collapseDriftThreshold, dataSavingOption); 298 1434
+    PlotCollapseIDAs(analysisTypeLIST, eqNumberLIST_forCollapseIDAs, eqListForCollapseIDAs_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, isConvertToSaKircher); 575
+
+
+
+Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+    Prak_ProcessMultipleCollapseRuns_Generalized_withGD(analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, collapseDriftThreshold, dataSavingOption); 298 1434
+	PlotCollapseIDAs(analysisTypeLIST, eqNumberLIST_forCollapseIDAs, eqListForCollapseIDAs_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, isConvertToSaKircher); 575

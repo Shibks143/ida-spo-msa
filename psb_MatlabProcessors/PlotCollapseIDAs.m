@@ -24,15 +24,16 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function[void] = PlotCollapseIDAs(analysisTypeLIST, eqNumberLIST, eqListForCollapseIDAs_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, isConvertToSaKircher)
+function[void] = PlotCollapseIDAs(idaInputs)
 
+analysisTypeLIST = idaInputs.analysisTypeLIST;
 
 % Loop and do for all types of analysis
 for analysisTypeIndex = 1:length(analysisTypeLIST)
     analysisType = analysisTypeLIST{analysisTypeIndex};
 
     % Call the function to do the collapse IDAs for a single analysisType
-    PlotCollapseIDAs_singleAnaType(analysisType, eqNumberLIST, eqListForCollapseIDAs_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, isConvertToSaKircher);
+    PlotCollapseIDAs_singleAnaType(idaInputs);
 
 end
 

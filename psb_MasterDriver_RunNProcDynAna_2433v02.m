@@ -46,15 +46,15 @@ tStart= tic;
     
 IDA_or_MSA = 'MSA';
     
-    eqListID = 'setC';  
+    % eqListID = 'setC';  
     % eqListID = 'setD' ;
     % eqListID = 'setDNotC'; 
     % eqListID = 'setG';
-    % eqListID = 'setTest';
+    eqListID = 'setTest';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     cordova    IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        0           0         0              0               0           1];
+    analyzeProcessPlotIndex = [0        1        1           1         0              0               0           1];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,7 +111,7 @@ IDA_or_MSA = 'MSA';
 % Sa list for stripe processing - this is the list of Sa levels to make
 % stripe files for
      saLevelsForStripes = [0.53  0.63  0.70  0.85  0.88  1.06  1.32  1.58];
-    % saLevelsForStripes = [0.05	0.10	0.15	0.20	0.25	0.30	0.35	0.40	0.50	0.55	0.60	0.70	0.80	0.90	1.00	1.20	1.40	1.60	1.80   2.00   2.4   2.8];
+    % saLevelsForStripes = [0.05	0.10	0.15	0.20	0.25	0.30	0.35	0.40	0.50	0.55	0.60	0.70	0.80	0.90	1.00	1.20	1.40	1.60	1.80   2.00   2.40   2.80];
 
 
 
@@ -162,10 +162,18 @@ IDA_or_MSA = 'MSA';
         flagForEQFileFormat_SetTest = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
    
 
-eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-eqNumberLIST_forStripes    = eqNumberLIST_forProcessing_SetC;
-eqFormatForCollapseList = eqFormatForCollapseList_SetC;
-flagForEQFileFormat = flagForEQFileFormat_SetC;
+eqNumberLIST = eqNumberLIST_forProcessing_SetTest;
+eqNumberLIST_forStripes    = eqNumberLIST_forProcessing_SetTest;
+eqFormatForCollapseList = eqFormatForCollapseList_SetTest;
+flagForEQFileFormat = flagForEQFileFormat_SetTest;
+isProcessMultipleCollapseRuns = true;   % or false
+isPlotCollapseIDAs = true;   % or false
+eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;
+eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
+eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
+isConvertToSaKircher = false;   % or true (depending on need)
+isCollapsedForEachRun = false;   % or true (depending on logic)
+
 
 
 
@@ -189,7 +197,22 @@ idaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis;
 % idaInputs.timeTakenInMinsForEachAnalysis =      timeTakenInMinsForEachAnalysis;
 idaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted;
 % idaInputs.openseesFileToUse =                   openseesFileToUse;
-idaInputs.markerTypeLine    =                   markerTypeLine;
+idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
+idaInputs.dataSavingOption =                    dataSavingOption;
+idaInputs.markerTypeLine =                      markerTypeLine;
+idaInputs.markerTypeDot =                       markerTypeDot;
+idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
+idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
+idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
+idaInputs.analysisTypeLIST =                    analysisTypeLIST;
+idaInputs.analysisType =                        analysisType;
+idaInputs.modelNameLIST =                       modelNameLIST;
+idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
+idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
+idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
+idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
+idaInputs.sigmaLnModeling =                     sigmaLnModeling;
+
 
 msaInputs.dtForCollapseMATLAB                 = dtForCollapseMATLAB;
 msaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB ;
@@ -210,7 +233,21 @@ msaInputs.periodUsedForScalingGroundMotions =   periodUsedForScalingGroundMotion
 msaInputs.dampingRatioUsedForSaDef =            dampingRatioUsedForSaDef ;
 msaInputs.extraSecondsToRunAnalysis =           extraSecondsToRunAnalysis ;
 msaInputs.eqTimeHistoryPreFormatted =           eqTimeHistoryPreFormatted ;
-
+msaInputs.collapseDriftThreshold =              collapseDriftThreshold;
+msaInputs.dataSavingOption =                    dataSavingOption;
+msaInputs.markerTypeLine =                      markerTypeLine;
+msaInputs.markerTypeDot =                       markerTypeDot;
+msaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
+msaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
+msaInputs.analysisTypeLIST =                    analysisTypeLIST;
+msaInputs.analysisType =                        analysisType;                
+msaInputs.modelNameLIST =                       modelNameLIST;
+msaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
+msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+msaInputs.saLevelsForStripes =                  saLevelsForStripes;
+msaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
+msaInputs.isConvertToSaKircher =                isConvertToSaKircher;
+ 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -297,10 +334,11 @@ end
             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
             eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
-            eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
+            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
             isProcessMultipleCollapseRuns = 1;
             isPlotCollapseIDAs = 0;
             isPlotCollapseMSAs = 0;
+             msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
             isCollapsedForEachRun = 0;
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
@@ -335,16 +373,18 @@ end
             eqNumberLIST_forStripes = eqNumberLIST_forProcessing;
             % eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetTest;
             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
+            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
             isProcessMultipleCollapseRuns = 1;
-            isPlotCollapseMSAs = 1;
+            isPlotCollapseMSAs = 0;
+            msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
             isCollapsedForEachRun = 0;
             isPlotCollapseIDAs = 0;
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
             % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
         end
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -358,15 +398,17 @@ end
             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
             eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
-            eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
-            isProcessMultipleCollapseRuns = 1;
+            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
+            isProcessMultipleCollapseRuns = 0;
             isPlotCollapseIDAs = 1;
             isPlotCollapseMSAs = 1;
+            msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
             isCollapsedForEachRun = 0;
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
             % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
             close;      close; % close figure 
         end
 
@@ -429,17 +471,18 @@ end
             eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;
             eqNumberLIST_forStripes = eqNumberLIST_forProcessing;
             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
-            eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
+            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
             eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
-            isProcessMultipleCollapseRuns = 1;
+            isProcessMultipleCollapseRuns = 0;
             isPlotCollapseIDAs = 1;
             isPlotCollapseMSAs = 1;
+            msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 %             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
             % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-            sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+            % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
             % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isConvertToSaKircher, eqListForCollapseMSAs_Name)
-
+            sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
             close;      close; % close figure 
         end
         % Plot and save IDAs for GM Set TEST - Sa,ATC63 - just for testing
@@ -465,11 +508,11 @@ end
         if strcmp(eqListID,'setC')	
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;
-            eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
+            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
             figNum = 100;
             % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
             % sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher) %% not required anymore (11-Feb-2026)
-            sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(analysisTypeLIST, eqNumberLIST, isConvertToSaKircher)
+            sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
             close; % close figure
             
             figNum = 101;
@@ -539,15 +582,16 @@ end
         if strcmp(eqListID,'setTest')
             isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
             saLevelForEachRun =0;
-            eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
+            % eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
             eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;
             figNum = 104;
             % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-            sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher)
+            % sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher)
+            sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
             % close; % close figure
-            figNum = 105;
+            % figNum = 105;
             % PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher)
-             sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(analysisTypeLIST, eqNumberLIST, isConvertToSaKircher)
+             % sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(analysisTypeLIST, eqNumberLIST, isConvertToSaKircher)
             % close; % close figure
 
         end

@@ -20,9 +20,15 @@
 % 
 %     cd(tempDir);
 
-function [saLevelForEachRun, isSingularForEachRun, isNonConvForEachRun, isCollapsedForEachRun] = sks_loadDATAForEachEq_MSA(fileNameToLoad)
+% function [saLevelForEachRun, tolerance, isSingularForEachRun, isNonConvForEachRun, isCollapsedForEachRun] = sks_loadDATAForEachEq_MSA(fileNameToLoad)
+
+function [saLevelForEachRun, maxDriftForEachRun, isCollapsedForEachRun, isSingularForEachRun, isNonConvForEachRun, ...
+    numSaLevels, periodUsedForScalingGroundMotions, minStoryDriftRatioForCollapseMATLAB] = sks_loadDATAForEachEq_MSA(fileNameToLoad)
+
 try 
-    load(fileNameToLoad, 'saLevelForEachRun', 'isSingularForEachRun', 'isNonConvForEachRun', 'isCollapsedForEachRun')
+    load(fileNameToLoad, 'saLevelForEachRun', 'maxDriftForEachRun', 'isCollapsedForEachRun', 'isSingularForEachRun', 'isNonConvForEachRun', ...
+        'numSaLevels', 'periodUsedForScalingGroundMotions', 'minStoryDriftRatioForCollapseMATLAB')
 catch 
     error('File name- %s not found here- %s!', fileNameToLoad, pwd);
 end
+ 

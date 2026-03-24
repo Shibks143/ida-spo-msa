@@ -11,13 +11,19 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function[void] = Prak_ProcessMultipleCollapseRuns_Generalized_withGD(analysisTypeLIST, modelNameLIST, eqNumberLIST, collapseDriftThreshold, dataSavingOption)
+function[void] = Prak_ProcessMultipleCollapseRuns_Generalized_withGD(idaInputs)
+
+analysisTypeLIST = idaInputs.analysisTypeLIST; 
+modelNameLIST = idaInputs.modelNameLIST; 
+eqNumberLIST = idaInputs.eqNumberLIST;
+collapseDriftThreshold = idaInputs.collapseDriftThreshold;
+dataSavingOption = idaInputs.dataSavingOption;
 
 
 % Note that the Sa levels to use come from the file in the Collapse folder
 
 % Input the tolerance that is used in the collapse algorithm, i.e. the step size that it used after it finds the first collapse point (usually 0.05).  
-%   This is used for making the vector for plotting, so that we plot all of the non-collapsed points and only the first collapased point.
+%   This is used for making the vector for plotting, so that we plot all of the non-collapsed points and only the first collapsed point.
 
 
 temp = sprintf('Processing with dataSavingOption = %d...', dataSavingOption);
@@ -250,7 +256,7 @@ disp(temp);
                         
 
                         
-                    % For this EQ, save the information needed for an IDA plot
+                       % For this EQ, save the information needed for an IDA plot
                         % First change the directory to get into the correct folder for processing
                         cd ..;
                         cd Output;

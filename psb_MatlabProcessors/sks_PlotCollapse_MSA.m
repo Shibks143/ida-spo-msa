@@ -25,14 +25,26 @@
 % modified on 11-Jan-2026
 % -------------------
 
-function sks_PlotCollapse_MSA(analysisTypeLIST, eqNumberLIST, markerTypeLine, markerTypeDot, isPlotIndividualPoints, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, collapseDriftThreshold, isConvertToSaKircher, eqListForCollapseMSAs_Name)
+function sks_PlotCollapse_MSA(msaInputs)
+
+analysisTypeLIST =           msaInputs.analysisTypeLIST; 
+eqNumberLIST =               msaInputs.eqNumberLIST;
+markerTypeLine =             msaInputs.markerTypeLine;
+markerTypeDot =              msaInputs.markerTypeDot;
+isPlotIndividualPoints =     msaInputs.isPlotCollapseMSAs;
+eqNumberLIST_forStripes =    msaInputs.eqNumberLIST_forStripes;
+saLevelsForStripes =         msaInputs.saLevelsForStripes;
+isCollapsedForEachRun =      msaInputs.isCollapsedForEachRun;
+collapseDriftThreshold =     msaInputs.collapseDriftThreshold;
+isConvertToSaKircher =       msaInputs.isConvertToSaKircher;
+
 
 % Loop and do for all types of analysis
 for analysisTypeIndex = 1:length(analysisTypeLIST)
-    analysisType = analysisTypeLIST{analysisTypeIndex};
+    msaInputs.analysisType = analysisTypeLIST{analysisTypeIndex};
 
     % Call the function to do the collapse MSAs for a single analysisType
-    sks_PlotCollapse_singleAnaType_MSA(analysisType, analysisTypeLIST, eqNumberLIST, markerTypeLine, markerTypeDot, isPlotIndividualPoints, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, collapseDriftThreshold, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+    sks_PlotCollapse_singleAnaType_MSA(msaInputs);
 
 end
 

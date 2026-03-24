@@ -18,7 +18,12 @@
 % % Units: Whatever OpenSees is using - just be consistent!
 % % modified by Shivakumar K S on 11-Feb-2026 at IIT Madras
 % % -------------------
-function sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(analysisTypeLIST, eqNumberLIST, isConvertToSaKircher)
+function sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(msaInputs)
+
+analysisTypeLIST = msaInputs.analysisTypeLIST;
+eqNumberLIST     = msaInputs.eqNumberLIST;
+isConvertToSaKircher = msaInputs.isConvertToSaKircher;
+
 
 % ==========================================
 % USER SETTINGS (Figure Output Control)

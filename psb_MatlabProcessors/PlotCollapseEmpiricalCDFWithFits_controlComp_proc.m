@@ -20,7 +20,12 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function[void] = PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher)
+function[void] = PlotCollapseEmpiricalCDFWithFits_controlComp_proc(idaInputs)
+
+sigmaLnModeling = idaInputs.sigmaLnModeling; 
+analysisType = idaInputs.analysisType;
+eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name; 
+isConvertToSaKircher = idaInputs.isConvertToSaKircher;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Select options 

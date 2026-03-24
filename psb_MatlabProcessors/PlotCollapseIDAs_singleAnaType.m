@@ -28,7 +28,17 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function[void] = PlotCollapseIDAs_singleAnaType(analysisType, eqNumberLIST, eqListForCollapseIDAs_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, isConvertToSaKircher)
+function[void] = PlotCollapseIDAs_singleAnaType(idaInputs)
+
+analysisType = idaInputs.analysisType;
+eqNumberLIST = idaInputs.eqNumberLIST;
+eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name;
+markerTypeLine = idaInputs.markerTypeLine;
+markerTypeDot = idaInputs.markerTypeDot;
+isPlotIndividualPoints = idaInputs.isPlotIndividualPoints;
+collapseDriftThreshold = idaInputs.collapseDriftThreshold;
+isConvertToSaKircher = idaInputs.isConvertToSaKircher;
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% This does collapse IDAs for a single analysisType

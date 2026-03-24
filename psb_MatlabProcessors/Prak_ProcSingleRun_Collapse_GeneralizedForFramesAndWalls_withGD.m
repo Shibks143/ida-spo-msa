@@ -1,4 +1,4 @@
-% Procedure: ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_Full.m
+ % Procedure: ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_Full.m
 % -------------------
 %
 % Same as the ProcSingleRunNlBmColSens.m, but imports that data from the output from the lumped plasticity model.
@@ -159,7 +159,7 @@ g = 9810;
 cd ..;
 cd Output;
 % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
-analysisTypeFolder = sprintf('%s', analysisType)
+analysisTypeFolder = sprintf('%s', analysisType);
 cd(analysisTypeFolder);
 
 % Create Sa and EQ folder names for later use
@@ -735,7 +735,7 @@ if(~(isempty(jointNumToRecordLIST)) && (dataSavingOption ~= 4))
 
     % Compute column PHRs.  Note that node 1 is bottom of joint, node 2 is right, ..., node 4 is
     % left, node 5 is shear panel.
-    maxFloorNum = length(floorHeightsLIST)
+    maxFloorNum = length(floorHeightsLIST);
     numStories = maxFloorNum - 1;
     columnAbsMaxPHRForFullBldg = 0.0;
     for storyNum = 1:numStories
@@ -1304,6 +1304,7 @@ if(dataSavingOption == 1)
     if(~isempty(jointNumToRecordLIST))
         % Save the full data, with joint information
         fileName = ['DATA_allDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'nodeNumsAtEachFloorLIST', 'elementArray', 'nodeArray', 'ground', 'storyDriftRatioToSave', 'numStories',...
@@ -1313,6 +1314,7 @@ if(dataSavingOption == 1)
     else
         % Save the full data, NO joint information
         fileName = ['DATA_allDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'nodeNumsAtEachFloorLIST', 'elementArray', 'nodeArray', 'ground', 'storyDriftRatioToSave', 'numStories',...
@@ -1323,6 +1325,7 @@ elseif(dataSavingOption == 2)
     if(~isempty(jointNumToRecordLIST))
         % Save a reduced amount of data, with joint information
         fileName = ['DATA_reducedSensDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab', 'dampingRatioUsedForSaDefFromMatlab', 'jointForceAndDefAbsMaxToSave',...
@@ -1331,6 +1334,7 @@ elseif(dataSavingOption == 2)
     else
         % Save a reduced amount of data, NO joint information
         fileName = ['DATA_reducedSensDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab',...
@@ -1351,6 +1355,7 @@ elseif(dataSavingOption == 3)
         
         % Reduced, with joint information
         fileName = ['DATA_reducedSensDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab', 'dampingRatioUsedForSaDefFromMatlab', 'jointForceAndDefAbsMaxToSave',...
@@ -1362,6 +1367,7 @@ elseif(dataSavingOption == 3)
         % Full
         % Updated by Abbie Liel, 12/4/06
         fileName = ['DATA_allDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'nodeNumsAtEachFloorLIST', 'elementArray', 'nodeArray', 'ground', 'storyDriftRatioToSave', 'numStories',...
@@ -1370,6 +1376,7 @@ elseif(dataSavingOption == 3)
         
         % Reduced, NO joint information
         fileName = ['DATA_reducedSensDataForThisSingleRun.mat'];
+
         save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'PGA', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab', 'dampingRatioUsedForSaDefFromMatlab',...
@@ -1380,6 +1387,7 @@ elseif(dataSavingOption == 4)
     % Save the bare-bones file of just the drift data, etc.
         % Save a reduced amount of data, NO joint information
         fileName = ['DATA_reducedSensDataForThisSingleRun.mat'];
+        
         save(fileName, 'storyDriftRatioToSave', 'maxConvergedTime', 'eqTimeLength',...
         'eqNum', 'scaleFactorForRun', 'saValue', 'isCurrentAnalysisConv', 'maxTolUsed', 'maxDriftRatioForFullStr', 'absMaxDisplOfFloor',...
         'saCompScaled', 'saGeoMeanScaled', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab', 'dampingRatioUsedForSaDefFromMatlab',...
