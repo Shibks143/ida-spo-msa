@@ -417,7 +417,7 @@ roofDriftRatioToSave.ResidualAbs = abs(roofDriftRatio.Residual);
 % This assumes that the displacement for drift is in dof 1 (x dof)
 maxDriftForFullFrame = 0;
 
-numPointsToSkip = round(secAtEndOfEQForResidual / dtForAnalysis);
+numPointsToSkip           = round(secAtEndOfEQForResidual / dtForAnalysis);
 numPointsInExtraAnalysis  = round(extraSecondsToRunAnalysis / dtForAnalysis);
 
 for floorNum = 2:length(floorHeightsLIST)
