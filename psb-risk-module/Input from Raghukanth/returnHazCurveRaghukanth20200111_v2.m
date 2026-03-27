@@ -60,7 +60,7 @@ switch fitModel
     case '2param' % H(a_gR) = k0 * a_gR^(-k)
         k0 = zeros(1, size(afeLIST, 2)-1); k = k0; % initialize
         for i = 1:size(afeLIST, 2)-1
-            afeVec = afeLIST(1, i:i+1); % pannual freq rob of exceedances
+            afeVec = afeLIST(1, i:i+1); % annual freq prob of exceedances
             imVec = imValLIST(1, i:i+1); % intensity measure values for this interval
             X = log(imVec)'; Y = log(afeVec)';
             

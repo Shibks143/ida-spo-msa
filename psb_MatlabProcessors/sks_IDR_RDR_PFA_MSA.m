@@ -246,14 +246,14 @@ for saLevelIndex = 1:numSa
     xlim([0 xMax + margin])
     xticks(0:1:6)
     xtickformat('%.0f')
-    title(sprintf('Sa = %.2f g', validSa(saLevelIndex)))
+    title(sprintf('$S_a(T_1) = %.2f\\,g$', validSa(saLevelIndex)), 'Interpreter','latex')
     grid off
 
     % ---- Legend ----
     legend([hEQ hMedian hBand], {'IDR profiles','Median','$16$--$84$\% band'})
 
     % ---- Export ----
-    exportName = fullfile(saveDir, sprintf('InterstoryDriftRatio_Sa_%.2f', validSa(saLevelIndex)));
+    exportName = fullfile(saveDir, sprintf('InterstoryDriftRatio_Sa(T1)_%.2f', validSa(saLevelIndex)));
     sks_figureFormat(formatMode);
     sks_figureExport(exportName);
 
@@ -335,12 +335,12 @@ for saLevelIndex = 1:numSa
     ylim([storyLevel(1) storyLevel(end)])
     xlim([0 2.5])
     xticks(0:0.5:2.5)
-    title(sprintf('Sa = %.2f g',validSa(saLevelIndex)))
+    title(sprintf('$S_a(T_1) = %.2f\\,g$',validSa(saLevelIndex)))
     grid off
 
     legend([hEQ hMedian hBand],{'RDR profiles','Median','$16$--$84$\% band'})
 
-    exportName = fullfile(saveDir, sprintf('ResidualInterstoryDriftRatio_Sa_%.2f',validSa(saLevelIndex)));
+    exportName = fullfile(saveDir, sprintf('ResidualInterstoryDriftRatio_Sa(T1)_%.2f',validSa(saLevelIndex)));
     sks_figureFormat(formatMode);
     sks_figureExport(exportName);
 
@@ -403,7 +403,7 @@ for saLevelIndex = 1:numSa
     set(gca,'YDir','normal')
     xlabel('Peak Floor Acceleration (g)')
     ylabel('Floor Level')
-    xlim([0 3])
+    xlim([0 3.5])
     yticks(floors)
     yticks(floors)
     ymin = floors(1);
@@ -411,13 +411,12 @@ for saLevelIndex = 1:numSa
     yrange = max(ymax - ymin, 1);
     margin = 0.05 * yrange;
     ylim([ymin - margin, ymax + margin])
-    
-    title(sprintf('Sa = %.2f g',validSa(saLevelIndex)))
+    title(sprintf('$S_a(T_1) = %.2f\\,g$',validSa(saLevelIndex)))
     grid on
 
     legend([hEQ hMedian hBand], {'PFA profiles','Median','$16$--$84$\% band'})
 
-    exportName = fullfile(saveDir, sprintf('PeakFloorAcceleration_Sa_%.2f',validSa(saLevelIndex)));
+    exportName = fullfile(saveDir, sprintf('PeakFloorAcceleration_Sa(T1)_%0.2f_g', validSa(saLevelIndex)));
     sks_figureFormat(formatMode);
     sks_figureExport(exportName);
 

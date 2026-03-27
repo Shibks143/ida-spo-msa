@@ -17,5 +17,5 @@ set periodUsedForScalingGroundMotionsFromMatlab 0.7100
 set dampingRatioUsedForSaDefFromMatlab 0.0500
 set saCompScaled 1.54
 set saGeoMeanScaled 1.58
-set extraSecondsToRunAnalysis 5.00
+set extraSecondsToRunAnalysis 8.00
 set eqTimeHistoryPreFormatted 1

@@ -219,7 +219,11 @@ end
     b = get(gcf,'Position'); set(gcf,'Position',[100 100 1500 900]);
     formatAllSixBldgImpFactVsRiskPlot_v01;
 if saveImpFactVsRisk == 1
-    cd(dirForFigures); exportNamePlot = sprintf('impFactVsLambdaAllDamSta');
+    if ~exist(dirForFigures, 'dir')
+        mkdir(dirForFigures);
+    end
+    cd(dirForFigures); 
+    exportNamePlot = sprintf('impFactVsLambdaAllDamSta');
     hgsave(exportNamePlot); print('-depsc', exportNamePlot);
     print('-dmeta', exportNamePlot); print('-djpeg', exportNamePlot); cd(baseFolder);
 else

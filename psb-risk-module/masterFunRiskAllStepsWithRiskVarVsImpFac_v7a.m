@@ -1,6 +1,6 @@
 % clear; % if building fragility is already extracted, I am turning it off during the debugging phase 
 % clearvars -except fragilityDataLIST
-%% Master function (earlier, script) to load hazard curve, PGA fragiliy and calculate risk
+%% Master function (earlier, script) to load hazard curve, PGA fragility and calculate risk
 % v2- putting together appropriate locations corresponding to the buildings design configurations
 % 
 % v3- Changes as follows-
@@ -9,7 +9,7 @@
 % 
 % v4- Additional changes as follows-
 % (1) The fragility extraction step, i.e., step 2, now first attempts to find the stored .mat file, only if not found, it carries out the extraction.
-% (2) using new version of risk computation function, computeRiskSingleSite_v3, where descretized hazard is already an input.
+% (2) using new version of risk computation function, computeRiskSingleSite_v3, where discretized hazard is already an input.
 % (3) Updated version of computeRTGM_v2 that uses computeRiskSingleSite_v3 for risk calculations.
 % 
 % v5- parametric study for risk values to observe the effect of 
@@ -317,13 +317,13 @@ for locID = 1:size(latLonLIST, 1)
 %         H_475 = interp1([X(ix-1), X(ix)], [Y(ix-1), Y(ix)], xq, 'pchip');
         X(isnan(Xtemp)) = []; Y(isnan(Xtemp)) = []; % remove all NaN values
         H_475 = interp1(X, Y, xq, 'pchip'); % to check if global interpolation results in different UHS, it turns out
-                                            % that descretized hazard curves are so fine that results are almost identical.
+                                            % that discretized hazard curves are so fine that results are almost identical.
         
         xq = 1/2475;
 %         ix = find(X <= xq, 1);
 %         H_2475 = interp1([X(ix-1), X(ix)], [Y(ix-1), Y(ix)], xq, 'pchip');
         H_2475 = interp1(X, Y, xq, 'pchip'); % to check if global interpolation results in different UHS, it turns out
-                                             % that descretized hazard curves are so fine that results are almost identical.
+                                             % that discretized hazard curves are so fine that results are almost identical.
         
         % 3d. finally, calculate risk for each building in each matching location
         betaRTRCtrl = fragilityDataCurr(1, 2);

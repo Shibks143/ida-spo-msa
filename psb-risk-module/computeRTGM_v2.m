@@ -14,7 +14,7 @@ function riskTargetedMedianCap = computeRTGM_v2(lambda_tar, hazardData, betaTot,
 
 doPrint = 0;
 % tolerance
-tolReqdInRTGM = 1e-6; % acceptable tolerance in IM value; we are now targetting precision in IM value itself rather than the achieved risk
+tolReqdInRTGM = 1e-6; % acceptable tolerance in IM value; we are now targeting precision in IM value itself rather than the achieved risk
 
 switch nargin
     case 3 % no bound

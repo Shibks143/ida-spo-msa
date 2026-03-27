@@ -71,17 +71,17 @@ grid(ax,'off')
 
 % -------- X Label ---------------------------------
 if isgraphics(ax.XLabel)
-    set(ax.XLabel,'FontSize',xAxisLabelFontSize,'FontWeight','bold','Interpreter','latex');
+    set(ax.XLabel,'FontSize',xAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
 end
 
 % -------- Y Label ---------------------------------
 if isgraphics(ax.YLabel)
-    set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','bold','Interpreter','latex');
+    set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
 end
 
 % -------- Z Label --------------------------------- c 
 if isgraphics(ax.ZLabel)
-    set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','bold','Interpreter','latex');
+    set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
 end
 
 % -------- Title -----------------------------------

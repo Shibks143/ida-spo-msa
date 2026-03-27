@@ -5,11 +5,11 @@ function [riskVal, highestContriIM, modalImRatio] = computeRiskSingleSite_v3(haz
 %
 % There are four inputs of the function-
 %       hazardData          The first row with IM values in arbitrary units (say, g) and second row with PoE 
-%       fragilityData       Median and log-dispersion parameter, respectivelywe assume lognormal distribution.
+%       fragilityData       Median and log-dispersion parameter, respectively we assume lognormal distribution.
 %       imOrAfeBound        no bound (=0); bound over IM (= 1); bound over AFE (= 2)
 %       boundRange          (optional) range of bound (over im or afe, as may be the case) 
 %                           = [imMin, imMax]; in case, imOrAfeBound = 1 
-%                           = [afeMin, afemMax]; in case, imOrAfeBound = 2
+%                           = [afeMin, afeMax]; in case, imOrAfeBound = 2
 % 
 %       The default values of [imMin, imMax] 
 %                          or [afeMin, afeMax] are taken from hazardData.
@@ -42,7 +42,7 @@ function [riskVal, highestContriIM, modalImRatio] = computeRiskSingleSite_v3(haz
 % %               [3.34288E-01	1.24668E-01	3.92776E-02	1.25620E-02	4.21525E-03	1.25712E-03	2.62249E-04	3.36570E-05	2.33463E-06	7.18762E-08]]; % Guwahati
 %               [3.70651E-01	1.49167E-01	4.95066E-02	1.62939E-02	5.62982E-03	1.74907E-03	3.80267E-04	5.04012E-05	3.61580E-06	1.15167E-07]]; % Arunachal (27.1, 92.1)
               
-% Median and log-dispersion parameter, respectivelywe assume lognormal distribution.
+% Median and log-dispersion parameter, respectively we assume lognormal distribution.
 % fragilityData = [0.231665029035492, 0.280176831835109]; % values are median and log-dispersion parameter, respectively; we assume lognormal distribution.
 
 % imOrAfeBound = 1; boundRange = [0.01 1.5];
@@ -72,7 +72,7 @@ end
 Sa_median = fragilityData(1); betaTot = fragilityData(2);
 
 %% number of points for numerical integration
-% N = 1000; % good enough descritization
+% N = 1000; % good enough discretization
 % imValues = logspace(log10(imMin), log10(imMax), N); % v1
 % imValues = hazardData(1, :); % v2
 

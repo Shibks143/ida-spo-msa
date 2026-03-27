@@ -171,7 +171,7 @@ cd(saFolder);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % For the PFA calculations, we need to get the EQ TH vector so that we can add it with the relative accelerations to get absolute accelerations at each floor.
 % Go into the EQ folder to open the sorted EQ file
-startFolder = [pwd];
+startFolder = pwd;
 cd C:\Users\sks\OpenSeesProcessingFiles\EQs
 
 % Make the name of the sorted EQ file to read, as well as dtFile and
@@ -289,11 +289,10 @@ clear absMaxDisplOfFloor
 
 %  nodeNumsAtEachFloorLIST;
 %  nodeArray{nodeNumsAtEachFloorLIST(2)}.displAbsMax;
-
-
 for floorIndex = 2:length(nodeNumsAtEachFloorLIST)
     absMaxDisplOfFloor{floorIndex} = nodeArray{nodeNumsAtEachFloorLIST(floorIndex)}.displAbsMax;
 end
+
 
 % Do this as long as we are not only saving drift data (for sens.
 % studies)
@@ -301,13 +300,14 @@ if(dataSavingOption == 2)
     % Load node acceleration TH data, and compute the max/min/absMax
     cd AccelTH;
     % Loop through the nodes and get the data
-   
-    for nodeIndex = 1:length(nodeNumsAtEachFloorLIST)
-        nodeNum = nodeNumsAtEachFloorLIST(nodeIndex);
-        % Create file name
-        if nodeNum == -1
-            continue;
-        end
+    filteredNodes = sort(nodeNumToRecordLIST(nodeNumToRecordLIST >= 200000 & mod(nodeNumToRecordLIST,1000) == 13 ));
+    
+    for nodeIndex = 1:length(filteredNodes)
+        nodeNum = filteredNodes(nodeIndex);
+        % Create file name, this is required only if nodeNumsAtEachFloorLIST is used 
+        % if nodeNum == -1
+        %     continue;
+        % end
         nodeFileName = sprintf('%sTHNodeAccel_%.0f.out', filePrefix, nodeNum);
         nodeArray{nodeNum}.accelTH = load(nodeFileName);
         % nodeArray{nodeNum}.accelTH = nodeArray{nodeNum}.accelTH(:,2:4);   % removing time data, keep DOF 1,2,3
@@ -509,9 +509,11 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if(dataSavingOption == 2)
-    % Make a cell structure of vectors of floor accelerations
-    for floorNum = 2:numFloors
-        floorNodeNum = nodeNumsAtEachFloorLIST(floorNum);
+    % Make a cell structure of vectors of floor accelerations; note:
+    % 1:numFloors includes groundfloor and 2:numFloors excludes groundfloor
+    numFloors  = length(filteredNodes);
+    for floorNum = 1:numFloors
+        floorNodeNum = filteredNodes(floorNum);
         floorAccel{floorNum}.relTH = nodeArray{floorNodeNum}.accelTH(:,1);
         floorAccel{floorNum}.relAbsMax = nodeArray{floorNodeNum}.accelAbsMax(1);
 
