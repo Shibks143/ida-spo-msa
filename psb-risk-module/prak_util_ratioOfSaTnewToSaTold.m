@@ -15,7 +15,8 @@ T_new = round(T_new *100)/100;
 
 %% (6-28-19, PSB) Modifying to include ratio to PGA when T_new is entered as 0.00
 if abs(T_new) < 0.001 % essentially, zero
-    cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+    cd C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved
+    % cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
     respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
     
@@ -25,14 +26,16 @@ if abs(T_new) < 0.001 % essentially, zero
     SaT_old = SaAbs(timePIndexOld, dampRatIndex);    
     
 % % find the PGA value (essentially, SaT_new)
-    cd C:\OpenSeesProcessingFiles\EQs
+cd C:\Users\sks\OpenSeesProcessingFiles\EQs    
+% cd C:\OpenSeesProcessingFiles\EQs
     timeHistoryFile = sprintf('SortedEQFile_(%i).txt', eqNumber);
     accnArray = load(timeHistoryFile);
     SaT_new = max(abs(min(accnArray)), abs(max(accnArray)));
     saRatNewToOld = SaT_new/SaT_old;
 
 else
-    cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+    cd C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved
+    % cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
     respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
     

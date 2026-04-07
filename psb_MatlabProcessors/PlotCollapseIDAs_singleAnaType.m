@@ -31,25 +31,26 @@
 function[void] = PlotCollapseIDAs_singleAnaType(idaInputs)
 
 analysisType = idaInputs.analysisType;
-eqNumberLIST = idaInputs.eqNumberLIST;
+% eqNumberLIST = idaInputs.eqNumberLIST;
 eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name;
+% eqNumberLIST_forCollapseIDAs = idaInputs.eqNumberLIST_forCollapseIDAs;
 markerTypeLine = idaInputs.markerTypeLine;
 markerTypeDot = idaInputs.markerTypeDot;
 isPlotIndividualPoints = idaInputs.isPlotIndividualPoints;
 collapseDriftThreshold = idaInputs.collapseDriftThreshold;
 isConvertToSaKircher = idaInputs.isConvertToSaKircher;
-
+eqNumberLIST = idaInputs.eqNumberLIST_forCollapseIDAs;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% This does collapse IDAs for a single analysisType
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Load the file that defines the relationship between Sa,goeMean and
+% Load the file that defines the relationship between Sa,geoMean and
 % Sa,Kricher at 1sec.
 DefineSaKircherOverSaGeoMeanValues
 
 % Input what max drift value you want on X axis for the plot
-maxXOnAxis = 0.08; %0.30;
+maxXOnAxis = 0.12; %0.30;
 figureNumAllComp = 1;           % Plot of results for all components
 figureNumControllingComp = 2;   % Plot of results for only controlling components
 ControllingCompNumLIST =[];
@@ -89,7 +90,7 @@ for eqInd = 1:(length(eqNumberLIST))
 %         collapseLevelForAllComp(eqCompInd) = collapseSaLevel;    % ALTER THIS TO BE BASED ON OUTPUT DATA!!!! % NOTICE: This is the value from when the collapse algorithm ran (at least it's still this way as of 3-14-05)
 %         collapseSaLevelCompOne = collapseSaLevel;
         
-    % Process the vector of IDA results to remove the results for singular or non-converegd records...
+    % Process the vector of IDA results to remove the results for singular or non-converged records...
         % Loop through the vectors from the file that was opened and only put the results in the 
         %   plot vector if they are converged (if it's not collapsed) and non-singular (if it's not collapsed)
         subLoopIndex = 1;
@@ -107,7 +108,7 @@ for eqInd = 1:(length(eqNumberLIST))
     
         end
     
-    % Plot - note that the psuedoTimeVector is from the file that was opened 
+    % Plot - note that the pseudoTimeVector is from the file that was opened 
         figure(figureNumAllComp);
 
 %         hold off
@@ -132,7 +133,7 @@ for eqInd = 1:(length(eqNumberLIST))
                 hold on
                 % Convert to Sa,Kircher if needed
                 if(isConvertToSaKircher == 0)
-                    % We want to use Sa,goeMean(T1), so do not do a conversion
+                    % We want to use Sa,geoMean(T1), so do not do a conversion
                     plot(maxDriftRatioForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
 %                     pause(0.25)
                 else
@@ -165,8 +166,8 @@ for eqInd = 1:(length(eqNumberLIST))
                 disp('******* Fixing error **************');
                 disp('***********************************');
                 toleranceAchieved
-                % If this error has occured, just take the Sa value just
-                % before the error and call this the collapse (the minimim
+                % If this error has occurred, just take the Sa value just
+                % before the error and call this the collapse (the minimum
                 % of the two values)
                 collapseLevelCompOne = min(abs(saLevelsForIDAPlotPROCLISTC1(index)), abs(saLevelsForIDAPlotPROCLISTC1(index - 1)));
             end
@@ -296,8 +297,8 @@ for eqInd = 1:(length(eqNumberLIST))
                 disp('******* Fixing error **************');
                 disp('***********************************');
                 toleranceAchieved
-                % If this error has occured, just take the Sa value just
-                % before the error and call this the collapse (the minimim
+                % If this error has occurred, just take the Sa value just
+                % before the error and call this the collapse (the minimum
                 % of the two values)
                 collapseLevelCompTwo = min(abs(saLevelsForIDAPlotPROCLISTC2(index)), abs(saLevelsForIDAPlotPROCLISTC2(index - 1)));
             end    
@@ -333,17 +334,17 @@ for eqInd = 1:(length(eqNumberLIST))
         
     %%%%%%%%%%%%% END: Loop for component 2 of the EQ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        
-    %%%%%%%%%%%%%% START: Find component that controls the buiding collapse capacity and plot this on the seconds plot
+    %%%%%%%%%%%%%% START: Find component that controls the building collapse capacity and plot this on the seconds plot
     
     % Find the EQ component that controls and plot the controlling component
     if(collapseLevelCompTwo > collapseLevelCompOne)
         temp = sprintf('EQ: %d - component 1 controls, SaCollapse = %0.2f', eqNumber, collapseLevelCompOne);
         disp(temp);
         
-        % Plot - note that the psuedoTimeVector is from the file that was opened 
+        % Plot - note that the pseudoTimeVector is from the file that was opened 
             figure(figureNumControllingComp);
             if(isConvertToSaKircher == 0)
-                % We want to use Sa,goeMean(T1), so do not do a conversion
+                % We want to use Sa,geoMean(T1), so do not do a conversion
                 plot(maxDriftRatioForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);
 %             pause(1)
             else
@@ -367,7 +368,7 @@ for eqInd = 1:(length(eqNumberLIST))
 
         % Save the collapse capacity for this controlling component
         collapseLevelForAllControlComp(eqInd) = collapseLevelCompOne;
-        ControllingCompNumLIST = [[ControllingCompNumLIST] (eqNumber*10+1)];    
+        ControllingCompNumLIST = [ControllingCompNumLIST (eqNumber*10+1)];    
             
             
     else
@@ -377,7 +378,7 @@ for eqInd = 1:(length(eqNumberLIST))
         % Plot - note that the psuedoTimeVector is from the file that was opened 
             figure(figureNumControllingComp);
             if(isConvertToSaKircher == 0)
-                % We want to use Sa,goeMean(T1), so do not do a conversion
+                % We want to use Sa,geoMean(T1), so do not do a conversion
                 plot(maxDriftRatioForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
             else
                 % We want to plot with Sa,Kircher(T=1s)
@@ -389,7 +390,7 @@ for eqInd = 1:(length(eqNumberLIST))
                 for i = 1:length(saLevelsForIDAPlotPROCLISTC2)
                     hold on
                     if(isConvertToSaKircher == 0)
-                        % We want to use Sa,goeMean(T1), so do not do a conversion
+                        % We want to use Sa,geoMean(T1), so do not do a conversion
                         plot(maxDriftRatioForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
                     else
                         % We want to plot with Sa,Kircher(T=1s)
@@ -403,7 +404,7 @@ for eqInd = 1:(length(eqNumberLIST))
         ControllingCompNumLIST = [[ControllingCompNumLIST] (eqNumber*10+2)];
     end
     
-    %%%%%%%%%%%%%% END: Find component that controls the buiding collapse capacity and plot this on the seconds plot
+    %%%%%%%%%%%%%% END: Find component that controls the building collapse capacity and plot this on the seconds plot
     clear collapseSaLevelCompOne collapseSaLevelCompTwo isCollapseLISTPROCC1 maxDriftRatioForPlotPROCLISTC1 saLevelsForIDAPlotPROCLISTC1 isCollapseLISTPROCC2 maxDriftRatioForPlotPROCLISTC2 saLevelsForIDAPlotPROCLISTC2 saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec;
 end
 
@@ -416,7 +417,7 @@ end
 
     % Convert to Sa,Kircher if needed
     if(isConvertToSaKircher == 0)
-        % We want to use Sa,goeMean(T1), so do not do a conversion
+        % We want to use Sa,geoMean(T1), so do not do a conversion
     else
         % OLD WITH ERROR - NO LOOP; we were just using the conversion from
         % the last EQ in the previous loop - totally wrong!
@@ -437,11 +438,11 @@ end
             collapseLevelForAllComp(eqInd) = collapseLevelForAllComp(eqInd) * (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
         end
         
-        % Loop for controling components
+        % Loop for controlling components
         for eqInd = 1:(length(eqNumberLIST))
             eqNumber = eqNumberLIST(eqInd);
             % Just use component one because we need a dummy component
-            % number to do the Kircher converstion later
+            % number to do the Kircher conversion later
             eqCompNumber = eqNumber * 10.0 + 1.0;
         
             saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat);
@@ -485,9 +486,9 @@ end
     end
 
         save(colFileName, 'analysisType', 'collapseLevelForAllComp', 'collapseLevelForAllControlComp', 'eqNumberLIST', 'meanCollapseSaTOneAllComp',...
-            'medianCollapseSaTOneAllComp', 'meanLnCollapseSaTOneAllComp', 'stDevCollapseSaTOneAllComp',...
-            'stDevLnCollapseSaTOneAllComp', 'meanCollapseSaTOneControlComp', 'medianCollapseSaTOneControlComp',...
-            'meanLnCollapseSaTOneControlComp', 'stDevCollapseSaTOneControlComp', 'stDevLnCollapseSaTOneControlComp', 'eqCompNumberLIST', 'ControllingCompNumLIST', 'periodUsedForScalingGroundMotions');
+            'medianCollapseSaTOneAllComp', 'meanLnCollapseSaTOneAllComp', 'stDevCollapseSaTOneAllComp','stDevLnCollapseSaTOneAllComp', 'meanCollapseSaTOneControlComp', ...
+            'medianCollapseSaTOneControlComp','meanLnCollapseSaTOneControlComp', 'stDevCollapseSaTOneControlComp', 'stDevLnCollapseSaTOneControlComp', 'eqCompNumberLIST', ...
+            'ControllingCompNumLIST', 'periodUsedForScalingGroundMotions');
 
 % Do final plot details - figure for all components
         figure(figureNumAllComp)

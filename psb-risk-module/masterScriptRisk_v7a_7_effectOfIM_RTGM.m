@@ -106,12 +106,17 @@ saveImpFactVsRisk = 1; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm';
 % For IMPORTANCE FACTOR paper, I have now defined target risks based on the chosen intensity measure. 
 
 %% NOTE- FOR RTGM, WE TARGET ONLY ONE ds. ERGO, dsLIST has just one ds in it.
-if ~exist('targetRiskBasedOnRecommendedRisk', 'var'); targetRiskBasedOnRecommendedRisk= 0; end
-if ~exist('targetRiskBasedOnMeanRisk', 'var'); targetRiskBasedOnMeanRisk = 0; end
+if ~exist('targetRiskBasedOnRecommendedRisk', 'var') 
+    targetRiskBasedOnRecommendedRisk= 0; 
+end
+if ~exist('targetRiskBasedOnMeanRisk', 'var') 
+    targetRiskBasedOnMeanRisk = 0; 
+end
 
 % targetRiskRatio = [1; 1/2; 1/4; 1/10; 1/20];
 % targetRiskRatio = [1; 1/1.5; 1./(2:10)']; % risk ratio of 1.5, 2, 3, ..., 10 
 targetRiskRatio = [1; 1/1.5; 1./(2:0.5:10)']; % risk ratio of 1.5, 2, 3, ..., 10 
+disp(targetRiskRatio)
 
 % (1/2) In the following conditional, targets are (\mu + \sigma) rounded up values. Ones, that we recommend as code-level risk. 
 if targetRiskBasedOnRecommendedRisk == 1
@@ -227,7 +232,7 @@ if saveImpFactVsRisk == 1
     hgsave(exportNamePlot); print('-depsc', exportNamePlot);
     print('-dmeta', exportNamePlot); print('-djpeg', exportNamePlot); cd(baseFolder);
 else
-%     close;
+%     close;`
 
 dsForBeyondCode = {'2211_CP'; '2211_LS'; '2211_IO'; '2213_CP'; '2213_LS'; '2213_IO'; '2215_CP'; '2215_LS'; '2215_IO'; 
                    '2219_CP'; '2219_LS'; '2219_IO'; '2221_CP'; '2221_LS'; '2221_IO'; '2223_CP'; '2223_LS'; '2223_IO'};

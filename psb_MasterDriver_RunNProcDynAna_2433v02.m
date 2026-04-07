@@ -33,7 +33,7 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 0.71;   % Note 1) input the proper period for scaling the ground motions for the building you would 
+    periodUsedForScalingGroundMotions = 1.84;   % Note 1) input the proper period for scaling the ground motions for the building you would 
                                                 % like to run (haselton used T1)
                                                 % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
                                                 % plots to do not use this as input; they open the files that Opensees creates 
@@ -44,7 +44,7 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'MSA';
+IDA_or_MSA = 'IDA';
     
     eqListID = 'setC';  
     % eqListID = 'setD' ;
@@ -54,18 +54,18 @@ IDA_or_MSA = 'MSA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        0           0         0              0               1];
+    analyzeProcessPlotIndex = [1        1        1           1         0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         
-	extraSecondsToRunAnalysis = 8.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
+	extraSecondsToRunAnalysis = 0.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
                                         % can as well be kept zero if conventional collapse analysis is being performed.
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.12;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -168,30 +168,30 @@ isCollapsedForEachRun = false;   % or true (depending on logic)
 
 switch eqListID
     case 'setC'
-        eqNumberLIST = eqNumberLIST_forProcessing_SetC;                    eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetC;            flagForEQFileFormat = flagForEQFileFormat_SetC;
-        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetC;
-        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;      eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
-    case 'setD'
-        eqNumberLIST = eqNumberLIST_forProcessing_SetD;                    eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetD;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetD;            flagForEQFileFormat = flagForEQFileFormat_SetD;
-        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetD;        
-        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;      eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetD;
-    case 'setDNotC'
-        eqNumberLIST = eqNumberLIST_forProcessing_SetDNotC;                eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetDNotC;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetDNotC;        flagForEQFileFormat = flagForEQFileFormat_SetDNotC;
-        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetDNotC;
-        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetDNotC;  eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetDNotC;
-    case 'setG'
-        eqNumberLIST = eqNumberLIST_forProcessing_SetG;                    eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetG;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetG;            flagForEQFileFormat = flagForEQFileFormat_SetG;
-        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetG;        
-        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;      eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetG;
-    case 'setTest'
-        eqNumberLIST = eqNumberLIST_forProcessing_SetTest;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetTest;
-        eqFormatForCollapseList = eqFormatForCollapseList_SetTest;         flagForEQFileFormat = flagForEQFileFormat_SetTest;
-        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;        
-        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
+        eqNumberLIST = eqNumberLIST_forProcessing_SetC;                     eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetC;             flagForEQFileFormat = flagForEQFileFormat_SetC;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetC; 
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;       eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
+    case 'setD' 
+        eqNumberLIST = eqNumberLIST_forProcessing_SetD;                     eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetD;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetD;             flagForEQFileFormat = flagForEQFileFormat_SetD;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetD;         
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetD;       eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetD;
+    case 'setDNotC' 
+        eqNumberLIST = eqNumberLIST_forProcessing_SetDNotC;                 eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetDNotC;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetDNotC;         flagForEQFileFormat = flagForEQFileFormat_SetDNotC;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetDNotC; 
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetDNotC;   eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetDNotC;
+    case 'setG' 
+        eqNumberLIST = eqNumberLIST_forProcessing_SetG;                     eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetG;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetG;             flagForEQFileFormat = flagForEQFileFormat_SetG;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetG;         
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetG;       eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetG;
+    case 'setTest' 
+        eqNumberLIST = eqNumberLIST_forProcessing_SetTest;                  eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetTest;
+        eqFormatForCollapseList = eqFormatForCollapseList_SetTest;          flagForEQFileFormat = flagForEQFileFormat_SetTest;
+        eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;         
+        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;    eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
 
 end
 
@@ -282,6 +282,7 @@ if analyzeProcessPlotIndex(3) == 1
         isProcessMultipleCollapseRuns = 0;
         isPlotCollapseIDAs = 1;
         isPlotCollapseMSAs = 1;
+        idaInputs.isPlotCollapseIDAs =  isPlotCollapseIDAs;
         msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
         isCollapsedForEachRun = 0;
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.

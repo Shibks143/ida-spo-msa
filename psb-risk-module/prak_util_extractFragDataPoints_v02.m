@@ -31,8 +31,7 @@ else
         if isempty(ix)
             saT_old_AllComp(eqIndex) = saLevels(end);
         else
-            saT_old_AllComp(eqIndex) = interp1([maxDriftRatio(ix-1), maxDriftRatio(ix)], ...
-                                                     [saLevels(ix-1), saLevels(ix)], newStoryDrift, 'pchip');
+            saT_old_AllComp(eqIndex) = interp1([maxDriftRatio(ix-1), maxDriftRatio(ix)],[saLevels(ix-1), saLevels(ix)], newStoryDrift, 'pchip');
         end
 
         if eqIndex == 1 % loading only once

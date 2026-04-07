@@ -94,7 +94,7 @@ isConvertToSaKircher = idaInputs.isConvertToSaKircher;
         'meanCollapseSaTOneAllComp', 'meanLnCollapseSaTOneAllComp',...
         'stDevCollapseSaTOneAllComp', 'stDevLnCollapseSaTOneAllComp', 'periodUsedForScalingGroundMotions')
     
-% Some calulations
+% Some calculations
     numEQs = length(collapseLevelForAllComp);
         
 % Sort the vector of collapse capacities so that it is monotonically

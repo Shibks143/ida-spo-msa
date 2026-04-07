@@ -130,7 +130,7 @@ end
 
 %% 0. calculations begin
 baseFolder = pwd;
-%% 0. Assign MIDR and some beta values for fragiliy
+%% 0. Assign MIDR and some beta values for fragility
     betaDR = 0.20; % (6-6-19, PSB) SMRF- design requirements. 'Good' for SMRF (see Sec 6.2 of Denavit et al., 2016)
     betaMDL = 0.20; % (6-6-19, PSB) modeling; good; index model capturing full range of archetype design space
 switch ds
@@ -512,7 +512,7 @@ for locID = 1:size(latLonLIST, 1)
             interv = 2.0001; % 2 or 2.1 depending on if we want space between two vertical plots
             
             % use this for six buildings
-            if 1 == 0
+            if 1 == 1
                 switch bldgIdCurr
                     case '2211v03_sca2'; impFacAll = impFacAll + 0;
                     case '2213v04_sca2'; impFacAll = impFacAll + 1*interv;
@@ -525,7 +525,7 @@ for locID = 1:size(latLonLIST, 1)
             end
             
             % use this for two buildings
-            if 1 == 1
+            if 1 == 0
                 switch bldgIdCurr
                     case '2213v04_sca2'; impFacAll = impFacAll + 0;
                     case '2221v06_sca2'; impFacAll = impFacAll + 1*interv;

@@ -31,6 +31,7 @@ analysisTypeLIST = idaInputs.analysisTypeLIST;
 % Loop and do for all types of analysis
 for analysisTypeIndex = 1:length(analysisTypeLIST)
     analysisType = analysisTypeLIST{analysisTypeIndex};
+    idaInputs.analysisType =analysisType;
 
     % Call the function to do the collapse IDAs for a single analysisType
     PlotCollapseIDAs_singleAnaType(idaInputs);
