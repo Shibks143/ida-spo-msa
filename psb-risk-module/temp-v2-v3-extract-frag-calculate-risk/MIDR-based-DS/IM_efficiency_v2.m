@@ -1,42 +1,32 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Use script scriptForFragilityDataGen_v3 to generate the   %%%
+%%% Use script scriptForFragilityDataGen_v2 to generate the   %%%
 %%% DATA_fragility_ALL.mat for all intensity measures, Sa(Tj) %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-close all; clear; tic; 
+clear;
+tic
 baseFolder = pwd;
 %% Start of input
-% dsToPlotFragParam = {'CP', 'LS', 'IO'};%, 'DynInst'};
-dsToPlotFragParam = {'DynInst','CP','LS','IO'};
-% dsToPlotFragParam = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};%, 'DynInst'};
-dsLegForPlot = {'CP','LS','IO','DynInst'};
-% dsLegForPlot = {'DS4', 'DS3', 'DS2', 'DS1'};
-dsToPlotBound     = {'LS'}; %,  'DynInst','CP','LS','IO', one damage state at a time here.    
-
-BldgIdAndZoneLIST = {'2433v02', 'V';};
-    % '2211v03',	'IV';  	'2213v04',	'IV';  	'2215v03',	'IV'; % 2, 4, 7-story zone-IV
-    % '2219v03',  'V';    '2221v06',   'V';   '2223v03',   'V';}; % 2, 4, 7-story zone-V
-
+dsToPlotFragParam = {'CP', 'LS', 'IO'};%, 'DynInst'};
+dsToPlotBound = {'CP'}; %, 'LS', 'IO', 'DynInst'}; % one damage state at a time here. 
+BldgIdAndZoneLIST = {
+%     '2205v03',  'III';  '2207v09',	'III';	'2209v05',	'III'; ... % 4, 7, 12-story zone-III
+    '2213v04',	'IV';   '2215v03',	'IV';   '2217v03',	'IV';%};  ... % 4, 7, 12-story zone-IV
+    '2221v06',	'V';    '2223v03',	'V';    '2225v03',	'V'};      % 4, 7, 12-story zone-V
+% BldgIdAndZoneLIST = {'2221v06',	'V';    '2223v03',	'V';    '2225v03',	'V'};      % 4, 7, 12-story zone-V
+    
 cd DATA_files
-load('DATA_fragility_ALL');
-% load('DATA_fragility_Dayala_ALLbldg');
+load('DATA_fragility_ALL')
 cd ..
 bldgIdLIST = [];
 
-doPlotFragMedian = 1; % plot variation in median fragility parameter with the period of vibration
+doPlotFragMedian = 0; % plot variation in median fragility parameter with the period of vibration
 doPlotFragDispers = 1; % plot variation in dispersion fragility parameter with the period of vibration
-doPlotFragBound = 1; % plot the bounds of fragility with the period of vibration
-
-% reviewer-1 comment no. 8 for MultPerf paper in EESD, adding a vertical line for T1 in IM-efficiency figures
-doPlotT1LinesInFragDisp = 1; 
-T1LIST = [1.84]';
-% T1LIST = [1.06, 1.72, 2.55, 0.96, 1.55, 2.39]';
-
-saveMedianDispersionBound = [1 1 1]; 
-figDir = 'FIGURES_revB_C\IM_efficiency_figures_NewDS_Dayala_revC_R1';
+doPlotFragBound = 0; % plot the bounds of fragility with the period of vibration
+saveMedianDispersionBound = [0 1 0]; 
 
 % for plotting fragility params with bound
 UBPercentile = 0.84; LBPercentile = 1 - UBPercentile ;
@@ -63,9 +53,11 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         muCtrl(:, j) = muCtrlAllDs(:, dsMatchID);
         betaRTRCtrl(:, j) = betaRTRCtrlAllDs(:, dsMatchID);
     end
+        
+    
     
 %% create a subset of betaRTR that we maybe interested in, for optimizing betaRTR 
-    betaRTRCtrlSub = betaRTRCtrl(timePLIST <= 5.0, :);
+    betaRTRCtrlSub = betaRTRCtrl(timePLIST <= 2.0, :);
     [M, I] = min(betaRTRCtrlSub);
     
     betaRTRCtrlMin(i, :) = M; % dispersion in the fragility for efficient intensity measure 
@@ -80,116 +72,90 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         for k = 1:size(dsToPlotFragParam, 2)
             plot(timePLIST, muCtrl(:, k), lineStyleList{1, k}, 'LineWidth', 1.5); hold on; grid on;
         end
-        hleg = legend(dsLegForPlot);
-        hx = xlabel('$T_j$ (s)','Interpreter','latex');
-        hy = ylabel('$\mu_{ds,Sa(T_j)}$ (g)','Interpreter','latex');
-        % hx = xlabel('Period, Ti (s)'); hy = ylabel('\mu_{ds,SaTi} (g)');
+%         hleg = legend('CP', 'LS', 'IO', 'DynInst');
+        hleg = legend(dsToPlotFragParam);
+        hx = xlabel('Period, Ti (s)'); hy = ylabel('\mu_{ds,SaTi} (g)');
         psb_FigureFormatScript_forReport
         if saveMedianDispersionBound(1) == 1
-            cd(figDir)
-            exportName = sprintf('F7%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
-            savefig(exportName); % .fig file for Matlab
+            cd IM_efficiency_figures
+            exportName = sprintf('F6%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
+            hgsave(exportName); % .fig file for Matlab
             print('-depsc', exportName); % .eps file for Linux (LaTeX)
             print('-dmeta', exportName); % .emf file for Windows (MSWORD)
             print('-dpng', exportName); % .png file for small sized files
             print('-djpeg', exportName); % .jpeg file for small sized files
             print('-djpeg', [exportName '_r300'], '-r300');
-            cd(baseFolder)
+            cd ..
         end
     end
-
     if doPlotFragDispers == 1
         figure(100+i); 
         for k = 1:size(dsToPlotFragParam, 2)
-            plot(timePLIST, betaRTRCtrl(:, k), lineStyleList{1, k}, 'LineWidth', 2); hold on; grid on;
+            plot(timePLIST, betaRTRCtrl(:, k), lineStyleList{1, k}, 'LineWidth', 1.5); hold on; grid on;
         end
-        hleg = legend(dsLegForPlot);    
-        ylim([0.1 0.9]);
+%         hleg = legend('CP', 'LS', 'IO', 'DynInst');
+        hleg = legend(dsToPlotFragParam);    
+   
+        ylim([0.2 0.9]);
 %         hx = xlabel('Period, $T_j (s)$'); hy = ylabel('$\beta_{RTR,ds,SaT_j}$');
         hx = xlabel('$T_j $ (s)', 'Interpreter', 'latex'); 
         hy = ylabel('$\beta_{RTR,ds,Sa(T_j)}$', 'Interpreter', 'latex');
         
-        if doPlotT1LinesInFragDisp == 1
-            plot(T1LIST(i)*[1, 1], [0.1 0.899], 'k-', 'LineWidth', 1.25, 'HandleVisibility','off');
-            % plot(T1LIST(i)*[1, 1], [0.1 0.899], 'k-', 'LineWidth', 1.25);
-        end
-        psb_FigureFormatScript_paper
-        
+        psb_FigureFormatScript_forReport
         if saveMedianDispersionBound(2) == 1
-            cd(figDir)
-            exportName = sprintf('F7%s_IMefficiency_betaRTRSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
-            savefig(exportName); % .fig file for Matlab
+            cd IM_efficiency_figures
+            exportName = sprintf('F6%s_IMefficiency_betaRTRSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
+            hgsave(exportName); % .fig file for Matlab
             print('-depsc', exportName); % .eps file for Linux (LaTeX)
             print('-dmeta', exportName); % .emf file for Windows (MSWORD)
 %             print('-dpng', exportName); % .png file for small sized files
 %             print('-djpeg', exportName); % .jpeg file for small sized files
             print('-djpeg', [exportName '_r300'], '-r300');
-            cd(baseFolder)            
+            cd ..            
         end
 
 
         % COV for log-normal distribution is defined as sqrt(exp(\sig_ln^2-1)) 
         % which is monotonically increasing with \sig_ln. In other words, 
-        % comparison of \sig_ln directly is as good as comparing COV. 
-        % figure(200+i); plot(timePLIST, betaRTRCtrl./muCtrl); hold on;
-        % hleg = legend('CP', 'LS', 'IO', 'DynInst');
-        % hx = xlabel('Period, T1 (s)'); hy = ylabel('COV_{SaT1}');
-        % psb_FigureFormatScript_forReport
+        % comparison of \sig_ln direcly is as good as comparing COV. 
+%         figure(200+i); plot(timePLIST, betaRTRCtrl./muCtrl); hold on;
+%         hleg = legend('CP', 'LS', 'IO', 'DynInst');
+%         hx = xlabel('Period, T1 (s)'); hy = ylabel('COV_{SaT1}');
+%         psb_FigureFormatScript_forReport
     end
     
     if doPlotFragBound == 1
-        dsID = find(strcmp(ds, dsToPlotBound{1}),1);
-        % dsID = strcmp(ds, dsToPlotBound);
+        dsID = strcmp(ds, dsToPlotBound);
         muCtrlDs = muCtrlAllDs(:, dsID); % muCtrl corresponding to dsToPlot
         betaRTRCtrlDs = betaRTRCtrlAllDs(:, dsID); % betaRTRCtrl corresponding to dsToPlot
+
         IM_UB = muCtrlDs .* exp(betaRTRCtrlDs*UBEps); % intensity measure value with upper bound
         IM_LB = muCtrlDs .* exp(betaRTRCtrlDs*LBEps); % intensity measure value with lower bound
-        figure(200+i); 
-       
-        % shaded region (light blue)
-        hshade = shade(timePLIST, IM_UB, timePLIST, IM_LB);
-        set(hshade,'FaceColor',[0.75 0.85 1],'FaceAlpha',0.5,'EdgeColor','none');
-        % shade(timePLIST, IM_UB, timePLIST, IM_LB,'FillType', [1 2;2 1]);
-        hold on; grid on;
-    
-        % median (dark blue)
-        h(1) = plot(timePLIST, muCtrlDs, 'Color',[0 0.2 0.8],'LineWidth',2);
-        % upper bound (red dashed)
-        h(2) = plot(timePLIST, IM_UB, '--','Color',[0.9 0 0],'LineWidth',1.5);
-        % lower bound (red dashed)
-        h(3) = plot(timePLIST, IM_LB, '--','Color',[0.9 0 0],'LineWidth',1.5);
-        legend([h(1), h(2)], 'Median', '\pm 1 \sigma');
-        hx = xlabel('$T_j$ (s)','Interpreter','latex');
-        hy = ylabel('$\mu_{Sa(T_j)}$ (g)','Interpreter','latex');
-        % hx = xlabel('Period, T_i (s)');
-        % hy = ylabel('\mu_{SaTi} (g)');
+        figure(300+i); 
+        shade(timePLIST, IM_UB, timePLIST, IM_LB,'FillType', [1 2;2 1]); hold on; grid on;
+        h(1) = plot(timePLIST, muCtrlDs, 'k-'); 
+        h(2) = plot(timePLIST, IM_UB, 'k--');
+        h(3) = plot(timePLIST, IM_LB, 'k--');
+        hleg = legend([h(1), h(2)], 'Median', '\pm 1 \sigma');
+        hx = xlabel('Period, Ti (s)'); hy = ylabel('\mu_{SaTi} (g)');
         title(['Damage State = ', dsToPlotBound{1}]);
-       
-        % h(1) = plot(timePLIST, muCtrlDs, 'k-'); 
-        % h(2) = plot(timePLIST, IM_UB, 'k--');
-        % h(3) = plot(timePLIST, IM_LB, 'k--');
-        % hleg = legend([h(1), h(2)], 'Median', '\pm 1 \sigma');
-        % hx = xlabel('Period, Ti (s)'); hy = ylabel('\mu_{SaTi} (g)');
-        % title(['Damage State = ', dsToPlotBound{1}]);
         psb_FigureFormatScript_forReport
-       
         if saveMedianDispersionBound(3) == 1
-            cd(figDir)
-            exportName = sprintf('F7%s_IMefficiency_muSaTi%s_%i_%s_v1', 96+i, dsToPlotBound{1, 1}, i, bldgIdCurr);
-            savefig(exportName); % .fig file for Matlab
+            cd IM_efficiency_figures
+            exportName = sprintf('F6%s_IMefficiency_muSaTi%s_%i_%s_v1', 96+i, dsToPlotBound{1, 1}, i, bldgIdCurr);
+            hgsave(exportName); % .fig file for Matlab
             print('-depsc', exportName); % .eps file for Linux (LaTeX)
             print('-dmeta', exportName); % .emf file for Windows (MSWORD)
             print('-dpng', exportName); % .png file for small sized files
             print('-djpeg', exportName); % .jpeg file for small sized files
             print('-djpeg', [exportName '_r300'], '-r300');
-            cd(baseFolder)            
+            cd ..            
         end
     end
 
+    
 end
-   T = table(string(bldgIdLIST), muCtrlEff, betaRTRCtrlMin, timePEff); 
-    disp(T); 
+    T = table(bldgIdLIST, muCtrlEff, betaRTRCtrlMin, timePEff);
+    disp(T)
     cd(baseFolder)
     toc
-
-   
