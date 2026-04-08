@@ -5,3 +5,6 @@ HazardAnalysis/
 randomPractice/
 masterCopy.xlsx
 *.asv
+~$*.xls
+~$*.xlsx
+~$*.xlsm

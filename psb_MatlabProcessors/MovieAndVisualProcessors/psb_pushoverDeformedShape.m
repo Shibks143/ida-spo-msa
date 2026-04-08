@@ -233,7 +233,7 @@ for bldgIndex = 1:length(bldgID_LIST)
    cd(analysisDir)
 
    exportName = sprintf('PushoverDeformedShape_%s_%s', pushoverStepNameIdentifier, modelName);
-   hgsave([exportName '.fig']); % .fig file for Matlab % model names may contain period
+   savefig([exportName '.fig']); % .fig file for Matlab % model names may contain period
    print('-depsc', [exportName '.eps']); % .eps file for Linux (LaTeX)
 %    print('-djpeg', exportName); % .jpeg file for small sized files
    print('-djpeg', [exportName '.jpeg'], '-r300');

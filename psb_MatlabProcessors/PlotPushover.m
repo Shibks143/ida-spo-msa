@@ -315,7 +315,7 @@ end
                                % treat the remianing as extension and commands below don't work 
                                % unless you type the extensions explicitly.
         exportName = sprintf('Pushover_Num_%d_%s', eqNumber, modifiedAnaType);
-        hgsave(exportName); % .fig file for Matlab
+        savefig(exportName); % .fig file for Matlab
         print('-dmeta', exportName); % .emf file for Windows (MSWORD)
         print('-depsc', exportName); % .eps file for Linux (LaTeX)
 

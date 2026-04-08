@@ -1,0 +1,116 @@
+
+
+         OpenSees -- Open System For Earthquake Engineering Simulation
+                 Pacific Earthquake Engineering Research Center
+                        Version 3.8.0 64-Bit
+
+      (c) Copyright 1999-2016 The Regents of the University of California
+                              All Rights Reserved
+  (Copyright and Disclaimer @ http://www.berkeley.edu/OpenSees/copyright.html)
+
+
+Wiped
+Variables defined 
+
+
+ Functions defined 
+
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+
+ Analysis options are set 
+
+Check: Gravity Load Applied!
+
+ Model is set up 
+
+Current Directory is: C:/Users/psb/Downloads/GitHub/ida-spo-msa
+CHECK: Running Eigen Analysis for Matlab
+Starting eigen analysis
+Did first eigen analysis
+Starting eigen Vector analysis
+numLevels is 6
+Determined eigen Vectors.
+
+ Wiped 
+
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+Running Pushover...
+Re-Setting up the model...
+Functions re-defined
+Variables re-defined
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+Analysis options are re-set
+Check: Gravity Load Applied!
+Model is re-set up
+Defining element local force recorders...
+Defining element global force recorders...
+Defining joint recorders...
+Defining hinge element recorders...
+Pushover loading started...
+PO Solution Algorithm: Cordova
+WARNING analysis Static - no Integrator specified, 
+ StaticIntegrator default will be used
+Prakash 1 
+Prakash 2 
+Current displacement is:             20.35842891667218523821
+Current displacement is:             50.31037101872298222816
+Current displacement is:             80.26231312077379698167
+Current displacement is:            270.17757758815628221782
+Current displacement is:            290.37851222339008927520
+Current displacement is:            380.16044393554034286353
+Current displacement is:            400.36137857077414992091
+Current displacement is:            590.02570931269156062626
+Current displacement is:            600.12617663030846415495
+Current displacement is:            610.22664394792536768364
+Current displacement is:            620.32711126554227121233
+Current displacement is:            630.42757858315917474101
+Current displacement is:            660.03687494670032265276
+Current displacement is:            670.02475047482641912211
+Current displacement is:            680.02306167359756727819
+Current displacement is:            690.02137287236871543428
+Current displacement is:            700.01968407113986359036
+Current displacement is:            710.01799526991101174644
+Current displacement is:            720.01630646868215990253
+Current displacement is:            730.01461766745330805861
+Current displacement is:            740.01292886622445621470
+Current displacement is:            750.01124006499560437078
+Current displacement is:            760.00955126376675252686
+Current displacement is:            770.00786246253790068295
+Current displacement is:            780.00617366130904883903
+Current displacement is:            790.00448486008019699511
+Current displacement is:            800.00279605885134515120
+Current displacement is:            810.03360176901674094552
+Current displacement is:            820.15689185776773229009
+Current displacement is:            830.07771614474370380776
+Current displacement is:            840.04282982585743866366
+Current displacement is:            850.03641526034152775537
+Current displacement is:            860.03000069482561684708
+Current displacement is:            870.02358612930970593879
+Current displacement is:            880.01717156379379503051
+Current displacement is:            890.01075699827788412222
+Current displacement is:            900.00434243276197321393
+Current displacement is:            910.08334312736985793890
+Current displacement is:            920.07692856185394703061
+Current displacement is:            930.07051399633803612232
+Current displacement is:            940.06409943082212521404
+Current displacement is:            950.05768486530621430575
+Current displacement is:            960.00002114371602601750
+Current displacement is:            970.01522731592046966398
+Current displacement is:            980.00400814202396304609
+Current displacement is:            990.05765118128397261898
+Current displacement is:           1000.04643200738746600109
+Current displacement is:           1010.03521283349095938320
+Current displacement is:           1020.02399365959445276530
+Current displacement is:           1030.01277448570840533648
+Current displacement is:           1040.00155531182940649160
+MaxDisp is 1043.306776841477. We reached           1043.30952818281753025076
+Time Duration for Pushover analysis: 0.15 minutes
+(9-19-15) Not performing post-EQ eigen analysis- PSB
+Wiped
+CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)
+findgroundDispl is 1.0
+Wiped
+Wiped
