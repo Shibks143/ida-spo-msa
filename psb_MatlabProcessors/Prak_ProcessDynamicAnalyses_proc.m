@@ -23,7 +23,6 @@ isPlotCollapseIDAs = idaInputs.isPlotCollapseIDAs;
 % Plot IDAs - both horizontal components
     if(isPlotCollapseIDAs == 1)
         PlotCollapseIDAs(idaInputs);
-        % For old Benchmark runs
         %PlotCollapseIDAs_withFixToPlotSaGeoMean(analysisTypeLIST, eqNumberLIST_forCollapseIDAs, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold);
         disp('Plot Collapse IDAs - DONE')
     end

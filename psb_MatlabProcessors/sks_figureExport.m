@@ -23,10 +23,10 @@ set(fig,'PaperPositionMode','auto');
 savefig(fig, [exportName '.fig']);
 
 % ---- EPS (Journal-quality vector) ----
-print(fig, [exportName '.eps'], '-depsc2', '-vector');
+print(fig, [exportName '.eps'], '-depsc2', '-painters');
 
 % ---- PDF (Journal-quality vector) ----
-print(fig, [exportName '.pdf'], '-dpdf', '-vector');
+print(fig, [exportName '.pdf'], '-dpdf', '-painters');
 
 % ---- High-resolution PNG (600 dpi) ----
 print(fig, [exportName '.png'], '-dpng', '-r600');
@@ -41,3 +41,5 @@ print(fig, [exportName '.emf'], '-dmeta');
 close(fig);
 
 end
+
+

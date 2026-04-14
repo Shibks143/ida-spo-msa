@@ -12,7 +12,7 @@ fragDataFileName = sprintf('DATA_fragility_ALL');
 % imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
 timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
 
-dsLIST = {'CP', 'LS', 'IO', 'DynInst'};
+dsLIST = {'DynInst','CP', 'LS', 'IO'};
 BldgIdAndZoneLIST = {	
 %     '2205v03',  'III';  '2207v09',	'III';	'2209v05',	'III';}: ... % 4, 7, 12-story zone-III
 %     '2213v04',	'IV';   '2215v03',	'IV';   '2217v03',	'IV';}:  ... % 4, 7, 12-story zone-IV
@@ -24,7 +24,7 @@ BldgIdAndZoneLIST = {
 %     '2219v03_sca2', 'V'; };
 %     '2221v06_sca2', 'V'; };
 %     '2223v03_sca2', 'V'; };
-      '2433v02_sca2', 'V'; };
+      '2433v02', 'V'; };
 
 
 eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];

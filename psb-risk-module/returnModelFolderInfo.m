@@ -13,7 +13,7 @@ switch buildingID
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Most updated Multi-objective Risk-targeted Seismic Design framework paper %%%%%%%%%%%
     
-    case '2433v02_sca2'
+    case '2433v02'
         modelFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\ID2433_R5_5Story_v.02';
         analysisTypeFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
         VBAfileNameWithLocation = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\VBA_MODEL_FILES\2433v02_20260113General Excel Sheet-v22 (allInclusive).xlsm';

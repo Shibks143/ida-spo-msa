@@ -39,7 +39,7 @@ switch formatMode
         axisNumberFontSize = 20;
         legendTextFontSize = 20;   % changed on 12-Mar-2026, just to check (old size =14)
         titleFontSize      = 20;   % changed on 12-Mar-2026, just to check (old size =14)
-        axisLineWidth      = 1.5;
+        axisLineWidth      = 1.0;
 
     case 'report'
         xAxisLabelFontSize = 14;
@@ -67,7 +67,12 @@ ax  = gca;
 
 % -------- Axes Base Formatting --------------------
 set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
-grid(ax,'off')
+grid(ax,'on')
+ax.GridAlpha = 0.2;
+ax.XMinorTick = 'off';
+ax.YMinorTick = 'off';
+ax.XMinorGrid = 'off';
+ax.YMinorGrid = 'off';
 
 % -------- X Label ---------------------------------
 if isgraphics(ax.XLabel)
@@ -79,7 +84,7 @@ if isgraphics(ax.YLabel)
     set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
 end
 
-% -------- Z Label --------------------------------- c 
+% -------- Z Label --------------------------------- c
 if isgraphics(ax.ZLabel)
     set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
 end
@@ -92,7 +97,7 @@ end
 % -------- Legend ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
-    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','off','Location','southeast');
+    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','off','Location','northeast');
 end
 
 end

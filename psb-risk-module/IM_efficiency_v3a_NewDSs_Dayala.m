@@ -10,10 +10,10 @@ close all; clear; tic;
 baseFolder = pwd;
 %% Start of input
 % dsToPlotFragParam = {'CP', 'LS', 'IO'};%, 'DynInst'};
-dsToPlotFragParam = {'DynInst','CP','LS','IO'};
-% dsToPlotFragParam = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};%, 'DynInst'};
-dsLegForPlot = {'CP','LS','IO','DynInst'};
-% dsLegForPlot = {'DS4', 'DS3', 'DS2', 'DS1'};
+% dsToPlotFragParam = {'DynInst','CP','LS','IO'};
+dsToPlotFragParam = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};%, 'DynInst'};
+% dsLegForPlot = {'CP','LS','IO','DynInst'};
+dsLegForPlot = {'DS4', 'DS3', 'DS2', 'DS1'};
 dsToPlotBound     = {'LS'}; %,  'DynInst','CP','LS','IO', one damage state at a time here.    
 
 BldgIdAndZoneLIST = {'2433v02', 'V';};

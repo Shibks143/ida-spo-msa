@@ -39,7 +39,7 @@ T_ctrl_xi = T_all_chi;
 for i = 1:size(bldgIDLIST, 2)
     bldgID_curr = bldgIDLIST{1, i}; % current building ID
 %    cd H:\DamageIndex\Automated
-	cd ..\..\..\DamageIndex\Automated
+	% cd ..\..\..\DamageIndex\Automated
 
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID_curr);
     cd(analysisTypeFolder);

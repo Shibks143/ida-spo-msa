@@ -56,6 +56,12 @@ figureNumControllingComp = 2;   % Plot of results for only controlling component
 ControllingCompNumLIST =[];
 dampRat = 0.05; % This is used when converting to Sa,Kircher
 
+% %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% targetDrifts = [0.01 0.02 0.04];   % 1%, 2%, 4%
+% saValsAtTargetDrift = nan(2*length(eqNumberLIST), length(targetDrifts));
+% pdfIndex = 1;
+% %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Initialize a vector - twice as long as the eqNumerLIST b/c I do two comp. per EQ
 collapseLevelForAllComp = zeros(1,(2.0*length(eqNumberLIST)));   
 collapseLevelForControllingComp = zeros(1,(length(eqNumberLIST)));   
@@ -201,6 +207,26 @@ for eqInd = 1:(length(eqNumberLIST))
         
         eqCompInd = eqCompInd + 1;
         
+
+    % %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % for driftIdx = 1:length(targetDrifts)
+    %     driftTarget = targetDrifts(driftIdx);
+    % 
+    %     if max(maxDriftRatioForPlotPROCLISTC1) >= driftTarget
+    %         % sort drift (required for interp1)
+    %         [driftSorted, idx] = sort(maxDriftRatioForPlotPROCLISTC1);
+    %         saSorted = saLevelsForIDAPlotPROCLISTC1(idx);
+    % 
+    %         % interpolate Sa at fixed drift
+    %         saValsAtTargetDrift(pdfIndex,driftIdx) = interp1(driftSorted, saSorted, driftTarget);
+    %     end
+    % end
+    % 
+    % pdfIndex = pdfIndex + 1;
+    % 
+    % %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+        
     %%%%%%%%%%%%% END: Loop for component 1 of the EQ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%%%%%%%%%%% START: Loop for component 2 of the EQ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -331,6 +357,22 @@ for eqInd = 1:(length(eqNumberLIST))
         cd psb_MatlabProcessors;
         
         eqCompInd = eqCompInd + 1;
+
+    % %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % for driftIdx = 1:length(targetDrifts)
+    %     driftTarget = targetDrifts(driftIdx);
+    % 
+    %     if max(maxDriftRatioForPlotPROCLISTC2) >= driftTarget
+    %         [driftSorted,idx] = sort(maxDriftRatioForPlotPROCLISTC2);
+    %         saSorted = saLevelsForIDAPlotPROCLISTC2(idx);
+    %         saValsAtTargetDrift(pdfIndex,driftIdx) = interp1(driftSorted, saSorted, driftTarget);
+    % 
+    %     end
+    % end
+    % 
+    % pdfIndex = pdfIndex + 1;
+    % 
+    % %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
         
     %%%%%%%%%%%%% END: Loop for component 2 of the EQ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        
@@ -490,7 +532,91 @@ end
             'medianCollapseSaTOneControlComp','meanLnCollapseSaTOneControlComp', 'stDevCollapseSaTOneControlComp', 'stDevLnCollapseSaTOneControlComp', 'eqCompNumberLIST', ...
             'ControllingCompNumLIST', 'periodUsedForScalingGroundMotions');
 
-% Do final plot details - figure for all components
+
+        
+    % %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+    % fprintf('\nSa values at fixed drift levels\n')
+    % fprintf('---------------------------------\n')
+    % 
+    % saValsAtTargetDriftMat = saValsAtTargetDrift';   % transpose (rows = drift)
+    % driftPercent = targetDrifts*100;
+    % % header
+    % fprintf('Drift(%%)\t')
+    % for i = 1:size(saValsAtTargetDriftMat,2)
+    %     fprintf('Sa%d\t\t',i)
+    % end
+    % fprintf('\n')
+    % 
+    % % rows
+    % for driftIdx = 1:length(driftPercent)
+    %     fprintf('%6.0f\t', driftPercent(driftIdx))
+    %     fprintf('%0.4f\t', saValsAtTargetDriftMat(driftIdx,:))
+    %     fprintf('\n')
+    % end
+    % 
+    % %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+    % 
+    % %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % 
+    % %% ============================================================
+    % %  IDA-based IM distribution at target drift levels
+    % 
+    % figure(figureNumAllComp)
+    % hold on
+    % 
+    % labels = strcat(string(targetDrifts*100), "% drift");
+    % colors = [
+    %     0.80 0.00 0.60   % magenta
+    %     0.75 0.10 0.10   % deep red 
+    %     0.30 0.30 0.30   % dark gray
+    %     ];
+    % 
+    % % colors = lines(length(targetDrifts));
+    % hDriftLines = gobjects(length(targetDrifts),1);
+    % 
+    % % % vertical drift lines
+    % % for driftIdx = 1:length(targetDrifts)
+    % %     hDriftLines(driftIdx) = xline(targetDrifts(driftIdx),'--','LineWidth',1.5, 'Color',colors(driftIdx,:));
+    % % end
+    % 
+    % scaleFactor = maxXOnAxis*0.06;
+    % 
+    % for driftIdx = 1:length(targetDrifts)
+    %     targetDrift = targetDrifts(driftIdx);
+    % 
+    %     SaVals = saValsAtTargetDrift(:,driftIdx);
+    %     SaVals = SaVals(~isnan(SaVals));
+    % 
+    %     if numel(SaVals) < 2
+    %         continue
+    %     end
+    % 
+    %     % mu = mean(SaVals);
+    %     % sigma = std(SaVals);
+    %     mu = mean(SaVals,'omitnan');
+    %     sigma = std(SaVals,'omitnan');
+    % 
+    %     % vertical line ONLY within ±3σ
+    %     hDriftLines(driftIdx) = plot( [targetDrift targetDrift], [mu-3*sigma mu+3*sigma], '-', 'LineWidth',2.0, 'Color',colors(driftIdx,:));
+    % 
+    %     % smooth Gaussian range (same as controlling comp)
+    %     saRange = linspace(mu-3*sigma, mu+3*sigma, 200);
+    %     pdfWidth = normpdf(saRange, mu, sigma);
+    %     pdfWidth = pdfWidth ./ max(pdfWidth) * scaleFactor;  % normalize width
+    % 
+    %     % right-side only PDF
+    %     x_pdf = [targetDrift*ones(size(saRange)) , targetDrift + pdfWidth];
+    %     y_pdf = [saRange , saRange(end:-1:1)];
+    % 
+    %     patch(x_pdf, y_pdf, colors(driftIdx,:), 'FaceAlpha',0.30, 'EdgeColor',colors(driftIdx,:), 'LineWidth',1.5, 'HandleVisibility','off');
+    %     plot(targetDrift + pdfWidth, saRange,'Color',colors(driftIdx,:), 'LineWidth',1.5, 'HandleVisibility','off');
+    % 
+    % end
+    % legend(hDriftLines,labels,'Location','southeast')      
+    % 
+    % %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
+
+        % Do final plot details - figure for all components
         figure(figureNumAllComp)
         hold on
         grid on
@@ -515,7 +641,7 @@ end
             %plotName = sprintf('CollapseIDA_AllComp_%s_%s_SaGeoMean.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_AllComp_SaGeoMean');
             print('-dmeta', exportName);            
-           hgsave(exportName); % .fig file for Matlab
+           savefig(exportName); % .fig file for Matlab
            print('-depsc', exportName); % .eps file for Linux (LaTeX)
            print('-dmeta', exportName); % .emf file for Windows (MSWORD)  
         else
@@ -525,14 +651,70 @@ end
             %plotName = sprintf('CollapseIDA_AllComp_%s_%s_SaATC63.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_AllComp_SaATC63');
             print('-dmeta', exportName);            
-           hgsave(exportName); % .fig file for Matlab
+           savefig(exportName); % .fig file for Matlab
            print('-depsc', exportName); % .eps file for Linux (LaTeX)
            print('-dmeta', exportName); % .emf file for Windows (MSWORD)     
         end
         
         hold off
 
-% Do final plot details - figure for controlling components
+        % %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+        % 
+        % %% ============================================================
+        % %  Plot NORMAL PDF at 1%, 2%, 4% drift locations (CONTROL COMPONENT)
+        % % ============================================================
+        % 
+        % figure(figureNumControllingComp)
+        % hold on
+        % 
+        % labels = strcat(string(targetDrifts*100), "% drift");
+        % colors = [
+        %     0.80 0.00 0.60   % magenta
+        %     0.75 0.10 0.10   % deep red 
+        %     0.30 0.30 0.30   % dark gray
+        %     ];
+        % 
+        % hDriftLines = gobjects(length(targetDrifts),1);
+        % scaleFactor = maxXOnAxis * 0.06;
+        % 
+        % for driftIdx = 1:length(targetDrifts)
+        %     targetDrift = targetDrifts(driftIdx);
+        % 
+        %     SaVals = saValsAtTargetDrift(:,driftIdx);
+        %     SaVals = SaVals(~isnan(SaVals));
+        % 
+        %     if numel(SaVals) < 2
+        %         continue
+        %     end
+        % 
+        %     % mu = mean(SaVals);
+        %     % sigma = std(SaVals);
+        % 
+        %     mu = mean(SaVals,'omitnan');
+        %     sigma = std(SaVals,'omitnan');
+        % 
+        %     % vertical line ONLY within ±3σ
+        %     hDriftLines(driftIdx) = plot( [targetDrift targetDrift], [mu-3*sigma mu+3*sigma], '-', 'LineWidth',2.0, 'Color',colors(driftIdx,:));
+        % 
+        %     % Gaussian support range
+        %     saRange = linspace(mu-3*sigma, mu+3*sigma, 200);
+        %     pdfWidth = normpdf(saRange, mu, sigma);
+        %     pdfWidth = pdfWidth ./ max(pdfWidth) * scaleFactor;
+        % 
+        %     % right-side PDF shape
+        %     x_pdf = [targetDrift*ones(size(saRange)) , targetDrift + pdfWidth];
+        %     y_pdf = [saRange , saRange(end:-1:1)];
+        % 
+        %     patch(x_pdf, y_pdf, colors(driftIdx,:), 'FaceAlpha',0.30, 'EdgeColor',colors(driftIdx,:), 'LineWidth',1.5, 'HandleVisibility','off');
+        %     plot(targetDrift + pdfWidth, saRange, 'Color',colors(driftIdx,:), 'LineWidth',1.5, 'HandleVisibility','off');
+        % end
+        % 
+        % legend(hDriftLines, labels, 'Location','southeast')
+        % 
+        % %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        
+        % Do final plot details - figure for controlling components
         figure(figureNumControllingComp);
         hold on
         grid on
@@ -557,7 +739,7 @@ end
             %plotName = sprintf('CollapseIDA_ControlComp_%s_%s_SaGeoMean.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_ControlComp_SaGeoMean');
             print('-dmeta', exportName);            
-           hgsave(exportName); % .fig file for Matlab
+           savefig(exportName); % .fig file for Matlab
            print('-depsc', exportName); % .eps file for Linux (LaTeX)
            print('-dmeta', exportName); % .emf file for Windows (MSWORD)            
             
@@ -570,7 +752,7 @@ end
             %plotName = sprintf('CollapseIDA_ControlComp_%s_%s_SaATC63.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_ControlComp_SaATC63');
             print('-dmeta', exportName);            
-           hgsave(exportName); % .fig file for Matlab
+           savefig(exportName); % .fig file for Matlab
            print('-depsc', exportName); % .eps file for Linux (LaTeX)
            print('-dmeta', exportName); % .emf file for Windows (MSWORD)            
             

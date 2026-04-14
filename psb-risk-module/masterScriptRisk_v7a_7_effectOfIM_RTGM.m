@@ -5,29 +5,29 @@ latLonLIST = [ % input depending on the site (lat, lon)
 %     13.05	80.27; % Chennai
 %     22.55	88.37; % Kolkata
 %     19.00   72.80; % Mumbai   (Table 5.4 of NDMA, 2011 report)
-    28.62   77.22; % Delhi
+    % 28.62   77.22; % Delhi
     26.17   91.77; % Guwahati
 %     27.10   92.10; % an arbitrary grid point near Arunachal border
     ];
 
 %% 
-zoneOfLocLIST = {'IV'; 'V';}; % {'III'}; {'IV'}; {'V'}; {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
+zoneOfLocLIST = {'V';}; % {'III'}; {'IV'}; {'V'}; {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
 % imScaleFac = 1.00; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
 
 % Scale IS 1893 hazard such that it matches with site hazard at some Tr
 imScaleFac = 1; % optional variable
 % use matchDBEWithPSHA475 and matchDBEWithPSHA2475 in the beginning of masterFunRiskAllSteps_v7 to control these
 
-% bldgLISTIdentifier = 'all'; % 'all', '4storied', '7storied', '12storied'
-bldgLISTIdentifier = 'twoFourSeven_CS_GM'; % two, four, and seven storied buildings with GM matching Conditional Spectra
+bldgLISTIdentifier = 'all'; % 'all', '4storied', '7storied', '12storied'
+% bldgLISTIdentifier = 'twoFourSeven_CS_GM'; % two, four, and seven storied buildings with GM matching Conditional Spectra
 % bldgLISTIdentifier = '4storied'; % two, four, and seven storied buildings with GM matching Conditional Spectra
 dsLIST = {'DynInst' 'CP' 'LS' 'IO'}; % {'DynInst' 'CP' 'LS' 'IO'};
 imTypeLIST = {'Sa_T1'}; % essentially fixed now
 
 % (approximate period as per code) 
 % TaLIST = [0.61	0.91	1.35	0.61	0.91	1.35	0.61	0.91   1.35]'; % (approximate period as per code) 
-TaLIST   = [0.37    0.61	0.91	0.37	0.61	0.91]'; % (approximate period as per code) 
-TogmLIST = [1.44	1.56	1.87	1.15	1.57	1.64]'; % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, and 7 storied bldgs in Zone-IV and V)
+TaLIST   = [0.71]'; %[0.37    0.61	0.91	0.37	0.61	0.91]'; % (approximate period as per code) 
+TogmLIST = [1.72]'; %[1.44	1.56	1.87	1.15	1.57	1.64]'; % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, and 7 storied bldgs in Zone-IV and V)
 
 % (period for Intensity measure, Sa(T1) 
 % T1LIST = [2.69	1.88	3.61	1.54	2.70	3.63	1.57	2.67	3.55]';
@@ -85,10 +85,11 @@ NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST val
 %               2.0; ... % highly critical structures (dam etc.)
 %               2.5; 3.0; 4.0; 5.0]; % two values for plotting proposed and calculated risk with importance factors 
 % impFacLIST = [1.25; 1.5; 1.75; 2.0; 2.5; 3.0; 4.0; 5.0]; % for tables and figures
-impFacLIST = (1.25:0.05:3.5)'; % for tables and figures
+% impFacLIST = (1.25:0.05:3.5)'; % for tables and figures
+impFacLIST = 1; % for tables and figures
 
 verbose = 1; % for debugging, set this to 2; this will just print more intermediate results 
-saveImpFactVsRisk = 1; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm'; 
+saveImpFactVsRisk = 0; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm'; 
 
 %%
 % lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
@@ -119,69 +120,70 @@ targetRiskRatio = [1; 1/1.5; 1./(2:0.5:10)']; % risk ratio of 1.5, 2, 3, ..., 10
 disp(targetRiskRatio)
 
 % (1/2) In the following conditional, targets are (\mu + \sigma) rounded up values. Ones, that we recommend as code-level risk. 
-if targetRiskBasedOnRecommendedRisk == 1
-    if T1LIST(1) == TogmLIST(1) || T1LIST(1) == TaLIST(1) % \lambda_1893_CS_SaTogm_SaTa (mu + sigma, roundup)
-        switch dsLIST{1}
-            case 'DynInst'; lambda_tarLIST = 1.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS
-            case 'CP';      lambda_tarLIST = 2.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS
-            case 'LS';      lambda_tarLIST = 6.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS
-            case 'IO';      lambda_tarLIST = 20.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS
-        end
-    elseif T1LIST(1) == 0 % \lambda_1893_CS_PGA (mu + sigma, roundup)
-        switch dsLIST{1}
-            case 'DynInst'; lambda_tarLIST = 3.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS_PGA
-            case 'CP';      lambda_tarLIST = 6.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS_PGA
-            case 'LS';      lambda_tarLIST = 2.0e-3 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS_PGA
-            case 'IO';      lambda_tarLIST = 6.0e-3 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS_PGA
-        end
-    end
-elseif targetRiskBasedOnMeanRisk == 1
-    % (2/2) In the following conditional, we target precisely \mu values.
-    if T1LIST(1) == TogmLIST(1) % \lambda_1893_CS_SaTogm (MEAN)
-        switch dsLIST{1}
-            case 'DynInst'; lambda_tarLIST = 5.90e-5 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS
-            case 'CP';      lambda_tarLIST = 1.33e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS
-            case 'LS';      lambda_tarLIST = 4.52e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS
-            case 'IO';      lambda_tarLIST = 15.9e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS
-        end
-    elseif abs(T1LIST(1) - TaLIST(1)) + abs(T1LIST(2) - TaLIST(2)) < 1e-6 % I am checking only first and second value, safe to assume two Ta values cannot ever be either Togm or 0.
-        switch dsLIST{1} % \lambda_1893_CS_SaTa (MEAN)
-            case 'DynInst'; lambda_tarLIST = 5.80e-5 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS
-            case 'CP';      lambda_tarLIST = 1.34e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS
-            case 'LS';      lambda_tarLIST = 4.71e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS
-            case 'IO';      lambda_tarLIST = 16.6e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS
-        end
-    elseif T1LIST(1) == 0 % \lambda_1893_CS_PGA (MEAN)
-        switch dsLIST{1}
-            case 'DynInst'; lambda_tarLIST = 1.72e-4 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS_PGA
-            case 'CP';      lambda_tarLIST = 3.72e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS_PGA
-            case 'LS';      lambda_tarLIST = 12.5e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS_PGA
-            case 'IO';      lambda_tarLIST = 40.9e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS_PGA
-        end
-    end
-end
+% if targetRiskBasedOnRecommendedRisk == 1
+%     if T1LIST(1) == TogmLIST(1) || T1LIST(1) == TaLIST(1) % \lambda_1893_CS_SaTogm_SaTa (mu + sigma, roundup)
+%         switch dsLIST{1}
+%             case 'DynInst'; lambda_tarLIST = 1.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS
+%             case 'CP';      lambda_tarLIST = 2.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS
+%             case 'LS';      lambda_tarLIST = 6.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS
+%             case 'IO';      lambda_tarLIST = 20.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS
+%         end
+%     elseif T1LIST(1) == 0 % \lambda_1893_CS_PGA (mu + sigma, roundup)
+%         switch dsLIST{1}
+%             case 'DynInst'; lambda_tarLIST = 3.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS_PGA
+%             case 'CP';      lambda_tarLIST = 6.0e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS_PGA
+%             case 'LS';      lambda_tarLIST = 2.0e-3 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS_PGA
+%             case 'IO';      lambda_tarLIST = 6.0e-3 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS_PGA
+%         end
+%     end
+% elseif targetRiskBasedOnMeanRisk == 1
+%     % (2/2) In the following conditional, we target precisely \mu values.
+%     if T1LIST(1) == TogmLIST(1) % \lambda_1893_CS_SaTogm (MEAN)
+%         switch dsLIST{1}
+%             case 'DynInst'; lambda_tarLIST = 5.90e-5 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS
+%             case 'CP';      lambda_tarLIST = 1.33e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS
+%             case 'LS';      lambda_tarLIST = 4.52e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS
+%             case 'IO';      lambda_tarLIST = 15.9e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS
+%         end
+%     elseif abs(T1LIST(1) - TaLIST(1)) + abs(T1LIST(2) - TaLIST(2)) < 1e-6 % I am checking only first and second value, safe to assume two Ta values cannot ever be either Togm or 0.
+%         switch dsLIST{1} % \lambda_1893_CS_SaTa (MEAN)
+%             case 'DynInst'; lambda_tarLIST = 5.80e-5 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS
+%             case 'CP';      lambda_tarLIST = 1.34e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS
+%             case 'LS';      lambda_tarLIST = 4.71e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS
+%             case 'IO';      lambda_tarLIST = 16.6e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS
+%         end
+%     elseif T1LIST(1) == 0 % \lambda_1893_CS_PGA (MEAN)
+%         switch dsLIST{1}
+%             case 'DynInst'; lambda_tarLIST = 1.72e-4 * targetRiskRatio; % targetRiskRatio x \lambda_Collapse,1893_CS_PGA
+%             case 'CP';      lambda_tarLIST = 3.72e-4 * targetRiskRatio; % targetRiskRatio x \lambda_CP,1893_CS_PGA
+%             case 'LS';      lambda_tarLIST = 12.5e-4 * targetRiskRatio; % targetRiskRatio x \lambda_LS,1893_CS_PGA
+%             case 'IO';      lambda_tarLIST = 40.9e-4 * targetRiskRatio; % targetRiskRatio x \lambda_IO,1893_CS_PGA
+%         end
+%     end
+% end
 
 %% Assign building list depending on the required results
-BldgIdAndZoneLIST_All = {	
-    '2205v03',  'III';  '2207v09',	'III';	'2209v05',	'III'; ... % 4, 7, 12-story zone-III
-    '2213v04',	'IV';   '2215v03',	'IV';   '2217v03',	'IV';  ... % 4, 7, 12-story zone-IV
-    '2221v06',	'V';    '2223v03',	'V';    '2225v03',	'V'};      % 4, 7, 12-story zone-V
-BldgIdAndZoneLIST_4storied = {	
-    '2205v03',  'III';     '2213v04',	'IV' ;     '2221v06',	'V' };  % 4-story zone-III, IV, and V
-BldgIdAndZoneLIST_7storied = {	
-    '2207v09',	'III';	    '2215v03',	'IV' ;     '2223v03',	'V' };  % 7-story zone-III, IV, and V
-BldgIdAndZoneLIST_12storied = {	
-    '2209v05',	'III';     '2217v03',	'IV' ;     '2225v03',	'V' };  % 12-story zone-III, IV, and V  
-BldgIdAndZoneLIST_2_4_7_CS = {
-    '2211v03_sca2', 'IV';  '2213v04_sca2', 'IV';   '2215v03_sca2', 'IV'; ... % 2, 4, 7-story zone-IV (matching CS records)
-    '2219v03_sca2', 'V';   '2221v06_sca2', 'V';    '2223v03_sca2', 'V'}; % 2, 4, 7-story zone-V (matching CS records)
+BldgIdAndZoneLIST_All = { '2433v02', 'V'; };	
+    
+% '2205v03',  'III';  '2207v09',	'III';	'2209v05',	'III'; ... % 4, 7, 12-story zone-III
+%     '2213v04',	'IV';   '2215v03',	'IV';   '2217v03',	'IV';  ... % 4, 7, 12-story zone-IV
+%     '2221v06',	'V';    '2223v03',	'V';    '2225v03',	'V'};      % 4, 7, 12-story zone-V
+% BldgIdAndZoneLIST_4storied = {	
+%     '2205v03',  'III';     '2213v04',	'IV' ;     '2221v06',	'V' };  % 4-story zone-III, IV, and V
+% BldgIdAndZoneLIST_7storied = {	
+%     '2207v09',	'III';	    '2215v03',	'IV' ;     '2223v03',	'V' };  % 7-story zone-III, IV, and V
+% BldgIdAndZoneLIST_12storied = {	
+%     '2209v05',	'III';     '2217v03',	'IV' ;     '2225v03',	'V' };  % 12-story zone-III, IV, and V  
+% BldgIdAndZoneLIST_2_4_7_CS = {
+%     '2211v03_sca2', 'IV';  '2213v04_sca2', 'IV';   '2215v03_sca2', 'IV'; ... % 2, 4, 7-story zone-IV (matching CS records)
+%     '2219v03_sca2', 'V';   '2221v06_sca2', 'V';    '2223v03_sca2', 'V'}; % 2, 4, 7-story zone-V (matching CS records)
 
 switch bldgLISTIdentifier
     case 'all';       BldgIdAndZoneLIST = BldgIdAndZoneLIST_All;
-    case '4storied';  BldgIdAndZoneLIST = BldgIdAndZoneLIST_4storied;
-    case '7storied';  BldgIdAndZoneLIST = BldgIdAndZoneLIST_7storied;
-    case '12storied'; BldgIdAndZoneLIST = BldgIdAndZoneLIST_12storied;
-    case 'twoFourSeven_CS_GM'; BldgIdAndZoneLIST = BldgIdAndZoneLIST_2_4_7_CS;
+    % case '4storied';  BldgIdAndZoneLIST = BldgIdAndZoneLIST_4storied;
+    % case '7storied';  BldgIdAndZoneLIST = BldgIdAndZoneLIST_7storied;
+    % case '12storied'; BldgIdAndZoneLIST = BldgIdAndZoneLIST_12storied;
+    % case 'twoFourSeven_CS_GM'; BldgIdAndZoneLIST = BldgIdAndZoneLIST_2_4_7_CS;
 end
 
 counterMax = size(dsLIST, 2) * size(fitModelLIST, 2) * size(NLIST, 2) * size(imOrAfeBoundLIST, 2);
@@ -205,65 +207,87 @@ for i = 1:size(dsLIST, 2) % over damage states
 %                     tableCurr = masterFunRiskAllSteps_v6(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac);
 %                     tableCurr = masterFunRiskAllSteps_v7(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
 %                 tableCurr = masterFunRiskAllStepsWithRiskVarVsImpFac_v7(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
-                  tableCurr = masterFunRiskAllStepsWithRiskVarVsImpFac_v7a(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
+                  tableCurr = masterFunRiskAllStepsWithRiskVarVsImpFac_v7a(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
                 % Here we convert it to the "required factor for targeted risk" 
-                if lambda_tarLIST == 999; lambdaForSize = ([1.5:0.5:10])'; end
-                for r = 1:size(lambdaForSize, 1)
-                    RT_muVar = sprintf('RT_mu%i', r); mu_dsVar = sprintf('mu_%s', 'ds'); % ds); % Now identifying the ds from the first var name
-                    tableCurr.(RT_muVar) = tableCurr.(RT_muVar)./tableCurr.(mu_dsVar); % update the value
-                    tableCurr.Properties.VariableNames{10+r} = sprintf('RTGM_ReqFac%i', r); % change the variable name
+
+                %%  this part is added by shivakumar KS ON 9/4/2025, needs to be verify and fix it
+                varNames = tableCurr.Properties.VariableNames;
+                % find only existing RT_mu columns
+                idx = startsWith(varNames,'RT_mu');
+                RT_vars = varNames(idx);
+                mu_dsVar = 'mu_ds';   
+
+                for r = 1:length(RT_vars)
+                    RT_muVar = RT_vars{r};
+                    tableCurr.(RT_muVar) = tableCurr.(RT_muVar) ./ tableCurr.(mu_dsVar);
+
+                    % rename column
+                    colIndex = strcmp(tableCurr.Properties.VariableNames, RT_muVar);
+                    tableCurr.Properties.VariableNames{colIndex} = sprintf('RTGM_ReqFac%i', r);
+
                 end
+                
+                % if lambda_tarLIST == 999; lambdaForSize = ([1.5:0.5:10])'; end
+                % for r = 1:size(lambdaForSize, 1)
+                %     RT_muVar = sprintf('RT_mu%i', r); mu_dsVar = sprintf('mu_%s', 'ds'); % ds); % Now identifying the ds from the first var name
+                %     tableCurr.(RT_muVar) = tableCurr.(RT_muVar)./tableCurr.(mu_dsVar); % update the value
+                %     tableCurr.Properties.VariableNames{10+r} = sprintf('RTGM_ReqFac%i', r); % change the variable name
+                % end
                 tableWithAllInfo = [tableWithAllInfo; tableCurr];
             end
         end
     end
 end
 
-% for v7a, we save just one plot; use v7 for independent plots.
-    a = get(gca,'OuterPosition'); set(gca,'OuterPosition',[a(1) a(2) + 0.02 a(3) + 0.05 a(4)]);
-    b = get(gcf,'Position'); set(gcf,'Position',[100 100 1500 900]);
-    formatAllSixBldgImpFactVsRiskPlot_v01;
-if saveImpFactVsRisk == 1
-    if ~exist(dirForFigures, 'dir')
-        mkdir(dirForFigures);
-    end
-    cd(dirForFigures); 
-    exportNamePlot = sprintf('impFactVsLambdaAllDamSta');
-    hgsave(exportNamePlot); print('-depsc', exportNamePlot);
-    print('-dmeta', exportNamePlot); print('-djpeg', exportNamePlot); cd(baseFolder);
-else
-%     close;`
-
-dsForBeyondCode = {'2211_CP'; '2211_LS'; '2211_IO'; '2213_CP'; '2213_LS'; '2213_IO'; '2215_CP'; '2215_LS'; '2215_IO'; 
-                   '2219_CP'; '2219_LS'; '2219_IO'; '2221_CP'; '2221_LS'; '2221_IO'; '2223_CP'; '2223_LS'; '2223_IO'};
-
-bldgIdForBeyondCode = {'2211v03_sca2';'2213v04_sca2'; '2215v03_sca2';
-                       '2219v03_sca2'; '2221v06_sca2';'2223v03_sca2'};
-
-dsLISTForBeyondCode = {'CP'; 'LS'; 'IO'};                   
-count = 0;
-
-cd ImpFacVersusLambdaData; 
-for i = 1:size(bldgIdForBeyondCode, 1)
-    bldgIdCurr = bldgIdForBeyondCode{i, 1};
-    for j = 1:size(dsLISTForBeyondCode, 1) % over damage states
-        count = count + 1;
-        ds = dsLISTForBeyondCode{j, 1};
-        matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]);
-        OneDsHigher_IF(count, 1) = matObj.beyondCodeFactorOneDsHigher;
-        TwoDsHigher_IF(count, 1) = 0; ThreeDsHigher_IF(count, 1) = 0;
-        if strcmp(ds, 'LS') || strcmp(ds, 'IO')
-            TwoDsHigher_IF(count, 1) = matObj.beyondCodeFactorTwoDsHigher;
-        end
-        if strcmp(ds, 'IO')
-            ThreeDsHigher_IF(count, 1) = matObj.beyondCodeFactorThreeDsHigher; 
-        end
-    end
-end
-cd ..
-beyondCodeTable = table(dsForBeyondCode, OneDsHigher_IF, TwoDsHigher_IF, ThreeDsHigher_IF);
-disp(beyondCodeTable)
-
-end
+% % for v7a, we save just one plot; use v7 for independent plots.
+%     a = get(gca,'OuterPosition'); set(gca,'OuterPosition',[a(1) a(2) + 0.02 a(3) + 0.05 a(4)]);
+%     b = get(gcf,'Position'); set(gcf,'Position',[100 100 1500 900]);
+%     formatAllSixBldgImpFactVsRiskPlot_v01;
+% if saveImpFactVsRisk == 1
+%     if ~exist(dirForFigures, 'dir')
+%         mkdir(dirForFigures);
+%     end
+%     cd(dirForFigures); 
+%     exportNamePlot = sprintf('impFactVsLambdaAllDamSta');
+%     savefig(exportNamePlot); print('-depsc', exportNamePlot);
+%     print('-dmeta', exportNamePlot); print('-djpeg', exportNamePlot); cd(baseFolder);
+% else
+% %     close;`
+% 
+% dsForBeyondCode = {'2433_CP'; '2243_LS'; '2243_IO'};
+% 
+% % dsForBeyondCode = {'2211_CP'; '2211_LS'; '2211_IO'; '2213_CP'; '2213_LS'; '2213_IO'; '2215_CP'; '2215_LS'; '2215_IO'; 
+% %                    '2219_CP'; '2219_LS'; '2219_IO'; '2221_CP'; '2221_LS'; '2221_IO'; '2223_CP'; '2223_LS'; '2223_IO'};
+% 
+% 
+% bldgIdForBeyondCode = {'2433v02_sca2'};
+% % bldgIdForBeyondCode = {'2211v03_sca2';'2213v04_sca2'; '2215v03_sca2';
+% %                        '2219v03_sca2'; '2221v06_sca2';'2223v03_sca2'};
+% 
+% dsLISTForBeyondCode = {'CP'; 'LS'; 'IO'};                   
+% count = 0;
+% 
+% cd ImpFacVersusLambdaData; 
+% for i = 1:size(bldgIdForBeyondCode, 1)
+%     bldgIdCurr = bldgIdForBeyondCode{i, 1};
+%     for j = 1:size(dsLISTForBeyondCode, 1) % over damage states
+%         count = count + 1;
+%         ds = dsLISTForBeyondCode{j, 1};
+%         matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]);
+%         OneDsHigher_IF(count, 1) = matObj.beyondCodeFactorOneDsHigher;
+%         TwoDsHigher_IF(count, 1) = 0; ThreeDsHigher_IF(count, 1) = 0;
+%         if strcmp(ds, 'LS') || strcmp(ds, 'IO')
+%             TwoDsHigher_IF(count, 1) = matObj.beyondCodeFactorTwoDsHigher;
+%         end
+%         if strcmp(ds, 'IO')
+%             ThreeDsHigher_IF(count, 1) = matObj.beyondCodeFactorThreeDsHigher; 
+%         end
+%     end
+% end
+% cd ..
+% beyondCodeTable = table(dsForBeyondCode, OneDsHigher_IF, TwoDsHigher_IF, ThreeDsHigher_IF);
+% disp(beyondCodeTable)
+% end
 disp(tableWithAllInfo)
+writetable(tableWithAllInfo,'RiskResults.xlsx')
 toc

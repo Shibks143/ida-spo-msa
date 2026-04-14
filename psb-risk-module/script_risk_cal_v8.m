@@ -5,29 +5,29 @@ latLonLIST = [ % input depending on the site (lat, lon)
 %     13.05	80.27; % Chennai
 %     22.55	88.37; % Kolkata
 %     19.00   72.80; % Mumbai   (Table 5.4 of NDMA, 2011 report)
-    28.62   77.22; % Delhi
-    26.17   91.77; % Guwahati
+%     28.62   77.22; % Delhi
+      26.17   91.77; % Guwahati
 %     27.10   92.10; % an arbitrary grid point near Arunachal border
     ];
 
 %% 
-zoneOfLocLIST = {'IV'; 'V';}; % {'III'}; {'IV'}; {'V'}; {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
+zoneOfLocLIST = {'V';}; % {'III'}; {'IV'}; {'V'}; {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
 % imScaleFac = 1.00; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
 
 % Scale IS 1893 hazard such that it matches with site hazard at some Tr
 imScaleFac = 1; % optional variable
 % use matchDBEWithPSHA475 and matchDBEWithPSHA2475 in the beginning of masterFunRiskAllSteps_v7 to control these
 
-% bldgLISTIdentifier = 'all'; % 'all', '4storied', '7storied', '12storied'
-bldgLISTIdentifier = 'twoFourSeven_CS_GM'; % two, four, and seven storied buildings with GM matching Conditional Spectra
+% bldgLISTIdentifier = %'all'; % 'all', '4storied', '7storied', '12storied'
+% bldgLISTIdentifier = 'twoFourSeven_CS_GM'; % two, four, and seven storied buildings with GM matching Conditional Spectra
 % bldgLISTIdentifier = '4storied'; % two, four, and seven storied buildings with GM matching Conditional Spectra
 dsLIST = {'DynInst' 'CP' 'LS' 'IO'}; % {'DynInst' 'CP' 'LS' 'IO'};
 imTypeLIST = {'Sa_T1'}; % essentially fixed now
 
 % (approximate period as per code) 
 % TaLIST = [0.61	0.91	1.35	0.61	0.91	1.35	0.61	0.91   1.35]'; % (approximate period as per code) 
-TaLIST   = [0.37    0.61	0.91	0.37	0.61	0.91]'; % (approximate period as per code) 
-TogmLIST = [1.44	1.56	1.87	1.15	1.57	1.64]'; % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, and 7 storied bldgs in Zone-IV and V)
+TaLIST   = [0.71]';     % [0.37    0.61	0.91	0.37	0.61	0.91]'; % (approximate period as per code) 
+TogmLIST = [1.72]';     % [1.44	1.56	1.87	1.15	1.57	1.64]'; % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, and 7 storied bldgs in Zone-IV and V)
 
 % (period for Intensity measure, Sa(T1) 
 % T1LIST = [2.69	1.88	3.61	1.54	2.70	3.63	1.57	2.67	3.55]';
@@ -46,7 +46,7 @@ T1LIST = TogmLIST; % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, an
 % Both of the following cannot be 1 at the same time. Undefined one gets assigned zero subsequently.
 % targetRiskBasedOnRecommendedRisk = 1; % if the target risk factors are based on Recommended risk which is rounded up from \mu + \sigma
 % targetRiskBasedOnMeanRisk = 1; % if the target risk factors are based on mean risk 
-lambda_tarLIST = 999; % proxy for targeting building-specific risk reduction ratios and not fixed risk values
+% lambda_tarLIST = 999; % proxy for targeting building-specific risk reduction ratios and not fixed risk values
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,7 +89,7 @@ NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST val
 impFacLIST = 1; % for tables and figures
 
 verbose = 1; % for debugging, set this to 2; this will just print more intermediate results 
-saveImpFactVsRisk = 1; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm'; 
+saveImpFactVsRisk = 0; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm'; 
 
 %%
 % lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
@@ -112,16 +112,18 @@ if ~exist('targetRiskBasedOnMeanRisk', 'var'); targetRiskBasedOnMeanRisk = 0; en
 
 % targetRiskRatio = [1; 1/2; 1/4; 1/10; 1/20];
 % targetRiskRatio = [1; 1/1.5; 1./(2:10)']; % risk ratio of 1.5, 2, 3, ..., 10 
-targetRiskRatio = [1; 1/1.5; 1./(2:0.5:10)']; % risk ratio of 1.5, 2, 3, ..., 10 
+% targetRiskRatio = [1; 1/1.5; 1./(2:0.5:10)']; % risk ratio of 1.5, 2, 3, ..., 10 
 
 %% Assign building list depending on the required results
-BldgIdAndZoneLIST_2_4_7_CS = {
-    '2211v03_sca2', 'IV';  '2213v04_sca2', 'IV';   '2215v03_sca2', 'IV'; ... % 2, 4, 7-story zone-IV (matching CS records)
-    '2219v03_sca2', 'V';   '2221v06_sca2', 'V';    '2223v03_sca2', 'V'}; % 2, 4, 7-story zone-V (matching CS records)
+BldgIdAndZoneLIST = { '2433v02', 'V'; };
 
-switch bldgLISTIdentifier
-    case 'twoFourSeven_CS_GM'; BldgIdAndZoneLIST = BldgIdAndZoneLIST_2_4_7_CS;
-end
+% BldgIdAndZoneLIST_2_4_7_CS = {
+%     '2211v03_sca2', 'IV';  '2213v04_sca2', 'IV';   '2215v03_sca2', 'IV'; ... % 2, 4, 7-story zone-IV (matching CS records)
+%     '2219v03_sca2', 'V';   '2221v06_sca2', 'V';    '2223v03_sca2', 'V'}; % 2, 4, 7-story zone-V (matching CS records)
+
+% switch bldgLISTIdentifier
+%     case 'twoFourSeven_CS_GM'; BldgIdAndZoneLIST = BldgIdAndZoneLIST_2_4_7_CS;
+% end
 
 counterMax = size(dsLIST, 2) * size(fitModelLIST, 2) * size(NLIST, 2) * size(imOrAfeBoundLIST, 2);
 
@@ -144,15 +146,41 @@ for i = 1:size(dsLIST, 2) % over damage states
 %                     tableCurr = masterFunRiskAllSteps_v6(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac);
 %                     tableCurr = masterFunRiskAllSteps_v7(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
 %                 tableCurr = masterFunRiskAllStepsWithRiskVarVsImpFac_v7(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
-                  tableCurr = masterFunRiskAllStepsWithRiskVarVsImpFac_v7a(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
-                % Here we convert it to the "required factor for targeted risk" 
-                if lambda_tarLIST == 999; lambdaForSize = ([1.5:0.5:10])'; end
-                for r = 1:size(lambdaForSize, 1)
-                    RT_muVar = sprintf('RT_mu%i', r); mu_dsVar = sprintf('mu_%s', 'ds'); % ds); % Now identifying the ds from the first var name
-                    tableCurr.(RT_muVar) = tableCurr.(RT_muVar)./tableCurr.(mu_dsVar); % update the value
-                    tableCurr.Properties.VariableNames{10+r} = sprintf('RTGM_ReqFac%i', r); % change the variable name
+                  tableCurr = masterFunRiskAllStepsWithRiskVarVsImpFac_v7a(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
+                  disp(tableCurr.Properties.VariableNames) 
+                  % Here we convert it to the "required factor for targeted risk" 
+                % if lambda_tarLIST == 999; lambdaForSize = ([1.5:0.5:10])'; end
+                
+             
+   %%  this part is added by shivakumar KS ON 9/4/2025, needs to be verify and fix it 
+                varNames = tableCurr.Properties.VariableNames;
+
+                % find only existing RT_mu columns
+                idx = startsWith(varNames,'RT_mu');
+                RT_vars = varNames(idx);
+                mu_dsVar = 'mu_ds';   
+
+                for r = 1:length(RT_vars)
+                    RT_muVar = RT_vars{r};
+                    tableCurr.(RT_muVar) = tableCurr.(RT_muVar) ./ tableCurr.(mu_dsVar);
+
+                    % rename column
+                    colIndex = strcmp(tableCurr.Properties.VariableNames, RT_muVar);
+                    tableCurr.Properties.VariableNames{colIndex} = sprintf('RTGM_ReqFac%i', r);
+
                 end
+                
+                
+    %%            
+           
+                % lambdaForSize = (1.5:0.5:10)';   % since lambda_tarLIST not used
+                % for r = 1:size(lambdaForSize, 1)
+                %     RT_muVar = sprintf('RT_mu%i', r); mu_dsVar = sprintf('mu_%s', 'ds'); % ds); % Now identifying the ds from the first var name
+                %     tableCurr.(RT_muVar) = tableCurr.(RT_muVar)./tableCurr.(mu_dsVar); % update the value
+                %     tableCurr.Properties.VariableNames{10+r} = sprintf('RTGM_ReqFac%i', r); % change the variable name
+                % end
                 tableWithAllInfo = [tableWithAllInfo; tableCurr];
+                
             end
         end
     end

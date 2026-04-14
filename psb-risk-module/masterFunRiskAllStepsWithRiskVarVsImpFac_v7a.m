@@ -40,7 +40,7 @@
 
 %%
 function tableWithAllInfo = masterFunRiskAllStepsWithRiskVarVsImpFac_v7a(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, ds, imType, ...
-    T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRangeInp, lambda_tarLIST, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin)
+    T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRangeInp, impFacLIST, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin)
 % tic;
 %% To plot effect of importance factor on risk, call the present function instead of the function masterFunRiskAllSteps_v7
 
@@ -77,21 +77,21 @@ end
 %     27.10   92.10; % an arbitrary grid point near Arunachal border
 % %     26.70   60.5;  % a grid point for validation
 %     ];
-
 % zoneOfLocLIST = {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
+
 if size(zoneOfLocLIST, 1) ~= size(latLonLIST, 1); error('number of entries in siteZoneLIST does not match with number of (lat, lon) entries.'); end
     
 % ds = 'CP'; % possible damage states are 'DynInst' 'CP' 'LS' 'IO'
-% lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
-%                   0.5e-4; ... % Zizmond and Dolsek (2019); an example (trade-off)
-%                   1.0e-5];   % Douglas et al. (2013) for France
+lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
+                  0.5e-4; ... % Zizmond and Dolsek (2019); an example (trade-off)
+                  1.0e-5];   % Douglas et al. (2013) for France
 % impFacLIST = [1.2; ... % business continuity structures (IS 1893-1, 2016)
 %               1.5; ... % critical and lifeline structures  (IS 1893-1, 2016)
 %               2.0];    % highly critical structures (dam etc.)
 % imType = 'Sa_T1'; % available LIST 
 
 % T1LIST = zeros(9, 1); % (period for Intensity measure, Sa(T1) 
-% TaLIST = [0.61	0.91	1.35	0.61	0.91	1.35	0.61	0.91   1.35]'; % (approxiamte period as per code) 
+% TaLIST = [0.61	0.91	1.35	0.61	0.91	1.35	0.61	0.91   1.35]'; % (approximate period as per code) 
 
 %  1a. inputs for extracting  hazard 
 doPlot = 0; plotType = 'semilog'; % 'semilog', 'loglog, 'linear'
@@ -259,7 +259,7 @@ for locID = 1:size(latLonLIST, 1)
             fprintf('------------------=------------------------------------------------------------------------\n');
             fprintf('-- EXECUTE script "scriptForFragilityDataGen_v2" to reduce run-time and avoid repetition --\n');
             fprintf('-------------------------------------------------------------------------------------------\n');
-            cd H:\DamageIndex\Automated
+            % cd H:\DamageIndex\Automated
             [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgIdCurr);
             cd(baseFolder);
             [muDsIMAll, betaRTRAll, muDsIMCtrl, betaRTRCtrl, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T1Curr);
@@ -329,11 +329,11 @@ for locID = 1:size(latLonLIST, 1)
         betaRTRCtrl = fragilityDataCurr(1, 2);
         betaTot = sqrt(betaRTRCtrl^2 + betaDR^2 + betaTD^2 + betaMDL^2);
         fragilityDataCurr(2) = betaTot;
-        %         [riskVal, highestContriIM, modalImRatio] = computeRiskSingleSite_v1(hazardDataCurr, fragilityDataCurr);
+                % [riskVal, highestContriIM, modalImRatio] = computeRiskSingleSite_v1(hazardDataCurr, fragilityDataCurr);
         %%
         boundRangeCurr = boundRangeInp;
         if boundRangeInp(1) == 99 % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
-            boundRangeCurr(1) = fragilityDataCurr(1, 3)*factorOnImMin; % factorOnImMin, ifgiven as input, reduces the imMin value (DEFAULT value = 1)
+            boundRangeCurr(1) = fragilityDataCurr(1, 3)*factorOnImMin; % factorOnImMin, if given as input, reduces the imMin value (DEFAULT value = 1)
 
             if verbose == 2; fprintf('Lower intensity bound CHANGED TO the minimum of analyses as %f\n', boundRangeCurr(1)); end
         end
@@ -358,7 +358,7 @@ for locID = 1:size(latLonLIST, 1)
         eps1LIST(counter, 1) = eps1;
         
         %% 4. Calculate the risk-targeted ground motion value.
-        % If I upodate lambda_tarLIST than defining a new variable name as lambda_tarLIST_forUse, then
+        % If I update lambda_tarLIST than defining a new variable name as lambda_tarLIST_forUse, then
         % the program uses riskVal for first building in this function.
         if lambda_tarLIST == 999 % proxy for targeting building-specific risk reduction ratios and not fixed risk values
             lambda_tarLIST_toUse = riskVal*(1./([1.5:0.5:10]))'; % overwriting the input lambda_tarLIST in order to extract revised tables for RTGM which target building specific risk ratios and not the reduction factors over statistic measure
@@ -377,7 +377,7 @@ for locID = 1:size(latLonLIST, 1)
                 case 'IV';  zoneMCE_PGA = 0.24;
                 case 'V';   zoneMCE_PGA = 0.36;
             end
-            
+
 %%% THIS IS DESIGN FORCE, calculated using a unique variable TaCurr
             switch TaCurr
                 case 0;     SaByg = 1;
@@ -385,7 +385,7 @@ for locID = 1:size(latLonLIST, 1)
             end
             H_IM_d = zoneMCE_PGA/2 * SaByg; % design hazard value as per IS 1893 (Z/2 * Sa/g)
             RTGM_designHaz = H_IM_d * RTGM_ReqFac; % risk-targeted design hazard; assuming that design corresponds to DBE (Z/2*Sa/g)
-            
+
             %% reverse calculate the design return period (assuming the original design to be for 475y) given the hazard curve and RTGM
             X = hazardDataCurr(1, :); Y = hazardDataCurr(2, :); % X- im values, Y- afe values (used only for interpolation)
             xq = RTGM_designHaz;
@@ -400,12 +400,12 @@ for locID = 1:size(latLonLIST, 1)
             else
                 RTGM_RP = 0; % even the risk corresponding to imMin is less than target risk.
             end
-            
+
             if verbose == 2; fprintf('RTGM-%4.3f;\t design RP-%i years.\n', riskTargetedMedianCap, int32(RTGM_RP)); end
 %             tableWithAllInfo(counter, 10 + 2*k-1) = table(riskTargetedMedianCap);
 %             tableWithAllInfo(counter, 10 + 2*k) = table(RTGM_RP);
             tableWithAllInfo(counter, 10 + k) = table(riskTargetedMedianCap);
-            
+
             if counter == 1
 %                 tableWithAllInfo.Properties.VariableNames{10 + 2*k - 1} = sprintf('RT_mu%i', k);
 %                 tableWithAllInfo.Properties.VariableNames{10 + 2*k} = sprintf('RTGM_RP%i', k);
@@ -424,10 +424,11 @@ for locID = 1:size(latLonLIST, 1)
             if counter == 1; tableWithAllInfo.Properties.VariableNames{end} = sprintf('riskFacImp%ip%i', floor(impFac), int32(mod(impFac*100, 100))); end
         end
         
-        %% 6. (03-31-20) This is a standalone feature, I am making sure that this peace of the program does not interact with the rest of the program in any way.
+        %% 6. (03-31-20) This is a standalone feature, I am making sure that this piece of the program does not interact with the rest of the program in any way.
         % it will simply plot lambda_ds versus importance factor for all buildings.
-
-        impFacAll = 1:0.01:10;
+         
+        impFacAll = 1;
+        % impFacAll = 1:0.01:10;
         impFacPlotLim = 3;
         additionalRiskMarginTemp = zeros(size(impFacAll));
         for r = 1:size(impFacAll, 2)
@@ -439,104 +440,104 @@ for locID = 1:size(latLonLIST, 1)
         riskWithImp = actualRiskForI_1p0./additionalRiskMarginTemp;
         
         %% 6a. SAVE all the IMP FAC versus lambda data in a structure
-         cd ImpFacVersusLambdaData; save(['impFacVsLambdaData_' bldgIdCurr '_' ds], 'impFacAll', 'riskWithImp', 'actualRiskForI_1p0'); cd ..
-                  
-         switch ds 
-             case 'CP'
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'DynInst']); cd ..
-                 riskOneDsHigher = matObj.actualRiskForI_1p0;
-                 beyondCodeFactorOneDsHigher = interp1(riskWithImp, impFacAll, riskOneDsHigher);
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
-                 matObj.Properties.Writable = true;
-                 matObj.beyondCodeFactorOneDsHigher = beyondCodeFactorOneDsHigher;
-             case 'LS'
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'CP']); cd ..
-                 riskOneDsHigher = matObj.actualRiskForI_1p0;
-                 beyondCodeFactorOneDsHigher = interp1(riskWithImp, impFacAll, riskOneDsHigher);
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
-                 matObj.Properties.Writable = true;
-                 matObj.beyondCodeFactorOneDsHigher = beyondCodeFactorOneDsHigher;
-
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'DynInst']); cd ..
-                 riskTwoDsHigher = matObj.actualRiskForI_1p0;
-                 beyondCodeFactorTwoDsHigher = interp1(riskWithImp, impFacAll, riskTwoDsHigher);
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
-                 matObj.Properties.Writable = true;
-                 matObj.beyondCodeFactorTwoDsHigher = beyondCodeFactorTwoDsHigher;
-             case 'IO'
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'LS']); cd ..
-                 riskOneDsHigher = matObj.actualRiskForI_1p0;
-                 beyondCodeFactorOneDsHigher = interp1(riskWithImp, impFacAll, riskOneDsHigher);
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
-                 matObj.Properties.Writable = true;
-                 matObj.beyondCodeFactorOneDsHigher = beyondCodeFactorOneDsHigher;
-
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'CP']); cd ..
-                 riskTwoDsHigher = matObj.actualRiskForI_1p0;
-                 beyondCodeFactorTwoDsHigher = interp1(riskWithImp, impFacAll, riskTwoDsHigher);
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
-                 matObj.Properties.Writable = true;
-                 matObj.beyondCodeFactorTwoDsHigher = beyondCodeFactorTwoDsHigher;
-                 
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'DynInst']); cd ..
-                 riskThreeDsHigher = matObj.actualRiskForI_1p0;
-                 beyondCodeFactorThreeDsHigher = interp1(riskWithImp, impFacAll, riskThreeDsHigher);
-                 cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
-                 matObj.Properties.Writable = true;
-                 matObj.beyondCodeFactorThreeDsHigher = beyondCodeFactorThreeDsHigher;
-
-         end
+         % cd ImpFacVersusLambdaData; save(['impFacVsLambdaData_' bldgIdCurr '_' ds], 'impFacAll', 'riskWithImp', 'actualRiskForI_1p0'); cd ..
+         % 
+         % switch ds 
+         %     case 'CP'
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'DynInst']); cd ..
+         %         riskOneDsHigher = matObj.actualRiskForI_1p0;
+         %         beyondCodeFactorOneDsHigher = interp1(riskWithImp, impFacAll, riskOneDsHigher);
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
+         %         matObj.Properties.Writable = true;
+         %         matObj.beyondCodeFactorOneDsHigher = beyondCodeFactorOneDsHigher;
+         %     case 'LS'
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'CP']); cd ..
+         %         riskOneDsHigher = matObj.actualRiskForI_1p0;
+         %         beyondCodeFactorOneDsHigher = interp1(riskWithImp, impFacAll, riskOneDsHigher);
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
+         %         matObj.Properties.Writable = true;
+         %         matObj.beyondCodeFactorOneDsHigher = beyondCodeFactorOneDsHigher;
+         % 
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'DynInst']); cd ..
+         %         riskTwoDsHigher = matObj.actualRiskForI_1p0;
+         %         beyondCodeFactorTwoDsHigher = interp1(riskWithImp, impFacAll, riskTwoDsHigher);
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
+         %         matObj.Properties.Writable = true;
+         %         matObj.beyondCodeFactorTwoDsHigher = beyondCodeFactorTwoDsHigher;
+         %     case 'IO'
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'LS']); cd ..
+         %         riskOneDsHigher = matObj.actualRiskForI_1p0;
+         %         beyondCodeFactorOneDsHigher = interp1(riskWithImp, impFacAll, riskOneDsHigher);
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
+         %         matObj.Properties.Writable = true;
+         %         matObj.beyondCodeFactorOneDsHigher = beyondCodeFactorOneDsHigher;
+         % 
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'CP']); cd ..
+         %         riskTwoDsHigher = matObj.actualRiskForI_1p0;
+         %         beyondCodeFactorTwoDsHigher = interp1(riskWithImp, impFacAll, riskTwoDsHigher);
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
+         %         matObj.Properties.Writable = true;
+         %         matObj.beyondCodeFactorTwoDsHigher = beyondCodeFactorTwoDsHigher;
+         % 
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' 'DynInst']); cd ..
+         %         riskThreeDsHigher = matObj.actualRiskForI_1p0;
+         %         beyondCodeFactorThreeDsHigher = interp1(riskWithImp, impFacAll, riskThreeDsHigher);
+         %         cd ImpFacVersusLambdaData; matObj = matfile(['impFacVsLambdaData_' bldgIdCurr '_' ds]); cd ..
+         %         matObj.Properties.Writable = true;
+         %         matObj.beyondCodeFactorThreeDsHigher = beyondCodeFactorThreeDsHigher;
+         % 
+         % end
 
         % end of saving data, now plot
             
         %% 6b. Plot Imp fac versus lambda_ds data
         % plot(impFacAll, additionalRiskMargin, 'b-o', 'LineWidth', 1.5);
-        if doPlotImpFacPlot == 1
-            figure(101)
-            hx = xlabel('Importance Factor');   set(hx, 'interpreter', 'Latex');
-            hy = ylabel('$\lambda_{ds}$'); % hy = ylabel(['\lambda_{' ds, '}']);
-            set(hy, 'interpreter', 'Latex');
-            
-            % hy = ylabel(['Annual Frequency of Exceedance, \lambda_{ds}']); % hy = ylabel(['\lambda_{' ds, '}']);
-            switch ds
-                case 'IO'; currPlotStyle = 'k--'; 
-                case 'LS'; currPlotStyle = 'b-.';
-                case 'CP'; currPlotStyle = 'm:';
-                case 'DynInst'; currPlotStyle = 'r-'; % hy = ylabel('\lambda_{coll}');
-            end
-            
-            % restrict the plots to impFacPlotLim
-            riskWithImp(impFacAll > impFacPlotLim) = [];
-            impFacAll(impFacAll > impFacPlotLim) = [];
-            
-            interv = 2.0001; % 2 or 2.1 depending on if we want space between two vertical plots
-            
-            % use this for six buildings
-            if 1 == 1
-                switch bldgIdCurr
-                    case '2211v03_sca2'; impFacAll = impFacAll + 0;
-                    case '2213v04_sca2'; impFacAll = impFacAll + 1*interv;
-                    case '2215v03_sca2'; impFacAll = impFacAll + 2*interv;
-                    case '2219v03_sca2'; impFacAll = impFacAll + 3*interv;
-                    case '2221v06_sca2'; impFacAll = impFacAll + 4*interv;
-                    case '2223v03_sca2'; impFacAll = impFacAll + 5*interv;
-                end
-                warning('Click here to change the x-axis overlap, if any'); % for easy navigation
-            end
-            
-            % use this for two buildings
-            if 1 == 0
-                switch bldgIdCurr
-                    case '2213v04_sca2'; impFacAll = impFacAll + 0;
-                    case '2221v06_sca2'; impFacAll = impFacAll + 1*interv;
-                end
-                warning('Click here to change the x-axis overlap, if any'); % for easy navigation
-            end
-            semilogy(impFacAll, riskWithImp, currPlotStyle, 'LineWidth', 2); grid on; hold on;
-            
-%             legendText = [legendText; sprintf('%s-%i', bldgIdCurr, locID)];
-%             legendText = [legendText; sprintf('ID-%s', bldgIdCurr(1:4))];
-        end
+%         if doPlotImpFacPlot == 1
+%             figure(101)
+%             hx = xlabel('Importance Factor');   set(hx, 'interpreter', 'Latex');
+%             hy = ylabel('$\lambda_{ds}$'); % hy = ylabel(['\lambda_{' ds, '}']);
+%             set(hy, 'interpreter', 'Latex');
+% 
+%             % hy = ylabel(['Annual Frequency of Exceedance, \lambda_{ds}']); % hy = ylabel(['\lambda_{' ds, '}']);
+%             switch ds
+%                 case 'IO'; currPlotStyle = 'k--'; 
+%                 case 'LS'; currPlotStyle = 'b-.';
+%                 case 'CP'; currPlotStyle = 'm:';
+%                 case 'DynInst'; currPlotStyle = 'r-'; % hy = ylabel('\lambda_{coll}');
+%             end
+% 
+%             % restrict the plots to impFacPlotLim
+%             riskWithImp(impFacAll > impFacPlotLim) = [];
+%             impFacAll(impFacAll > impFacPlotLim) = [];
+% 
+%             interv = 2.0001; % 2 or 2.1 depending on if we want space between two vertical plots
+% 
+%             % use this for six buildings
+%             if 1 == 1
+%                 switch bldgIdCurr
+%                     case '2211v03_sca2'; impFacAll = impFacAll + 0;
+%                     case '2213v04_sca2'; impFacAll = impFacAll + 1*interv;
+%                     case '2215v03_sca2'; impFacAll = impFacAll + 2*interv;
+%                     case '2219v03_sca2'; impFacAll = impFacAll + 3*interv;
+%                     case '2221v06_sca2'; impFacAll = impFacAll + 4*interv;
+%                     case '2223v03_sca2'; impFacAll = impFacAll + 5*interv;
+%                 end
+%                 warning('Click here to change the x-axis overlap, if any'); % for easy navigation
+%             end
+% 
+%             % use this for two buildings
+%             if 1 == 0
+%                 switch bldgIdCurr
+%                     case '2213v04_sca2'; impFacAll = impFacAll + 0;
+%                     case '2221v06_sca2'; impFacAll = impFacAll + 1*interv;
+%                 end
+%                 warning('Click here to change the x-axis overlap, if any'); % for easy navigation
+%             end
+%             semilogy(impFacAll, riskWithImp, currPlotStyle, 'LineWidth', 2); grid on; hold on;
+% 
+% %             legendText = [legendText; sprintf('%s-%i', bldgIdCurr, locID)];
+% %             legendText = [legendText; sprintf('ID-%s', bldgIdCurr(1:4))];
+%         end
         % end of #6
         
         if verbose == 2; fprintf('\n'); end

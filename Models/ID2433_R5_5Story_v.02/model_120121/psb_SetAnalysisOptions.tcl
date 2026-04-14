@@ -93,8 +93,8 @@
 
 	###############################################################################################
 	# Display mode - This will create a visualization window for the model
-	set displayMode "displayON"
-	# set displayMode "displayOFF"
+	# set displayMode "displayON"
+	set displayMode "displayOFF"
 
 
 ############## End of standard user input #################################################################################
