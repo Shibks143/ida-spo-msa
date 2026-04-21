@@ -17,7 +17,8 @@ baseFolder = pwd;
 matTag = eleID * 10 + 1;
 
 % cd H:\DamageIndex\Automated
-cd ..\..\..\DamageIndex\Automated\
+% cd ..\..\..\DamageIndex\Automated\
+
 [modelFolder, ~, ~, ~] = returnModelFolderInfo(bldgID);
 % lastwarn('') % resetting last warning message;
 cd(modelFolder);

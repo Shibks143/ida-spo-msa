@@ -37,7 +37,7 @@ numEqs = size(eqLIST, 2);
 %% 0. Based on building ID, read colIDLIST from MatlabInfo directory of output folder
 %     clc; fprintf('Processing building- %i/%i ...\n', i, numBldgs);
 %     cd H:\DamageIndex\Automated
-    cd ..\..\..\DamageIndex\Automated\
+    % cd ..\..\..\DamageIndex\Automated\
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID);
     cd(analysisTypeFolder); cd MatlabInformation
     colIDLIST = load('columnNumsAtEachStoryLISTOUT.out');
@@ -139,7 +139,7 @@ end
 %     exportName = sprintf('criticalColDamage_chi_%is_IDA_ALLComp', strrep(num2str(round(LimitStateVal, 2), '%.2f'), '.', 'p'));
     
     exportName = sprintf('criticalColDamage_chi_IDA_ALLComp');
-    hgsave(exportName); print('-depsc', exportName); print('-dmeta', exportName);
+    savefig(exportName); print('-depsc', exportName); print('-dmeta', exportName);
     
 % 2.5a (ALL) save ALL component IDAs in analysis directory (xi, normalized by thetaCap)
     cd(analysisTypeFolder)
@@ -149,7 +149,7 @@ end
     xlim([0 1]);
     psb_FigureFormatScript_paper; set(gca,'fontname','times');
     exportName = sprintf('criticalColDamage_xi_IDA_ALLComp');
-    hgsave(exportName); print('-depsc', exportName); print('-dmeta', exportName);
+    savefig(exportName); print('-depsc', exportName); print('-dmeta', exportName);
 cd(baseFolder);
 % close figures to avoid plotting on the same figure in case the function is repeatedly called 
 

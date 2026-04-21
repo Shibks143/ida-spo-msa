@@ -3,7 +3,7 @@ function [delta_y_eff, Vyield, BS, deltaD] = fun3_delta_y_eff_basedOnArea_ASCE41
 % idealizing trilinear pushover curve as per ASCE 41-13 section 7.4.3.2.4 which in turn refers to FEMA 440 section 4.3
 doPlot = 1;
 baseFolder = pwd;
-
+formatMode = 'powerpoint';
 % BuildingID = '2227v01';
 % roof drift ratio corresponding to the performance limit of 4% or 2% of Max IDR
 % perfLimit = 0.02; 
@@ -14,7 +14,8 @@ baseFolder = pwd;
 
 % new updated code for fetching folder location
 % cd H:\DamageIndex\Automated
-cd ..\..\..\DamageIndex\Automated\
+% cd ..\..\..\DamageIndex\Automated\
+
 [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(BuildingID);
 
 % switch BuildingID
@@ -157,7 +158,7 @@ defoVec = plotArrayAndBaseShearArray(:, 1);
 % (12-01-16, PSB) added the following two commands to adjust for the
 % pushover curve starting from a non-origin points. This causes the initial
 % slope to look different from the actual value and gives a feeling that
-% structure has yielded much earlier, in some cases even ealier than the
+% structure has yielded much earlier, in some cases even earlier than the
 % factored design base shear value.
 
 %     offsetOfBaseShear = interp1(defoVec, BS, 0); 
@@ -266,14 +267,19 @@ if doPlot == 1
     h2 = plot(xCoords, yCoords, 'm--', 'LineWidth', 2.4); 
     plot([delta_y_eff, delta_y_eff], [0, pointB(1, 2)], 'k--', 'LineWidth', 1);
     plot([0, delta_y_eff], [pointB(1, 2), pointB(1, 2)], 'k--', 'LineWidth', 1);
-    legh = legend([h1, h2], 'Actual SPO Curve', 'Idealized Curve', 'Location', 'SouthEast');
-    
+    legend([h1, h2], 'Actual SPO Curve', 'Idealized Curve', 'Location','SouthEast');
+    % legh = legend([h1, h2], 'Actual SPO Curve', 'Idealized Curve', 'Location', 'SouthEast');
+    sks_figureFormat(formatMode)
     xUppLim = (ceil(max(defoVec)*100)) / 100; % round up to hundred's place
     yUppLim = (ceil(max(BS)/200)) * 200; % round up to second decimal place
     xlim([0 xUppLim]); ylim([0 yUppLim]);
     
-    hx = xlabel('Roof Drift'); hy = ylabel('\it{V_B} (kN)');
-    psb_FigureFormatScript_paper
+    xlabel('Roof Drift','Interpreter','latex');
+    ylabel('$V_B$ (kN)','Interpreter','latex');
+   
+
+    % hx = xlabel('Roof Drift'); hy = ylabel('\it{V_B} (kN)');
+    % psb_FigureFormatScript_paper
     set(gca,'fontname','times')
     
     text(delta_y_eff, 0, '\Delta_y ', 'FontSize', 14, 'HorizontalAlignment', 'right', 'verticalAlignment', 'bottom')
@@ -283,10 +289,7 @@ if doPlot == 1
     cd MultObjRTSD_results
 
     exportName = sprintf('pushoverIdealizedASCE41_%s', BuildingID);
-    hgsave(exportName); % .fig file for Matlab
-    print('-depsc', exportName); % .eps file for Linux (LaTeX)
-    print('-dmeta', exportName); % .emf file for Windows (MSWORD)
-    
+    sks_figureExport(exportName)
     cd ..
 end
      

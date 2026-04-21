@@ -13,7 +13,8 @@ numEqs = size(eqLIST, 2);
     
 %% 0. Based on building ID, read colIDLIST from MatlabInfo directory of output folder
 %     cd H:\DamageIndex\Automated
-    cd ..\..\..\DamageIndex\Automated\
+    % cd ..\..\..\DamageIndex\Automated\
+    
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID);
     
 %% if colID list is required, uncomment the following

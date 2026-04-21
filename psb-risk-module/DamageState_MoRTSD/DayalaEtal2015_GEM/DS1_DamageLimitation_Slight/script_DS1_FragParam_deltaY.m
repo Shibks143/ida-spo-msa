@@ -1,11 +1,13 @@
 clear; tic
 %% DS1 Damage Limitation (Slight Damage) Operationability % page 35 of D'ayala et al (2015)
     % the limit state is attained at the yield displacement of the
-    % idealized pushober curve and we use trilinear pushover curve idealization as per 
+    % idealized pushover curve and we use trilinear pushover curve idealization as per 
     % ASCE 41-13 section 7.4.3.2.4 which in turn refers to FEMA 440 section 4.3
 
-buildingIDLIST = {'2211v03_sca2', '2213v04_sca2',	'2215v03_sca2',	...
-                  '2219v03_sca2', '2221v06_sca2',	'2223v03_sca2'};
+buildingIDLIST = {'2433v02'};
+
+% {'2211v03_sca2', '2213v04_sca2',	'2215v03_sca2',	...
+%                   '2219v03_sca2', '2221v06_sca2',	'2223v03_sca2'};
 
 % PL_LIST = [0.04, 0.02];
 PL_LIST = 0.02;
@@ -54,7 +56,8 @@ end
 baseFolder = pwd;
 for i = 1:numBldgs
         bldgID = buildingIDLIST{i};
-        cd H:\DamageIndex\Automated
+        % cd H:\DamageIndex\Automated
+        
         [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID);
         cd(analysisTypeFolder)
         lastwarn(''); % resetting last warning message;

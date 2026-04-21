@@ -6,8 +6,10 @@ tic
 baseFolder1 = pwd;
 
 %% start of inputs
+BldgIdLIST = {'2433v02'};
 saveDir = 'DATA_files';
-fragDataFileName = sprintf('DATA_fragility_Dayala_ALLbldg_1stTo4thBLDG');
+fragDataFileName = sprintf('DATA_fragility_Dayala_%s', BldgIdLIST{1});
+% fragDataFileName = sprintf('DATA_fragility_Dayala_ALLbldg_1stTo4thBLDG');
 
 % imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
 timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
@@ -15,8 +17,10 @@ timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several re
 
 % dsLIST = {'CP', 'LS', 'IO', 'DynInst'};
 dsLIST = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1', 'DS2_normalizedByThetaCap', 'DS2a_0p60_normalizedByThetaCap', 'DS2a_0p40_normalizedByThetaCap'};
-BldgIdLIST = {'2211v03',	'2213v04',	'2215v03', ... % 2, 4, 7-story zone-IV
-              '2219v03',	'2221v06',	'2223v03'}; % 2, 4, 7-story zone-V
+% BldgIdLIST = {'2433v02'};
+
+% {'2211v03',	'2213v04',	'2215v03', ... % 2, 4, 7-story zone-IV
+%               '2219v03',	'2221v06',	'2223v03'}; % 2, 4, 7-story zone-V
 % BldgIdLIST = {'2211v03',	'2213v04',	'2215v03', '2219v03'};
 % BldgIdLIST = {'2221v06',	'2223v03'}; 
 
@@ -32,7 +36,6 @@ for i = 1:size(BldgIdLIST, 2) % for each building
             bldgIdCurr = '2211v03_sca2';
             GMsuiteName = 'GMSetDel22_2211_Sca2';
             eqLIST = [6000311	6000312	6001601	6001602	6001831	6001832	6002121	6002122	6002851	6002852	6003411	6003412	6003521	6003522	6004081	6004082	6004091	6004092	6004571	6004572	6004581	6004582	6004611	6004612	6006331	6006332	6006921	6006922	6007861	6007862	6009521	6009522	6009681	6009682	6009871	6009872	6011351	6011352	6014361	6014362	6023951	6023952	6026271	6026272];
-            
             latLon = [28.62   77.22]; % Delhi (Table 5.4 of NDMA, 2011 report)
             locName = 'Delhi';
             zoneOfLoc = 'IV';
@@ -82,13 +85,25 @@ for i = 1:size(BldgIdLIST, 2) % for each building
             locName = 'Guwahati';
             zoneOfLoc = 'V';
             Ta = 0.91;
+   
+        case '2433v02'
+            bldgIdCurr = '2433v02';
+            GMsuiteName = 'GMSetC';
+            eqLIST = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
+            % eqLIST = [6000771	6000772	6001601	6001602	6001801	6001802	6004951	6004952	6005291	6005292	6007531	6007532	6008061	6008062	6010421	6010422	6010441	6010442	6010541	6010542	6010631	6010632	6010861	6010862	6010871	6010872	6011011	6011012	6012621	6012622	6014771	6014772	6015111	6015112	6015211	6015212	6017871	6017872	6017921	6017922	6032751	6032752	6033171	6033172];
+            latLon = [26.17   91.77]; % Guwahati (Table 5.4 of NDMA, 2011 report)
+            locName = 'Guwahati';
+            zoneOfLoc = 'V';
+            Ta = 0.71;
+
+
     end
 % variable name for storing building ID, this cannot begin with a numeral
     bldgIdVar = ['ID' bldgIdCurr];
 
 %     cd H:\DamageIndex\Automated
-%     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgIdCurr);
-%     cd(baseFolder1)
+    [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgIdCurr);
+    cd(baseFolder1)
     
 %% B. (perform computations) parallelizing the program to reduce run-ime; some remarks are in the order:
 % 1. parallelizing on buildings is not optimal, since they are NINE BUILDINGS and my PC has FOUR CORES, resulting in a total 25% overhead.
@@ -118,8 +133,8 @@ for i = 1:size(BldgIdLIST, 2) % for each building
             fragAllData.(bldgIdVar).ds{1, k} = dsCurr;
 %             [mu_im_all, betaRTR_all, mu_im, betaRTR] = extractFragilityForDifferentIM(analysisTypeFolder, MIDR_ds, eqLIST, T_new);
 %             [mu_im_all, betaRTR_all, mu_im, betaRTR, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T_new);
-            [mu_im_all, betaRTR_all, mu_im, betaRTR, imMin] = ...
-                extractFragilityForDS_DayalaEtAl_v1(bldgIdCurr, GMsuiteName, eqLIST, dsCurr, T_new);
+            
+              [mu_im_all, betaRTR_all, mu_im, betaRTR, imMin] = extractFragilityForDS_DayalaEtAl_v1(bldgIdCurr, GMsuiteName, eqLIST, dsCurr, T_new);
 
 %% parfor doesn't allow writing to a structure here, hence I have the assigning out of parfor now, read detailed notes above.
             % fragility components using all components of earthquakes

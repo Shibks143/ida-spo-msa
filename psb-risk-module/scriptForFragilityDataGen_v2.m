@@ -6,7 +6,13 @@ tic
 baseFolder1 = pwd;
 
 %% start of inputs
-saveDir = 'DATA_files';
+saveDir = fullfile(baseFolder1,'DATA_files');
+
+if ~exist(saveDir,'dir')
+    mkdir(saveDir);
+end
+
+% saveDir = 'DATA_files';
 fragDataFileName = sprintf('DATA_fragility_ALL');
 
 % imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
@@ -100,8 +106,9 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         otherwise
             eqLIST = eqNumberLIST_forProcessing_SetC; GMsuiteName = 'GMSetC';
     end
-    
-            [mu_im_all, betaRTR_all, mu_im, betaRTR, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T_new, GMsuiteName);
+            % [mu_im_all, betaRTR_all, mu_im, betaRTR, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T_new, GMsuiteName);
+
+            [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBetaRTR_CTRL, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T_new, GMsuiteName);
 
 %% parfor doesn't allow writing to a structure here, hence I have the assigning out of parfor now, read detailed notes above.
             % fragility components using all components of earthquakes
@@ -113,10 +120,10 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
 %             betaRTRCtrl = sprintf('betaRTR_%s_%ip%ipcMIDR', imType, floor(MIDR_ds*100), int8(mod(MIDR_ds*1000, 10)));
             
             % store the fragility data of all buildings with unique variables 
-            fragAllData.(bldgIdVar).muAll(j, k) = mu_im_all;
-            fragAllData.(bldgIdVar).betaRTRAll(j, k) = betaRTR_all;
-            fragAllData.(bldgIdVar).muCtrl(j, k) = mu_im;
-            fragAllData.(bldgIdVar).betaRTRCtrl(j, k) = betaRTR;
+            fragAllData.(bldgIdVar).muAll(j, k) = fragParamMu_ALL;
+            fragAllData.(bldgIdVar).betaRTRAll(j, k) = fragParamBetaRTR_ALL;
+            fragAllData.(bldgIdVar).muCtrl(j, k) = fragParamMu_CTRL;
+            fragAllData.(bldgIdVar).betaRTRCtrl(j, k) = fragParamBetaRTR_CTRL;
             
             % store minimum intensity measure from the analyses, this is particularly useful for intensity-bound risk assessment
 %             imMinVar = sprintf('imMin_%s_%ip%ipcMIDR', imType, floor(MIDR_ds*100), int8(mod(MIDR_ds*1000, 10)));
@@ -127,23 +134,17 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
   
             count = count + 1; fracDone = count/totalNumRuns; waitbar(fracDone);
             
-%%
-%              mu_im_allLIST(j, k) = mu_im_all;
-%              betaRTR_allLIST(j, k) = betaRTR_all;
-%              mu_imLIST(j, k) = mu_im;
-%              betaRTRLIST(j, k) = betaRTR;
-%              imMinLIST(j, k) = imMin;
         end
     end %% end of parfor, i.e., end of the extraction of fragility for a specific building
 
 % saving results intermittently to avoid data loss, if any
-cd(saveDir); save([fragDataFileName 'bldg' num2str(i)], 'fragAllData'); cd ..;
+save(fullfile(saveDir,[fragDataFileName 'bldg' num2str(i)]),'fragAllData');
+% cd(saveDir); save([fragDataFileName 'bldg' num2str(i)], 'fragAllData'); cd ..;
 % cd(saveDir); save([fragDataFileName 'bldg_2221' num2str(i)], 'fragAllData'); cd ..;
 % cd(saveDir); save([fragDataFileName 'bldg_2223' num2str(i)], 'fragAllData'); cd ..;
 
 end
-cd(saveDir); % navigate to the directory where we need DATA files
-save(fragDataFileName, 'fragAllData');
+save(fullfile(saveDir,fragDataFileName),'fragAllData'); % navigate to the directory where we need DATA files
 cd(baseFolder1); % again back to the script directory
 
 toc

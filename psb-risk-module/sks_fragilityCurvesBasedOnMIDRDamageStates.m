@@ -20,8 +20,12 @@ ylabel('$P[DS \ge ds_k]$','Interpreter','latex')
 title('Fragility Curves')
 sks_figureFormat('powerpoint')
 legend(dsToPlotFragParam,'Location','southeast','Box','off')
-exportName = sprintf('IM_efficiency_figures/Fragility_%s',strjoin(dsToPlotFragParam,'_'));
-% exportName = ['Fragility_' strjoin(dsLabels,'_')];
+% exportName = sprintf('IM_efficiency_figures/Fragility_%s',strjoin(dsToPlotFragParam,'_'));
+%% save folder
+saveDir = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+
+exportName = fullfile(saveDir, sprintf('Fragility_%s', strjoin(dsToPlotFragParam,'_')));
 sks_figureExport(exportName)
+% exportName = ['Fragility_' strjoin(dsLabels,'_')];
 
 end

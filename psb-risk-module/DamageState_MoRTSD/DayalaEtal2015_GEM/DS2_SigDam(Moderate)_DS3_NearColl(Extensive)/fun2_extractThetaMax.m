@@ -15,7 +15,8 @@ baseFolder = pwd;
 [endIJointID, endISpringID, endJJointID, endJSpringID] = fun2a_returnJointAndSpringID(eleID);
 
 % cd H:\DamageIndex\Automated
-cd ..\..\..\DamageIndex\Automated\
+% cd ..\..\..\DamageIndex\Automated\
+
 [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID);
 % lastwarn(''); % resetting last warning message;
 

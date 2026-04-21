@@ -15,7 +15,8 @@ baseFolder = pwd;
 % [analysisTypeFolder, designR] = returnBuildingInfo(BuildingID);
 
 % new updated code for fetching folder location
-cd H:\DamageIndex\Automated
+% cd H:\DamageIndex\Automated
+
 [~, analysisTypeFolder, designR, ~] = returnModelFolderInfo(BuildingID);
 cd(baseFolder)
 
@@ -158,7 +159,7 @@ defoVec = plotArrayAndBaseShearArray(:, 1);
 % (12-01-16, PSB) added the following two commands to adjust for the
 % pushover curve starting from a non-origin points. This causes the initial
 % slope to look different from the actual value and gives a feeling that
-% structure has yielded much earlier, in some cases even ealier than the
+% structure has yielded much earlier, in some cases even earlier than the
 % factored design base shear value.
 
 %     offsetOfBaseShear = interp1(defoVec, BS, 0); 

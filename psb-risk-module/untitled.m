@@ -1,8 +1,17 @@
 clear; clc; close all
 
 %% Data from your table
-mu   = [0.6136 0.59227 0.55428 0.54728];
-beta = [0.33837 0.30527 0.23651 0.21594];
+mu = [0.6136     0.39438     0.20047    0.097359];
+beta = [0.33837    0.30527    0.23651    0.21594];
+
+
+
+% mu = [0.781967948	0.520442051	0.285497976	0.143413675];
+% beta = [0.627022032	0.605999393	0.618671609	0.632398279];
+
+
+% mu   = [0.6136 0.59227 0.55428 0.54728];
+% beta = [0.33837 0.30527 0.23651 0.21594];
 
 dsLabels = {'DynInst','CP','LS','IO'};
 Togm = 1.717;
@@ -33,8 +42,19 @@ xlabel('$S_a(T_{ogm})$ (g)','Interpreter','latex','FontSize',18)
 ylabel('$P[DS \ge ds_k]$','Interpreter','latex','FontSize',18)
 title('Fragility Curves','FontSize',24,'FontWeight','bold')
 
+
 ylim([0 1])
-xlim([0.1 1])
+xlim([0.05 1])
+
+yticks(0:0.2:1)
+% ytickformat('%f')
+
+grid on
+set(gca,'YGrid','on','XGrid','on')
+
+% turn OFF minor grid
+set(gca,'XMinorGrid','off','YMinorGrid','off')
+
 
 %% Legend (bottom-right)
 legend({ ...
@@ -44,22 +64,5 @@ legend({ ...
     sprintf('IO ($\\mu$ = %.5f, $\\beta$ = %.5f)',mu(4),beta(4))}, ...
     'Interpreter','latex', ...
     'Location','southeast')
-
-%% Information box (top-left)
-txt = { ...
-    ['\bfBuilding ID: ' bldgID], ...
-    ' ', ...
-    ['\mu = [' sprintf('%.4f, ',mu(1:3)) sprintf('%.5f',mu(4)) ']'], ...
-    ['\beta = [' sprintf('%.5f, ',beta(1:3)) sprintf('%.5f',beta(4)) ']'], ...
-    ' ', ...
-    ['$T_{ogm}$ = ' num2str(Togm,'%.3f') ' s']};
-
-annotation('textbox',[0.15 0.60 0.28 0.25], ...
-    'String',txt, ...
-    'Interpreter','latex', ...
-    'FitBoxToText','on', ...
-    'BackgroundColor',[0.9 0.9 0.9], ...
-    'EdgeColor','k', ...
-    'FontSize',14)
-
 set(gca,'FontSize',16)
+

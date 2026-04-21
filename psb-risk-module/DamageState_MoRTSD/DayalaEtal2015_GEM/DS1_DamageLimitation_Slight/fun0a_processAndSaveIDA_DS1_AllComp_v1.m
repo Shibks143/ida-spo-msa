@@ -9,7 +9,7 @@ function fun0a_processAndSaveIDA_DS1_AllComp_v1(bldgID, eqLIST)
 % bldgID = '2211v03_sca2'; % bldgIDLIST{2}
 % eqLIST = [6000311	6000312	6001601	6001602	6001831	6001832	6002121	6002122	6002851	6002852	6003411	6003412	6003521	6003522	6004081	6004082	6004091	6004092	6004571	6004572	6004581	6004582	6004611	6004612	6006331	6006332	6006921	6006922	6007861	6007862	6009521	6009522	6009681	6009682	6009871	6009872	6011351	6011352	6014361	6014362	6023951	6023952	6026271	6026272];
 %%%%%%% END OF USER INPUT
-
+formatMode = 'powerpoint';
 %% Calculations start
 baseFolder = pwd;
 numEqs = size(eqLIST, 2);
@@ -17,7 +17,7 @@ numEqs = size(eqLIST, 2);
 %% 0. Read floorHtLIST, building height, and number of floors from MatlabInfo directory of output folder
 %     clc; fprintf('Processing building- %i/%i ...\n', i, numBldgs);
 %     cd H:\DamageIndex\Automated
-    cd ..\..\..\DamageIndex\Automated\
+    % cd ..\..\..\DamageIndex\Automated\
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID);
     cd(analysisTypeFolder); cd MatlabInformation
     floorHtLIST = load('floorHeightLISTOUT.out');
@@ -32,7 +32,7 @@ for eqIndex = 1:numEqs
     eqFolder = sprintf('EQ_%d', eqNumber);
     cd(eqFolder);
     
-    % this list containts 100 in saLevels for non-conv cases,
+    % this list contains 100 in saLevels for non-conv cases,
     load('DATA_collapseIDAPlotDataForThisEQ.mat', 'saLevelsForIDAPlotLIST');
     saT1LIST = saLevelsForIDAPlotLIST(2:end); % 2 to remove zero.
     saT1LIST(saT1LIST == 100) = [];
@@ -76,13 +76,19 @@ end
 
 % 2 save ALL component Roof drift ratio IDAs in analysis directory
     figure(151); % figure(100+figUniqueSeedForParfor); 
-    hx = xlabel('RDR_{max}'); hy = ylabel('Sa(Ta)');
-%     xlim([0 1]);
-    psb_FigureFormatScript_paper; set(gca,'fontname','times');
-    exportName = sprintf('roofDriftRatio_IDA_ALLComp');
-    hgsave(exportName); print('-depsc', exportName); print('-dmeta', exportName);
+    xlabel('RDR\,max','Interpreter','latex');
+    ylabel('Sa(Ta) (g)','Interpreter','latex');
     
-cd(baseFolder);
+    % hx = xlabel('RDR_{max}'); hy = ylabel('Sa(Ta) (g)');
+    % xlim([0 1]);
+    sks_figureFormat(formatMode)
+
+% psb_FigureFormatScript_paper; set(gca,'fontname','times');
+    exportName = sprintf('roofDriftRatio_IDA_ALLComp');
+    savefig(exportName); print('-depsc', exportName); print('-dmeta', exportName);
+    sks_figureExport(exportName)
+
+    cd(baseFolder);
 % close figures to avoid plotting on the same figure in case the function is repeatedly called 
 
 close all;

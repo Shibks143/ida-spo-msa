@@ -1,7 +1,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Use script scriptForFragilityDataGen_v2 to generate the   %%%
+%%% Use script: scriptForFragilityDataGen_v2 to generate the   %%%
 %%% DATA_fragility_ALL.mat for all intensity measures, Sa(Tj) %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,6 +37,7 @@ saveMedianDispersionBound = [1 1 1];
 UBPercentile = 0.84; LBPercentile = 1 - UBPercentile ;
 UBEps = norminv(UBPercentile); LBEps = norminv(LBPercentile);
 
+nDs = size(dsToPlotFragParam, 2)'; % number of damage states
 % end of input
 
 %% program begins
@@ -49,10 +50,11 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     muCtrlAllDs = fragAllData.(bldgIdVar).muCtrl;
     betaRTRCtrlAllDs = fragAllData.(bldgIdVar).betaRTRCtrl;
     timePLIST = fragAllData.(bldgIdVar).timeP;
+    % timePLIST =[1.72];
     ds = fragAllData.(bldgIdVar).ds;
     
 %% take a subset of the data depending on the damage state of interest
-    for j = 1:size(dsToPlotFragParam, 2)
+    for j = 1:nDs
         currDs = dsToPlotFragParam{1, j};
         dsMatchID = strcmp(ds, currDs);
         muCtrl(:, j) = muCtrlAllDs(:, dsMatchID);
@@ -65,7 +67,9 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     [M, I] = min(betaRTRCtrlSub);
     
     betaRTRCtrlMin(i, :) = M; % dispersion in the fragility for efficient intensity measure 
-    muCtrlEff(i, :) = muCtrl(I)'; % median fragility for efficient intensity measure 
+    for j = 1:nDs
+        muCtrlEff(i, j) = muCtrl(I(j), j)'; % median fragility for efficient intensity measure 
+    end
     timePEff(i, :) = timePLIST(I)'; % optimal period corresponding to efficient intensity measure
     
 %     set(groot,'defaultAxesColorOrder', [0 0 0; 1 0 0; 0 0 1; 1 0 1]); % order of graphs changed to 'k', 'r', 'b'
@@ -156,14 +160,50 @@ end
     
 end
 Togm = prod(timePEff, 2).^(1/size(timePEff,2));
-T = table(bldgIdLIST, muCtrlEff, betaRTRCtrlMin, timePEff, Togm);
+T = table(bldgIdLIST, timePEff, muCtrlEff, betaRTRCtrlMin,Togm);
 disp(T)
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Togm-based IM evaluation (added post-processing) %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+muCtrlEff_Togm = zeros(length(bldgIdLIST), nDs);
+betaRTRCtrl_Togm = zeros(length(bldgIdLIST), nDs);
+
+for i = 1:length(bldgIdLIST)
+
+    bldgIdCurr = BldgIdAndZoneLIST{i, 1};
+    bldgIdVar = ['ID' bldgIdCurr];
+
+    muCtrlAllDs = fragAllData.(bldgIdVar).muCtrl;
+    betaRTRCtrlAllDs = fragAllData.(bldgIdVar).betaRTRCtrl;
+    timePLIST = fragAllData.(bldgIdVar).timeP;
+    ds = fragAllData.(bldgIdVar).ds;
+
+    T_query = Togm(i);   % use previously computed Togm
+
+    for j = 1:nDs
+
+        currDs = dsToPlotFragParam{1, j};
+        dsMatchID = strcmp(ds, currDs);
+
+        muCurve = muCtrlAllDs(:, dsMatchID);
+        betaCurve = betaRTRCtrlAllDs(:, dsMatchID);
+
+        % interpolation at Togm
+        muCtrlEff_Togm(i, j) = interp1(timePLIST, muCurve, T_query, 'linear');
+        betaRTRCtrl_Togm(i, j) = interp1(timePLIST, betaCurve, T_query, 'linear');
+
+    end
+end
+
+T_Togm = table(bldgIdLIST, Togm, muCtrlEff_Togm, betaRTRCtrl_Togm);
+disp('================ Togm-based IM Results ================')
+disp(T_Togm)
+
 % T = table(bldgIdLIST, muCtrlEff, betaRTRCtrlMin, timePEff);
-%     disp(T)
     cd(baseFolder)
     toc
 %% fragility is added on 12-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% dsLabels = {'DynInst','CP','LS','IO'};    % or your DS order
 
 sks_fragilityCurvesBasedOnMIDRDamageStates(muCtrlEff, betaRTRCtrlMin, dsToPlotFragParam)

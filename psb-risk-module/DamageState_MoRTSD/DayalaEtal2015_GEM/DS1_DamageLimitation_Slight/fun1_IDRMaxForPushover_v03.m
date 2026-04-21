@@ -14,7 +14,8 @@ baseFolder = pwd;
 % [analysisTypeFolder, designR] = returnBuildingInfo(BuildingID);
 
 % new updated code for fetching folder location
-cd H:\DamageIndex\Automated
+% cd H:\DamageIndex\Automated
+
 [~, analysisTypeFolder, designR, ~] = returnModelFolderInfo(BuildingID);
 cd(baseFolder)
 
@@ -52,7 +53,7 @@ for floorIndex = 2:numFloors+1
 %     IDR_matrix(:, floorIndex) = (dispMatrix(:, floorIndex) -  dispMatrix(:, floorIndex - 1))/ individualFloorHt(floorIndex - 1);
 end
 
-% Interstorey drift ratio of each floor
+% Interstory drift ratio of each floor
 for floorIndex = 2:numFloors+1
     IDR_matrix(:, floorIndex) = (dispMatrix(:, floorIndex) -  dispMatrix(:, floorIndex - 1))/ individualFloorHt(floorIndex - 1);
 end
