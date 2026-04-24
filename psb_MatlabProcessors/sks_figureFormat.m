@@ -97,7 +97,7 @@ end
 % -------- Legend ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
-    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','off','Location','northeast');
+    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','off','Location','southeast');
 end
 
 end

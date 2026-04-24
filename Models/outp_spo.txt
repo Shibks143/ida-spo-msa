@@ -107,7 +107,7 @@ Current displacement is:           1020.02399365959445276530
 Current displacement is:           1030.01277448570840533648
 Current displacement is:           1040.00155531182940649160
 MaxDisp is 1043.306776841477. We reached           1043.30952818281753025076
-Time Duration for Pushover analysis: 0.15 minutes
+Time Duration for Pushover analysis: 0.16666666666666666 minutes
 (9-19-15) Not performing post-EQ eigen analysis- PSB
 Wiped
 CHECK: In SetAnalysisOptions, analysisType is set to: (ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)

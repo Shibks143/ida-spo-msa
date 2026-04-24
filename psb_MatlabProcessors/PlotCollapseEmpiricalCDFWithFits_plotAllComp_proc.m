@@ -55,7 +55,7 @@ isConvertToSaKircher = idaInputs.isConvertToSaKircher;
     markerTypeForLognormalExpandedVariance = 'b--';
     markerTypeForNormal = 'b:';
     minValueForPlot = 0.0;
-    maxValueForPlot = 6.5;
+    maxValueForPlot = 2.0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

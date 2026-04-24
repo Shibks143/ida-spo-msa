@@ -50,7 +50,7 @@ function tableWithAllInfo = masterFunRiskAllStepsWithRiskVarVsImpFac_v7a(latLonL
 matchDBEWithPSHA475 = 0; % to observe the effect of shape of hazard curve on risk, we are matching code-idealized hazard at 475y/2475y with PSHA-based hazard
 matchDBEWithPSHA2475 = 0;
 legendText = [];
-doPlotImpFacPlot = 1; % this variable plots variation of risk with importance factor
+doPlotImpFacPlot = 0; % this variable plots variation of risk with importance factor
 
 if nargin == 14
     imScaleFac = 1.00; % this optional variable is used to observe the impact of hazard variation on risk
@@ -82,9 +82,9 @@ end
 if size(zoneOfLocLIST, 1) ~= size(latLonLIST, 1); error('number of entries in siteZoneLIST does not match with number of (lat, lon) entries.'); end
     
 % ds = 'CP'; % possible damage states are 'DynInst' 'CP' 'LS' 'IO'
-lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
-                  0.5e-4; ... % Zizmond and Dolsek (2019); an example (trade-off)
-                  1.0e-5];   % Douglas et al. (2013) for France
+% lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
+%                   0.5e-4; ... % Zizmond and Dolsek (2019); an example (trade-off)
+%                   1.0e-5];   % Douglas et al. (2013) for France
 % impFacLIST = [1.2; ... % business continuity structures (IS 1893-1, 2016)
 %               1.5; ... % critical and lifeline structures  (IS 1893-1, 2016)
 %               2.0];    % highly critical structures (dam etc.)
@@ -94,7 +94,7 @@ lambda_tarLIST = [2.0e-4; ... % Luco et al. (2007) for ASCE 7-10 (US)
 % TaLIST = [0.61	0.91	1.35	0.61	0.91	1.35	0.61	0.91   1.35]'; % (approximate period as per code) 
 
 %  1a. inputs for extracting  hazard 
-doPlot = 0; plotType = 'semilog'; % 'semilog', 'loglog, 'linear'
+doPlot = 1; plotType = 'loglog'; %'semilog'; 'loglog, 'linear'
 imTypeForPlot = imType; locationLISTforPlot = {};
 %  1b. inputs for discretizing hazard curve 
 % fitModel = '3param'; % '2param' or '3param'; Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)]
@@ -133,16 +133,36 @@ baseFolder = pwd;
 %% 0. Assign MIDR and some beta values for fragility
     betaDR = 0.20; % (6-6-19, PSB) SMRF- design requirements. 'Good' for SMRF (see Sec 6.2 of Denavit et al., 2016)
     betaMDL = 0.20; % (6-6-19, PSB) modeling; good; index model capturing full range of archetype design space
-switch ds
-    case 'DynInst'
+% switch ds  % it is for MIDR_drift based damage states
+%     case 'DynInst'
+%         MIDR_ds = 0.00; % proxy for dynamic instability
+%         betaTD = 0.20; % Good rating of test data (Sec 9.2.3 of FEMA P695)
+%     case 'CP'
+%         MIDR_ds = 0.04; betaTD = 0.20; % Good rating of test data (Sec 9.2.3 of FEMA P695)
+%     case 'LS'
+%         MIDR_ds = 0.02; betaTD = 0.10; % superior rating of test data for lower damage states    
+%     case 'IO'
+%         MIDR_ds = 0.01; betaTD = 0.10; % superior rating of test data for lower damage states    
+% end
+
+% dsLIST = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1', 'DS2_normalizedByThetaCap', 'DS2a_0p60_normalizedByThetaCap', 'DS2a_0p40_normalizedByThetaCap'};
+switch ds % it is for PHR based damage states
+    case 'DS4'
         MIDR_ds = 0.00; % proxy for dynamic instability
         betaTD = 0.20; % Good rating of test data (Sec 9.2.3 of FEMA P695)
-    case 'CP'
+    case 'DS3_normalizedByThetaCap'
         MIDR_ds = 0.04; betaTD = 0.20; % Good rating of test data (Sec 9.2.3 of FEMA P695)
-    case 'LS'
+    case 'DS2a_0p50_normalizedByThetaCap'
         MIDR_ds = 0.02; betaTD = 0.10; % superior rating of test data for lower damage states    
-    case 'IO'
-        MIDR_ds = 0.01; betaTD = 0.10; % superior rating of test data for lower damage states    
+    case 'DS1'
+        MIDR_ds = 0.01; betaTD = 0.10; % superior rating of test data for lower damage states  
+    % case 'DS2_normalizedByThetaCap'
+    %     MIDR_ds = 0.02; betaTD = 0.10;
+    % case 'DS2a_0p60_normalizedByThetaCap'
+    %     MIDR_ds = 0.02; betaTD = 0.10; 
+    % case 'DS2a_0p40_normalizedByThetaCap'
+    %     MIDR_ds = 0.02; betaTD = 0.10;
+
 end
 
 %% 1. Hazard stuff extraction, interpolation, and discretization
@@ -174,6 +194,8 @@ for locID = 1:size(latLonLIST, 1)
         cd('Input from Raghukanth')
         % 1a. extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
         [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLonCurr, doPlot, plotType, locationLISTforPlot, T1Curr);
+
+
         %  1b. discretize each hazard curve individually
         [imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20200111_v2(fitModel, imValLIST, afe_Sa_T1_LIST, N, doPlot, plotType, imTypeForPlot, legendName);
         %     imScaleFac = 1.00;
@@ -235,7 +257,8 @@ for locID = 1:size(latLonLIST, 1)
         cd(baseFolder)
         %% 2. Load the fragility data for all archetypical buildings. (v21, P1_R2 buildings)
         dataDir = 'DATA_files';
-        fragDataFile = sprintf('DATA_fragility_ALL.mat');
+        fragDataFile = sprintf('DATA_fragility_Dayala_2433v02.mat'); % This one is for PHR based damage states
+        % fragDataFile = sprintf('DATA_fragility_ALL.mat'); % This one is for drift based damage states
         fileWithPath = fullfile(pwd, dataDir, fragDataFile);
                 
         %% At this point, define a variable imTypeT1 which is different from imType only if T1 is given as an input
@@ -283,6 +306,7 @@ for locID = 1:size(latLonLIST, 1)
                 imMinMat = fragAllData.(bldgIdVar).imMin;
                 
                 % find matching time period and damage state
+                % [~, rowId] = min(abs(timePDataVec - T1Curr)); % added on 22-Apr-2026
                 rowId = find(abs(timePDataVec - T1Curr) < 1e-6);
                 colId = find(strcmp(dsDataVec, ds));
                 
@@ -357,88 +381,88 @@ for locID = 1:size(latLonLIST, 1)
         eps1 = (log(boundRangeCurr(1)) - log(fragilityDataCurr(1, 1))) / fragilityDataCurr(1, 2);
         eps1LIST(counter, 1) = eps1;
         
-        %% 4. Calculate the risk-targeted ground motion value.
-        % If I update lambda_tarLIST than defining a new variable name as lambda_tarLIST_forUse, then
-        % the program uses riskVal for first building in this function.
-        if lambda_tarLIST == 999 % proxy for targeting building-specific risk reduction ratios and not fixed risk values
-            lambda_tarLIST_toUse = riskVal*(1./([1.5:0.5:10]))'; % overwriting the input lambda_tarLIST in order to extract revised tables for RTGM which target building specific risk ratios and not the reduction factors over statistic measure
-        else
-            lambda_tarLIST_toUse = lambda_tarLIST;
-        end
-        for k = 1:size(lambda_tarLIST_toUse, 1)
-            lambda_tar = lambda_tarLIST_toUse(k, 1);
-            %             riskTargetedMedianCap = computeRTGM_v1(lambda_tar, hazardDataCurr, betaTot);
-            riskTargetedMedianCap = computeRTGM_v2(lambda_tar, hazardDataCurr, betaTot, imOrAfeBound, boundRangeCurr);
-            %% calculate the risk-targeted design hazard (Refer analytical expressions on pp 12-13 of notebook no.-7
-            RTGM_ReqFac = riskTargetedMedianCap/mu_ds; % required factor over current design force; fragility assumed to increase proportionately with the design force
-            switch zoneOfLoc
-                case 'II';  zoneMCE_PGA = 0.10;
-                case 'III'; zoneMCE_PGA = 0.16;
-                case 'IV';  zoneMCE_PGA = 0.24;
-                case 'V';   zoneMCE_PGA = 0.36;
-            end
-
-%%% THIS IS DESIGN FORCE, calculated using a unique variable TaCurr
-            switch TaCurr
-                case 0;     SaByg = 1;
-                otherwise;  SaByg = min(2.5, 1/TaCurr);
-            end
-            H_IM_d = zoneMCE_PGA/2 * SaByg; % design hazard value as per IS 1893 (Z/2 * Sa/g)
-            RTGM_designHaz = H_IM_d * RTGM_ReqFac; % risk-targeted design hazard; assuming that design corresponds to DBE (Z/2*Sa/g)
-
-            %% reverse calculate the design return period (assuming the original design to be for 475y) given the hazard curve and RTGM
-            X = hazardDataCurr(1, :); Y = hazardDataCurr(2, :); % X- im values, Y- afe values (used only for interpolation)
-            xq = RTGM_designHaz;
-            if xq ~= 0
-                ix = find(X >= xq, 1);
-                if ix == 1 % even the first im in hazard curve is higher than hazard.
-                    RTGM_RP = 0;
-                else
-                    yq = interp1([X(ix-1), X(ix)], [Y(ix-1), Y(ix)], xq, 'pchip');
-                    RTGM_RP = int32(1/yq); % A design corresponding to this the return period would result in target risk
-                end
-            else
-                RTGM_RP = 0; % even the risk corresponding to imMin is less than target risk.
-            end
-
-            if verbose == 2; fprintf('RTGM-%4.3f;\t design RP-%i years.\n', riskTargetedMedianCap, int32(RTGM_RP)); end
-%             tableWithAllInfo(counter, 10 + 2*k-1) = table(riskTargetedMedianCap);
-%             tableWithAllInfo(counter, 10 + 2*k) = table(RTGM_RP);
-            tableWithAllInfo(counter, 10 + k) = table(riskTargetedMedianCap);
-
-            if counter == 1
-%                 tableWithAllInfo.Properties.VariableNames{10 + 2*k - 1} = sprintf('RT_mu%i', k);
-%                 tableWithAllInfo.Properties.VariableNames{10 + 2*k} = sprintf('RTGM_RP%i', k);
-                tableWithAllInfo.Properties.VariableNames{10 + k} = sprintf('RT_mu%i', k);
-            end
-        end
+%         %% 4. Calculate the risk-targeted ground motion value.
+%         % If I update lambda_tarLIST than defining a new variable name as lambda_tarLIST_forUse, then
+%         % the program uses riskVal for first building in this function.
+%         if lambda_tarLIST == 999 % proxy for targeting building-specific risk reduction ratios and not fixed risk values
+%             lambda_tarLIST_toUse = riskVal*(1./([1.5:0.5:10]))'; % overwriting the input lambda_tarLIST in order to extract revised tables for RTGM which target building specific risk ratios and not the reduction factors over statistic measure
+%         else
+%             lambda_tarLIST_toUse = lambda_tarLIST;
+%         end
+%         for k = 1:size(lambda_tarLIST_toUse, 1)
+%             lambda_tar = lambda_tarLIST_toUse(k, 1);
+%             %             riskTargetedMedianCap = computeRTGM_v1(lambda_tar, hazardDataCurr, betaTot);
+%             riskTargetedMedianCap = computeRTGM_v2(lambda_tar, hazardDataCurr, betaTot, imOrAfeBound, boundRangeCurr);
+%             %% calculate the risk-targeted design hazard (Refer analytical expressions on pp 12-13 of notebook no.-7
+%             RTGM_ReqFac = riskTargetedMedianCap/mu_ds; % required factor over current design force; fragility assumed to increase proportionately with the design force
+%             switch zoneOfLoc
+%                 case 'II';  zoneMCE_PGA = 0.10;
+%                 case 'III'; zoneMCE_PGA = 0.16;
+%                 case 'IV';  zoneMCE_PGA = 0.24;
+%                 case 'V';   zoneMCE_PGA = 0.36;
+%             end
+% 
+% %%% THIS IS DESIGN FORCE, calculated using a unique variable TaCurr
+%             switch TaCurr
+%                 case 0;     SaByg = 1;
+%                 otherwise;  SaByg = min(2.5, 1/TaCurr);
+%             end
+%             H_IM_d = zoneMCE_PGA/2 * SaByg; % design hazard value as per IS 1893 (Z/2 * Sa/g)
+%             RTGM_designHaz = H_IM_d * RTGM_ReqFac; % risk-targeted design hazard; assuming that design corresponds to DBE (Z/2*Sa/g)
+% 
+%             %% reverse calculate the design return period (assuming the original design to be for 475y) given the hazard curve and RTGM
+%             X = hazardDataCurr(1, :); Y = hazardDataCurr(2, :); % X- im values, Y- afe values (used only for interpolation)
+%             xq = RTGM_designHaz;
+%             if xq ~= 0
+%                 ix = find(X >= xq, 1);
+%                 if ix == 1 % even the first im in hazard curve is higher than hazard.
+%                     RTGM_RP = 0;
+%                 else
+%                     yq = interp1([X(ix-1), X(ix)], [Y(ix-1), Y(ix)], xq, 'pchip');
+%                     RTGM_RP = int32(1/yq); % A design corresponding to this the return period would result in target risk
+%                 end
+%             else
+%                 RTGM_RP = 0; % even the risk corresponding to imMin is less than target risk.
+%             end
+% 
+%             if verbose == 2; fprintf('RTGM-%4.3f;\t design RP-%i years.\n', riskTargetedMedianCap, int32(RTGM_RP)); end
+% %             tableWithAllInfo(counter, 10 + 2*k-1) = table(riskTargetedMedianCap);
+% %             tableWithAllInfo(counter, 10 + 2*k) = table(RTGM_RP);
+%             tableWithAllInfo(counter, 10 + k) = table(riskTargetedMedianCap);
+% 
+%             if counter == 1
+% %                 tableWithAllInfo.Properties.VariableNames{10 + 2*k - 1} = sprintf('RT_mu%i', k);
+% %                 tableWithAllInfo.Properties.VariableNames{10 + 2*k} = sprintf('RTGM_RP%i', k);
+%                 tableWithAllInfo.Properties.VariableNames{10 + k} = sprintf('RT_mu%i', k);
+%             end
+%         end
         
-        %% 5. Calculate the increased margin due to different importance factors.
-        for p = 1:size(impFacLIST, 1)
-            impFac = impFacLIST(p, 1);
-%             additionalRiskMargin = increasedRiskMargin_v1(hazardDataCurr, fragilityDataCurr, impFac);
-            additionalRiskMargin = increasedRiskMargin_v2(hazardDataCurr, fragilityDataCurr, impFac, imOrAfeBound, boundRangeCurr);
-            if verbose == 2; fprintf('%4.3f\t', additionalRiskMargin ); end
-%             tableWithAllInfo(counter, 10 + 2*k + p) = table(additionalRiskMargin);
-            tableWithAllInfo(counter, 10 + k + p) = table(additionalRiskMargin);
-            if counter == 1; tableWithAllInfo.Properties.VariableNames{end} = sprintf('riskFacImp%ip%i', floor(impFac), int32(mod(impFac*100, 100))); end
-        end
+%         %% 5. Calculate the increased margin due to different importance factors.
+%         for p = 1:size(impFacLIST, 1)
+%             impFac = impFacLIST(p, 1);
+% %             additionalRiskMargin = increasedRiskMargin_v1(hazardDataCurr, fragilityDataCurr, impFac);
+%             additionalRiskMargin = increasedRiskMargin_v2(hazardDataCurr, fragilityDataCurr, impFac, imOrAfeBound, boundRangeCurr);
+%             if verbose == 2; fprintf('%4.3f\t', additionalRiskMargin ); end
+%             % tableWithAllInfo(counter, 10 + 2*k + p) = table(additionalRiskMargin);
+%             tableWithAllInfo(counter, 10 + k + p) = table(additionalRiskMargin);
+%             if counter == 1; tableWithAllInfo.Properties.VariableNames{end} = sprintf('riskFacImp%ip%i', floor(impFac), int32(mod(impFac*100, 100))); end
+%         end
         
-        %% 6. (03-31-20) This is a standalone feature, I am making sure that this piece of the program does not interact with the rest of the program in any way.
-        % it will simply plot lambda_ds versus importance factor for all buildings.
-         
-        impFacAll = 1;
-        % impFacAll = 1:0.01:10;
-        impFacPlotLim = 3;
-        additionalRiskMarginTemp = zeros(size(impFacAll));
-        for r = 1:size(impFacAll, 2)
-            impFacCurr = impFacAll(1, r);
-            additionalRiskMarginTemp(1, r) = increasedRiskMargin_v2(hazardDataCurr, fragilityDataCurr, impFacCurr, imOrAfeBound, boundRangeCurr);
-        end
-
-        actualRiskForI_1p0 = riskVal; % 0.81973891000707e-4    ; % copied for 2213 (Nst = 4, Delhi), with SaTi, Ti = 1.29 as IM
-        riskWithImp = actualRiskForI_1p0./additionalRiskMarginTemp;
-        
+        % %% 6. (03-31-20) This is a standalone feature, I am making sure that this piece of the program does not interact with the rest of the program in any way.
+        % % it will simply plot lambda_ds versus importance factor for all buildings.
+        % 
+        % impFacAll = 1;
+        % % impFacAll = 1:0.01:10;
+        % impFacPlotLim = 3;
+        % additionalRiskMarginTemp = zeros(size(impFacAll));
+        % for r = 1:size(impFacAll, 2)
+        %     impFacCurr = impFacAll(1, r);
+        %     additionalRiskMarginTemp(1, r) = increasedRiskMargin_v2(hazardDataCurr, fragilityDataCurr, impFacCurr, imOrAfeBound, boundRangeCurr);
+        % end
+        % 
+        % actualRiskForI_1p0 = riskVal; % 0.81973891000707e-4    ; % copied for 2213 (Nst = 4, Delhi), with SaTi, Ti = 1.29 as IM
+        % riskWithImp = actualRiskForI_1p0./additionalRiskMarginTemp;
+        % 
         %% 6a. SAVE all the IMP FAC versus lambda data in a structure
          % cd ImpFacVersusLambdaData; save(['impFacVsLambdaData_' bldgIdCurr '_' ds], 'impFacAll', 'riskWithImp', 'actualRiskForI_1p0'); cd ..
          % 
@@ -545,7 +569,7 @@ for locID = 1:size(latLonLIST, 1)
     if verbose == 2; fprintf('--------------------------------------------------\n'); end
 end
 %     hleg = legend(legendText);
-    psb_FigureFormatScript
+    % psb_FigureFormatScript
 
 cd(baseFolder);
 %  (1a + 1b)- For efficiency, we can use also use a script 

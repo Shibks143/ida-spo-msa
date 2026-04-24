@@ -104,7 +104,7 @@ for bldgIndex = 1:length(bldgID_LIST)
                 floorDispVECTOR(currentFloorNum) = floorDisp{currentFloorNum}.TH(lastTimeStepNum);
             end
         case (3)
-            % Plot the absMax peak dispalcements of each floor for the full EQ (NOTE: this is
+            % Plot the absMax peak displacements of each floor for the full EQ (NOTE: this is
             % not an image of a distorted building, but absolute value of peak floor displacement in
             % each story at each time step)
             maxFloorNum = buildingInfo{bldgID}.numStories + 1;
@@ -183,7 +183,7 @@ cd(tempDir)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Do a similar loop for the column base hinges at the
-% foundation level (the ones that are not assciated with any
+% foundation level (the ones that are not associated with any
 % joint)
     currentFloorNum = 1;
     currentJointNodeNum = 1;
@@ -233,10 +233,9 @@ for bldgIndex = 1:length(bldgID_LIST)
    cd(analysisDir)
 
    exportName = sprintf('PushoverDeformedShape_%s_%s', pushoverStepNameIdentifier, modelName);
-   savefig([exportName '.fig']); % .fig file for Matlab % model names may contain period
-   print('-depsc', [exportName '.eps']); % .eps file for Linux (LaTeX)
-%    print('-djpeg', exportName); % .jpeg file for small sized files
-   print('-djpeg', [exportName '.jpeg'], '-r300');
+   sks_figureExport(exportName)
+   sks_figureFormat('powerpoint')
+   
    cd(baseFolder)
    close;
 end 

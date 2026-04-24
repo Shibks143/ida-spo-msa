@@ -4,8 +4,7 @@ tic
 
 baseFolder = pwd;
 
-fileNameLIST = {'ID2433_R5_5Story_v.02';
-}; 
+fileNameLIST = {'ID2433_R5_5Story_v.02';}; 
 
 shearHingeOrNot = 0; % if there is a shear Hinge then different opensees file is used; using 1 would always work 
                      % but may not be the fastest in case of haselton-type models with flexural-only hinges
@@ -22,11 +21,6 @@ cd Models\
 cd(fileName)
 
 % !OpenSees_32-kNmmMPa-PSB-18-10-16 psb_RunMeanAnalysis.tcl
-% !OpenSees_2.5.0_32bit psb_RunMeanAnalysis.tcl
-% !opensees_2.5.0 psb_RunMeanAnalysis.tcl
-% !OpenSees_64-kNmmMPa-PSB-22-10-16 psb_RunMeanAnalysis.tcl  % DO NOT USE, it's very slow due to selection of the built solution in "debug mode" in Visual Studio 
-
-% !OpenSees_64-kNmmMPa-PSB-10-24-16-RELEASE psb_RunMeanAnalysis.tcl 
 % !OpenSees_64-kNmmMPa-PSB-11-01-16 psb_RunMeanAnalysis.tcl > "C:\Users\Prakash\Desktop\outp_NEW.txt" 2>&1
 
 fprintf('Running %i/%i... Building: %s  \n', buildingIndex, length(fileNameLIST), fileName);
@@ -86,7 +80,7 @@ analysisType_forPO = sprintf('(%s)_(AllVar)_(0.00)_(clough)', fileName);
                                     eqNumber_PO, isPlotPO, plotRoofDriftRatio, maxNumPoints, markerType_PO, lineWidth_PO, isPlotStoryPO, ...
                                     storyNumLIST, isPlotPOMaxDriftLevel, determinePeriodBasedDuctility);
     cd ..
-%     (6-1-16, PSB) store oushover results to plot together
+%     (6-1-16, PSB) store pushover results to plot together
     cd Output
     cd(analysisType_forPO)
     save('DATA_pushover.mat');

@@ -38,7 +38,7 @@ startDir = pwd;
 % =========================
 legendTextFontSizeInThisFile = 12;
 minValueForPlot = 0.0;
-maxValueForPlot = 5.0;
+maxValueForPlot = 3.0;
 
 % ======================================
 % LOOP over analysis types

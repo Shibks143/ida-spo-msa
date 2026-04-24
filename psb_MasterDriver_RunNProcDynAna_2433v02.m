@@ -54,7 +54,7 @@ IDA_or_MSA = 'IDA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1         0              0               1];
+    analyzeProcessPlotIndex = [0        0        0           1         0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,7 +110,7 @@ IDA_or_MSA = 'IDA';
     
 % Sa list for stripe processing - this is the list of Sa levels to make stripe files for
      
-    saLevelsForStripes = [0.24  0.53];
+    saLevelsForStripes = [0.13  0.17  0.24  0.35  0.40  0.53  0.70  0.89];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this

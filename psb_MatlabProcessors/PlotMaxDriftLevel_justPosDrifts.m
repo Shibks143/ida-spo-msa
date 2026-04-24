@@ -2,7 +2,7 @@
 % Procedure: PlotMaxDriftLevel.m
 % -------------------
 % This procedure plots the displacement TH for a node for a given analysis run.  It opens the file that has already been processed.  If the .mat
-% file has not been made yet (using the ProcessSinglRum.m function), this function returns an error.
+% file has not been made yet (using the ProcessSinglRun.m function), this function returns an error.
 % 
 % Assumptions and Notices: 
 %           - dofNum can be either 1 or 2 (only 2D)
@@ -111,27 +111,20 @@ load(fileName);
     grid on
     %titleText = sprintf('Drift Ratio: Sa of %.2f, EQ %.0f for %s', saTOneForRun, eqNumber, analysisType);
     %title(titleText);
-    yLabel = sprintf('Floor Number');
-    hy = ylabel(yLabel);
-    hx = xlabel('Interstory Drift Ratio');
+    xlabel('Interstory Drift Ratio');
+    ylabel('Floor Number');
     box on
-    FigureFormatScript
+    sks_figureFormat('powerpoint')
    
-
     % Save the plot
         % Go back to the output folder
         cd ..;
         cd ..;
-        % Save the plot as a .fig file
-        plotName = sprintf('PushoverMaxDriftLevel_Num_%d_%s.fig', eqNumber, analysisType);
-        savefig(gcf, plotName);  
         
-        % Export the plot as a .emf file (Matlab book page 455)
-        exportName = sprintf('PushoverMaxDriftLevel_Num_%d_%s.emf', eqNumber, analysisType);
-        print('-dmeta', exportName);
+        exportName = sprintf('PushoverMaxDriftLevel_Num_%d_%s',eqNumber, analysisType);
+        sks_figureExport(exportName);
 
     hold on
-
     disp('done');
     
 % Get back to the MatlabProcessors folder where we started

@@ -5,13 +5,13 @@ latLonLIST = [ % input depending on the site (lat, lon)
 %     13.05	80.27; % Chennai
 %     22.55	88.37; % Kolkata
 %     19.00   72.80; % Mumbai   (Table 5.4 of NDMA, 2011 report)
-%     28.62   77.22; % Delhi
+      % 28.62   77.22; % Delhi
       26.17   91.77; % Guwahati
 %     27.10   92.10; % an arbitrary grid point near Arunachal border
     ];
 
 %% 
-zoneOfLocLIST = {'V';}; % {'III'}; {'IV'}; {'V'}; {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
+zoneOfLocLIST =  {'V';}; %{'IV'; 'V';}; ; % {'III'}; {'IV'}; {'V'}; {'III'; 'IV'; 'V'; 'V'}; % size of this input must match with the size of the latLonLIST 
 % imScaleFac = 1.00; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
 
 % Scale IS 1893 hazard such that it matches with site hazard at some Tr
@@ -21,13 +21,16 @@ imScaleFac = 1; % optional variable
 % bldgLISTIdentifier = %'all'; % 'all', '4storied', '7storied', '12storied'
 % bldgLISTIdentifier = 'twoFourSeven_CS_GM'; % two, four, and seven storied buildings with GM matching Conditional Spectra
 % bldgLISTIdentifier = '4storied'; % two, four, and seven storied buildings with GM matching Conditional Spectra
-dsLIST = {'DynInst' 'CP' 'LS' 'IO'}; % {'DynInst' 'CP' 'LS' 'IO'};
+% dsLIST = {'DynInst' 'CP' 'LS' 'IO'}; % {'DynInst' 'CP' 'LS' 'IO'};
 imTypeLIST = {'Sa_T1'}; % essentially fixed now
+%% Damage states by Dayala et al added on 23-Apr-2026
+dsLIST ={'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};
+% dsLIST = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1', 'DS2_normalizedByThetaCap', 'DS2a_0p60_normalizedByThetaCap', 'DS2a_0p40_normalizedByThetaCap'};
 
 % (approximate period as per code) 
 % TaLIST = [0.61	0.91	1.35	0.61	0.91	1.35	0.61	0.91   1.35]'; % (approximate period as per code) 
-TaLIST   = [0.71]';     % [0.37    0.61	0.91	0.37	0.61	0.91]'; % (approximate period as per code) 
-TogmLIST = [1.72]';     % [1.44	1.56	1.87	1.15	1.57	1.64]'; % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, and 7 storied bldgs in Zone-IV and V)
+TaLIST   =  [0.71]'; %[0.37  0.61  0.91  0.37	0.61  0.91]';  % (approximate period as per code) 
+TogmLIST =  [1.72]'; %[1.44  1.56	1.87  1.15	1.57  1.64]';     % geoM_Topt2 (<= 2sec) for CS ground motion records (2, 4, and 7 storied bldgs in Zone-IV and V)
 
 % (period for Intensity measure, Sa(T1) 
 % T1LIST = [2.69	1.88	3.61	1.54	2.70	3.63	1.57	2.67	3.55]';
@@ -64,17 +67,17 @@ NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST val
 % Since, it's possible that (true imMin) < (imMin obtained from analysis). 
     factorOnImMin = 1.00; % 1.00; % optional variable that reduces the imMin value (DEFAULT value = 1)
 
-%% X.1. (UNBOUNDED CASE) 
+% % %% X.1. (UNBOUNDED CASE) 
 %     imOrAfeBoundLIST = 0; % no bound (=0); bound over IM (= 1); bound over AFE (= 2)
 %     lowerBoundLIST = 0.01; 
 %     upperBoundLIST = 5; % lower bound bound (over im or afe, as may be the case)
 
-%% X.2. (LOWER-BOUNDED CASE) 
+% X.2. (LOWER-BOUNDED CASE) 
     imOrAfeBoundLIST = 1; % no bound (=0); bound over IM (= 1); bound over AFE (= 2)
     lowerBoundLIST = 99; % 0.01; assign 99 to indicate that lowerBound is taken as the minimum im Value from fragility analysis
     upperBoundLIST = 5; % lower bound bound (over im or afe, as may be the case)
 
-%% afe bound
+% afe bound
 % imOrAfeBoundLIST = 2*ones(1, 6); % no bound (=0); bound over IM (= 1); bound over AFE (= 2)
 % lowerBoundLIST = [1e-6, 1e-5, 1e-4, 1e-6, 1e-5, 1e-4]; % range of bound (over im or afe, as may be the case)
 % upperBoundLIST = [2e-2, 2e-2, 2e-2, 1e-1, 1e-1, 1e-1]; % range of bound (over im or afe, as may be the case)
@@ -86,7 +89,7 @@ NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST val
 %               2.5; 3.0; 4.0; 5.0]; % two values for plotting proposed and calculated risk with importance factors 
 % impFacLIST = [1.25; 1.5; 1.75; 2.0; 2.5; 3.0; 4.0; 5.0]; % for tables and figures
 % impFacLIST = (1.25:0.05:3.5)'; % for tables and figures
-impFacLIST = 1; % for tables and figures
+impFacLIST = 0; % for tables and figures
 
 verbose = 1; % for debugging, set this to 2; this will just print more intermediate results 
 saveImpFactVsRisk = 0; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm'; 
@@ -106,9 +109,9 @@ saveImpFactVsRisk = 0; dirForFigures = 'FIG_ImpFactObservedVsRisk_revA\SaTogm';
 
 % For IMPORTANCE FACTOR paper, I have now defined target risks based on the chosen intensity measure. 
 
-%% NOTE- FOR RTGM, WE TARGET ONLY ONE ds. ERGO, dsLIST has just one ds in it.
-if ~exist('targetRiskBasedOnRecommendedRisk', 'var'); targetRiskBasedOnRecommendedRisk= 0; end
-if ~exist('targetRiskBasedOnMeanRisk', 'var'); targetRiskBasedOnMeanRisk = 0; end
+% %% NOTE- FOR RTGM, WE TARGET ONLY ONE ds. ERGO, dsLIST has just one ds in it.
+% if ~exist('targetRiskBasedOnRecommendedRisk', 'var'); targetRiskBasedOnRecommendedRisk= 0; end
+% if ~exist('targetRiskBasedOnMeanRisk', 'var'); targetRiskBasedOnMeanRisk = 0; end
 
 % targetRiskRatio = [1; 1/2; 1/4; 1/10; 1/20];
 % targetRiskRatio = [1; 1/1.5; 1./(2:10)']; % risk ratio of 1.5, 2, 3, ..., 10 
