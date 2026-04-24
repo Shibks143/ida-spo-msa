@@ -52,8 +52,8 @@ imOrAfeBound = 1; % 1*ones(1, 4); % no bound (=0); bound over IM (= 1); bound ov
 % upperBoundLIST = [5, 5, 2.70, 1.91, 1.31, 3.23, 2.41, 1.70]; % SaTa_Max for Ta = {0.37, 0.61, 0.91} in zone- {IV, V}.
 
 % SaTogm- (unb, lb, and lub) unbounded, lower-bounded, lower-and-upper bounded
-% lowerBoundLIST = [0.01, 99, 99*ones(1, 6)]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
-% upperBoundLIST = [5, 5, 0.77, 0.71, 0.62, 1.16, 1.23, 1.21]; % SaTogm_Max for Togm = {1.44, 1.56, 1.87} in zone-IV; Togm = {1.15, 1.57, 1.64} in zone-V;
+lowerBoundLIST = [0.01, 99, 99*ones(1, 6)]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
+upperBoundLIST = [5, 5, 0.77, 0.71, 0.62, 1.16, 1.23, 1.21]; % SaTogm_Max for Togm = {1.44, 1.56, 1.87} in zone-IV; Togm = {1.15, 1.57, 1.64} in zone-V;
 
 % (unb and lb cases)
 % lowerBoundLIST = [0.01, 99]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
@@ -78,9 +78,9 @@ upperBoundLIST = 5;
 EAL_in_pc_tarLIST = [1.5; ... % 1.5% class-B as per Cosenza et al (2018) New Italian code
                      0.75; ... % 1.0% class-A as per Cosenza et al (2018) New Italian code
                      0.30];    % 0.5% class-A+ as per Cosenza et al (2018) New Italian code
-impFacLIST = [1.2; ... % business continuity structures (IS 1893-1, 2016)
-              1.5; ... % critical and lifeline structures  (IS 1893-1, 2016)
-              2.0];    % highly critical structures (dam etc.)
+% impFacLIST = [1.2; ... % business continuity structures (IS 1893-1, 2016)
+%               1.5; ... % critical and lifeline structures  (IS 1893-1, 2016)
+%               2.0];    % highly critical structures (dam etc.)
 verbose = 1; % for debugging, set this to 2; this will just print more intermediate results 
 imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
 %% 0 for actual hazard; 1, for code-idealized hazard using two-parameter model based on DBE and MCE values
