@@ -1,12 +1,5 @@
 function [T_old, saT_old_AllComp] = prak_util_extractFragDataPoints_v02(analysisTypeFolder, eqNumberLIST, newStoryDrift, matFileToLoad)
 baseFolder = pwd;
-% % BuildingID = '2207v07';
-% analysisTypeFolder = 'J:\Output\(ID2207_R5_7Story_v.07)_(AllVar)_(0.00)_(clough)';
-% eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
-% eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-% % eqListForCollapseIDAs_Name = 'GMSetC'; 
-% newStoryDrift = 0.04;
-
 cd(analysisTypeFolder)
 saT_old_AllComp = zeros(1, length(eqNumberLIST));
 

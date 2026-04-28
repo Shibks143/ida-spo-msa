@@ -8,7 +8,6 @@ switch nargin
 end
 
 % We expect, T_old and T_new to be rounded to two decimal places, if not then let's do it now.
-
 T_old = round(T_old *100)/100;
 T_new = round(T_new *100)/100;
 
@@ -16,7 +15,6 @@ T_new = round(T_new *100)/100;
 %% (6-28-19, PSB) Modifying to include ratio to PGA when T_new is entered as 0.00
 if abs(T_new) < 0.001 % essentially, zero
     cd C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved
-    % cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
     respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
     
@@ -27,7 +25,6 @@ if abs(T_new) < 0.001 % essentially, zero
     
 % % find the PGA value (essentially, SaT_new)
 cd C:\Users\sks\OpenSeesProcessingFiles\EQs    
-% cd C:\OpenSeesProcessingFiles\EQs
     timeHistoryFile = sprintf('SortedEQFile_(%i).txt', eqNumber);
     accnArray = load(timeHistoryFile);
     SaT_new = max(abs(min(accnArray)), abs(max(accnArray)));
@@ -35,7 +32,6 @@ cd C:\Users\sks\OpenSeesProcessingFiles\EQs
 
 else
     cd C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved
-    % cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
     respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
     

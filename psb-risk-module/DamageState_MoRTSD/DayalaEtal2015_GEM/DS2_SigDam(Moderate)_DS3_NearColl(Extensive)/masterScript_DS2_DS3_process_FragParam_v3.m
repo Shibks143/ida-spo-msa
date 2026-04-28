@@ -85,9 +85,8 @@ if executePrintAndSaveStep == 1
         bldgID_curr = bldgIDLIST{i};
         % i = 1:size(bldgIDLIST, 2)  % can be used for multiple bldg IDs
         % bldgID_curr = bldgIDLIST{1, i}; % current building ID
-% 		cd H:\DamageIndex\Automated
+
         cd(baseFolder)
-		% cd ..\..\..\DamageIndex\Automated
         [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID_curr);
         cd(analysisTypeFolder);
         
@@ -142,11 +141,11 @@ if executePrintAndSaveStep == 1
     
     clearvars -except baseFolder bldgIDLIST eqNumberLIST LimitStateValLIST T_all_chi T_all_xi T_ctrl_chi T_ctrl_xi executeHistogramStep
     
+  
+    outFolder = fullfile(baseFolder, 'Output_Risk');
     fileNameToSave = 'DS2_DS3_fragDataCS22_SaTa';
-%     cd 'H:\DamageState_MoRTSD\DayalaEtal2015_GEM\DS2_SigDam(Moderate)_DS3_NearColl(Extensive)'
-    cd(baseFolder)
-    save(fileNameToSave, 'bldgIDLIST', 'eqNumberLIST', 'LimitStateValLIST', 'T_all_chi', 'T_all_xi', 'T_ctrl_chi', 'T_ctrl_xi');
-    fprintf('Data file saved in: %s\n', pwd);
+    save(fullfile(outFolder, fileNameToSave), 'bldgIDLIST', 'eqNumberLIST', 'LimitStateValLIST', 'T_all_chi', 'T_all_xi', 'T_ctrl_chi', 'T_ctrl_xi');
+    fprintf('Data file saved in: %s\n', outFolder);
 end
 cd(baseFolder)
 
@@ -167,10 +166,11 @@ if executeHistogramStep == 1
         end
     end
     
+   
+    outFolder = fullfile(baseFolder, 'Output_Risk');
     fileNameToSave = 'DS2_DS3_criticalFloorDataCS22_SaTa';
-%     cd 'H:\DamageState_MoRTSD\DayalaEtal2015_GEM\DS2_SigDam(Moderate)_DS3_NearColl(Extensive)'
-    save(fileNameToSave, 'bldgIDLIST', 'eqNumberLIST', 'LimitStateValLIST', 'criticalColID_chi_LIST', 'criticalColID_xi_LIST', 'criticalFloorNum_chiBased', 'criticalFloorNum_xiBased');
-    fprintf('Data file saved in: %s\n', pwd);    
+    save(fullfile(outFolder, fileNameToSave), 'bldgIDLIST', 'eqNumberLIST', 'LimitStateValLIST', 'criticalColID_chi_LIST', 'criticalColID_xi_LIST', 'criticalFloorNum_chiBased', 'criticalFloorNum_xiBased');
+    fprintf('Data file saved in: %s\n', outFolder);    
 end
 cd(baseFolder)
 

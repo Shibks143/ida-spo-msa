@@ -139,12 +139,12 @@ for i = 1%:2:numBldgs
         if mod(eqIndex, 2) == 1 
             chiMax_CompOne = chiMax;
             sasaT1LIST_CompOne = saT1LIST;
-            % chiMax_CompTwo and sasaT1LIST_CompTwo need not be assigned since 
+            % chiMax_CompTwo and saT1LIST_CompTwo need not be assigned since 
             % chiMax and saT1LIST from current eqIndex are available in next conditional statement
         end
         
-% determine the controling component and plot it
-        if mod(eqIndex, 2) == 0 % for every second TH, find controling component
+% determine the controlling component and plot it
+        if mod(eqIndex, 2) == 0 % for every second TH, find controlling component
             gmIndex = eqIndex/2;
             saT1_ds2_CompOne = saT1_ds2_ALL(eqIndex - 1);
             saT1_ds2_CompTwo = saT1_ds2_ALL(eqIndex);

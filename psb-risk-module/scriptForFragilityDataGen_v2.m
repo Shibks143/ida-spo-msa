@@ -1,4 +1,6 @@
-clear
+% function sks_FragilityDataGen_MIDR(MIDRInputs)
+
+% clear
 tic
 %% To save run time of risk modules, we need to execute this script ONCE with appropriate lists of building ID, imType, and damage state.
 % This script takes approximately 8-10 minutes to execute for 9 buildings, 9 im types, and 4 damage states
@@ -12,13 +14,12 @@ if ~exist(saveDir,'dir')
     mkdir(saveDir);
 end
 
-% saveDir = 'DATA_files';
 fragDataFileName = sprintf('DATA_fragility_ALL');
 
 % imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
-timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
+% timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
 
-dsLIST = {'DynInst','CP', 'LS', 'IO'};
+% dsLIST = {'DynInst','CP', 'LS', 'IO'};
 BldgIdAndZoneLIST = {	
 %     '2205v03',  'III';  '2207v09',	'III';	'2209v05',	'III';}: ... % 4, 7, 12-story zone-III
 %     '2213v04',	'IV';   '2215v03',	'IV';   '2217v03',	'IV';}:  ... % 4, 7, 12-story zone-IV

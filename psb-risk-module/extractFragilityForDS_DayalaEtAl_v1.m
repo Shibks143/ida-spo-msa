@@ -19,8 +19,6 @@ function [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBeta
 baseFolder = pwd;
 
 %% extract period used for analysis (we cannot always assume it to be Ta)
-% cd H:\DamageIndex\Automated
-% cd ..\DamageIndex\Automated
 
 [~, outpFolder, ~, ~] = returnModelFolderInfo(BldgId);
 cd(baseFolder)
@@ -33,14 +31,10 @@ T_old = T_ana; % T analysis is called here, T_old
 %% 2a. extract the old period and values of spectral acceleration corr. to story drift ratio as chosen above
 switch damageState
     case 'DS1' % DS1 Damage Limitation (Slight Damage) Operationability
-%         dirName = 'H:\DamageState_MoRTSD\DayalaEtal2015_GEM\DS1_DamageLimitation_Slight';
-%         fileName = 'DS1_fragDataCS22_SaTa.mat';
-        dirName = 'E:\OpenSees_PracticeExamples\ida-spo-msa\psb-risk-module\DamageState_MoRTSD\DayalaEtal2015_GEM\DS1_DamageLimitation_Slight';
-%         fileName = 'DS1_fragDataCS22_SaTa_12NCEE.mat';
+        dirName = 'E:\OpenSees_PracticeExamples\ida-spo-msa\psb-risk-module';
         fileName = 'DS1_fragDataCS22_SaTa.mat';
         load(fullfile(dirName, fileName), 'T');
         RDR_DS1 = T.RDR_DS1(strcmp(T.BldgID, BldgId), :);
-        
         fileName = sprintf('DATA_roofDriftRat_%spc_SaAndStats.mat', strrep(num2str(round(RDR_DS1*100, 2), '%.2f'), '.', 'p'));
         load(fullfile(outpFolder, fileName), 'saT1_ds1_ALL');
         saT_oldAllComp = saT1_ds1_ALL;
@@ -98,13 +92,13 @@ switch damageState
             saT_oldAllComp = saT1_ds2_ALL_xi;
             clearvars saT1_ds2_ALL_xi
             
-    case 'DS3_normalizedByThetaU' % DS3 Near COllapse (Extensive Damage). Most critical column exceeds 100% of the ultimate rotation.
+    case 'DS3_normalizedByThetaU' % DS3 Near Collapse (Extensive Damage). Most critical column exceeds 100% of the ultimate rotation.
         % chi (= thetaM/thetaU) used as critical column parameter
             fileName = sprintf('DATA_criticalCol_chi_%s_SaAndStats.mat', strrep(num2str(round(1.00, 2), '%.2f'), '.', 'p'));
             load(fullfile(outpFolder, fileName), 'saT1_ds2_ALL');
             saT_oldAllComp = saT1_ds2_ALL;
             clearvars saT1_ds2_ALL
-    case 'DS3_normalizedByThetaCap' % DS3 Near COllapse (Extensive Damage). Most critical column exceeds 100% of the ultimate rotation.        
+    case 'DS3_normalizedByThetaCap' % DS3 Near Collapse (Extensive Damage). Most critical column exceeds 100% of the ultimate rotation.        
         % xi (= thetaM/thetaCap) used as critical column parameter
             fileName = sprintf('DATA_criticalCol_xi_%s_SaAndStats.mat', strrep(num2str(round(1.00, 2), '%.2f'), '.', 'p'));
             load(fullfile(outpFolder, fileName), 'saT1_ds2_ALL_xi');

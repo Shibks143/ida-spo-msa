@@ -56,7 +56,7 @@ isConvertToSaKircher = idaInputs.isConvertToSaKircher;
     markerTypeForLognormalExpandedVariance = 'b--';
     markerTypeForNormal = 'b:';
     minValueForPlot = 0.0;
-    maxValueForPlot = 2.0;
+    maxValueForPlot = 6.0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -180,13 +180,13 @@ end
 
             % Export the plot as a .emf file (Matlab book page 455)
            exportName = sprintf('CollapseCDF_ControlComp_SaGeoMean');
-           hgsave(exportName); % .fig file for Matlab
+           savefig(exportName); % .fig file for Matlab
            print('-depsc', exportName); % .eps file for Linux (LaTeX)
            print('-dmeta', exportName); % .emf file for Windows (MSWORD)
         else
             % Save the plot as a .fig file
            exportName = sprintf('CollapseCDF_ControlComp_SaATC63');
-           hgsave(exportName); % .fig file for Matlab
+           savefig(exportName); % .fig file for Matlab
            print('-depsc', exportName); % .eps file for Linux (LaTeX)
            print('-dmeta', exportName); % .emf file for Windows (MSWORD)
         end
