@@ -3,13 +3,13 @@ tic
 tStart= tic;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Building Information
+%% Building Information Inputs
 
 BldgIdAndZoneLIST = {'2433v02', 'V'; };
 BldgIdLIST = {'2433v02'};
 
 
-MIDR_or_PHR = 'MIDR';
+MIDR_or_PHR = 'MIDR'; % later on, maybe extended to include DI-based limits
 
 eqListID = 'setC';  
 % eqListID = 'setD' ;
@@ -18,8 +18,8 @@ eqListID = 'setC';
 % eqListID = 'setTest';
 % eqLIST =  'setGEM';
 
-%                        fragData       im_effy     Risk          
-analyzeProcessPlotIndex = [1              1           0  ];
+%                        fragDataGen   im_efficiency     RiskCal     RTGM     
+analyzeProcessPlotIndex = [1             1                0           0];
 
 
 %% Define the GM sets 
@@ -75,12 +75,10 @@ end
 
 %% Start of Inputs   
 MIDRInputs.eqNumberLIST = eqNumberLIST;
-PHRInputs.eqNumberLIST = eqNumberLIST;
 
 switch eqListID
     case 'setC'
         MIDRInputs.GMsuiteName = 'GMSetC';
-        PHRInputs.GMsuiteName  = 'GMSetC';
     case 'setD'
         MIDRInputs.GMsuiteName = 'GMSetD';
     case 'setDNotC'
@@ -92,6 +90,7 @@ switch eqListID
     case 'setGEM'
         MIDRInputs.GMsuiteName = 'GMSetGEM';
 end
+PHRInputs = MIDRInputs;
 
 % MIDR inputs begin here
 
