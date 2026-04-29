@@ -1,6 +1,9 @@
 Output/
 _superseded/
 DesignModels/
+# Hazard analysis generated folders
+HazardAnalysis/CS_Selection/
+HazardAnalysis/GM_Comparative/
 ResilienceModule/
 randomPractice/
 masterCopy.xlsx
