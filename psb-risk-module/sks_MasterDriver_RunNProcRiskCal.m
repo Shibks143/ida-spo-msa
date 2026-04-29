@@ -9,7 +9,7 @@ BldgIdAndZoneLIST = {'2433v02', 'V'; };
 BldgIdLIST = {'2433v02'};
 
 
-MIDR_or_PHR = 'MIDR'; % later on, maybe extended to include DI-based limits
+MIDR_or_PHR = 'PHR'; % later on, maybe extended to include DI-based limits
 
 eqListID = 'setC';  
 % eqListID = 'setD' ;
@@ -90,10 +90,10 @@ switch eqListID
     case 'setGEM'
         MIDRInputs.GMsuiteName = 'GMSetGEM';
 end
-PHRInputs = MIDRInputs;
 
-% MIDR inputs begin here
 
+
+%% Site-Specific Inputs
 latLonLIST = [ % input depending on the site (lat, lon)
     %     13.05	80.27; % Chennai
     %     22.55	88.37; % Kolkata
@@ -105,16 +105,25 @@ latLonLIST = [ % input depending on the site (lat, lon)
 locName = 'Guwahati';
 zoneOfLocLIST =  {'V';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST 
 imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
-% imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
+imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
+imType = {'Sa_T1'};
+impFacLIST = 0;
+
+
+%% Hazard-Specific Inputs
+fitModelLIST = {'3param'}; % {'2param', '3param'}; % Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
+NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST values
+codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-parameter model based on DBE and MCE values (% 0 = PSHA hazard, 1 = code-idealized)
+
+
+%% Building-Specific Inputs
 timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
 T1LIST = [1.84]'; % geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
 Ta = [0.71]; % (approximate period as per code)
 TogmLIST =  [1.72]';
-imType = {'Sa_T1'};
-impFacLIST = 0;
-fitModelLIST = {'3param'}; % {'2param', '3param'}; % Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
-NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST values
-codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-parameter model based on DBE and MCE values (% 0 = PSHA hazard, 1 = code-idealized)
+
+
+%% Damage-Specific Inputs
 
 if strcmp(MIDR_or_PHR, 'MIDR')
     dsLIST = {'DynInst','CP','LS','IO'};
@@ -122,11 +131,8 @@ else % PHR
     dsLIST = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1', 'DS2_normalizedByThetaCap', 'DS2a_0p60_normalizedByThetaCap', 'DS2a_0p40_normalizedByThetaCap'};
 end
 
-% PHR inputs begin here
-imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
 
-
-
+%% MIDR inputs begin here
 MIDRInputs.timePLIST =            timePLIST;
 MIDRInputs.dsLIST =               dsLIST;
 MIDRInputs.BldgIdAndZoneLIST =    BldgIdAndZoneLIST;
@@ -142,7 +148,9 @@ MIDRInputs.T1LIST =               T1LIST;
 MIDRInputs.TogmLIST =             TogmLIST;
 MIDRInputs.codeIdealizedHazData = codeIdealizedHazData;
 
+PHRInputs = MIDRInputs;
 
+% PHR inputs begin here
 PHRInputs.timePLIST =            timePLIST;
 PHRInputs.BldgIdLIST =           BldgIdLIST;
 PHRInputs.dsLIST =               dsLIST;
