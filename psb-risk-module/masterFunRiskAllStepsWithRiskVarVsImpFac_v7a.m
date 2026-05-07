@@ -158,7 +158,8 @@ for locID = 1:size(latLonLIST, 1)
         T1Curr = matchingTimeP{locID, 1}(bldgNum, 1);
         TaCurr = matchingTa{locID, 1}(bldgNum, 1);
         
-        cd('Input from Raghukanth')
+        % cd('Input from Raghukanth')
+        inputDir = fullfile(baseFolder,'Input from Raghukanth');
         % 1a. extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
         [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLonCurr, doPlot, plotType, locationLISTforPlot, T1Curr);
 
@@ -217,7 +218,7 @@ for locID = 1:size(latLonLIST, 1)
         cd(baseFolder)
         %% 2. Load the fragility data for all archetypical buildings. (v21, P1_R2 buildings)
         dataDir = 'DATA_files';
-        fragDataFile = sprintf('DATA_fragility_ALL.mat'); % TThis one is for drift based damage states
+        fragDataFile = sprintf('DATA_fragility_ALL.mat'); % This one is for drift based damage states
         fileWithPath = fullfile(pwd, dataDir, fragDataFile);
                 
         %% At this point, define a variable imTypeT1 which is different from imType only if T1 is given as an input
@@ -241,7 +242,7 @@ for locID = 1:size(latLonLIST, 1)
             fprintf('------------------=------------------------------------------------------------------------\n');
             fprintf('-- EXECUTE script "scriptForFragilityDataGen_v2" to reduce run-time and avoid repetition --\n');
             fprintf('-------------------------------------------------------------------------------------------\n');
-            % cd H:\DamageIndex\Automated
+        
             [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgIdCurr);
             cd(baseFolder);
             [muDsIMAll, betaRTRAll, muDsIMCtrl, betaRTRCtrl, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T1Curr);
@@ -265,9 +266,10 @@ for locID = 1:size(latLonLIST, 1)
                 imMinMat = fragAllData.(bldgIdVar).imMin;
                 
                 % find matching time period and damage state
-                % [~, rowId] = min(abs(timePDataVec - T1Curr)); % added on 22-Apr-2026
-                rowId = find(abs(timePDataVec - T1Curr) < 1e-6);
-                colId = find(strcmp(dsDataVec, ds));
+                [~, rowId] = min(abs(timePDataVec - T1Curr)); % added on 22-Apr-2026
+                colId = find(strcmp(dsDataVec, ds), 1);
+                % rowId = find(abs(timePDataVec - T1Curr) < 1e-6);
+                % colId = find(strcmp(dsDataVec, ds));
                 
                 % use relevant matrix entries for fragility data
                 muDsIMAll = muAllMat(rowId, colId);

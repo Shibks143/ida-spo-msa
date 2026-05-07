@@ -1,36 +1,19 @@
-clear; clc;
+function sks_DS4_FragParam(PHRInputs)
+
+
+
 tic
 whatToDo = '21g.extractFragility_SaTa_MultiRTSDPaper_CS'; % IM = same as 21f; with SaTa as IM
 baseFolder = pwd;
 
 switch whatToDo
     case '21g.extractFragility_SaTa_MultiRTSDPaper_CS' % IM = same as 21f; with SaTa as IM
-        %%
-%         bldgIdLIST = {'2211v03_sca2',	'2211v03_sca4',	'2213v04_sca2',	'2213v04_sca4',	'2215v03_sca2',	'2215v03_sca4',	...
-%             '2219v03_sca2',	'2219v03_sca4',	'2221v06_sca2',	'2221v06_sca4',	'2223v03_sca2',	'2223v03_sca4'};
-
-          bldgIdLIST = {'2433v02'};
-          % {'2221v06_sca2',	'2223v03_sca2'};      
-
-          outpFolderLIST = {
-              'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'
-%             'I:\PrakRuns_I\Output\(ID2211_R5_2Story_v.03_CS_Del22_Sca2)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2211_R5_2Story_v.03_CS_Del22_Sca4)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2213_R5_4Story_v.04_CS_Del22_Sca2)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2213_R5_4Story_v.04_CS_Del22_Sca4)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2215_R5_7Story_v.03_CS_Del22_Sca2)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2215_R5_7Story_v.03_CS_Del22_Sca4)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2219_R5_2Story_v.03_CS_Guw22_Sca2)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2219_R5_2Story_v.03_CS_Guw22_Sca4)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2221_R5_4Story_v.06_CS_Guw22_Sca2)_(AllVar)_(0.00)_(clough)';
-            % 'C:\psb\I_psb\PrakRuns_I\Output\(ID2221_R5_4Story_v.06_CS_Guw22_Sca2)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2221_R5_4Story_v.06_CS_Guw22_Sca4)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2223_R5_7Story_v.03_CS_Guw22_Sca2)_(AllVar)_(0.00)_(clough)';
-            % 'C:\psb\I_psb\PrakRuns_I\Output\(ID2223_R5_7Story_v.03_CS_Guw22_Sca2)_(AllVar)_(0.00)_(clough)';
-%             'I:\PrakRuns_I\Output\(ID2223_R5_7Story_v.03_CS_Guw22_Sca4)_(AllVar)_(0.00)_(clough)';
-            };
+       
+   bldgIdLIST = PHRInputs.BldgIdLIST;     
         
-        storyDriftLIST = [0.00, 0.04, 0.02, 0.01]; %, 0.533, 0.08]; % (values in fraction). 0.00 indicates sidesway collapse (dynamic instability)
+          outpFolderLIST = {'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)' };
+        
+        storyDriftLIST = [0.00, 0.04, 0.02, 0.01]; % (values in fraction). 0.00 indicates sidesway collapse (dynamic instability)
         
         % GM suite for 3040, 3042, 3044, 3045, and 3047 respectively.
         eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
@@ -253,7 +236,6 @@ else
 % find the new SaValue
     timePIndexNew = find(abs(periodVector - T_new) < 1e-4);
     SaT_new = SaAbs(timePIndexNew, dampRatIndex);
-   
     saRatNewToOld = SaT_new/SaT_old;
 end
 

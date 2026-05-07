@@ -4,12 +4,15 @@ close all; tic
 baseFolder = pwd;
 
 %% %% User inputs begins    
-bldgIDLIST = PHRInputs.BldgIdLIST;
-imType = char(PHRInputs.imType);% Select IM
-T1LIST = PHRInputs.T1LIST;
-fitModel = PHRInputs.fitModelLIST;
-N = PHRInputs.NLIST;
+bldgIDLIST =           PHRInputs.BldgIdLIST;
+imType =               char(PHRInputs.imType);% Select IM
+T1LIST =               PHRInputs.T1LIST;
+fitModelLIST =         PHRInputs.fitModelLIST;
+N =                    PHRInputs.NLIST;
 codeIdealizedHazData = PHRInputs.codeIdealizedHazData;
+fitModel = fitModelLIST{1,2};
+
+
 
 if numel(T1LIST) ~= numel(bldgIDLIST)
     error(['Number of Ti values for Intensity measure, SaTi (= %i) ', ...

@@ -1,9 +1,6 @@
 function [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBetaRTR_CTRL, imMin] = extractFragilityForDS_DayalaEtAl_v1(BldgId, GMsuiteName, eqLIST, damageState, T_new)
 %% inputs
-% clear; clc; tic
-% BldgId = '2211v03_sca2';
-% GMsuiteName = 'GMSetDel22_2211_Sca2'; 
-% eqLIST = [6000311	6000312	6001601	6001602	6001831	6001832	6002121	6002122	6002851	6002852	6003411	6003412	6003521	6003522	6004081	6004082	6004091	6004092	6004571	6004572	6004581	6004582	6004611	6004612	6006331	6006332	6006921	6006922	6007861	6007862	6009521	6009522	6009681	6009682	6009871	6009872	6011351	6011352	6014361	6014362	6023951	6023952	6026271	6026272];
+clc; tic
 % damageState = 'DS4'; % DS1 Damage Limitation (Slight Damage) Operationability
 %                      % DS2 Significant Damage (Moderate Damage). Most critical column exceeds 75% of the ultimate rotation.
 %                          % DS2_normalizedByThetaU (based on chi) 
@@ -31,9 +28,10 @@ T_old = T_ana; % T analysis is called here, T_old
 %% 2a. extract the old period and values of spectral acceleration corr. to story drift ratio as chosen above
 switch damageState
     case 'DS1' % DS1 Damage Limitation (Slight Damage) Operationability
-        dirName = 'E:\OpenSees_PracticeExamples\ida-spo-msa\psb-risk-module';
+        outFolder = fullfile(baseFolder, 'Output_Risk');
+        % dirName = 'E:\OpenSees_PracticeExamples\ida-spo-msa\psb-risk-module';
         fileName = 'DS1_fragDataCS22_SaTa.mat';
-        load(fullfile(dirName, fileName), 'T');
+        load(fullfile(outFolder, fileName), 'T');
         RDR_DS1 = T.RDR_DS1(strcmp(T.BldgID, BldgId), :);
         fileName = sprintf('DATA_roofDriftRat_%spc_SaAndStats.mat', strrep(num2str(round(RDR_DS1*100, 2), '%.2f'), '.', 'p'));
         load(fullfile(outpFolder, fileName), 'saT1_ds1_ALL');

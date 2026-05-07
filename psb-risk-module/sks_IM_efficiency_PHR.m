@@ -1,41 +1,27 @@
 function sks_IM_efficiency_PHR(PHRInputs)
 
+tic; 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Use script scriptForFragilityDataGen_v3 to generate the   %%%
-%%% DATA_fragility_ALL.mat for all intensity measures, Sa(Tj) %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-close all; clear; tic; 
-baseFolder = pwd;
 %% Start of input
-% dsToPlotFragParam = {'CP', 'LS', 'IO'};%, 'DynInst'};
-dsToPlotFragParam = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};%, 'DynInst'};
-dsLegForPlot = {'DS4', 'DS3', 'DS2', 'DS1'};
-dsToPlotBound = {'DS4'}; %, 'LS', 'IO', 'DynInst'}; % one damage state at a time here. 
-BldgIdAndZoneLIST = { '2433v02', 'V'; };
-% {
-%     '2211v03',	'IV';  	'2213v04',	'IV';  	'2215v03',	'IV'; % 2, 4, 7-story zone-IV
-%     '2219v03',  'V';    '2221v06',   'V';   '2223v03',   'V';}; % 2, 4, 7-story zone-V
+baseFolder =                PHRInputs.baseFolder;
+BldgIdAndZoneLIST =         PHRInputs.BldgIdAndZoneLIST;
+T1LIST =                    PHRInputs.T1LIST;
+dsToPlotFragParam =         PHRInputs.dsToPlotFragParam;
+dsLegForPlot =              PHRInputs.dsLegForPlot;
+doPlotFragMedian =          PHRInputs.doPlotFragMedian;
+doPlotFragDispers =         PHRInputs.doPlotFragDispers;
+doPlotFragBound =           PHRInputs.doPlotFragBound;
+doPlotT1LinesInFragDisp =   PHRInputs.doPlotT1LinesInFragDisp;
+dsToPlotBound =             PHRInputs.dsToPlotBound;
+saveMedianDispersionBound = PHRInputs.saveMedianDispersionBound;
+formatMode =                PHRInputs.formatMode;
+
 
 cd DATA_files
 load('DATA_fragility_Dayala_2433v02');
 cd ..
 bldgIdLIST = {};
-
-doPlotFragMedian = 1; % plot variation in median fragility parameter with the period of vibration
-doPlotFragDispers = 1; % plot variation in dispersion fragility parameter with the period of vibration
-doPlotFragBound = 1; % plot the bounds of fragility with the period of vibration
-
-% reviewer-1 comment no. 8 for MultPerf paper in EESD, adding a vertical line for T1 in IM-efficiency figures
-doPlotT1LinesInFragDisp = 1; 
-T1LIST = [1.84]';
-% T1LIST = [1.06, 1.72, 2.55, 0.96, 1.55, 2.39]';
-
-saveMedianDispersionBound = [1 1 1]; 
-figDir = 'FIGURES_revB_C\IM_efficiency_figures_NewDS_Dayala_revC_R1';
+outFolder = fullfile(baseFolder, 'Output_Risk');
 
 % for plotting fragility params with bound
 UBPercentile = 0.84; LBPercentile = 1 - UBPercentile ;
@@ -81,20 +67,19 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     end
     timePEff(i, :) = timePLIST(I)'; % optimal period corresponding to efficient intensity measure
     
-%     set(groot,'defaultAxesColorOrder', [0 0 0; 1 0 0; 0 0 1; 1 0 1]); % order of graphs changed to 'k', 'r', 'b'
     lineStyleList = {'k-', 'r--', 'b-.', 'm:'};
 %% everything below is basically just for plotting
     if doPlotFragMedian == 1
-        figure(i); hold on; grid on
+        figure(100+i); hold on; grid on
         for k = 1:size(dsToPlotFragParam, 2)
             plot(timePLIST, muCtrl(:, k), lineStyleList{1, k}, 'LineWidth', 1.5); hold on; grid on;
         end
         legend(dsLegForPlot);
         xlabel('$T_j$ (s)');
         ylabel('$\mu_{ds,Sa(T_j)}$ (g)');
-        sks_figureFormat('powerpoint')
+        sks_figureFormat(formatMode)
         if saveMedianDispersionBound(1) == 1
-            cd(figDir)
+            cd(outFolder)
             exportName = sprintf('F7%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
             sks_figureExport(exportName)
             cd(baseFolder)
@@ -102,61 +87,53 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     end
 
     if doPlotFragDispers == 1
-        figure(100+i); 
+        figure(200+i); 
          idx = timePLIST <= 3.0;
         for k = 1:size(dsToPlotFragParam, 2)
             plot(timePLIST(idx), betaRTRCtrl(idx, k), lineStyleList{1, k}, 'LineWidth', 2); hold on; grid on;
         end
-        hleg = legend(dsLegForPlot);   
-        ylim([0.1 0.9]);
+        legend(dsLegForPlot);   
         xlabel('$T_j $ (s)', 'Interpreter', 'latex'); 
         ylabel('$\beta_{RTR,ds,Sa(T_j)}$', 'Interpreter', 'latex');
+        ylim([0.1 0.9]);
         if doPlotT1LinesInFragDisp == 1
             plot(T1LIST(i)*[1, 1], [0.1 0.899], 'r-', 'LineWidth', 1.25, 'HandleVisibility','off');
         end
-        sks_figureFormat('powerpoint')
+        sks_figureFormat(formatMode)
         if saveMedianDispersionBound(2) == 1
-            cd(figDir)
+            cd(outFolder)
             exportName = sprintf('F7%s_IMefficiency_betaRTRSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
             sks_figureExport(exportName)
             cd(baseFolder)            
         end
-
-
-        % COV for log-normal distribution is defined as sqrt(exp(\sig_ln^2-1)) 
-        % which is monotonically increasing with \sig_ln. In other words, 
-        % comparison of \sig_ln directly is as good as comparing COV. 
-%         figure(200+i); plot(timePLIST, betaRTRCtrl./muCtrl); hold on;
-%         hleg = legend('CP', 'LS', 'IO', 'DynInst');
-%         hx = xlabel('Period, T1 (s)'); hy = ylabel('COV_{SaT1}');
-%         psb_FigureFormatScript_forReport
     end
     
-    if doPlotFragBound == 0
-        dsID = strcmp(ds, dsToPlotBound);
+    if doPlotFragBound == 1
+        dsID = strcmpi(strtrim(ds), strtrim(dsToPlotBound{1}));
         muCtrlDs = muCtrlAllDs(:, dsID); % muCtrl corresponding to dsToPlot
         betaRTRCtrlDs = betaRTRCtrlAllDs(:, dsID); % betaRTRCtrl corresponding to dsToPlot
-
         IM_UB = muCtrlDs .* exp(betaRTRCtrlDs*UBEps); % intensity measure value with upper bound
         IM_LB = muCtrlDs .* exp(betaRTRCtrlDs*LBEps); % intensity measure value with lower bound
         figure(300+i); 
-        shade(timePLIST, IM_UB, timePLIST, IM_LB,'FillType', [1 2;2 1]); hold on; grid on;
-        h(1) = plot(timePLIST, muCtrlDs, 'k-'); 
-        h(2) = plot(timePLIST, IM_UB, 'k--');
-        h(3) = plot(timePLIST, IM_LB, 'k--');
-        hleg = legend([h(1), h(2)], 'Median', '\pm 1 \sigma');
-        hx = xlabel('Period, Ti (s)'); hy = ylabel('\mu_{SaTi} (g)');
+        clf;
+        hold on; grid on;
+        % --- Shade (±1σ) ---
+        hShade = shade(timePLIST, IM_UB, timePLIST, IM_LB, 'FaceColor', [0.6 0.8 1], 'FaceAlpha', 0.3, 'EdgeColor', 'none');
+        % --- Median ---
+        hMed = plot(timePLIST, muCtrlDs, 'b-', 'LineWidth', 2);
+        % --- Bounds (optional) ---
+        plot(timePLIST, IM_UB, 'k--', 'LineWidth', 1.2);
+        plot(timePLIST, IM_LB, 'k--', 'LineWidth', 1.2);
+        % --- Correct legend mapping ---
+        legend([hMed, hShade], {'Median', '$\pm 1\sigma$'}, 'Interpreter', 'latex');
+        xlabel('Period, $T_j$ (s)', 'Interpreter', 'latex');
+        ylabel('$\mu_{S_a(T_j)}$ (g)', 'Interpreter', 'latex');
         title(['Damage State = ', dsToPlotBound{1}]);
-        psb_FigureFormatScript_forReport
+        sks_figureFormat(formatMode)
         if saveMedianDispersionBound(3) == 1
-            cd(figDir)
+            cd(outFolder)
             exportName = sprintf('F7%s_IMefficiency_muSaTi%s_%i_%s_v1', 96+i, dsToPlotBound{1, 1}, i, bldgIdCurr);
-            savefig(exportName); % .fig file for Matlab
-            print('-depsc', exportName); % .eps file for Linux (LaTeX)
-            print('-dmeta', exportName); % .emf file for Windows (MSWORD)
-            print('-dpng', exportName); % .png file for small sized files
-            print('-djpeg', exportName); % .jpeg file for small sized files
-            print('-djpeg', [exportName '_r300'], '-r300');
+            sks_figureExport(exportName)
             cd(baseFolder)            
         end
     end

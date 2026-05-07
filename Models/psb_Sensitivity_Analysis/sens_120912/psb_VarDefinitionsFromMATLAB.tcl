@@ -2,7 +2,7 @@
 #     run, so that Opensees can read the file and define the needed variables
 
 set dtForCollapseMATLAB 0.0100
-set minStoryDriftRatioForCollapseMATLAB 0.120
+set minStoryDriftRatioForCollapseMATLAB 0.080
 set elementUsedForColSensModelMATLAB clough
 set sensModel ID2433_R5_5Story_v.02
 set sensVariableName AllVar
@@ -10,12 +10,12 @@ set sensVariableValue 0.00
 set AllVar 0.00
 set eqNumber 120912
 set eqFormatForCollapseList PEER-NGA_geoMean
-set currentSaLevel 0.64
+set currentSaLevel 1.36
 puts "currentSaLevel is $currentSaLevel"
-set scaleFactorForRunFromMatlab 3.8072
-set periodUsedForScalingGroundMotionsFromMatlab 1.8400
+set scaleFactorForRunFromMatlab 3.5000
+set periodUsedForScalingGroundMotionsFromMatlab 0.7100
 set dampingRatioUsedForSaDefFromMatlab 0.0500
-set saCompScaled 0.46
-set saGeoMeanScaled 0.64
+set saCompScaled 0.96
+set saGeoMeanScaled 1.36
 set extraSecondsToRunAnalysis 0.00
 set eqTimeHistoryPreFormatted 1

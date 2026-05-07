@@ -1,4 +1,8 @@
-clear; tic
+function sks_DS1_FragParam_deltaY(PHRInputs)
+
+
+tic
+
 %% DS1 Damage Limitation (Slight Damage) Operationability % page 35 of D'ayala et al (2015)
     % the limit state is attained at the yield displacement of the
     % idealized pushover curve and we use trilinear pushover curve idealization as per 
@@ -6,8 +10,7 @@ clear; tic
 
 buildingIDLIST = {'2433v02'};
 
-% {'2211v03_sca2', '2213v04_sca2',	'2215v03_sca2',	...
-%                   '2219v03_sca2', '2221v06_sca2',	'2223v03_sca2'};
+
 
 % PL_LIST = [0.04, 0.02];
 PL_LIST = 0.02;

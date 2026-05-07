@@ -5,21 +5,25 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Building Information Inputs
 
+analysisTypeLIST = {'(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
+analysisType = analysisTypeLIST{1};         % Just renaming variable and changing variable format for some of the processors
+
 BldgIdAndZoneLIST = {'2433v02', 'V'; };
-BldgIdLIST = {'2433v02'};
+BldgIdLIST = BldgIdAndZoneLIST(:,1);
 
 
-MIDR_or_PHR = 'PHR'; % later on, maybe extended to include DI-based limits
+
+MIDR_or_PHR = 'MIDR'; % later on, maybe extended to include DI-based limits
 
 eqListID = 'setC';  
 % eqListID = 'setD' ;
 % eqListID = 'setDNotC'; 
 % eqListID = 'setG';
 % eqListID = 'setTest';
-% eqLIST =  'setGEM';
+% eqLIST =  'siteSpecific';
 
-%                        fragDataGen   im_efficiency     RiskCal     RTGM     
-analyzeProcessPlotIndex = [1             1                0           0];
+%                        fragDataGen   im_efficiency      RiskCal     RTGM     
+analyzeProcessPlotIndex = [0               0                1           0];
 
 
 %% Define the GM sets 
@@ -55,7 +59,7 @@ switch eqListID
         eqFormatForCollapseList_SetTest = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
         flagForEQFileFormat_SetTest = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
 
-    case 'setGEM'
+    case 'siteSpecific'
         eqNumberLIST= [
                 6000311	6000312	6001601	6001602	6001831	6001832	6002121	6002122	6002851	6002852	6003411	6003412	6003521	6003522	6004081	6004082	6004091	6004092	6004571	6004572	6004581	6004582	6004611	6004612	6006331	6006332	6006921	6006922	6007861	6007862	6009521	6009522	6009681	6009682	6009871	6009872	6011351	6011352	6014361	6014362	6023951	6023952	6026271	6026272; ...
                 6000341	6000342	6001831	6001832	6003141	6003142	6004091	6004092	6004191	6004192	6004991	6004992	6005301	6005302	6006391	6006392	6007691	6007692	6009081	6009082	6009701	6009702	6009711	6009712	6009871	6009872	6010121	6010122	6010301	6010302	6012571	6012572	6016111	6016112	6017361	6017362	6023951	6023952	6029501	6029502	6032061	6032062	6032861	6032862; ...
@@ -87,8 +91,8 @@ switch eqListID
         MIDRInputs.GMsuiteName = 'GMSetG';
     case 'setTest'
         MIDRInputs.GMsuiteName = 'GMSetTest';
-    case 'setGEM'
-        MIDRInputs.GMsuiteName = 'GMSetGEM';
+    case 'siteSpecific'
+        MIDRInputs.GMsuiteName = 'GMsiteSpecific';
 end
 
 
@@ -105,13 +109,14 @@ latLonLIST = [ % input depending on the site (lat, lon)
 locName = 'Guwahati';
 zoneOfLocLIST =  {'V';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST 
 imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
-imTypeLIST = {'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
+imTypeLIST = {'Sa_T1'};  %{'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
 imType = {'Sa_T1'};
 impFacLIST = 0;
 
 
 %% Hazard-Specific Inputs
-fitModelLIST = {'3param'}; % {'2param', '3param'}; % Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
+fitModelLIST = {'2param', '3param'}; %{'3param'};  Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
+% fitModel = fitModelLIST{2};
 NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST values
 codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-parameter model based on DBE and MCE values (% 0 = PSHA hazard, 1 = code-idealized)
 
@@ -120,11 +125,10 @@ codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-
 timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
 T1LIST = [1.84]'; % geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
 Ta = [0.71]; % (approximate period as per code)
-TogmLIST =  [1.72]';
+TogmLIST =  [1.72]'; % obtained from IM_efficiency (optimization across timePLIST) and to be passed on to seismic risk calculation
 
 
 %% Damage-Specific Inputs
-
 if strcmp(MIDR_or_PHR, 'MIDR')
     dsLIST = {'DynInst','CP','LS','IO'};
 else % PHR
@@ -132,46 +136,110 @@ else % PHR
 end
 
 
+% PHR Specific parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PHR DS1 Inputs
+deltaYieldBasisFlag = 'ASCE41';  %PHR DS1Inputs
+% options: 'ASCE41', 'FEMAP695'
+switch deltaYieldBasisFlag
+    case 'ASCE41'
+        deltaYieldBasis = 'deltaYieldBasedOnASCE41'; % idealizing trilinear pushover curve as per ASCE 41-13 section 7.4.3.2.4 which in turn refers to FEMA 440 section 4.3
+    case 'FEMAP695'
+        deltaYieldBasis = 'deltaYieldBasedOnFEMAP695'; % delta Yield Effective as per FEMA P 695 Figure 6-5 
+    otherwise
+        error('Invalid deltaYieldBasisFlag');
+end
+
+% PHR DS2 Inputs
+chi_LimitStateDS2 = 0.75; % for DS2, limit over chi, the ratio of max rotation to ultimate rotation capacity, chi = rotation Ratio = thetaM/thetaU
+
+% PHR DS2-DS3 Inputs
+% LimitStateValLIST = [0.75, 0.60, 0.50, 0.40]; % for DS2, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap) 
+% LimitStateValLIST = [1.0]; % for DS3, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap) 
+LimitStateValLIST = [1.0, 0.75, 0.60, 0.50, 0.40]; % DS2-DS3, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap) 
+executeProcessingStep = 1; % set this to 1, if we are interested in processing the analysis data for finding out chi, xi, etc.
+executePrintAndSaveStep = 1; % set this to 1, if we are interested in printing the fragility results 
+executeHistogramStep = 1; % set this to 1, if we are interested in histogram for distribution of critical column ID
+% chi_LimitState = 0.75; % merely to decide the controlling component
+
+
+% PHR DS4 Inputs
+storyDriftLIST= [0.00, 0.04, 0.02, 0.01]; % (values in fraction). 0.00 indicates sidesway collapse (dynamic instability)
+
+%IM efficiency PHR %%%%%%%%%%%
+dsToPlotFragParam = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};
+dsLegForPlot = {'DS4', 'DS3', 'DS2', 'DS1'}; 
+doPlotFragMedian = 1; % plot variation in median fragility parameter with the period of vibration
+doPlotFragDispers = 1; % plot variation in dispersion fragility parameter with the period of vibration
+doPlotFragBound = 1; % plot the bounds of fragility with the period of vibration
+dsToPlotBound = {'DS4'}; %, {'DS4', 'DS3', 'DS2', 'DS1'}; % one damage state at a time here. 
+doPlotT1LinesInFragDisp = 1; % adding a vertical line for T1 in IM-efficiency figures
+saveMedianDispersionBound = [1 1 1];
+
+%Risk Specific PHR %%%%%%%%%%%
+consqModel = [2, 10, 40.4, 100]; % DS1, DS2, DS3, and DS4; repair cost ratio (% of building repair cost) (COM4 from HAZUS 2003)
+factorOnImMin = 1; % optional variable that reduces the imMin value
+saveFigures = 1; % when running for optimal beta, do not saveFigures
+pLIST = [0.20, 0.10, 0.02, 0.01, 0.005]; % (in fraction) i.e., 0.10 for 10% poe in 50 years.
+
+%% Plot-Specific Inputs
+formatMode = 'powerpoint';
+verbose = 1; % for debugging, set this to 2; this will just print more intermediate results
+
 %% MIDR inputs begin here
-MIDRInputs.timePLIST =            timePLIST;
-MIDRInputs.dsLIST =               dsLIST;
-MIDRInputs.BldgIdAndZoneLIST =    BldgIdAndZoneLIST;
-MIDRInputs.latLonLIST =           latLonLIST; 
-MIDRInputs.zoneOfLocLIST =        zoneOfLocLIST;
-MIDRInputs.imScaleFac =           imScaleFac;
-MIDRInputs.imTypeLIST =           imTypeLIST;
-MIDRInputs.impFacLIST =           impFacLIST; 
-MIDRInputs.fitModelLIST =         fitModelLIST;
-MIDRInputs.NLIST =                NLIST;
-MIDRInputs.Ta =                   Ta;
-MIDRInputs.T1LIST =               T1LIST; 
-MIDRInputs.TogmLIST =             TogmLIST;
-MIDRInputs.codeIdealizedHazData = codeIdealizedHazData;
+MIDRInputs.timePLIST =                timePLIST;
+MIDRInputs.dsLIST =                   dsLIST;
+MIDRInputs.BldgIdAndZoneLIST =        BldgIdAndZoneLIST;
+MIDRInputs.latLonLIST =               latLonLIST; 
+MIDRInputs.zoneOfLocLIST =            zoneOfLocLIST;
+MIDRInputs.imScaleFac =               imScaleFac;
+MIDRInputs.imTypeLIST =               imTypeLIST;
+MIDRInputs.impFacLIST =               impFacLIST; 
+MIDRInputs.fitModelLIST =             fitModelLIST;
+MIDRInputs.NLIST =                    NLIST;
+MIDRInputs.Ta =                       Ta;
+MIDRInputs.T1LIST =                   T1LIST; 
+MIDRInputs.TogmLIST =                 TogmLIST;
+MIDRInputs.codeIdealizedHazData =     codeIdealizedHazData;
+MIDRInputs.verbose =                  verbose;
+MIDRInputs.formatMode =               formatMode; 
+MIDRInputs.baseFolder =               pwd;
 
 PHRInputs = MIDRInputs;
 
 % PHR inputs begin here
-PHRInputs.timePLIST =            timePLIST;
-PHRInputs.BldgIdLIST =           BldgIdLIST;
-PHRInputs.dsLIST =               dsLIST;
-PHRInputs.latLonLIST =           latLonLIST; 
-PHRInputs.zoneOfLocLIST =        zoneOfLocLIST;
-PHRInputs.imType =               imType;
-PHRInputs.Ta =                   Ta;
-PHRInputs.T1LIST =               T1LIST; 
-PHRInputs.locName =              locName;
-PHRInputs.fitModelLIST =         fitModelLIST;
-PHRInputs.NLIST =                NLIST;
-PHRInputs.codeIdealizedHazData = codeIdealizedHazData;
+PHRInputs.analysisType =              analysisType;
+PHRInputs.BldgIdLIST =                BldgIdLIST;
+PHRInputs.dsLIST =                    dsLIST;
+PHRInputs.imType =                    imType;
+PHRInputs.locName =                   locName;
+PHRInputs.deltaYieldBasis =           deltaYieldBasis;
+PHRInputs.storyDriftLIST =            storyDriftLIST;
+PHRInputs.chi_LimitStateDS2 =         chi_LimitStateDS2;
+PHRInputs.LimitStateValLIST =         LimitStateValLIST; 
+PHRInputs.executeProcessingStep =     executeProcessingStep;
+PHRInputs.executePrintAndSaveStep =   executePrintAndSaveStep;
+PHRInputs.executeHistogramStep =      executeHistogramStep;
+PHRInputs.dsToPlotFragParam =         dsToPlotFragParam;
+PHRInputs.dsLegForPlot =              dsLegForPlot;
+PHRInputs.doPlotFragMedian =          doPlotFragMedian;
+PHRInputs.doPlotFragDispers =         doPlotFragDispers;
+PHRInputs.doPlotFragBound =           doPlotFragBound;
+PHRInputs.dsToPlotBound =             dsToPlotBound;
+PHRInputs.doPlotT1LinesInFragDisp =   doPlotT1LinesInFragDisp;
+PHRInputs.saveMedianDispersionBound = saveMedianDispersionBound;
+PHRInputs.consqModel =                consqModel;
+PHRInputs.factorOnImMin =             factorOnImMin;
+PHRInputs.saveFigures =               saveFigures;
+PHRInputs.pLIST =                     pLIST;
 
 
 % End of Inputs
 
 %% Run Fragility Data generation  
 if analyzeProcessPlotIndex(1) == 1
-    runFlags.runDS1  = 0;
-    runFlags.runDS23 = 0;
-    runFlags.runDS4  = 0;
+    runFlags.runDS1  = 1;
+    runFlags.runDS23 = 1;
+    runFlags.runDS4  = 1;
     runFlags.runFrag = 1;
 
 sks_FragilityData(MIDR_or_PHR, MIDRInputs, PHRInputs, runFlags)

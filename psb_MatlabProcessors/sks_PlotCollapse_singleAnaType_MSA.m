@@ -133,10 +133,8 @@ periodUsedForScalingGroundMotions = NaN;
 minStoryDriftRatioForCollapseMATLAB = NaN;
 
 for eqInd = 1:length(eqNumberLIST)
-
     eqCompNumber = eqNumberLIST(eqInd);
     eqFolder = fullfile(baseDir, analysisTypeFolder, sprintf('EQ_%d', eqCompNumber));
-
     loadFile = fullfile(eqFolder, 'DATA_CollapseResultsForThisSingleEQ.mat');
 
     load(loadFile, 'periodUsedForScalingGroundMotions', 'maxDriftForEachRun', 'saLevelForEachRun', 'isCollapsedForEachRun', 'isSingularForEachRun', ...
@@ -245,7 +243,6 @@ grid on;
 % === Legend (Baker-style) — ALL COMPONENTS ===
 h1_all = plot(nan, nan, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
 h2_all = plot(nan, nan, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
-
 legend([h1_all h2_all], {'MSA no-collapse','MSA collapse'}, 'Location','southeast', 'FontSize',14);
 legend boxoff
 

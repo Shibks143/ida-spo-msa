@@ -1,28 +1,25 @@
-
-
-function MultObjTable = masterFunLambdaARCR_v2(IdToAnalyze, T1forIM, normalizedByThetaU, DS2_threshold, consqModel, fitModel, N, ...
-    imOrAfeBound, boundRangeInp, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin, saveFigures, dirForFigures, PHRInputs)
+function MultObjTable = masterFunLambdaARCR_v2(IdToAnalyze, T1forIM, normalizedByThetaU, DS2_threshold, fitModel, imOrAfeBound, boundRangeInp, PHRInputs)
 
 
 %% Sample inputs
-GMSetC =       PHRInputs.GMsuiteName;
-eqLIST =       PHRInputs.eqNumberLIST;
-latLon =       PHRInputs.latLonLIST;
-zoneOfLoc =    PHRInputs.zoneOfLocLIST{1};
-Ta =           PHRInputs.Ta;
-T1LIST =       PHRInputs.T1LIST;
-locName =      PHRInputs.locName;
-BldgId =       PHRInputs.BldgIdLIST;
+GMSetC =               PHRInputs.GMsuiteName;
+eqLIST =               PHRInputs.eqNumberLIST;
+latLon =               PHRInputs.latLonLIST;
+zoneOfLoc =            PHRInputs.zoneOfLocLIST{1};
+Ta =                   PHRInputs.Ta;
+locName =              PHRInputs.locName;
+BldgId =               PHRInputs.BldgIdLIST;
+consqModel =           PHRInputs.consqModel;
+imScaleFac =           PHRInputs.imScaleFac;
+factorOnImMin=         PHRInputs.factorOnImMin;
+N =                    PHRInputs.NLIST;
+codeIdealizedHazData = PHRInputs.codeIdealizedHazData;
+pLIST =                PHRInputs.pLIST;
+saveFigures =          PHRInputs.saveFigures;
+verbose =              PHRInputs.verbose;
+formatMode =           PHRInputs.formatMode;
+baseFolder =           PHRInputs.baseFolder;
 
-
-% imOrAfeBound = 1; % no bound (=0); bound over IM (= 1); bound over AFE (= 2)
-% boundRangeInp = [99, 5.0]; % lower and upper bound; 99 as lower bound indicates imMin from analysis to be considered
-% verbose = 1; % for debugging, set this to 2; this will just print more intermediate results
-% imScaleFac = 1.00; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
-% factorOnImMin = 1; % optional variable that reduces the imMin value
-% saveFigures = 0; % when running for optimal beta, do not saveFigures
-% dirForFigures = 'figures_revB';
-% pLIST = [0.20, 0.10, 0.02, 0.01, 0.005]; % (in fraction) i.e., 0.10 for 10% poe in 50 years.
 
 % end of inputs
 
@@ -30,7 +27,6 @@ BldgId =       PHRInputs.BldgIdLIST;
 switch IdToAnalyze
     case '2433v02'
         GMsuiteName = GMSetC;
-
 end
 
 if T1forIM == 99
@@ -38,7 +34,7 @@ if T1forIM == 99
 end
 
 %% fixed inputs (do NOT carry these as function arguments)
-doPlotHaz = 0;
+doPlotHaz = 1;
 plotType = 'loglog'; % 'semilog', 'loglog, 'linear'
 locationLISTforPlot = [];
 
@@ -49,31 +45,31 @@ matchDBEWithPSHA475 = 0; % to observe the effect of shape of hazard curve on ris
 matchMCEWithPSHA2475 = 0; % when these both are zero, we use unscaled code-idealized hazard curve
 
 %% 0. calculations begin
-baseFolder = pwd;
-
 %% 1a. Import Hazard
-cd('Input from Raghukanth')
+cd(fullfile(baseFolder, 'Input from Raghukanth'))
 % 1a.1 extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
 [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLon, doPlotHaz, plotType, locationLISTforPlot, T1forIM);
 % 1a.2 discretize hazard curve
-if T1forIM == 0; imNameForPlot = 'PGA (g)'; else imNameForPlot = sprintf('Sa(%.2f) (g)', T1forIM); end
+if T1forIM == 0; imNameForPlot = 'PGA (g)';
+else
+    imNameForPlot = sprintf('Sa(%.2f) (g)', T1forIM);
+end
+
 [imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20200111_v2(fitModel, imValLIST, afe_Sa_T1_LIST, N, 1, plotType, imNameForPlot, locName);
+
 if saveFigures == 1
-    cd(baseFolder);  cd(dirForFigures);
     strForIM = strrep(sprintf('Sa_%.2f', T1forIM), '.', 'p');
-    exportNamehaz = sprintf('Haz_%s_%s_%s', BldgId, locName, strForIM);
-    savefig(exportNamehaz); % .fig file for Matlab
-    print('-depsc', exportNamehaz); % .eps file for Linux (LaTeX)
-    print('-dmeta', exportNamehaz); % .emf file for Windows (MSWORD)
-    cd ..
+    exportNamehaz = sprintf('Haz_%s_%s_%s', BldgId{1}, locName, strForIM);
+    sks_figureFormat(formatMode);
+    sks_figureExport(fullfile(baseFolder, 'Output_Risk', exportNamehaz));
 end
 
 %% 1a.1 if codeIdealizedHazData; when 1, program calculates risk using code-idealized hazard employing two-parameter model based on DBE and MCE values
 % calculate code-based hazard_DBE and hazard_MCE
 switch zoneOfLoc
-    % case 'II';  zoneMCE_PGA = 0.10;
-    % case 'III'; zoneMCE_PGA = 0.16;
-    % case 'IV';  zoneMCE_PGA = 0.24;
+    case 'II';  zoneMCE_PGA = 0.10;
+    case 'III'; zoneMCE_PGA = 0.16;
+    case 'IV';  zoneMCE_PGA = 0.24;
     case 'V';   zoneMCE_PGA = 0.36;
 end
 switch T1forIM
@@ -200,20 +196,22 @@ plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS2), betaTOT_DS2), 'b-.'
 plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS3), betaTOT_DS3), 'm:', 'LineWidth', 1.5);
 plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS4), betaTOT_DS4), 'r-', 'LineWidth', 1.5);
 
-hlegend = legend('DS1', 'DS2', 'DS3', 'DS4');
-if T1forIM == 0; hx = xlabel('PGA (g)');  else hx = xlabel(sprintf('Sa(%.2f) (g)', T1forIM)); end
-hy = ylabel('P_{ds}');
+legend('DS1', 'DS2', 'DS3', 'DS4');
+if T1forIM == 0
+    xlabel('$\mathrm{PGA}\,(g)$', 'Interpreter', 'latex');
+else
+    xlabel(sprintf('$S_a(%.2f)\\,(\\mathrm{g})$', T1forIM), 'Interpreter', 'latex');
+end
+ylabel('$P_{ds}$', 'Interpreter', 'latex');
+
 xlim([0 2.0]); ylim([0 1]);
-psb_FigureFormatScript_paper
+sks_figureFormat(formatMode);
 
 if saveFigures == 1
-    cd(baseFolder);  cd(dirForFigures);
     strForIM = strrep(sprintf('Sa_%.2f', T1forIM), '.', 'p');
-    exportNameFrag = sprintf('fragility_%s_%s', BldgId, strForIM);
-    savefig(exportNameFrag); % .fig file for Matlab
-    print('-depsc', exportNameFrag); % .eps file for Linux (LaTeX)
-    print('-dmeta', exportNameFrag); % .emf file for Windows (MSWORD)
-    cd ..
+    exportNameFrag = sprintf('fragility_%s_%s', BldgId{1}, strForIM);
+    sks_figureFormat(formatMode);
+    sks_figureExport(fullfile(baseFolder, 'Output_Risk', exportNameFrag));
 end
 
 %% 2a. calculations for risk corresponding to each damage state
@@ -244,9 +242,9 @@ MultObjTable.Properties.VariableNames{end} = 'lambda_DS4';
 %% 2b. calculations for vulnerability begin
 consq_DS1 = consqModel(1, 1);   consq_DS2 = consqModel(1, 2);
 consq_DS3 = consqModel(1, 3);   consq_DS4 = consqModel(1, 4);
-
 imDescForRCR = 0.01:0.01:5;
 counter = 0; dv_RCR = zeros(size(imDescForRCR));
+
 for im = imDescForRCR
     counter = counter + 1;
     P_DS4 = normcdf(log(im), log(mu_DS4), betaTOT_DS4);
@@ -258,9 +256,6 @@ for im = imDescForRCR
     P_DS3_only = P_DS3 - P_DS4;
     P_DS2_only = P_DS2 - P_DS3;
     P_DS1_only = P_DS1 - P_DS2;
-
-    %         dv_RCR(counter) = (P_DS4_only * consq_DS4 + P_DS3_only * consq_DS3 + ...
-    %                          P_DS2_only * consq_DS2 + P_DS1_only * consq_DS1)/100;
 
     % Revising the expression based on Consenza et al (2018)
     dv_RCR(counter) = (P_DS4_only * consq_DS4 + ...
@@ -282,20 +277,21 @@ plot(imDescForRCR, DS2_contr_LIST, 'b-.', 'LineWidth', 1.5);
 plot(imDescForRCR, DS3_contr_LIST, 'm:', 'LineWidth', 1.5);
 plot(imDescForRCR, DS4_contr_LIST, 'r-', 'LineWidth', 1.5);
 
-hlegend = legend('Total', 'DS1 contribution', 'DS2 contribution', 'DS3 contribution', 'DS4 contribution', 'Location', 'NorthWest');
-if T1forIM == 0; hx = xlabel('PGA (g)');  else hx = xlabel(sprintf('Sa(%.2f) (g)', T1forIM)); end
-hy = ylabel('Repair Cost Ratio');
+legend('Total', 'DS1 contribution', 'DS2 contribution', 'DS3 contribution', 'DS4 contribution', 'Location', 'NorthWest');
+if T1forIM == 0 
+    xlabel('PGA (g)');
+else
+    xlabel(sprintf('Sa(%.2f) (g)', T1forIM));
+end
+ylabel('Repair Cost Ratio');
 xlim([0 0.9]); ylim([0 0.15]);
-psb_FigureFormatScript_paper
+sks_figureFormat(formatMode);
 
 if saveFigures == 1
-    cd(baseFolder);  cd(dirForFigures);
     strForIM = strrep(sprintf('Sa_%.2f', T1forIM), '.', 'p');
-    exportNameRCR = sprintf('RCR_%s_%s', BldgId, strForIM);
-    savefig(exportNameRCR); % .fig file for Matlab
-    print('-depsc', exportNameRCR); % .eps file for Linux (LaTeX)
-    print('-dmeta', exportNameRCR); % .emf file for Windows (MSWORD)
-    cd ..
+    exportNameRCR = sprintf('RCR_%s_%s', BldgId{1}, strForIM);
+    sks_figureFormat(formatMode);
+    sks_figureExport(fullfile(baseFolder, 'Output_Risk', exportNameRCR));
 end
 
 %% 2d. Print RCR for DBE and MCE
@@ -345,19 +341,19 @@ figure
 plot(imDescForRCR, lambda_RCR_integrand2, 'k-', 'LineWidth', 1.5); hold on; grid on; box on;
 % theoretically, we condition the vulnerability over hazard, hence the slope of vulnerability is preferred (also, it's intergrand is smoother)
 
-if T1forIM == 0; hx = xlabel('PGA (g)');  else hx = xlabel(sprintf('Sa(%.2f) (g)', T1forIM)); end
-hy = ylabel('Mean RCR Integrand');
+if T1forIM == 0; xlabel('PGA (g)');
+else
+    xlabel(sprintf('Sa(%.2f) (g)', T1forIM));
+end
+ylabel('Mean RCR Integrand');
 xlim([0 2.5]); % ylim([0 1]);
-psb_FigureFormatScript_paper
+sks_figureFormat(formatMode);
 
 if saveFigures == 1
-    cd(baseFolder);  cd(dirForFigures);
     strForIM = strrep(sprintf('Sa_%.2f', T1forIM), '.', 'p');
-    exportNameRCR = sprintf('ARCRIntegrand_%s_%s', BldgId, strForIM);
-    savefig(exportNameRCR); % .fig file for Matlab
-    print('-depsc', exportNameRCR); % .eps file for Linux (LaTeX)
-    print('-dmeta', exportNameRCR); % .emf file for Windows (MSWORD)
-    cd ..
+    exportNameRCR = sprintf('ARCRIntegrand_%s_%s', BldgId{1}, strForIM);
+    sks_figureFormat(formatMode);
+    sks_figureExport(fullfile(baseFolder, 'Output_Risk', exportNameRCR));
 end
 
 MultObjTable = [MultObjTable, table(lambda_RCR2_in_pc)];
@@ -395,6 +391,4 @@ if 1 == 0
         MultObjTable.Properties.VariableNames{end} = sprintf('DS1to4_Contr_in_pc_%iy', int32(RP_p));
     end
 end
-
 disp(MultObjTable)
-% toc

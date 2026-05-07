@@ -9,7 +9,6 @@ runFrag = runFlags.runFrag;
 
 if strcmp(MIDR_or_PHR, 'MIDR')
     sks_FragilityDataGen_MIDR(MIDRInputs);
-
 elseif strcmp(MIDR_or_PHR, 'PHR')
 
     % Backup only if any preprocessing will run
@@ -17,23 +16,23 @@ elseif strcmp(MIDR_or_PHR, 'PHR')
         PHRInputs_backup = PHRInputs;
     end
 
-    %% ---- DS1 ----
+    %% ----Run DS1 ----
     if runDS1 == 1
-        script_DS1_FragParam_deltaY;
-        masterScript_DS1_FragParam_v1;
+        sks_DS1_FragParam_deltaY(PHRInputs);
+        sks_DS1_FragParam(PHRInputs)
     end
 
-    %% ---- DS2 & DS3 ----
+    %% ---- Run DS2 & DS3 ----
     if runDS23 == 1
-        script_fun0_DS2_FragParam_v1_obsolete;
-        masterScript_DS2_DS3_process_FragParam_v3;
-        masterScript2_DS2_DS3_printSave_AllFragParam;
-        tempPlotAfterPostProc;
+        sks_DS2_FragParam(PHRInputs);
+        sks_DS2_DS3_Process_FragParam(PHRInputs);
+        sks_DS2_DS3_printSave_AllFragParam(PHRInputs);
+        sks_PlotAfterPostProc(PHRInputs);
     end
 
-    %% ---- DS4 ----
+    %% ----Run DS4 ----
     if runDS4 == 1
-        masterScript_DS4_FragParam_v1;
+        sks_DS4_FragParam(PHRInputs);
     end
 
     %% ---- Restore before fragility ----

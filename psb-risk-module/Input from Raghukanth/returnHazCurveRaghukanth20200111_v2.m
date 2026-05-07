@@ -155,9 +155,11 @@ if doPlot == 1
         case 'loglog'  ; ax.XScale = 'log'; ax.YScale = 'log'; hold on;
     end
     plot(imValLIST, afeLIST, 'k.', 'MarkerSize', 8);
-    hx = xlabel(imTypeForPlot); hy = ylabel('Annual Frequency of Exceedance'); grid on;
+    xlabel(imTypeForPlot); 
+    ylabel('Annual Frequency of Exceedance'); grid on;
     if ~isempty(legendName); legend(legendName); end
-    psb_FigureFormatScript_forReport
+    sks_figureFormat('powerpoint');
+    
 % using matlab's default cubic interpolation
 %     plotStyle1 = 'm--';
 %     imValDisc1 = logspace(log10(imValLIST(1, 1)), log10(imValLIST(1, end)), (N-1)*(size(imValLIST, 2))); % discretized im values

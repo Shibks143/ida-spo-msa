@@ -146,10 +146,11 @@ if doPlot == 1
             case 'loglog'  ; ax.XScale = 'log'; ax.YScale = 'log'; hold on;
         end
     end
-    hx = xlabel(['Sa(', num2str(T1), ') (g)']); hy = ylabel('Annual Frequency of Exceedance'); grid on;
+    xlabel(['Sa(', num2str(T1), ') (g)']); 
+    ylabel('Annual Frequency of Exceedance'); grid on;
     ylim([1e-6 1e0]);
     if ~isempty(locationLIST); legend(locationLIST); end
-    psb_FigureFormatScript_forReport
+    sks_figureFormat('powerpoint');
 end
 
 % loglog(imValLIST, afe_Sa_T1_LIST(i, :), 'ro-', imValLIST, afe_Sa_T1_LIST1(i, :), 'bo--');

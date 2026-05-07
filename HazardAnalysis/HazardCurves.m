@@ -36,7 +36,7 @@ sks_figureFormat('paper');  % Sets Times, fonts, LaTeX interpreter, grid, etc.
 % -----------------------------
 % Labels ONLY (sks_figureFormat handles FontSize, bold, interpreter)
 % -----------------------------
-xlabel('Sa(1s, 5\%) (g)');
+xlabel('im (g)');
 ylabel('Annual Rate of Exceedance, $\lambda$ (1/Year)');
 legend('(Guwahati)','Location','northeast');
 % title('Hazard Curves');

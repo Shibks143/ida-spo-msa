@@ -2,7 +2,7 @@ function sks_FragilityDataGen_MIDR(MIDRInputs)
 
 eqLIST =            MIDRInputs.eqNumberLIST;
 GMsuiteName  =      MIDRInputs.GMsuiteName;
-timePLIST =         MIDRInputs.timePLIST;
+timePLIST =         MIDRInputs.T1LIST;
 dsLIST =            MIDRInputs.dsLIST;
 BldgIdAndZoneLIST = MIDRInputs.BldgIdAndZoneLIST;
 
@@ -34,14 +34,16 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     for j = 1:size(timePLIST, 2)  % for intensity measure corresponding to each period
         T_new = timePLIST(1, j);
         fragAllData.(bldgIdVar).timeP(j, 1) = T_new;
-        % the following piece basically assign imType one of 'PGA', Sa1p4, or Sa_1p35, depending on the digits after decimal
-        if abs(T_new - 0) < 1e-6 % i.e., if it's PGA, assign 'PGA'
-            imType = 'PGA';
-        elseif abs(mod(T_new*100, 10)) <1e-6 % i.e., if the second digit after decimal is zero, e.g., 1.4
-            imType = sprintf('Sa_%ip%i', floor(T_new), int8(mod(T_new*10, 10))); % assign Sa_1p4
-        else                    % i.e., if the second digit after decimal is non-zero, e.g., 1.35
-            imType = sprintf('Sa_%ip%.2i', floor(T_new), int8(mod(T_new*100, 100))); % assign Sa_1p35
-        end
+        % the following piece basically assign imType one of 'PGA', Sa1p4,
+        % or Sa_1p35, depending on the digits after decimal, multi-period
+        % fragility
+        % if abs(T_new - 0) < 1e-6 % i.e., if it's PGA, assign 'PGA'
+        %     imType = 'PGA';
+        % elseif abs(mod(T_new*100, 10)) <1e-6 % i.e., if the second digit after decimal is zero, e.g., 1.4
+        %     imType = sprintf('Sa_%ip%i', floor(T_new), int8(mod(T_new*10, 10))); % assign Sa_1p4
+        % else                    % i.e., if the second digit after decimal is non-zero, e.g., 1.35
+        %     imType = sprintf('Sa_%ip%.2i', floor(T_new), int8(mod(T_new*100, 100))); % assign Sa_1p35
+        % end
 
         for k = 1:size(dsLIST, 2) % for each damage state
             ds = dsLIST{1, k};

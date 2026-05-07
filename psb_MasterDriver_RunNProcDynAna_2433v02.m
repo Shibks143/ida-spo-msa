@@ -33,7 +33,7 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 1.84;   % Note 1) input the proper period for scaling the ground motions for the building you would 
+    periodUsedForScalingGroundMotions = 0.71;   % Note 1) input the proper period for scaling the ground motions for the building you would 
                                                 % like to run (haselton used T1)
                                                 % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
                                                 % plots to do not use this as input; they open the files that Opensees creates 
@@ -54,7 +54,7 @@ IDA_or_MSA = 'IDA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1         0              0               0];
+    analyzeProcessPlotIndex = [1        1        1           1        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,7 +65,7 @@ IDA_or_MSA = 'IDA';
                                         % can as well be kept zero if conventional collapse analysis is being performed.
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.12;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.08;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -110,7 +110,7 @@ IDA_or_MSA = 'IDA';
     
 % Sa list for stripe processing - this is the list of Sa levels to make stripe files for
      
-    saLevelsForStripes = [0.13  0.17  0.24  0.35  0.40  0.53  0.70  0.89];
+    saLevelsForStripes = [0.24 0.53];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this
@@ -123,10 +123,9 @@ IDA_or_MSA = 'IDA';
         flagForEQFileFormat_SetC = 2;                           % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
     % ATC-63 Ground Motion Set D (expanded Far-Field)
         eqNumberLIST_forProcessing_SetD = [120111	120112	120121	120122	120131	120132	120141	120142	120151	120152	120161	120162	120411	120412	120521	120522	120611	120612	120621	120622	120631	120632	120641	120642	120711	120712	120721	120722	120731	120732	120741	120742	120811	120812	120821	120822	120911	120912	120921	120922	120931	120932	121011	121012	121021	121022	121031	121032	121041	121042	121051	121052	121061	121062	121111	121112	121211	121212	121221	121222	121231	121232	121321	121322	121411	121412	121421	121422	121431	121432	121441	121442	121451	121452	121461	121462	121511	121512	121711	121712];
-        % eqNumberLIST_forProcessing_SetD = [120111	120112	120121	120122	120131	120132	120141	120142];
+        eqListForCollapseMSAs_Name_SetD = 'GMSetD';
         eqListForCollapseIDAs_Name_SetD = 'GMSetD';
         eqNumberLIST_forCollapseIDAs_SetD = [12011	12012	12013	12014	12015	12016	12041	12052	12061	12062	12063	12064	12071	12072	12073	12074	12081	12082	12091	12092	12093	12101	12102	12103	12104	12105	12106	12111	12121	12122	12123	12132	12141	12142	12143	12144	12145	12146	12151	12171];
-        % eqNumberLIST_forCollapseIDAs_SetD = [12011	12012	12013	12014];
         eqFormatForCollapseList_SetD = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
         flagForEQFileFormat_SetD = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
     % ATC-63 Records that Are in Set D AND NOT IN C
@@ -270,7 +269,7 @@ if analyzeProcessPlotIndex(2) == 1
          msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
         isCollapsedForEachRun = 0;
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+            % ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
         sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -338,6 +337,8 @@ end
 if analyzeProcessPlotIndex(7) == 1
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
         sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
+        % sks_plotRDRvsSa_MSA(msaInputs)
+        % sks_plotMIDRvsSa_MSA(msaInputs)
         close all % close all figures  
 end
 

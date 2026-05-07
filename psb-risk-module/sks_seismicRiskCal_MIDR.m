@@ -9,7 +9,7 @@ dsLIST =               MIDRInputs.dsLIST;
 imTypeLIST =           MIDRInputs.imTypeLIST;
 BldgIdAndZoneLIST =    MIDRInputs.BldgIdAndZoneLIST;
 impFacLIST =           MIDRInputs.impFacLIST;
-fitModelLIST =         MIDRInputs.fitModelLIST;
+fitModelLIST1 =        MIDRInputs.fitModelLIST;
 NLIST =                MIDRInputs.NLIST;
 TaLIST =               MIDRInputs.Ta;
 T1LIST =               MIDRInputs.T1LIST;
@@ -17,8 +17,8 @@ TogmLIST =             MIDRInputs.TogmLIST;
 codeIdealizedHazData = MIDRInputs.codeIdealizedHazData;
 
 % T1LIST = TaLIST; % (period for Intensity measure, Sa(T1) 
-T1LIST = TogmLIST; % geoM_Topt2 (<= 2sec) for CS ground motion records 
-
+% T1LIST = TogmLIST; % geoM_Topt2 (<= 2sec) for CS ground motion records 
+fitModelLIST = fitModelLIST1(:,2);
 %% X. im bound
 %% X.0. factorOnImMin kicks in only if lowerBound = 99, i.e. when imMin is used. 
 % Since, it's possible that (true imMin) < (imMin obtained from analysis). 
@@ -73,7 +73,6 @@ for i = 1:size(dsLIST, 2) % over damage states
                 for r = 1:length(RT_vars)
                     RT_muVar = RT_vars{r};
                     tableCurr.(RT_muVar) = tableCurr.(RT_muVar) ./ tableCurr.(mu_dsVar);
-                    % rename column
                     colIndex = strcmp(tableCurr.Properties.VariableNames, RT_muVar);
                     tableCurr.Properties.VariableNames{colIndex} = sprintf('RTGM_ReqFac%i', r);
 

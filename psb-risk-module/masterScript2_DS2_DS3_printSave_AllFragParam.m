@@ -47,8 +47,6 @@ T_ctrl_xi = T_all_chi;
 %% Extract fragility results
 for i = 1:size(bldgIDLIST, 2)
     bldgID_curr = bldgIDLIST{1, i}; % current building ID
-%    cd H:\DamageIndex\Automated
-	% cd ..\..\..\DamageIndex\Automated
 
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID_curr);
     cd(analysisTypeFolder);
@@ -104,8 +102,6 @@ disp(T_ctrl_xi);
 
 for i = 1:size(bldgIDLIST, 2)
     bldgID_curr = bldgIDLIST{1, i}; % current building ID
-%    cd H:\DamageIndex\Automated
-	% cd ..\..\..\DamageIndex\Automated
 
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID_curr);
     cd(analysisTypeFolder);
@@ -121,7 +117,6 @@ clearvars -except baseFolder bldgIDLIST eqNumberLIST LimitStateValLIST T_all_chi
 
 fileNameToSave = 'DS2_DS3_fragDataCS22_SaTa';
 cd 'E:\OpenSees_PracticeExamples\ida-spo-msa\psb-risk-module\DamageState_MoRTSD\DayalaEtal2015_GEM\DS2_SigDam(Moderate)_DS3_NearColl(Extensive)';
-% cd 'H:\DamageState_MoRTSD\DayalaEtal2015_GEM\DS2_SigDam(Moderate)_DS3_NearColl(Extensive)'
 save(fileNameToSave, 'bldgIDLIST', 'eqNumberLIST', 'LimitStateValLIST', 'T_all_chi', 'T_all_xi', 'T_ctrl_chi', 'T_ctrl_xi');
 fprintf('Data file saved in: %s\n', pwd);
 
@@ -131,19 +126,15 @@ figure; hold on; grid on
 Sa = linspace(0.01,1.5,400);
 
 for j = 1:length(LimitStateValLIST)
-
     mu  = T_ctrl_chi{1,j+1}(1);
     beta= T_ctrl_chi{1,j+1}(2);
-
     plot(Sa, logncdf(Sa,log(mu),beta),'LineWidth',2)
 
 end
 
 for j = 1:length(LimitStateValLIST)
-
     mu  = T_ctrl_xi{1,j+1}(1);
     beta= T_ctrl_xi{1,j+1}(2);
-
     plot(Sa, logncdf(Sa,log(mu),beta),'--','LineWidth',2)
 
 end
