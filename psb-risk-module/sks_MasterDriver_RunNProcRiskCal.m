@@ -1,9 +1,18 @@
-
 tic 
-tStart= tic;
+
+% -------------------
+% This runs the seismic risk analyses, processes the analyses, then makes/saves all of the results.
+%
+% Author:  
+% Modified by Prof. Prakash S Badal and Shivakumar K S at IIT Madras
+%
+% Units: Whatever OpenSees is using - kN, mm, radians
+%
+% -------------------
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Building Information Inputs
+%% Define Building Information Inputs
 
 analysisTypeLIST = {'(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
 analysisType = analysisTypeLIST{1};         % Just renaming variable and changing variable format for some of the processors
@@ -96,7 +105,6 @@ switch eqListID
 end
 
 
-
 %% Site-Specific Inputs
 latLonLIST = [ % input depending on the site (lat, lon)
     %     13.05	80.27; % Chennai
@@ -108,9 +116,7 @@ latLonLIST = [ % input depending on the site (lat, lon)
     ];
 locName = 'Guwahati';
 zoneOfLocLIST =  {'V';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST 
-imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
-imTypeLIST = {'Sa_T1'};  %{'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'};
-imType = {'Sa_T1'};
+imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk 
 impFacLIST = 0;
 
 
@@ -122,24 +128,61 @@ codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-
 
 
 %% Building-Specific Inputs
-timePLIST = [0, 0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
+timePLIST = [0,0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
 T1LIST = [1.84]'; % geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
-Ta = [0.71]; % (approximate period as per code)
-TogmLIST =  [1.72]'; % obtained from IM_efficiency (optimization across timePLIST) and to be passed on to seismic risk calculation
+TaLIST = [0.71]; % (approximate period as per code)
+TogmLIST =  [1.27]'; % obtained from IM_efficiency (optimization across timePLIST) and to be passed on to seismic risk calculation
+isSinglePeriodAnalysis = true; 
 
 
-%% Damage-Specific Inputs
-if strcmp(MIDR_or_PHR, 'MIDR')
-    dsLIST = {'DynInst','CP','LS','IO'};
-else % PHR
-    dsLIST = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1', 'DS2_normalizedByThetaCap', 'DS2a_0p60_normalizedByThetaCap', 'DS2a_0p40_normalizedByThetaCap'};
+%  %Intensity Measure Selection; 
+intensityMeasureType = 'SaTogm'; % Options:'PGA', 'SaTa', 'SaT1', 'SaTogm'
+switch intensityMeasureType
+    case 'PGA'
+        imTypeLIST = {'PGA'};
+    case 'SaTa'
+        imTypeLIST = {'Sa_Ta'};
+    case 'SaT1'
+        imTypeLIST = {'Sa_T1'};     
+    case 'SaTogm'
+        imTypeLIST = {'Sa_Togm'};
+    otherwise
+        error('Unknown intensity measure option');
 end
+% imTypeLIST = {'PGA','Sa_0p1','Sa_0p2','Sa_0p5','Sa_0p9','Sa_1p0','Sa_1p2','Sa_2p0','Sa_5p0'}; % Multiple IMs
 
+%% Damage-Specific Inputs,
+switch MIDR_or_PHR
+    case 'MIDR'
+
+        damageMeasure = 'MIDR_based_4ds';
+        % damageMeasure = 'MIDR_based_cont_ds';
+
+        switch damageMeasure
+            case 'MIDR_based_4ds'
+                dsLIST = {'DynInst','CP','LS','IO'}; % Conventional MIDR-based damage states
+
+            case 'MIDR_based_cont_ds'
+                midrValues = 0.2:0.2:4.0; %% MIDR-based continuous damage states (0.2% to 4.0%)
+                dsLIST = { ...
+                    'midr_0p2pc', 'midr_0p4pc', 'midr_0p6pc', 'midr_0p8pc', 'midr_1p0pc', ...
+                    'midr_1p2pc', 'midr_1p4pc', 'midr_1p6pc', 'midr_1p8pc', 'midr_2p0pc', ...
+                    'midr_2p2pc', 'midr_2p4pc', 'midr_2p6pc', 'midr_2p8pc', 'midr_3p0pc', ...
+                    'midr_3p2pc', 'midr_3p4pc', 'midr_3p6pc', 'midr_3p8pc', 'midr_4p0pc'};
+            otherwise
+                error('Unknown MIDR damage measure');
+        end
+    case 'PHR'
+       damageMeasure = 'PHR_ds';
+       dsLIST = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1',... 
+            'DS2_normalizedByThetaCap', 'DS2a_0p60_normalizedByThetaCap', 'DS2a_0p40_normalizedByThetaCap'};
+    otherwise
+        error('Unknown MIDR_or_PHR option');
+end
 
 % PHR Specific parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PHR DS1 Inputs
-deltaYieldBasisFlag = 'ASCE41';  %PHR DS1Inputs
-% options: 'ASCE41', 'FEMAP695'
+deltaYieldBasisFlag = 'ASCE41'; % options: 'ASCE41', 'FEMAP695' 
 switch deltaYieldBasisFlag
     case 'ASCE41'
         deltaYieldBasis = 'deltaYieldBasedOnASCE41'; % idealizing trilinear pushover curve as per ASCE 41-13 section 7.4.3.2.4 which in turn refers to FEMA 440 section 4.3
@@ -177,7 +220,7 @@ saveMedianDispersionBound = [1 1 1];
 
 %Risk Specific PHR %%%%%%%%%%%
 consqModel = [2, 10, 40.4, 100]; % DS1, DS2, DS3, and DS4; repair cost ratio (% of building repair cost) (COM4 from HAZUS 2003)
-factorOnImMin = 1; % optional variable that reduces the imMin value
+factorOnImMin = 1; % optional variable that reduces the imMin value,
 saveFigures = 1; % when running for optimal beta, do not saveFigures
 pLIST = [0.20, 0.10, 0.02, 0.01, 0.005]; % (in fraction) i.e., 0.10 for 10% poe in 50 years.
 
@@ -187,19 +230,23 @@ verbose = 1; % for debugging, set this to 2; this will just print more intermedi
 
 %% MIDR inputs begin here
 MIDRInputs.timePLIST =                timePLIST;
+MIDRInputs.damageMeasure =            damageMeasure;
 MIDRInputs.dsLIST =                   dsLIST;
 MIDRInputs.BldgIdAndZoneLIST =        BldgIdAndZoneLIST;
 MIDRInputs.latLonLIST =               latLonLIST; 
 MIDRInputs.zoneOfLocLIST =            zoneOfLocLIST;
 MIDRInputs.imScaleFac =               imScaleFac;
+MIDRInputs.intensityMeasureType =     intensityMeasureType;
 MIDRInputs.imTypeLIST =               imTypeLIST;
 MIDRInputs.impFacLIST =               impFacLIST; 
 MIDRInputs.fitModelLIST =             fitModelLIST;
 MIDRInputs.NLIST =                    NLIST;
-MIDRInputs.Ta =                       Ta;
+MIDRInputs.TaLIST =                   TaLIST;
 MIDRInputs.T1LIST =                   T1LIST; 
 MIDRInputs.TogmLIST =                 TogmLIST;
+MIDRInputs.isSinglePeriodAnalysis =   isSinglePeriodAnalysis;
 MIDRInputs.codeIdealizedHazData =     codeIdealizedHazData;
+MIDRInputs.factorOnImMin =            factorOnImMin;
 MIDRInputs.verbose =                  verbose;
 MIDRInputs.formatMode =               formatMode; 
 MIDRInputs.baseFolder =               pwd;
@@ -210,7 +257,6 @@ PHRInputs = MIDRInputs;
 PHRInputs.analysisType =              analysisType;
 PHRInputs.BldgIdLIST =                BldgIdLIST;
 PHRInputs.dsLIST =                    dsLIST;
-PHRInputs.imType =                    imType;
 PHRInputs.locName =                   locName;
 PHRInputs.deltaYieldBasis =           deltaYieldBasis;
 PHRInputs.storyDriftLIST =            storyDriftLIST;
@@ -228,7 +274,6 @@ PHRInputs.dsToPlotBound =             dsToPlotBound;
 PHRInputs.doPlotT1LinesInFragDisp =   doPlotT1LinesInFragDisp;
 PHRInputs.saveMedianDispersionBound = saveMedianDispersionBound;
 PHRInputs.consqModel =                consqModel;
-PHRInputs.factorOnImMin =             factorOnImMin;
 PHRInputs.saveFigures =               saveFigures;
 PHRInputs.pLIST =                     pLIST;
 
@@ -237,10 +282,10 @@ PHRInputs.pLIST =                     pLIST;
 
 %% Run Fragility Data generation  
 if analyzeProcessPlotIndex(1) == 1
-    runFlags.runDS1  = 1;
-    runFlags.runDS23 = 1;
-    runFlags.runDS4  = 1;
-    runFlags.runFrag = 1;
+    runFlags.runDS1       = 1;
+    runFlags.runDS23      = 1;
+    runFlags.runDS4       = 1;
+    runFlags.runFragParam = 1;
 
 sks_FragilityData(MIDR_or_PHR, MIDRInputs, PHRInputs, runFlags)
 end

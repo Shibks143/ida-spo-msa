@@ -1,35 +1,28 @@
 function [imValLIST, afe_PGA_LIST, afe_Sa0p1_LIST, afe_Sa0p2_LIST, afe_Sa0p5_LIST, ...
     afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa2p0_LIST, afe_Sa5p0_LIST] ...
     = extractHazForLoc_20200111_v1(latLonLIST, doPlot, plotType, imTypeForPlot, locationLIST)
-%% function returns interpolated hazard for any given (lat, lon) using the data file received from Raghukanth on Jan 11, 2020
-% 
-%%%%%%%%%%%%%%%%%% Sample Inputs %%%%%%%%%%%%%%%%%%
-% clear;
-% % tic
-% latLonLIST = [
-%     19.00   72.80; % Mumbai   (Table 5.4 of NDMA, 2011 report)
-%     28.62   77.22; % Delhi
-%     26.17   91.77; % Guwahati
-%     27.10   92.10; % an arbitrary grid point near Arunachal border
-% %     26.70   60.5;  % a grid point for validation
-%     ];
-% doPlot = 0;
-% plotType = 'semilog'; % 'semilog', 'loglog, 'linear'
-% imTypeForPlot = 'PGA'; % 'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'
-% locationLIST = {'Mumbai', 'Delhi', 'Guwahati', 'Arunachal'};
-%%%%%%%%%%%%%%%%%% End of sample Inputs %%%%%%%%%%%%%%%%%%
 
-narginchk(1, 5)
-switch nargin
-    case 1
-        doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'PGA'; locationLIST = {};
-    case 2
-        plotType = 'semilog'; imTypeForPlot = 'PGA'; locationLIST = {};
-    case 3
-        imTypeForPlot = 'PGA'; locationLIST = {};
-    case 4
-        locationLIST = {};
-end
+%% function returns interpolated hazard for any given (lat, lon) using the data file received from Raghukanth on Jan 11, 2020
+
+ tic
+
+if nargin < 2 || isempty(doPlot), doPlot = 0; end
+if nargin < 3 || isempty(plotType), plotType = 'semilog'; end
+if nargin < 4 || isempty(imTypeForPlot), imTypeForPlot = 'PGA'; end
+if nargin < 5 || isempty(locationLIST), locationLIST = {}; end
+
+ 
+%  narginchk(1, 5)
+% switch nargin
+%     case 1
+%         doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'PGA'; locationLIST = {};
+%     case 2
+%         plotType = 'semilog'; imTypeForPlot = 'PGA'; locationLIST = {};
+%     case 3
+%         imTypeForPlot = 'PGA'; locationLIST = {};
+%     case 4
+%         locationLIST = {};
+% end
 
 latLIST = latLonLIST(:, 1);
 lonLIST = latLonLIST(:, 2);
@@ -41,7 +34,8 @@ load(fileName, 'Y1', 'X1', 'int_g', ...
     'c_1s',    'c_1pt2s',   'c_2s',     'c_5s'); % keeping varnames here makes it easy to program
 
 %% interpolate
-imValLIST = int_g';
+% imValLIST = int_g';
+imValLIST = int_g(:)';
 latVal = latLIST;%(i, 1);
 lonVal = lonLIST;%(i, 1);
 
@@ -142,10 +136,11 @@ if doPlot == 1
         end
     end
     
-    hx = xlabel([imTypeForPlot, '(g)']); hy = ylabel('Annual Frequency of Exceedance'); grid on;
+    xlabel([imTypeForPlot, '(g)']); 
+    ylabel('Annual Frequency of Exceedance'); grid on;
     ylim([1e-5 1e0]);
     if ~isempty(locationLIST); legend(locationLIST); end
-    psb_FigureFormatScript_forReport
+    sks_figureFormat('powerpoint');
 end
 
 

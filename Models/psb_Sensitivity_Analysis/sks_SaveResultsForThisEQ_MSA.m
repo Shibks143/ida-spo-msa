@@ -34,34 +34,7 @@ cd(analysisFolderName)
 eqFolder = sprintf('EQ_%d',eqNumber);
 cd(eqFolder)
 
-% % Save current folder location to get back to it easily
-% sensDir = pwd;
-% disp(sensDir)
-% 
-% % Go into the output folder for this EQ run
-% cd ..;
-% cd ..;
-% %         cd ..;
-% 
-% 
-% %         cd Output;
-% 
-% try
-%     cd Output;
-% catch
-%     try
-%         cd ..\Output;
-%     catch
-%         cd ..\..\Output;
-%     end
-% end
-% 
-% cd(analysisFolderName)
-% eqFolder = sprintf('EQ_%d', eqNumber);
-% cd(eqFolder);
-% %         disp('datasaved???');
-
-    
+ 
 % Save the results
     fileName = 'DATA_CollapseResultsForThisSingleEQ.mat';
 

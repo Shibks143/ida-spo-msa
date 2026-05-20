@@ -54,7 +54,7 @@ IDA_or_MSA = 'IDA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1        0              0               0];
+    analyzeProcessPlotIndex = [0        0        1           1        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,6 +74,7 @@ IDA_or_MSA = 'IDA';
     markerTypeLine = 'b';
     markerTypeDot = 'bo';
     isPlotIndividualPoints = 1;
+    formatMode = 'powerpoint';
     % Change the variable called eqTimeHistoryPreFormatted in psb_DefineVariablesAtMeanValues.tcl (now included here in MATLAB itself)
     eqTimeHistoryPreFormatted = 1; 
                    % 1- GM TH are manually curtailed and we do not want opensees to format the ground motion.
@@ -136,6 +137,7 @@ IDA_or_MSA = 'IDA';
         flagForEQFileFormat_SetInDNotC = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
     % ATC-63 Ground Motion Set G (Near-Field)
         eqNumberLIST_forProcessing_SetG = [8201811	8201812	8201821	8201822	8202921	8202922	8207231	8207232	8208021	8208022	8208211	8208212	8208281	8208282	8208791	8208792	8210631	8210632	8210861	8210862	8211651	8211652	8215031	8215032	8215291	8215292	8216051	8216052	8201261	8201262	8201601	8201602	8201651	8201652	8204951	8204952	8204961	8204962	8207411	8207412	8207531	8207532	8208251	8208252	8210041	8210042	8210481	8210482	8211761	8211762	8215041	8215042	8215171	8215172	8221141	8221142];
+        eqListForCollapseMSAs_Name_SetG = 'GMSetG';
         eqListForCollapseIDAs_Name_SetG = 'GMSetG';
         eqNumberLIST_forCollapseIDAs_SetG = [820181	820182	820292	820723	820802	820821	820828	820879	821063	821086	821165	821503	821529	821605	820126	820160	820165	820495	820496	820741	820753	820825	821004	821048	821176	821504	821517	822114];
         eqFormatForCollapseList_SetG = 'PEER-NGA_Rotated_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
@@ -212,6 +214,7 @@ idaInputs.collapseDriftThreshold =              collapseDriftThreshold;
 idaInputs.dataSavingOption =                    dataSavingOption;
 idaInputs.markerTypeLine =                      markerTypeLine;
 idaInputs.markerTypeDot =                       markerTypeDot;
+idaInputs.formatMode =                          formatMode;
 idaInputs.isPlotIndividualPoints =              isPlotIndividualPoints;
 idaInputs.isProcessMultipleCollapseRuns =       isProcessMultipleCollapseRuns;
 idaInputs.analysisTypeLIST =                    analysisTypeLIST;

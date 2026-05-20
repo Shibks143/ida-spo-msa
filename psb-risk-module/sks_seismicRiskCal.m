@@ -4,6 +4,5 @@ if strcmp(MIDR_or_PHR, 'MIDR')
     sks_seismicRiskCal_MIDR(MIDRInputs);
 elseif strcmp(MIDR_or_PHR, 'PHR')
     sks_AnnualizedRCR(PHRInputs);
-    % scriptAnnualizedRCR_v2_paper(PHRInputs);
 end
 

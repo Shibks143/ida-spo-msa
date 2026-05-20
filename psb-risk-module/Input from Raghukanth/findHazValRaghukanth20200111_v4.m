@@ -3,18 +3,9 @@ function [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLonLIS
 %
 %%%%%%%%%%%%%%%%%% Sample Inputs %%%%%%%%%%%%%%%%%%
 % clear;
-% latLonLIST = [
-%     19.00   72.80; % Mumbai   (Table 5.4 of NDMA, 2011 report)
-%     28.62   77.22; % Delhi
-%     26.17   91.77; % Guwahati
-% %     27.10   92.10; % an arbitrary grid point near Arunachal border
-% %     26.70   60.5;  % a grid point for validation
-%     ];
-% T1 = 1.35;
-% doPlot = 1; 
-% plotType = 'loglog'; % 'semilog', 'loglog, 'linear'
+
 % % following two inputs used for plotting only 
-% imTypeForPlot = 'PGA'; % 'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'
+imTypeForPlot = 'PGA'; % 'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'
 % locationLIST = {'Mumbai', 'Delhi', 'Guwahati'};%, 'Arunachal'}; % used only for legend
 %%%%%%%%%%%%%%%%%% End of sample Inputs %%%%%%%%%%%%%%%%%%
 
@@ -81,12 +72,8 @@ function [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLonLIS
 % end
 
 [imValLIST, afe_PGA_LIST, afe_Sa0p1_LIST, afe_Sa0p2_LIST, afe_Sa0p5_LIST, ...
-afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa2p0_LIST, afe_Sa5p0_LIST] ...
-= extractHazForLoc_20200111_v1(latLonLIST);
+afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa2p0_LIST, afe_Sa5p0_LIST] = extractHazForLoc_20200111_v1(latLonLIST, doPlot, plotType, imTypeForPlot, locationLIST);
 
-% now we have all the following LISTs from the raw data:
-% [imValLIST, afe_PGA_LIST, afe_Sa0p1_LIST, afe_Sa0p2_LIST, afe_Sa0p5_LIST, ...
-%     afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa2p0_LIST, afe_Sa5p0_LIST]
 
 afeLISTLIST = [afe_PGA_LIST, afe_Sa0p1_LIST, afe_Sa0p2_LIST, afe_Sa0p5_LIST, ...
     afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa2p0_LIST, afe_Sa5p0_LIST]; % concatenate all afeLIST
@@ -104,7 +91,6 @@ if M < 1e-6
 end
 
 
-% timePLIST = [0, 0.1, 0.2, 0.5, 0.9, 1.0, 1.2, 2.0, 5.0];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %% (WARNING) PSB, 2-26-20: We are not going beyond 2 sec as of now, because of anamolies in the data for Sa(5.0) as communicated to Prof. Raghukanth today.
 timePIDsToProc = 1:8; % 1:8 indicates that we're processing spectral acceleration values up to 2 sec

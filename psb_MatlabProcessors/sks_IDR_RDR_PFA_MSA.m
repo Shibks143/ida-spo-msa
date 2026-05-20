@@ -68,13 +68,32 @@ for eqIndex = 1:numEQ
         if exist(reducedSenData,'file')
             edpData = load(reducedSenData, 'floorAccelToSave', 'storyDriftRatioToSave', 'roofDriftRatioToSave', 'maxDriftRatioForFullStr', 'buildingHeight', 'numStories');
 
-            
             floorAccel_thisEQ{saIndex} = edpData.floorAccelToSave;
-            storyDriftRatio_thisEQ{saIndex} = cellfun(@(x) x.AbsMax, edpData.storyDriftRatioToSave);
-            storyDriftRatio_ResidualAbs_thisEQ{saIndex} = cellfun(@(x) x.ResidualAbs, edpData.storyDriftRatioToSave);
-            roofDriftRatio_thisEQ(saIndex) = edpData.roofDriftRatioToSave.AbsMax;
-            roofDriftRatio_ResidualAbs_thisEQ(saIndex) = edpData.roofDriftRatioToSave.ResidualAbs;
-            maxDriftRatioForFullStr_thisEQ(saIndex) = edpData.maxDriftRatioForFullStr;
+
+            storyDriftRatio_thisEQ{saIndex} = ...
+                cellfun(@(x) x.AbsMax, edpData.storyDriftRatioToSave);
+
+            storyDriftRatio_ResidualAbs_thisEQ{saIndex} = ...
+                cellfun(@(x) abs(x.Residual), edpData.storyDriftRatioToSave);
+
+            roofDriftRatio_thisEQ(saIndex) = ...
+                edpData.roofDriftRatioToSave.AbsMax;
+
+            roofDriftRatio_ResidualAbs_thisEQ(saIndex) = ...
+                abs(edpData.roofDriftRatioToSave.Residual);
+
+            maxDriftRatioForFullStr_thisEQ(saIndex) = ...
+                edpData.maxDriftRatioForFullStr;
+
+
+
+            % floorAccel_thisEQ{saIndex} = edpData.floorAccelToSave;
+            % storyDriftRatio_thisEQ{saIndex} = cellfun(@(x) x.AbsMax, edpData.storyDriftRatioToSave);
+            % storyDriftRatio_ResidualAbs_thisEQ{saIndex} = cellfun(@(x) abs(x.Residual), edpData.storyDriftRatioToSave);
+            % % storyDriftRatio_ResidualAbs_thisEQ{saIndex} = cellfun(@(x) x.ResidualAbs, edpData.storyDriftRatioToSave);
+            % roofDriftRatio_thisEQ(saIndex) = edpData.roofDriftRatioToSave.AbsMax;
+            % roofDriftRatio_ResidualAbs_thisEQ(saIndex) = edpData.roofDriftRatioToSave.ResidualAbs;
+            % maxDriftRatioForFullStr_thisEQ(saIndex) = edpData.maxDriftRatioForFullStr;
 
             % Store building parameters (same for all SA levels)
             if saIndex == 1
@@ -126,6 +145,7 @@ for eqIndex = 1:numEQ
         % ---- Full Structure Drift ----
         Drift_FullStr_allEQ(eqIndex, saLevelIndex) = 100 * maxDriftRatioForFullStr_all{eqIndex}(saLevelIndex);
 
+      
         % ---- PFA ----
         accelCell = floorAccel_all{eqIndex}{saLevelIndex};
         validCells = accelCell(~cellfun('isempty',accelCell));
@@ -167,7 +187,6 @@ outputFile = fullfile(saveDir, sprintf('MSA_EDP_AllEQ_%s.mat', analysisType));
 save(outputFile, 'MSA_EdpData', 'IDR_allEQ', 'RDR_allEQ', 'RoofRDR_allEQ', ...
     'PFA_allEQ', 'Drift_FullStr_allEQ', 'saLevels', 'eqNumberLIST');
 
-% save(outputFile, 'IDR_allEQ', 'RDR_allEQ','RoofRDR_allEQ','PFA_allEQ','Drift_FullStr_allEQ', 'SaLevels', 'eqNumberLIST');
 
 fprintf('Saved ALL EQ MSA data to:\n%s\n', outputFile);
 

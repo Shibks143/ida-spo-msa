@@ -1,6 +1,6 @@
 
 clc; clear; close all;
-
+formatMode = 'powerpoint';
 % -----------------------------
 % Data
 % -----------------------------
@@ -31,7 +31,7 @@ hold off
 % -----------------------------
 % Apply custom formatting (handles ALL formatting below)
 % -----------------------------
-sks_figureFormat('paper');  % Sets Times, fonts, LaTeX interpreter, grid, etc.
+sks_figureFormat(formatMode);  % Sets Times, fonts, LaTeX interpreter, grid, etc.
 
 % -----------------------------
 % Labels ONLY (sks_figureFormat handles FontSize, bold, interpreter)

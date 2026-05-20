@@ -4,18 +4,7 @@ function [imValDisc, afeDisc, hazCurParams] = returnHazCurveRaghukanth20200111_v
 % 
 %%%%%%%%%%%%%%%%%% Sample Inputs %%%%%%%%%%%%%%%%%%
 % clear;
-% fitModel = '2param'; % '2param' or '3param'; Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)]
-% IM value list from Raghukanth data as received on Jan 11, 2020
-% % % imValLIST = logspace(log10(0.01), log10(5.00), 10); % intention
-% imValLIST = [0.01;0.0199474;0.0397897;0.07937;0.158322;0.315811;0.629961;1.25661;2.5066;5]'; % implementation (due to rounding)
-% afeLIST = [4.93674E-02	1.56508E-02	4.34903E-03	9.92152E-04	1.48798E-04	2.17530E-05	3.58761E-06	4.85807E-07	5.13758E-08	3.77013E-09];% Mumbai
-% afeLIST = [8.26856E-02	3.47746E-02	1.36577E-02	4.95679E-03	1.61090E-03	4.48673E-04	9.31284E-05	1.06942E-05	5.21429E-07	9.73072E-09]; % Delhi
-% afeLIST = [3.34288E-01	1.24668E-01	3.92776E-02	1.25620E-02	4.21525E-03	1.25712E-03	2.62249E-04	3.36570E-05	2.33463E-06	7.18762E-08]; % Guwahati
-% afeLIST = [3.70651E-01	1.49167E-01	4.95066E-02	1.62939E-02	5.62982E-03	1.74907E-03	3.80267E-04	5.04012E-05	3.61580E-06	1.15167E-07]; % Arunachal (27.1, 92.1)
 
-% N = 21; % number of points for each sub-interval, i.e., between consecutive imValLIST values 
-% doPlot = 1; 
-% plotType = 'semilog'; % 'semilog', 'loglog, 'linear'
 % imTypeForPlot = 'PGA'; % (used only for xlabel) 'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'
 % legendName = {};
 %%%%%%%%%%%%%%%%%% End of sample Inputs %%%%%%%%%%%%%%%%%%
@@ -155,8 +144,9 @@ if doPlot == 1
         case 'loglog'  ; ax.XScale = 'log'; ax.YScale = 'log'; hold on;
     end
     plot(imValLIST, afeLIST, 'k.', 'MarkerSize', 8);
-    xlabel(imTypeForPlot); 
-    ylabel('Annual Frequency of Exceedance'); grid on;
+    xlabel(['$\mathrm{' imTypeForPlot '}$'], 'Interpreter', 'latex');
+    ylabel('$\mathrm{Annual\ Frequency\ of\ Exceedance}$', 'Interpreter', 'latex');
+    grid on;
     if ~isempty(legendName); legend(legendName); end
     sks_figureFormat('powerpoint');
     

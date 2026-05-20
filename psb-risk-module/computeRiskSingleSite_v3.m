@@ -14,17 +14,12 @@ function [riskVal, highestContriIM, modalImRatio] = computeRiskSingleSite_v3(haz
 %       The default values of [imMin, imMax] 
 %                          or [afeMin, afeMax] are taken from hazardData.
 % 
-% Assumptions-
-%       Fragility follows lognormal distribution.
-% 
 % There are three outputs of the function-
 %       riskVal             Evaluated risk values
 %       highestContriIM     Highest contributing intensity measure
 %       modalImRatio        Ratio of highestContriIM to median fragility
 % 
 % Revision
-%       v1- hazard curve was discretized inside this module (Dec 10, 2019)
-%       v2- hazard curve is already well-discretized, hence no discretization here anymore (Jan 14, 2020)
 %       v3- no hazard discretization + IM-bounds + AFE-bound (Jan 14, 2020)
 % 
 % Author: Prakash S Badal, IIT Bombay
@@ -32,22 +27,6 @@ function [riskVal, highestContriIM, modalImRatio] = computeRiskSingleSite_v3(haz
 %
 % -------------------
 % 
-%% Sample inputs
-% The first row with IM values in arbitrary units (say, g) and second row with PoE 
-% hazardData = [imValDisc;
-%               afeDisc]; 
-% hazardData = [[0.01;0.0199474;0.0397897;0.07937;0.158322;0.315811;0.629961;1.25661;2.5066;5]'; 
-% %               [4.93674E-02	1.56508E-02	4.34903E-03	9.92152E-04	1.48798E-04	2.17530E-05	3.58761E-06	4.85807E-07	5.13758E-08	3.77013E-09]]; % Mumbai
-% %               [8.26856E-02	3.47746E-02	1.36577E-02	4.95679E-03	1.61090E-03	4.48673E-04	9.31284E-05	1.06942E-05	5.21429E-07	9.73072E-09]]; % Delhi
-% %               [3.34288E-01	1.24668E-01	3.92776E-02	1.25620E-02	4.21525E-03	1.25712E-03	2.62249E-04	3.36570E-05	2.33463E-06	7.18762E-08]]; % Guwahati
-%               [3.70651E-01	1.49167E-01	4.95066E-02	1.62939E-02	5.62982E-03	1.74907E-03	3.80267E-04	5.04012E-05	3.61580E-06	1.15167E-07]]; % Arunachal (27.1, 92.1)
-              
-% Median and log-dispersion parameter, respectively we assume lognormal distribution.
-% fragilityData = [0.231665029035492, 0.280176831835109]; % values are median and log-dispersion parameter, respectively; we assume lognormal distribution.
-
-% imOrAfeBound = 1; boundRange = [0.01 1.5];
-% imOrAfeBound = 2; boundRange = [1e-6 4e-1];
-% imOrAfeBound = 0;
 
 %% calculation begins (set default values)
 switch nargin 
@@ -139,7 +118,8 @@ end
 % 1. Hazard curve interpolating
 % interpHazard = interp1(hazardData(1, :), hazardData(2, :), imValues); % v1 
 % interpHazard = hazardData(2, :); % v2
-interpHazard = afeValues; % v3
+% interpHazard = afeValues; % v3
+interpHazard = exp(interp1(log(hazardData(1,:)), log(hazardData(2,:)), log(imValues)));
 
 %% adjust for the im values truncated below imMin
 if imOrAfeBound == 1 % exist(imMin, 1) % i.e., when there is a bound over im
@@ -178,9 +158,3 @@ modalImRatio = highestContriIM/Sa_median;
 % 6. output list
 % [riskVal, highestContriIM, modalImRatio]
 
-%% (NOT IN USE) Alternate risk evaluation (using the slope of hazard and fragility cdf 
-% dx = diff(imValues); dx = [dx dx(end)]; % Find differece in ‘x’ values
-% hazSlope = gradient(interpHazard)./ dx; % slope of hazard
-% fragcdf = logncdf(imValues, log(Sa_median), betaTot);
-% conv1 = fragcdf.*abs(hazSlope);
-% riskVal1 = trapz(imValues, conv1)

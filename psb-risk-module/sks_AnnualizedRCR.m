@@ -4,7 +4,7 @@ tic
 
 %% %% User inputs begins    
 bldgIDLIST =           PHRInputs.BldgIdLIST;
-imType =               char(PHRInputs.imType);% Select IM
+imTypeLIST =           char(PHRInputs.imTypeLIST);% Select IM
 T1LIST =               PHRInputs.T1LIST;
 fitModelLIST =         PHRInputs.fitModelLIST;
 
@@ -76,7 +76,7 @@ if size(lowerBoundLIST, 2) == size(upperBoundLIST, 2)
             bldgId = bldgIDLIST{1, i};
             T1forIM = T1LIST(1, i);
             counter = counter + 1;
-            fprintf('%i/%i, %s, %s, %i, [%f, %f]\n', counter, totalCounter, bldgId, imType, imOrAfeBound, boundRange(1), boundRange(2));
+            fprintf('%i/%i, %s, %s, %i, [%f, %f]\n', counter, totalCounter, bldgId, imTypeLIST, imOrAfeBound, boundRange(1), boundRange(2));
             tableCurr = masterFunLambdaARCR_v2(bldgId, T1forIM, normalizedByThetaU, DS2_threshold, fitModel, imOrAfeBound, boundRange, PHRInputs);
             % Here we convert it to the "required factor for targeted risk"
             tableWithAllInfo = [tableWithAllInfo; tableCurr];

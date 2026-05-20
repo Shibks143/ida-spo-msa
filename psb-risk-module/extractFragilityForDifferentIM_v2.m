@@ -3,8 +3,7 @@ function [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBeta
 %% inputs
 % T_new = 0.00; % time period for spectral acceleration)
           % 0.00 corresponds to PGA,
-          % 99 corresponds to unchanged time period, which is Ta as per IS 1893 in the case of SMRF archetypical buildings
-% for truncated fragility the fragility function is zero for im < imMin
+          % 99 corresponds to unchanged time period, which is Ta as per IS 1893 in the case of SMRF archetypical buildings for truncated fragility the fragility function is zero for im < imMin
 
 %% 2a. extract the old period and values of spectral acceleration corr. to story drift ratio as chosen above
 

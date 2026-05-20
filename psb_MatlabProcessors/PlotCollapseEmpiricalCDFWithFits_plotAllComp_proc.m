@@ -20,18 +20,16 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function[void] = PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(idaInputs)
+function PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(idaInputs)
 
-sigmaLnModeling = idaInputs.sigmaLnModeling;
-analysisType = idaInputs.analysisType;
+sigmaLnModeling =            idaInputs.sigmaLnModeling;
+analysisType =               idaInputs.analysisType;
 eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name;
-isConvertToSaKircher = idaInputs.isConvertToSaKircher;
+isConvertToSaKircher =       idaInputs.isConvertToSaKircher;
+formatMode =                 idaInputs.formatMode;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Select options 
 
-    % Legend font size - overrides the figure formatting script
-    legendTextFontSizeInThisFile = 12;
-    
     % Plot normal CDF?
     %plotNormalCDF = 1;
     plotNormalCDF = 0;
@@ -55,7 +53,7 @@ isConvertToSaKircher = idaInputs.isConvertToSaKircher;
     markerTypeForLognormalExpandedVariance = 'b--';
     markerTypeForNormal = 'b:';
     minValueForPlot = 0.0;
-    maxValueForPlot = 6.0;
+    maxValueForPlot = 5.0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,19 +61,17 @@ isConvertToSaKircher = idaInputs.isConvertToSaKircher;
 % Go to the correct folder to open the file that was created by the
 % collapse IDA plotter.
     cd ..;
-
     cd Output
-%     cd K:\PrakRuns_I_Output_In_K % Use when output is in external HDD. Change back to cd output and comment this out when output folder is in I drive.
-
+    
     analysisTypeFolder = sprintf('%s', analysisType);
     cd(analysisTypeFolder);
 
 % Open the file that was created by the IDA processor - only load the
 % variables that I need
 %   NOTICE - if you are opening a file that has resutls from just single
-%   componnents, you will need to load "collapseLevelForChosenComp" instead of 
+%   components, you will need to load "collapseLevelForChosenComp" instead of 
 %   "collapseLevelForAllControlComp".  Therefore this is now set up to plot
-%   the controling component for two horizontal components.
+%   the controlling component for two horizontal components.
 
 %     % ONLY CONTROLLING COMPONENTS
 %     load DATA_collapse_CollapseSaAndStats.mat collapseLevelForAllControlComp...
@@ -90,8 +86,7 @@ isConvertToSaKircher = idaInputs.isConvertToSaKircher;
         % Use Sa,Kircher
         fileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaATC63.mat', eqListForCollapseIDAs_Name);    
     end
-    load(fileName, 'collapseLevelForAllComp',...
-        'meanCollapseSaTOneAllComp', 'meanLnCollapseSaTOneAllComp',...
+    load(fileName, 'collapseLevelForAllComp', 'meanCollapseSaTOneAllComp', 'meanLnCollapseSaTOneAllComp',...
         'stDevCollapseSaTOneAllComp', 'stDevLnCollapseSaTOneAllComp', 'periodUsedForScalingGroundMotions')
     
 % Some calculations
@@ -139,54 +134,41 @@ end
 % Do final plot details
     if(plotNormalCDF == 1)
         if(plotCDFWithAdditionalUncertainty == 1)
-            legh = legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
+            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
         else
-            legh = legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Location', 'Southeast');
+            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Location', 'Southeast');
         end
     else
         if(plotCDFWithAdditionalUncertainty == 1)
-            legh = legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
+            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
         else
-            legh = legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Location', 'Southeast');
+            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Location', 'Southeast');
         end
     end
     box on
     grid on
-    %titleText = sprintf('Emp. CDF of SaCol (All Components) with Fitted Dist._%s', analysisType)
-    %title(titleText)
+  
     if(isConvertToSaKircher == 0)
-        temp = sprintf('Sa_{geoM}(T=%.2fs) (g)', periodUsedForScalingGroundMotions);
+        temp = sprintf('$\\mathrm{Sa}_{\\mathrm{geoM}}(\\mathrm{T} = %.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
     else
         DefineSaKircherOverSaGeoMeanValues
         temp = axisLabelForSaKircher;
     end
-    hx = xlabel(temp);
-%     hy = ylabel('P[collapse]');
-    str2 = '${\rm I\!P} [collapse] $';
-    hy = ylabel(str2, 'Interpreter', 'latex');
+    xlabel(temp,'Interpreter','latex');
+    ylabel('$\mathrm{IP}[\mathrm{collapse}]$', 'Interpreter', 'latex');
+   
+    sks_figureFormat(formatMode)
 
-    FigureFormatScript;
-    
-    % Make the legend text smaller
-        set(legh, 'FontSize', legendTextFontSizeInThisFile);
-    
     % Make the x-axis correct
     axis([minValueForPlot maxValueForPlot 0.0 1.0]);
         
     % Save the plot
         if(isConvertToSaKircher == 0)
-            % Save the plot as a .fig file 
            exportName = sprintf('CollapseCDF_AllComp_SaGeoMean');
-           savefig(exportName); % .fig file for Matlab
-           print('-depsc', exportName); % .eps file for Linux (LaTeX)
-           print('-dmeta', exportName); % .emf file for Windows (MSWORD)
-    else
-            % Save the plot as a .fig file
-            %exportName = sprintf('CollapseCDF_AllComp_%s_%s_SaATC63.emf', analysisType, eqListForCollapseIDAs_Name);
-            exportName = sprintf('CollapseCDF_AllComp_SaATC63');
-           savefig(exportName); % .fig file for Matlab
-           print('-depsc', exportName); % .eps file for Linux (LaTeX)
-           print('-dmeta', exportName); % .emf file for Windows (MSWORD)
+           sks_figureExport(exportName)
+        else
+           exportName = sprintf('CollapseCDF_AllComp_SaATC63');
+           sks_figureExport(exportName)
         end
     
 % Go back to MatlabProcessors folder

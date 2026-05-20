@@ -1,22 +1,25 @@
 function sks_FragilityDataGen_MIDR(MIDRInputs)
 
-eqLIST =            MIDRInputs.eqNumberLIST;
-GMsuiteName  =      MIDRInputs.GMsuiteName;
-timePLIST =         MIDRInputs.T1LIST;
-dsLIST =            MIDRInputs.dsLIST;
-BldgIdAndZoneLIST = MIDRInputs.BldgIdAndZoneLIST;
+eqLIST =              MIDRInputs.eqNumberLIST;
+GMsuiteName  =        MIDRInputs.GMsuiteName;
+timePLIST =           MIDRInputs.TogmLIST ; % MIDRInputs.T1LIST, MIDRInputs.TaLIST for single-period fragility analysis (no need to run imEfficiency optimization) 
+% timePLIST =         MIDRInputs.timePLIST; % Multi-period fragility analysis (run imEfficiency optimization and then find TogmLIST and then run single period fragility analysis )
+damageMeasure =       MIDRInputs.damageMeasure;
+intensityMeasureType =MIDRInputs.intensityMeasureType;
+dsLIST =              MIDRInputs.dsLIST;
+BldgIdAndZoneLIST =   MIDRInputs.BldgIdAndZoneLIST;
 
 
 %% To save run time of risk modules, we need to execute this script ONCE with appropriate lists of building ID, imType, and damage state.
 % This script takes approximately 8-10 minutes to execute for buildings, im types, and 4 damage states
 
-baseFolder1 = pwd;
-saveDir = fullfile(baseFolder1,'DATA_files');
+baseFolder = pwd;
+saveDir = fullfile(baseFolder,'DATA_files');
 
 if ~exist(saveDir,'dir')
     mkdir(saveDir);
 end
-fragDataFileName = sprintf('DATA_fragility_ALL');
+fragDataFileName = sprintf('DATA_fragility_%s_%s', damageMeasure, intensityMeasureType);
 
 count = 0;
 totalNumRuns = size(BldgIdAndZoneLIST, 1)*size(timePLIST, 2)*size(dsLIST, 2);
@@ -27,7 +30,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     bldgIdVar = ['ID' bldgIdCurr];
 
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgIdCurr);
-    cd(baseFolder1)
+    cd(baseFolder)
 
     %% %% B. (perform computations); SINCE THIS IS A ONE-TIME EXECUTION, I AM ABANDONING THE IDEA OF PARALLELIZATION.
 
@@ -35,8 +38,8 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         T_new = timePLIST(1, j);
         fragAllData.(bldgIdVar).timeP(j, 1) = T_new;
         % the following piece basically assign imType one of 'PGA', Sa1p4,
-        % or Sa_1p35, depending on the digits after decimal, multi-period
-        % fragility
+        % or Sa_1p35, depending on the digits after decimal, multi-period fragility
+        
         % if abs(T_new - 0) < 1e-6 % i.e., if it's PGA, assign 'PGA'
         %     imType = 'PGA';
         % elseif abs(mod(T_new*100, 10)) <1e-6 % i.e., if the second digit after decimal is zero, e.g., 1.4
@@ -48,14 +51,23 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         for k = 1:size(dsLIST, 2) % for each damage state
             ds = dsLIST{1, k};
             fragAllData.(bldgIdVar).ds{1, k} = ds;
-            switch ds
-                case 'DynInst';   MIDR_ds = 0.00; % proxy for dynamic instability
-                case 'CP'     ;   MIDR_ds = 0.04;
-                case 'LS'     ;   MIDR_ds = 0.02;
-                case 'IO'     ;   MIDR_ds = 0.01;
-            end
+            
+            if startsWith(ds,'midr_')
+                temp = erase(ds,'midr_');  % Extract numeric part
+                temp = erase(temp,'pc');
+                temp = strrep(temp,'p','.');
+                MIDR_ds = str2double(temp)/100;  % Convert percent to decimal drift ratio
 
- 
+            else
+                switch ds
+                    case 'DynInst';   MIDR_ds = 0.00; % proxy for dynamic instability
+                    case 'CP'     ;   MIDR_ds = 0.04;
+                    case 'LS'     ;   MIDR_ds = 0.02;
+                    case 'IO'     ;   MIDR_ds = 0.01;
+                end
+
+            end
+            
             [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBetaRTR_CTRL, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T_new, GMsuiteName);
 
             %% parfor doesn't allow writing to a structure here, hence I have the assigning out of parfor now, read detailed notes above.
@@ -89,6 +101,6 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
 
 end
 save(fullfile(saveDir,fragDataFileName),'fragAllData'); % navigate to the directory where we need DATA files
-cd(baseFolder1); % again back to the script directory
+cd(baseFolder); % again back to the script directory
 
 

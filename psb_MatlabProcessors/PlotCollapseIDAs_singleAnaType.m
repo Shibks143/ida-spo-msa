@@ -30,17 +30,17 @@
 % -------------------
 function[void] = PlotCollapseIDAs_singleAnaType(idaInputs)
 
-analysisType = idaInputs.analysisType;
-% eqNumberLIST = idaInputs.eqNumberLIST;
-eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name;
+analysisType =                   idaInputs.analysisType;
+% eqNumberLIST =                 idaInputs.eqNumberLIST;
+eqListForCollapseIDAs_Name =     idaInputs.eqListForCollapseIDAs_Name;
 % eqNumberLIST_forCollapseIDAs = idaInputs.eqNumberLIST_forCollapseIDAs;
-markerTypeLine = idaInputs.markerTypeLine;
-markerTypeDot = idaInputs.markerTypeDot;
-isPlotIndividualPoints = idaInputs.isPlotIndividualPoints;
-collapseDriftThreshold = idaInputs.collapseDriftThreshold;
-isConvertToSaKircher = idaInputs.isConvertToSaKircher;
-eqNumberLIST = idaInputs.eqNumberLIST_forCollapseIDAs;
-
+markerTypeLine =                 idaInputs.markerTypeLine;
+markerTypeDot =                  idaInputs.markerTypeDot;
+isPlotIndividualPoints =         idaInputs.isPlotIndividualPoints;
+collapseDriftThreshold =         idaInputs.collapseDriftThreshold;
+isConvertToSaKircher =           idaInputs.isConvertToSaKircher;
+eqNumberLIST =                   idaInputs.eqNumberLIST_forCollapseIDAs;
+formatMode =                     idaInputs.formatMode;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% This does collapse IDAs for a single analysisType
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,7 +50,7 @@ eqNumberLIST = idaInputs.eqNumberLIST_forCollapseIDAs;
 DefineSaKircherOverSaGeoMeanValues
 
 % Input what max drift value you want on X axis for the plot
-maxXOnAxis = 0.12; %0.30;
+maxXOnAxis = 0.08; %0.30;
 figureNumAllComp = 1;           % Plot of results for all components
 figureNumControllingComp = 2;   % Plot of results for only controlling components
 ControllingCompNumLIST =[];
@@ -620,42 +620,33 @@ end
         figure(figureNumAllComp)
         hold on
         grid on
-        %titleText = sprintf('Incremental Dynamic Analysis, ALL Components, %s', analysisType);
-        %title(titleText);
+
         if(isConvertToSaKircher == 0)
-            titleTemp = sprintf('Sa_{geoM}(T_{1}=%.2fs) (g)', periodUsedForScalingGroundMotions);
+            titleTemp = sprintf('$\\mathrm{Sa}_{\\mathrm{geoM}}(\\mathrm{T}_{1} = %.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
+            % titleTemp = sprintf('Sa_{geoM}(T_{1}=%.2fs) (g)', periodUsedForScalingGroundMotions);
         else
             titleTemp = axisLabelForSaKircher;
         end
-        hy = ylabel(titleTemp);
-        hx = xlabel('Max Interstory Drift Ratio');
-%         hx = xlabel('Maximum Interstory Drift Ratio');
+        ylabel(titleTemp);
+        xlabel('$\mathrm{Max\ Interstory\ Drift\ Ratio}$', 'Interpreter','latex');
         xlim([0, maxXOnAxis])
-        FigureFormatScript
-        
+        sks_figureFormat(formatMode)
+ 
         % Save the plot
         if(isConvertToSaKircher == 0)
             % This is Sa,geoMean            
-            % Save the plot as a .fig file
             % File name shortened to make it save file correctly (1-14-09 CBH)
             %plotName = sprintf('CollapseIDA_AllComp_%s_%s_SaGeoMean.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_AllComp_SaGeoMean');
-            print('-dmeta', exportName);            
-           savefig(exportName); % .fig file for Matlab
-           print('-depsc', exportName); % .eps file for Linux (LaTeX)
-           print('-dmeta', exportName); % .emf file for Windows (MSWORD)  
+            sks_figureExport(exportName)  
         else
             % This is Sa,ATC-63 (or Sa,Kircher)
-            % Save the plot as a .fig file
             % File name shortened to make it save file correctly (1-14-09 CBH)
             %plotName = sprintf('CollapseIDA_AllComp_%s_%s_SaATC63.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_AllComp_SaATC63');
-            print('-dmeta', exportName);            
-           savefig(exportName); % .fig file for Matlab
-           print('-depsc', exportName); % .eps file for Linux (LaTeX)
-           print('-dmeta', exportName); % .emf file for Windows (MSWORD)     
+            sks_figureExport(exportName)    
         end
-        
+ 
         hold off
 
         % %%%%%%% Start of PDF code added on 11-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%    
@@ -718,48 +709,32 @@ end
         figure(figureNumControllingComp);
         hold on
         grid on
-        %titleText = sprintf('Incremental Dynamic Analysis, ONLY Controlling Component, %s', analysisType);
-        %title(titleText);
         if(isConvertToSaKircher == 0)
-%             titleTemp = sprintf('Sa_{g.m.}(T_{1}=%.2fs) [g]', periodUsedForScalingGroundMotions);
-            titleTemp = sprintf('Sa_{geoM}(T_{1}=%.2fs) (g)', periodUsedForScalingGroundMotions);
+            titleTemp = sprintf('$\\mathrm{Sa}_{\\mathrm{geoM}}(\\mathrm{T}_{1} = %.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
+            % titleTemp = sprintf('Sa_{geoM}(T_{1}=%.2fs) (g)', periodUsedForScalingGroundMotions);
         else
             titleTemp = axisLabelForSaKircher;
         end
-        hy = ylabel(titleTemp);
-        hx = xlabel('Max Interstory Drift Ratio');
+        ylabel(titleTemp, 'Interpreter', 'latex');
+        xlabel('$\mathrm{Max\ Interstory\ Drift\ Ratio}$', 'Interpreter','latex');
         xlim([0, maxXOnAxis])
-        FigureFormatScript
+        sks_figureFormat(formatMode)
         
         % Save the plot
         if(isConvertToSaKircher == 0)
             % This is Sa,geoMean  
-            % Save the plot as a .fig file
             % File name shortened to make it save file correctly (1-14-09 CBH)
             %plotName = sprintf('CollapseIDA_ControlComp_%s_%s_SaGeoMean.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_ControlComp_SaGeoMean');
-            print('-dmeta', exportName);            
-           savefig(exportName); % .fig file for Matlab
-           print('-depsc', exportName); % .eps file for Linux (LaTeX)
-           print('-dmeta', exportName); % .emf file for Windows (MSWORD)            
-            
-            
-            
+            sks_figureExport(exportName)     
         else
             % This is Sa,ATC-63 (or Sa,Kircher)
-            % Save the plot as a .fig file
             % File name shortened to make it save file correctly (1-14-09 CBH)
             %plotName = sprintf('CollapseIDA_ControlComp_%s_%s_SaATC63.fig', analysisType, eqListForCollapseIDAs_Name);
             exportName = sprintf('CollapseIDA_ControlComp_SaATC63');
-            print('-dmeta', exportName);            
-           savefig(exportName); % .fig file for Matlab
-           print('-depsc', exportName); % .eps file for Linux (LaTeX)
-           print('-dmeta', exportName); % .emf file for Windows (MSWORD)            
-            
-            
+            sks_figureExport(exportName)   
         end
-            
-            
+               
         hold off
 
 % Go back to the MatlabProcessor folder
