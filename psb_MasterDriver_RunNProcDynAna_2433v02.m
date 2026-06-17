@@ -44,28 +44,28 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'IDA';
+IDA_or_MSA = 'MSA';
     
-    eqListID = 'setC';  
-    % eqListID = 'setD' ;
+     % eqListID = 'setC';  
+    eqListID = 'setD' ;
     % eqListID = 'setDNotC'; 
     % eqListID = 'setG';
     % eqListID = 'setTest';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        1           1        0              0               0];
+    analyzeProcessPlotIndex = [1        1        1           1        0              0               1];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         
-	extraSecondsToRunAnalysis = 0.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
+	extraSecondsToRunAnalysis = 5.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
                                         % can as well be kept zero if conventional collapse analysis is being performed.
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.08;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -111,7 +111,7 @@ IDA_or_MSA = 'IDA';
     
 % Sa list for stripe processing - this is the list of Sa levels to make stripe files for
      
-    saLevelsForStripes = [0.24 0.53];
+    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this

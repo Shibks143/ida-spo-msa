@@ -106,7 +106,7 @@ if doPlotSaveCDF == 1
         exportName = sprintf('CollapseCDF_CORDOVA_ControlComp_%s.eps', analysisTypeFolder);
     end
     
-    hgsave(plotName);
+    savefig(plotName);
     print('-depsc', exportName);
 
     disp(['CDFs saved as ', fullfile(pwd, exportName)]);

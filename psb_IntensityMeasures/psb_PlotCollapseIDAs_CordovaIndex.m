@@ -382,7 +382,7 @@ end
         
         % Save the plot
             plotName = sprintf('CollapseIDA_AllComp_CORDOVAIndex.fig');
-            hgsave(plotName);
+            savefig(plotName);
             exportName = sprintf('CollapseIDA_AllComp_CORDOVAIndex.eps');
             print('-depsc', exportName);
             
@@ -409,7 +409,7 @@ end
         
         % Save the plot
             plotName = sprintf('CollapseIDA_ControlComp_CORDOVA.fig');
-            hgsave(plotName);
+            savefig(plotName);
 
             exportName = sprintf('CollapseIDA_ControlComp_CORDOVA.eps');
             print('-depsc', exportName);

@@ -121,7 +121,7 @@ eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreForma
     end
     cd(sensDir)  
       
-     
+    
             parfor eqNumberIndex = 1:length(eqNumberLIST)
                    eqNumber = eqNumberLIST(eqNumberIndex);
                    numSaLevels = min(numel(saLevelsForStripes), maxNumRuns);

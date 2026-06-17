@@ -80,7 +80,7 @@ if doPlotSaveCAlpha == 1
         plotName = sprintf('OptimumCAlphaPairs_ControlComp_%s.fig', analysisTypeFolder);
     end
     
-        hgsave(plotName);
+        savefig(plotName);
         print('-depsc', exportName);
         disp(['Files saved as ', fullfile(pwd, exportName)]);
 
@@ -107,7 +107,7 @@ if doPlotSaveCAlpha == 1
         exportName = sprintf('OptimumSigma_ControlComp_%s.eps', analysisTypeFolder);
     end
     
-        hgsave(plotName);
+        savefig(plotName);
         print('-depsc', exportName);
         disp(['Files saved as ', fullfile(pwd, exportName)]);
 

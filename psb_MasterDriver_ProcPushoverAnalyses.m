@@ -15,13 +15,9 @@ for buildingIndex = 1:size(fileNameLIST, 1)
 % for buildingIndex = 7
     fileName = fileNameLIST{buildingIndex, 1};
 
-% cd I:\PrakRuns_I\Models\
-% cd K:\Models\
 cd Models\
 cd(fileName)
 
-% !OpenSees_32-kNmmMPa-PSB-18-10-16 psb_RunMeanAnalysis.tcl
-% !OpenSees_64-kNmmMPa-PSB-11-01-16 psb_RunMeanAnalysis.tcl > "C:\Users\Prakash\Desktop\outp_NEW.txt" 2>&1
 
 fprintf('Running %i/%i... Building: %s  \n', buildingIndex, length(fileNameLIST), fileName);
 !OpenSees psb_RunMeanAnalysis.tcl > "..\outp_spo.txt" 2>&1
@@ -65,11 +61,11 @@ analysisType_forPO = sprintf('(%s)_(AllVar)_(0.00)_(clough)', fileName);
     maxNumPoints = 10000000;                % Large number does not limit the length of the plot       
     markerType_PO = 'b-';
     lineWidth_PO = 3;
-%     plotDefoShape = 1;                    % plot deformed shape
+    % plotDefoShape = 1;                      % plot deformed shape
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
     % No need to change this stuff
-    poModelType = 2;                        % Always use 2; 1 for nlBmCol/dispBmCol, 2 for lumpedPlast
+    poModelType = 2;                        % Always use 2; 1 for nlBmCol/dispBmCol, 2 for lumpedPlasticity
     saTOneForRun_PO = 0.00;                 % Always use 0.00
     
     

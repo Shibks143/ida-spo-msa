@@ -218,7 +218,7 @@ xt = 0:0.02:minStoryDriftRatioForCollapseMATLAB;
 xt = unique([xt, minStoryDriftRatioForCollapseMATLAB]);
 ax.XTick = sort(xt);
 ax.XTickLabel = compose('%.2f', ax.XTick);
-yticks(0:0.5:ax.YLim(2));
+yticks(0:0.2:ax.YLim(2));
 
 % === Collapse dots stacked from right edge ===
 xRight = ax.XLim(2);
@@ -401,7 +401,7 @@ xt = 0:0.02:minStoryDriftRatioForCollapseMATLAB;
 xt = unique([xt, minStoryDriftRatioForCollapseMATLAB]);
 ax.XTick = sort(xt);
 ax.XTickLabel = compose('%.2f', ax.XTick);
-yticks(0:0.5:ax.YLim(2));
+yticks(0:0.2:ax.YLim(2));
 
 % === Collapse dots stacked from right edge ===
 xRight = ax.XLim(2);
