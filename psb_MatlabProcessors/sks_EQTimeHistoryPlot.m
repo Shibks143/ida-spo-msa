@@ -12,16 +12,18 @@ clc; clear; close all;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+%%%%%%% Start Inputs from here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% , needs to be changed based on format and also EQ_Number 
 % Folder path
 folderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQs';
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% Inputs, needs to be changed based on format and also EQ_Number 
+
 % Plot settings 
 formatMode = 'powerpoint';   % 'default','paper','report','powerPoint'
 
 % Specify earthquake number
 eqNumber = 121221;  % <-- change this as needed
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% End of Inputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % File names
 dtFile        = fullfile(folderPath, sprintf('DtFile_(%d).txt', eqNumber));

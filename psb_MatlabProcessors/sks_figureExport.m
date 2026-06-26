@@ -26,7 +26,9 @@ savefig(fig, [exportName '.fig']);
 print(fig, [exportName '.eps'], '-depsc2', '-painters');
 
 % ---- PDF (Journal-quality vector) ----
-print(fig, [exportName '.pdf'], '-dpdf', '-painters');
+% print(fig, [exportName '.pdf'], '-dpdf', '-painters');
+exportgraphics(gcf,[exportName '.pdf'],'ContentType','vector');
+
 
 % ---- High-resolution PNG (600 dpi) ----
 print(fig, [exportName '.png'], '-dpng', '-r600');

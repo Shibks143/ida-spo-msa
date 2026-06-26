@@ -171,8 +171,29 @@ end
 [allSaLevels, idx] = sort(allSaLevels);
 allMaxDrift = allMaxDrift(idx);
 
-% === Plot points only ===
-plot(allMaxDrift, allSaLevels, 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'b', 'MarkerSize', 5, 'LineStyle', 'none');
+% jitterAmountNonCollapse = 0.01;
+% allSaLevelsJitter = allSaLevels;
+% uniqueSa = unique(allSaLevels);
+% 
+% for i = 1:length(uniqueSa)
+%     idx = find(abs(allSaLevels - uniqueSa(i)) < 1e-6);
+% 
+%     if numel(idx) > 1
+%         offsets = linspace(-jitterAmountNonCollapse,...
+%             jitterAmountNonCollapse,...
+%             numel(idx));
+%         allSaLevelsJitter(idx) = allSaLevels(idx) + offsets(:);
+%     end
+% end
+
+% % === Plot points only ===
+% plot(allMaxDrift, allSaLevelsJitter, 's', ...
+%     'MarkerEdgeColor','b', ...
+%     'MarkerFaceColor','b', ...
+%     'MarkerSize',5, ...
+%     'LineStyle','none');
+
+plot(allMaxDrift, allSaLevels, 'o', 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b', 'MarkerSize', 5, 'LineStyle', 'none');
 
 % === Axis labels ===
 if isConvertToSaKircher == 0
@@ -225,15 +246,25 @@ xRight = ax.XLim(2);
 uniqueSaVals = unique(collapseSaVals);
 tol = 1e-6;
 
+jitterAmount = 0.01;   % vertical jitter in Sa units, added on June-24-2026 
+
 for k = 1:length(uniqueSaVals)
     currentSa = uniqueSaVals(k);
     numOfCollapses = sum(abs(collapseSaVals - currentSa) < tol);
 
     if numOfCollapses > 0
         xDots = xRight - (0:numOfCollapses-1)*dx;
-        yDots = currentSa * ones(size(xDots));
+        
+        % % Vertical jitter only
+        % if numOfCollapses == 1
+        %     yDots = currentSa;
+        % else
+        %     yDots = currentSa + ...
+        %         linspace(-jitterAmount, jitterAmount, numOfCollapses);
+        % end
 
-        plot(xDots, yDots, 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'r', 'MarkerSize', 5, 'LineStyle', 'none');
+        yDots = currentSa * ones(size(xDots));
+        plot(xDots, yDots, 'o', 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 5, 'LineStyle', 'none');
     end
 end
 
@@ -241,8 +272,8 @@ box on;
 grid on;
 
 % === Legend (Baker-style) — ALL COMPONENTS ===
-h1_all = plot(nan, nan, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
-h2_all = plot(nan, nan, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
+h1_all = plot(nan, nan, 'o', 'MarkerEdgeColor','b', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
+h2_all = plot(nan, nan, 'o', 'MarkerEdgeColor','r', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
 legend([h1_all h2_all], {'MSA no-collapse','MSA collapse'}, 'Location','southeast', 'FontSize',14);
 legend boxoff
 
@@ -354,7 +385,7 @@ end
 allMaxDrift_control = allMaxDrift_control(idx);
 
 % === Plot non-collapse points ===
-plot(allMaxDrift_control, allSa_control, 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'b', 'MarkerSize', 5, 'LineStyle', 'none');
+plot(allMaxDrift_control, allSa_control, 'o', 'MarkerEdgeColor', 'b', 'MarkerFaceColor', 'b', 'MarkerSize', 5, 'LineStyle', 'none');
 
 % === Axis labels ===
 if isConvertToSaKircher == 0
@@ -416,15 +447,15 @@ for k = 1:length(uniqueSaVals)
         xDots = xRight - (0:numOfCollapses-1)*dx;
         yDots = currentSa * ones(size(xDots));
 
-        plot(xDots, yDots, 'o', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'r', 'MarkerSize', 5, 'LineStyle', 'none');
+        plot(xDots, yDots, 'o', 'MarkerEdgeColor', 'r', 'MarkerFaceColor', 'r', 'MarkerSize', 5, 'LineStyle', 'none');
     end
 end
 
 grid on;
 
 % === Legend (Baker-style) — CONTROL COMPONENTS ===
-h1_ctrl = plot(nan, nan, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
-h2_ctrl = plot(nan, nan, 'o', 'MarkerEdgeColor','k', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
+h1_ctrl = plot(nan, nan, 'o', 'MarkerEdgeColor','b', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
+h2_ctrl = plot(nan, nan, 'o', 'MarkerEdgeColor','r', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
 legend([h1_ctrl h2_ctrl], {'MSA no-collapse','MSA collapse'}, 'Location','southeast', 'FontSize',14);
 legend boxoff
 

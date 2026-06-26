@@ -46,15 +46,15 @@ tStart= tic;
     
 IDA_or_MSA = 'MSA';
     
-     % eqListID = 'setC';  
-    eqListID = 'setD' ;
+     eqListID = 'setC';  
+    % eqListID = 'setD' ;
     % eqListID = 'setDNotC'; 
     % eqListID = 'setG';
     % eqListID = 'setTest';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1        0              0               1];
+    analyzeProcessPlotIndex = [0        0        1           0        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

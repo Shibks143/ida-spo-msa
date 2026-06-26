@@ -74,7 +74,7 @@ end
         % Change folder and save Max InterStory Drift ratio (needs to be moved to PlotMaxDriftLevel_)
         sks_figureFormat('powerpoint')
 
-        outFolder = fullfile('..','Output','(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)');
+        outFolder = fullfile('..','Output',analysisType_forPO);
         exportName = fullfile(outFolder, sprintf('POMaxDrift_SPO_%i', SPO_index));
         sks_figureExport(exportName)
         disp(['Saved: ', exportName]);

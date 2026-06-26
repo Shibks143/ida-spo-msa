@@ -1,15 +1,17 @@
 clear;
 tic
 baseFolder = pwd;
-
+cd ..\..\psb_MatlabProcessors
+addpath(pwd)
+cd(baseFolder)
 
 % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
 % latLon = [13.05	  80.27]; locName = 'Chennai';
 % latLon = [22.55	  88.37]; locName = 'Kolkata';
 % latLon = [19.00   72.80]; locName = 'Mumbai';
-% latLon = [28.62   77.22]; locName = 'Delhi';
-latLon = [26.17   91.77]; locName = 'Guwahati';
-% latLon = [27.10   92.10]; locName = 'ArunchalBorder';
+latLon = [28.62   77.22]; locName = 'Delhi';
+% latLon = [26.17   91.77]; locName = 'Guwahati';
+% latLon = [27.10   92.10]; locName = 'ArunachalBorder';
 
 T1LIST = [0 0.1:0.1:0.5 1 1.50 2];% period for spectral accelerations for different hazard curves
 %  1a. inputs for extracting  hazard
@@ -20,11 +22,10 @@ fitModel = '3param'; % {'2param', '3param'}; % Basically, k0*a^(-k) OR k0*exp[-k
 N = 21; % [11, 21, 51]; % number of points between consecutive imValLIST values
 plotStyle = {'k-', 'b--', 'r-.', 'm:', 'k-', 'b--', 'r-.', 'm:', 'k--'};
 lineW = [1.5*ones(1, 4) 0.8*ones(1, 5)];
-doSave = 0; % save the plot
+doSave = 1; % save the plot
 
 for j = 1:size(T1LIST, 2)
     T1Curr = T1LIST(1, j);
-    % cd('H:\UniformRiskMap\Input from Raghukanth')
     % 1a. extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
     [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLon, doPlot, plotType, locationLISTforPlot, T1Curr);
     %  1b. discretize each hazard curve individually
@@ -38,28 +39,23 @@ for j = 1:size(T1LIST, 2)
         case 'loglog'  ; ax.XScale = 'log'; ax.YScale = 'log'; hold on;
     end
 end
-    hx = xlabel('im (g)'); hy = ylabel('H(im)');
+xlabel('$\mathrm{im}\,(\mathrm{g})$');
+ylabel('$\mathrm{H}(\mathrm{im})$'); 
     xlim([1e-2 3]); ylim([1e-5 1e+0]);
-    set(gca, 'YTick', 10.^[-4:0]);
-    legTxt = strcat({'T = '}, strsplit(num2str(T1LIST, '%.2f\t')), {' s'});
+    legTxt = strcat({'$\mathrm{T} = '}, strsplit(num2str(T1LIST,'%.2f\t')), {'\ \mathrm{s}$'});
     legend(legTxt)
-    psb_FigureFormatScript_paper
+    sks_figureFormat('paper')
+    set(gca,'YTick',10.^(-4:0))
+    cd(baseFolder)
 
 if doSave == 1
-   cd(baseFolder) 
+   exportFolder = fullfile(baseFolder,'hazardCurves');
    cd hazardCurves
-%    set(gca,'fontname','times');
    exportName = sprintf('F2x_HazardCurvesSaT1_%s_revCv5', locName);
-   hgsave(exportName); % .fig file for Matlab
-   print('-depsc', exportName); % .eps file for Linux (LaTeX)
-   print('-dmeta', exportName); % .emf file for Windows (MSWORD)
-%    print('-dpng', exportName); % .png file for small sized files
-%    print('-djpeg', exportName); % .jpeg file for small sized files
-   print('-djpeg', [exportName '_r300'], '-r300');
-%    print('-dpng','-r300',[exportName '-r300'])
-    
+   sks_figureExport(exportName);
+   cd(baseFolder)
+  
 end    
-cd(baseFolder)
 toc
 
 

@@ -39,6 +39,7 @@ function sks_writePushoverLoading(runDifferentPushoverPatterns, SPO_index)
 myFileStream = fopen("psb_DefinePushoverLoading.tcl", 'w');
 
 fprintf(myFileStream, '# This file was created by the MATLAB function (WriteVariablesToFileForOpensees.m), for a single collapse\n'); 
+fprintf(myFileStream, '# For Single load pattern, directly copy paste load intensity into ("psb_DefinePushoverLoading.tcl") or Use one pattern at three SPO pattern *.m file #\n');
 fprintf(myFileStream, '#----------------------------------------------------------------------------------#\n');
 fprintf(myFileStream, '# DefinePushoverLoading\n');
 fprintf(myFileStream, '#		This module defines the pushover reference load patterns that is used \n');

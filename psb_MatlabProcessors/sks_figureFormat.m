@@ -31,7 +31,7 @@ switch formatMode
         axisNumberFontSize = 20;
         legendTextFontSize = 14;
         titleFontSize      = 14;
-        axisLineWidth      = 1.2;
+        axisLineWidth      = 0.75;  % changed on 17-June-2026, just to check (old size =1.2)
 
     case 'powerpoint'
         xAxisLabelFontSize = 26;
@@ -39,7 +39,7 @@ switch formatMode
         axisNumberFontSize = 20;
         legendTextFontSize = 20;   % changed on 12-Mar-2026, just to check (old size =14)
         titleFontSize      = 20;   % changed on 12-Mar-2026, just to check (old size =14)
-        axisLineWidth      = 1.0;
+        axisLineWidth      = 0.75;  % changed on 17-June-2026, just to check (old size =1.0)
 
     case 'report'
         xAxisLabelFontSize = 14;
@@ -47,7 +47,7 @@ switch formatMode
         axisNumberFontSize = 14;
         legendTextFontSize = 12;
         titleFontSize      = 12;
-        axisLineWidth      = 1.2;
+        axisLineWidth      = 0.75; % changed on 17-June-2026, just to check (old size =1.2)
 
     case 'paper'
         xAxisLabelFontSize = 16;
@@ -55,7 +55,7 @@ switch formatMode
         axisNumberFontSize = 14;
         legendTextFontSize = 12;
         titleFontSize      = 14;
-        axisLineWidth      = 1.2;
+        axisLineWidth      = 0.75; % changed on 17-June-2026, just to check (old size =1.2)
 
     otherwise
         error('Mode must be: default, powerpoint, report, paper')
@@ -67,8 +67,20 @@ ax  = gca;
 
 % -------- Axes Base Formatting --------------------
 set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
-grid(ax,'on')
-ax.GridAlpha = 0.2;
+grid(ax,'off')
+ax.GridAlpha = 0.1;        % 0.2 can be used 
+ax.GridLineWidth = 0.25;   % 0.5 by default but for thinner grid lines, it is 0.25
+
+
+% This is only for loglog plots----------------------
+% grid(ax,'minor')
+% ax.MinorGridAlpha = 0.10;
+% ax.XMinorTick = 'on';
+% ax.YMinorTick = 'on';
+% ax.XMinorGrid = 'on';
+% ax.YMinorGrid = 'on';
+% end of this is only for loglog plots, otherwise use below off condition--------------
+
 ax.XMinorTick = 'off';
 ax.YMinorTick = 'off';
 ax.XMinorGrid = 'off';
@@ -97,7 +109,7 @@ end
 % -------- Legend ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
-    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','off','Location','southeast');
+    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','southeast');
 end
 
 end

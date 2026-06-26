@@ -1,4 +1,5 @@
 # This file was created by the MATLAB function (WriteVariablesToFileForOpensees.m), for a single collapse
+# For Single load pattern, directly copy paste load intensity into ("psb_DefinePushoverLoading.tcl") or Use one pattern at three SPO pattern *.m file #
 #----------------------------------------------------------------------------------#
 # DefinePushoverLoading
 #		This module defines the pushover reference load patterns that is used 

@@ -112,7 +112,7 @@ end
     %figureh = plot(plotArray(1:numDataPointsUsed), normBaseShear, markerType, 'LineWidth', lineWidth);
     figureh = plot(plotArray(1:numDataPointsUsed), baseShearArray(1:numDataPointsUsed), markerType, 'LineWidth', lineWidth);
     
-    plotArrayAndBaseShearArray = [plotArray, baseShearArray]
+    plotArrayAndBaseShearArray = [plotArray, baseShearArray];
     
     hold on
     grid on
