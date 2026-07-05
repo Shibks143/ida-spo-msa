@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EXPORT FEMA P58 / PACT DEMAND SPREADSHEET FROM MSA_EDP_AllEQ.mat
-%
+% sks_InputToPACT(analysisType, outputFolder).m 
 % Intensity     = 1,2,3,... (Sa level number)
 % DemandType    = Story Drift Ratio / Acceleration / Residual Drift Ratio
 % Floor         = 1~5 for IDR/RDR
@@ -13,18 +13,15 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-clear
-clc
+function sks_InputToPACT(analysisType, outputFolder)
 
 %% =======================================================================
 % USER INPUTS
 %% =======================================================================
+% analysisType = '(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+% baseFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output';
 
-analysisType = '(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
-
-baseFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output';
-
-saveDir = fullfile(baseFolder,analysisType);
+saveDir = fullfile(outputFolder,analysisType);
 
 matFile = fullfile( ...
     saveDir,...

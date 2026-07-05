@@ -67,7 +67,7 @@ ax  = gca;
 
 % -------- Axes Base Formatting --------------------
 set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
-grid(ax,'off')
+grid(ax,'on')
 ax.GridAlpha = 0.1;        % 0.2 can be used 
 ax.GridLineWidth = 0.25;   % 0.5 by default but for thinner grid lines, it is 0.25
 
@@ -109,7 +109,7 @@ end
 % -------- Legend ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
-    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','southeast');
+    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','northeast');
 end
 
 end

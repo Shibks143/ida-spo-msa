@@ -4,18 +4,18 @@
 set dtForCollapseMATLAB 0.005000
 set minStoryDriftRatioForCollapseMATLAB 0.040
 set elementUsedForColSensModelMATLAB clough
-set sensModel ID46053_R5_5Story_v.02
+set sensModel ID35053_R5_5Story_v.02
 set sensVariableName AllVar
 set sensVariableValue 0.00
 set AllVar 0.00
 set eqNumber 120412
 set eqFormatForCollapseList PEER-NGA_geoMean
-set currentSaLevel 0.89
+set currentSaLevel 2.10
 puts "currentSaLevel is $currentSaLevel"
-set scaleFactorForRunFromMatlab 0.865334
+set scaleFactorForRunFromMatlab 2.041800
 set periodUsedForScalingGroundMotionsFromMatlab 0.7100
 set dampingRatioUsedForSaDefFromMatlab 0.0500
-set saCompScaled 1.11
-set saGeoMeanScaled 0.89
+set saCompScaled 2.61
+set saGeoMeanScaled 2.10
 set extraSecondsToRunAnalysis 5.00
 set eqTimeHistoryPreFormatted 1

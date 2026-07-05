@@ -9,8 +9,8 @@ cd(baseFolder)
 % latLon = [13.05	  80.27]; locName = 'Chennai';
 % latLon = [22.55	  88.37]; locName = 'Kolkata';
 % latLon = [19.00   72.80]; locName = 'Mumbai';
-latLon = [28.62   77.22]; locName = 'Delhi';
-% latLon = [26.17   91.77]; locName = 'Guwahati';
+% latLon = [28.62   77.22]; locName = 'Delhi';
+latLon = [26.17   91.77]; locName = 'Guwahati';
 % latLon = [27.10   92.10]; locName = 'ArunachalBorder';
 
 T1LIST = [0 0.1:0.1:0.5 1 1.50 2];% period for spectral accelerations for different hazard curves
@@ -44,7 +44,7 @@ ylabel('$\mathrm{H}(\mathrm{im})$');
     xlim([1e-2 3]); ylim([1e-5 1e+0]);
     legTxt = strcat({'$\mathrm{T} = '}, strsplit(num2str(T1LIST,'%.2f\t')), {'\ \mathrm{s}$'});
     legend(legTxt)
-    sks_figureFormat('paper')
+    sks_figureFormat('powerpoint')
     set(gca,'YTick',10.^(-4:0))
     cd(baseFolder)
 

@@ -55,7 +55,7 @@ IDA_or_MSA = 'MSA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        1           0        0              0               0];
+    analyzeProcessPlotIndex = [0        0        0           0        0              0               1];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -112,7 +112,7 @@ IDA_or_MSA = 'MSA';
     
 % Sa list for stripe processing - this is the list of Sa levels to make stripe files for
      
-    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89];
+    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.20 1.50 1.80 2.10];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this
@@ -340,9 +340,14 @@ end
 % IDR-RDR-PFA plots (added on 13-Mar-2026 by Shivakumar KS from IIT Madras)
 if analyzeProcessPlotIndex(7) == 1
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-        sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
+        % sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
         % sks_plotRDRvsSa_MSA(msaInputs)
         % sks_plotMIDRvsSa_MSA(msaInputs)
+
+        % Generate PACT demand spreadsheet
+        outputFolder = fullfile(baseFolder,'Output');
+        sks_InputToPACT(analysisType, outputFolder)
+        
         close all % close all figures  
 end
 
