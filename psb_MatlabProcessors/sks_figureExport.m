@@ -30,8 +30,8 @@ print(fig, [exportName '.eps'], '-depsc2', '-painters');
 exportgraphics(gcf,[exportName '.pdf'],'ContentType','vector');
 
 
-% ---- High-resolution PNG (600 dpi) ----
-print(fig, [exportName '.png'], '-dpng', '-r600');
+% % ---- High-resolution PNG (600 dpi) ----
+% print(fig, [exportName '.png'], '-dpng', '-r600');
 
 % ---- High-resolution TIFF (600 dpi) ----
 print(fig, [exportName '.tiff'], '-dtiff', '-r600');

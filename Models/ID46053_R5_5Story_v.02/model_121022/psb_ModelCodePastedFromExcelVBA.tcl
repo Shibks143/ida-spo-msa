@@ -29,7 +29,7 @@
 																													
 # 2a. Ibarra-Medina-Krawinkler Material for Column Joints																													
 	# Define the Column Plastic Hinge Materials																												
-		#	matTag	EIeff	mYPos	mYNeg	mcOverMy	thetaCapPos	thetaCapNeg	thetaPC	lambda	c	resStrRatio	stiffFactor1	stiffFactor2	eleLength													
+		#						matTag		EIeff				mYPos		mYNeg		mcOverMy    thetaCapPos	thetaCapNeg	  thetaPC lambda	c	resStrRatio	   stiffFactor1	    stiffFactor2    eleLength													
 		CreateIbarraMaterial	305011	128351489088.826	838946.3372	-838946.3372	1.192741564	0.050992386	-0.050992386	0.1	111.7641733	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	305021	166856935815.474	1224340.472	-1224340.472	1.190968918	0.054863215	-0.054863215	0.1	109.7296441	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	305031	166856935815.474	1224340.472	-1224340.472	1.190968918	0.054863215	-0.054863215	0.1	109.7296441	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
@@ -40,31 +40,31 @@
 		CreateIbarraMaterial	304031	166856935815.474	2238987.189	-2238987.189	1.185685098	0.056647703	-0.056647703	0.1	104.1374826	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	304041	128351489088.826	1760563.009	-1760563.009	1.189217286	0.065648387	-0.065648387	0.1	107.6767337	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 																													
-		CreateIbarraMaterial	303011	216888895422.06	2196154.482	-2196154.482	1.18788867	0.0594359	-0.0594359	0.1	112.642248	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
+		CreateIbarraMaterial	303011	216888895422.06		2196154.482	-2196154.482	1.18788867	0.0594359	-0.0594359		0.1	112.642248	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	303021	295757584666.445	2155789.927	-2155789.927	1.184292182	0.044132995	-0.044132995	0.1	109.056013	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	303031	295757584666.445	2155789.927	-2155789.927	1.184292182	0.044132995	-0.044132995	0.1	109.056013	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
-		CreateIbarraMaterial	303041	216888895422.06	2196154.482	-2196154.482	1.18788867	0.0594359	-0.0594359	0.1	112.642248	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
+		CreateIbarraMaterial	303041	216888895422.06		2196154.482	-2196154.482	1.18788867	0.0594359	-0.0594359		0.1	112.642248	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 																													
-		CreateIbarraMaterial	302011	216888895422.06	2296946.973	-2296946.973	1.185072869	0.057697297	-0.057697297	0.1	109.6783476	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
+		CreateIbarraMaterial	302011	216888895422.06		2296946.973	-2296946.973	1.185072869	0.057697297	-0.057697297	0.1	109.6783476	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	302021	295757584666.445	2565335.396	-2565335.396	1.180285635	0.046710981	-0.046710981	0.092295671	104.80195	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 		CreateIbarraMaterial	302031	295757584666.445	2565335.396	-2565335.396	1.180285635	0.046710981	-0.046710981	0.092295671	104.80195	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
-		CreateIbarraMaterial	302041	216888895422.06	2296946.973	-2296946.973	1.185072869	0.057697297	-0.057697297	0.1	109.6783476	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
+		CreateIbarraMaterial	302041	216888895422.06		2296946.973	-2296946.973	1.185072869	0.057697297	-0.057697297	0.1	109.6783476	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150													
 																													
-		CreateIbarraMaterial	301011	216888895422.06	2599597.031	-2599597.031	1.182219377	0.057866277	-0.057866277	0.1	106.7474163	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750													
+		CreateIbarraMaterial	301011	216888895422.06		2599597.031	-2599597.031	1.182219377	0.057866277	-0.057866277	0.1	106.7474163	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750													
 		CreateIbarraMaterial	301021	295757584666.445	3670143.762	-3670143.762	1.1762485	0.048730196	-0.048730196	0.083334386	100.8440502	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750													
 		CreateIbarraMaterial	301031	295757584666.445	3670143.762	-3670143.762	1.1762485	0.048730196	-0.048730196	0.083334386	100.8440502	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750													
-		CreateIbarraMaterial	301041	216888895422.06	2599597.031	-2599597.031	1.182219377	0.057866277	-0.057866277	0.1	106.7474163	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750													
+		CreateIbarraMaterial	301041	216888895422.06		2599597.031	-2599597.031	1.182219377	0.057866277	-0.057866277	0.1	106.7474163	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750													
 	################################################################																												
 																													
 # 2b. Ibarra-Medina-Krawinkler Material for Beam Joints																													
 	# Define the Beam Plastic Hinge Materials																												
-		#	matTag	EIeff	mYPos	mYNeg	mcOverMy	thetaCapPos	thetaCapNeg	thetaPC	lambda	c	resStrRatio	stiffFactor1	stiffFactor2	eleLength													
-		CreateIbarraMaterial	206011	195143671101.822	633623.7395	-1231588.29	1.196276286	0.057784025	-0.049019103	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
-		CreateIbarraMaterial	206012	195143671101.822	1231588.29	-633623.7395	1.196276286	0.049019103	-0.057784025	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
-		CreateIbarraMaterial	206021	195143671101.822	633623.7395	-1231588.29	1.196276286	0.057784025	-0.049019103	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
-		CreateIbarraMaterial	206022	195143671101.822	1231588.29	-633623.7395	1.196276286	0.049019103	-0.057784025	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
-		CreateIbarraMaterial	206031	195143671101.822	633623.7395	-1231588.29	1.196276286	0.057784025	-0.049019103	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
-		CreateIbarraMaterial	206032	195143671101.822	1231588.29	-633623.7395	1.196276286	0.049019103	-0.057784025	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
+        #   					matTag  	EIeff   			mYPos       mYNeg        mcOverMy   thetaCapPos thetaCapNeg   thetaPC lambda    c   resStrRatio 	stiffFactor1    stiffFactor2    eleLength                                                   
+        CreateIbarraMaterial    206011  195143671101.822    633623.7395 -1231588.29 	1.196276286 0.057784025 -0.049019103    0.1 104.4023777 $c  $resStrRatio    $stiffFactor1   $stiffFactor2   7550                                                    
+        CreateIbarraMaterial    206012  195143671101.822    1231588.29  -633623.7395    1.196276286 0.049019103 -0.057784025    0.1 104.4023777 $c  $resStrRatio    $stiffFactor1   $stiffFactor2   7550                                                    
+        CreateIbarraMaterial    206021  195143671101.822    633623.7395 -1231588.29 	1.196276286 0.057784025 -0.049019103    0.1 104.4023777 $c  $resStrRatio    $stiffFactor1   $stiffFactor2   7550                                                    
+        CreateIbarraMaterial    206022  195143671101.822    1231588.29  -633623.7395    1.196276286 0.049019103 -0.057784025    0.1 104.4023777 $c  $resStrRatio    $stiffFactor1   $stiffFactor2   7550                                                    
+        CreateIbarraMaterial    206031  195143671101.822    633623.7395 -1231588.29 	1.196276286 0.057784025 -0.049019103    0.1 104.4023777 $c  $resStrRatio    $stiffFactor1   $stiffFactor2   7550                                                    
+        CreateIbarraMaterial    206032  195143671101.822    1231588.29  -633623.7395    1.196276286 0.049019103 -0.057784025    0.1 104.4023777 $c  $resStrRatio    $stiffFactor1   $stiffFactor2   7550                                                    
 																													
 		CreateIbarraMaterial	205011	195143671101.822	869424.6256	-1683530.462	1.196276286	0.078346217	-0.067460836	0.1	113.0854227	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													
 		CreateIbarraMaterial	205012	195143671101.822	1683530.462	-869424.6256	1.196276286	0.067460836	-0.078346217	0.1	113.0854227	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7550													

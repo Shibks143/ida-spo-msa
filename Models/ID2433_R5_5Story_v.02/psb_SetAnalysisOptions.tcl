@@ -57,7 +57,7 @@
 
 		# Put whether or not to do a pushover analysis
 			set runPushover YES
-			#set runPushover NO
+			# set runPushover NO
 
 		# Maximum displacement for pushover (of control node)
  			set maxPushoverDisp 1045.0;	

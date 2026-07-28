@@ -43,7 +43,7 @@ saLevelsForStripes =          msaInputs.saLevelsForStripes;
 isCollapsedForEachRun =       msaInputs.isCollapsedForEachRun;
 collapseDriftThreshold =      msaInputs.collapseDriftThreshold;
 isConvertToSaKircher =        msaInputs.isConvertToSaKircher;
-
+eqListForCollapseMSAs_Name =  msaInputs.eqListForCollapseMSAs_Name;
 
 
 % ==============================================================
@@ -97,15 +97,81 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     % ============================================================
     fprintf('\n--- Plotting ALL COMPONENTS MSA scatter ---\n');
 
-    sks_plot_AllComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher,formatMode);
+    allCompStats = sks_plot_AllComp_MSA(eqNumberLIST,fixedOutputDirectory,analysisTypeFolder,isConvertToSaKircher,formatMode);
+    % sks_plot_AllComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher,formatMode);
 
     % ============================================================
     % ========== 2) CONTROL COMPONENTS PLOT ======================
     % ============================================================
     fprintf('\n--- Plotting CONTROL COMPONENTS MSA scatter ---\n');
 
-    sks_plot_ControlComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher,formatMode);
+    controlCompStats = sks_plot_ControlComp_MSA(eqNumberLIST,fixedOutputDirectory,analysisTypeFolder,isConvertToSaKircher,formatMode);
+    % sks_plot_ControlComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher,formatMode);
+    
+    saveDir = fullfile(fixedOutputDirectory, analysisTypeFolder);
 
+    if isConvertToSaKircher == 0
+        % This is Sa,geoMean
+        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean.mat', eqListForCollapseMSAs_Name);
+    else
+        % This is Sa,ATC63 (Sa,Kircher)
+        colFileName = sprintf( 'DATA_collapse_CollapseSaAndStats_%s_SaATC63.mat', eqListForCollapseMSAs_Name);
+    end
+
+    collapseStatsFile = fullfile(saveDir,colFileName);
+
+    % ===============================
+    % Extract ALL-COMP statistics
+    % ===============================
+    collapseLevelForAllComp      = allCompStats.collapseLevelForAllComp;
+    meanCollapseSaTOneAllComp    = allCompStats.meanCollapseSaTOneAllComp;
+    medianCollapseSaTOneAllComp  = allCompStats.medianCollapseSaTOneAllComp;
+    meanLnCollapseSaTOneAllComp  = allCompStats.meanLnCollapseSaTOneAllComp;
+    stDevCollapseSaTOneAllComp   = allCompStats.stDevCollapseSaTOneAllComp;
+    stDevLnCollapseSaTOneAllComp = allCompStats.stDevLnCollapseSaTOneAllComp;
+
+    % ===============================
+    % Extract CONTROL-COMP statistics
+    % ===============================
+    collapseLevelForAllControlComp      = controlCompStats.collapseLevelForAllControlComp;
+    meanCollapseSaTOneControlComp       = controlCompStats.meanCollapseSaTOneControlComp;
+    medianCollapseSaTOneControlComp     = controlCompStats.medianCollapseSaTOneControlComp;
+    meanLnCollapseSaTOneControlComp     = controlCompStats.meanLnCollapseSaTOneControlComp;
+    stDevCollapseSaTOneControlComp      = controlCompStats.stDevCollapseSaTOneControlComp;
+    stDevLnCollapseSaTOneControlComp    = controlCompStats.stDevLnCollapseSaTOneControlComp;
+
+    % Period
+    periodUsedForScalingGroundMotions = ...
+        allCompStats.periodUsedForScalingGroundMotions;
+
+
+    save(collapseStatsFile,...
+        'analysisType',...
+        'eqNumberLIST',...
+        'collapseLevelForAllComp',...
+        'collapseLevelForAllControlComp',...
+        'meanCollapseSaTOneAllComp',...
+        'medianCollapseSaTOneAllComp',...
+        'meanLnCollapseSaTOneAllComp',...
+        'stDevCollapseSaTOneAllComp',...
+        'stDevLnCollapseSaTOneAllComp',...
+        'meanCollapseSaTOneControlComp',...
+        'medianCollapseSaTOneControlComp',...
+        'meanLnCollapseSaTOneControlComp',...
+        'stDevCollapseSaTOneControlComp',...
+        'stDevLnCollapseSaTOneControlComp',...
+        'periodUsedForScalingGroundMotions');
+
+    fprintf('Saved: %s\n', collapseStatsFile);
+    fprintf('\n');
+    fprintf('All Components:\n');
+    fprintf('   Number of collapse observations = %d\n', ...
+        numel(collapseLevelForAllComp));
+
+    fprintf('Control Components:\n');
+    fprintf('   Number of collapse observations = %d\n', ...
+        numel(collapseLevelForAllControlComp));
+    fprintf('\n');
 
 end
 
@@ -119,7 +185,7 @@ end
 % ========================================================================
 % ===================== Helper 1: ALL COMPONENTS =========================
 % ========================================================================
-function sks_plot_AllComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher, formatMode)
+function allCompStats = sks_plot_AllComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher, formatMode)
 
 baseDir = fixedOutputDirectory;
 figure; hold on;
@@ -197,7 +263,7 @@ plot(allMaxDrift, allSaLevels, 'o', 'MarkerEdgeColor', 'b', 'MarkerFaceColor', '
 
 % === Axis labels ===
 if isConvertToSaKircher == 0
-    temp = sprintf('$Sa_{geoM}(T=%.2f\\,s)\\,(g)$', periodUsedForScalingGroundMotions);
+    temp = sprintf('$Sa_{geoM}(T=%.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
 else
     DefineSaKircherOverSaGeoMeanValues
     temp = axisLabelForSaKircher;
@@ -235,18 +301,18 @@ xline(minStoryDriftRatioForCollapseMATLAB, '--', 'LineWidth', 1.2, 'Color', 'k')
 
 % === Tick formatting ===
 ax = gca;
-xt = 0:0.02:minStoryDriftRatioForCollapseMATLAB;
+xt = 0:0.01:minStoryDriftRatioForCollapseMATLAB;
 xt = unique([xt, minStoryDriftRatioForCollapseMATLAB]);
 ax.XTick = sort(xt);
 ax.XTickLabel = compose('%.2f', ax.XTick);
-yticks(0:0.2:ax.YLim(2));
+yticks(0:0.3:ax.YLim(2));
 
 % === Collapse dots stacked from right edge ===
 xRight = ax.XLim(2);
 uniqueSaVals = unique(collapseSaVals);
 tol = 1e-6;
 
-jitterAmount = 0.01;   % vertical jitter in Sa units, added on June-24-2026 
+% jitterAmount = 0.01;   % vertical jitter in Sa units, added on June-24-2026 
 
 for k = 1:length(uniqueSaVals)
     currentSa = uniqueSaVals(k);
@@ -274,8 +340,26 @@ grid on;
 % === Legend (Baker-style) — ALL COMPONENTS ===
 h1_all = plot(nan, nan, 'o', 'MarkerEdgeColor','b', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
 h2_all = plot(nan, nan, 'o', 'MarkerEdgeColor','r', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
-legend([h1_all h2_all], {'MSA no-collapse','MSA collapse'}, 'Location','southeast', 'FontSize',14);
+legend([h1_all h2_all], {'no-collapse','collapse'}, 'Location','southeast', 'FontSize',14);
 legend boxoff
+
+
+collapseLevelForAllComp = collapseSaVals;
+meanCollapseSaTOneAllComp    = mean(collapseLevelForAllComp);
+medianCollapseSaTOneAllComp  = median(collapseLevelForAllComp);
+meanLnCollapseSaTOneAllComp  = mean(log(collapseLevelForAllComp));
+stDevLnCollapseSaTOneAllComp = std(log(collapseLevelForAllComp));
+stDevCollapseSaTOneAllComp   = std(collapseLevelForAllComp);
+
+
+allCompStats.collapseLevelForAllComp      = collapseLevelForAllComp;
+allCompStats.meanCollapseSaTOneAllComp    = meanCollapseSaTOneAllComp;
+allCompStats.medianCollapseSaTOneAllComp  = medianCollapseSaTOneAllComp;
+allCompStats.meanLnCollapseSaTOneAllComp  = meanLnCollapseSaTOneAllComp;
+allCompStats.stDevCollapseSaTOneAllComp   = stDevCollapseSaTOneAllComp;
+allCompStats.stDevLnCollapseSaTOneAllComp = stDevLnCollapseSaTOneAllComp;
+allCompStats.periodUsedForScalingGroundMotions = periodUsedForScalingGroundMotions;
+
 
 % === Save ===
 saveDir = fullfile(baseDir, analysisTypeFolder);
@@ -296,7 +380,7 @@ end
 % ========================================================================
 % =================== Helper 2: CONTROL COMPONENTS =======================
 % ========================================================================
-function sks_plot_ControlComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher, formatMode)
+function controlCompStats = sks_plot_ControlComp_MSA(eqNumberLIST, fixedOutputDirectory, analysisTypeFolder, isConvertToSaKircher, formatMode)
 
 baseDir = fixedOutputDirectory;
 figure; hold on;
@@ -389,7 +473,7 @@ plot(allMaxDrift_control, allSa_control, 'o', 'MarkerEdgeColor', 'b', 'MarkerFac
 
 % === Axis labels ===
 if isConvertToSaKircher == 0
-    temp = sprintf('$Sa_{geoM}(T=%.2f\\,s)\\,(g)$', periodUsedForScalingGroundMotions); 
+    temp = sprintf('$Sa_{geoM}(T=%.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
 else
     DefineSaKircherOverSaGeoMeanValues
     temp = axisLabelForSaKircher;
@@ -428,11 +512,11 @@ xline(minStoryDriftRatioForCollapseMATLAB, '--', 'LineWidth', 1.2, 'Color', 'k')
 
 % === Tick formatting ===
 ax = gca;
-xt = 0:0.02:minStoryDriftRatioForCollapseMATLAB;
+xt = 0:0.01:minStoryDriftRatioForCollapseMATLAB;
 xt = unique([xt, minStoryDriftRatioForCollapseMATLAB]);
 ax.XTick = sort(xt);
 ax.XTickLabel = compose('%.2f', ax.XTick);
-yticks(0:0.2:ax.YLim(2));
+yticks(0:0.3:ax.YLim(2));
 
 % === Collapse dots stacked from right edge ===
 xRight = ax.XLim(2);
@@ -456,8 +540,26 @@ grid on;
 % === Legend (Baker-style) — CONTROL COMPONENTS ===
 h1_ctrl = plot(nan, nan, 'o', 'MarkerEdgeColor','b', 'MarkerFaceColor','b', 'MarkerSize',5, 'LineStyle','none');
 h2_ctrl = plot(nan, nan, 'o', 'MarkerEdgeColor','r', 'MarkerFaceColor','r', 'MarkerSize',5, 'LineStyle','none');
-legend([h1_ctrl h2_ctrl], {'MSA no-collapse','MSA collapse'}, 'Location','southeast', 'FontSize',14);
+legend([h1_ctrl h2_ctrl], {'no-collapse','collapse'}, 'Location','southeast', 'FontSize',14);
 legend boxoff
+
+
+collapseLevelForAllControlComp   = collapseSaVals_control;
+meanCollapseSaTOneControlComp    = mean(collapseLevelForAllControlComp);
+medianCollapseSaTOneControlComp  = median(collapseLevelForAllControlComp);
+meanLnCollapseSaTOneControlComp  = mean(log(collapseLevelForAllControlComp));
+stDevLnCollapseSaTOneControlComp = std(log(collapseLevelForAllControlComp));
+stDevCollapseSaTOneControlComp   = std(collapseLevelForAllControlComp);
+
+controlCompStats.collapseLevelForAllControlComp      = collapseLevelForAllControlComp;
+controlCompStats.meanCollapseSaTOneControlComp       = meanCollapseSaTOneControlComp;
+controlCompStats.medianCollapseSaTOneControlComp     = medianCollapseSaTOneControlComp;
+controlCompStats.meanLnCollapseSaTOneControlComp     = meanLnCollapseSaTOneControlComp;
+controlCompStats.stDevCollapseSaTOneControlComp      = stDevCollapseSaTOneControlComp;
+controlCompStats.stDevLnCollapseSaTOneControlComp    = stDevLnCollapseSaTOneControlComp;
+controlCompStats.periodUsedForScalingGroundMotions   = periodUsedForScalingGroundMotions;
+
+
 
 % === Save ===
 saveDir = fullfile(baseDir, analysisTypeFolder);

@@ -16,10 +16,16 @@ damageMeasure =          MIDRInputs.damageMeasure;
 intensityMeasureType =   MIDRInputs.intensityMeasureType;
 T1LIST =                 MIDRInputs.T1LIST;
 isSinglePeriodAnalysis = MIDRInputs.isSinglePeriodAnalysis;
+BldgId =                 MIDRInputs.BldgId;
+
 
 
 cd DATA_files
-load(sprintf('DATA_fragility_%s_%s.mat', damageMeasure,intensityMeasureType));
+fileName = sprintf('DATA_fragility_%s_%s_%s.mat', damageMeasure,intensityMeasureType,BldgId);
+load(fileName,'fragAllData');
+
+%load(sprintf('DATA_fragility_%s_%s.mat', damageMeasure,intensityMeasureType));
+
 cd ..
 bldgIdLIST = {};
 doPlotFragMedian = 1; % plot variation in median fragility parameter with the period of vibration

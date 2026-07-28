@@ -14,12 +14,12 @@ tic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Define Building Information Inputs
 
-analysisTypeLIST = {'(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
+analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
 analysisType = analysisTypeLIST{1};         % Just renaming variable and changing variable format for some of the processors
 
-BldgIdAndZoneLIST = {'2433v02', 'V'; };
+BldgIdAndZoneLIST = {'46053v02', 'VI'; };
 BldgIdLIST = BldgIdAndZoneLIST(:,1);
-
+BldgId = regexp(BldgIdLIST{1}, '^\d+', 'match', 'once');
 
 
 MIDR_or_PHR = 'MIDR'; % later on, maybe extended to include DI-based limits
@@ -115,13 +115,13 @@ latLonLIST = [ % input depending on the site (lat, lon)
     %     27.10   92.10; % an arbitrary grid point near Arunachal border
     ];
 locName = 'Guwahati';
-zoneOfLocLIST =  {'V';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST 
+zoneOfLocLIST =  {'VI';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST 
 imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk 
 impFacLIST = 0;
 
 
 %% Hazard-Specific Inputs
-fitModelLIST = {'2param', '3param'}; %{'3param'};  Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
+fitModelLIST =  {'2param', '3param'}; %{'3param'};  Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
 % fitModel = fitModelLIST{2};
 NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST values
 codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-parameter model based on DBE and MCE values (% 0 = PSHA hazard, 1 = code-idealized)
@@ -129,7 +129,7 @@ codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-
 
 %% Building-Specific Inputs
 timePLIST = [0,0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
-T1LIST = [1.84]'; % geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
+T1LIST = [1.36]'; % geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
 TaLIST = [0.71]; % (approximate period as per code)
 TogmLIST =  [1.27]'; % obtained from IM_efficiency (optimization across timePLIST) and to be passed on to seismic risk calculation
 isSinglePeriodAnalysis = true; 
@@ -180,7 +180,7 @@ switch MIDR_or_PHR
         error('Unknown MIDR_or_PHR option');
 end
 
-% PHR Specific parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PHR Specific parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PHR DS1 Inputs
 deltaYieldBasisFlag = 'ASCE41'; % options: 'ASCE41', 'FEMAP695' 
 switch deltaYieldBasisFlag
@@ -233,6 +233,7 @@ MIDRInputs.timePLIST =                timePLIST;
 MIDRInputs.damageMeasure =            damageMeasure;
 MIDRInputs.dsLIST =                   dsLIST;
 MIDRInputs.BldgIdAndZoneLIST =        BldgIdAndZoneLIST;
+MIDRInputs.BldgId =                   BldgId;
 MIDRInputs.latLonLIST =               latLonLIST; 
 MIDRInputs.zoneOfLocLIST =            zoneOfLocLIST;
 MIDRInputs.imScaleFac =               imScaleFac;
@@ -276,9 +277,9 @@ PHRInputs.saveMedianDispersionBound = saveMedianDispersionBound;
 PHRInputs.consqModel =                consqModel;
 PHRInputs.saveFigures =               saveFigures;
 PHRInputs.pLIST =                     pLIST;
-
-
 % End of Inputs
+
+
 
 %% Run Fragility Data generation  
 if analyzeProcessPlotIndex(1) == 1

@@ -4,7 +4,7 @@ tic
 
 baseFolder = pwd;
 
-fileNameLIST = {'ID35053_R5_5Story_v.02';};  % 'ID2433_R5_5Story_v.02' as per IS 1893 (2002) and 'ID46053_R5_5Story_v.02' as 2025 update
+fileNameLIST = {'ID2433_R5_5Story_v.02';};  % 'ID2433_R5_5Story_v.02' as per IS 1893 (2002) and 'ID46053_R5_5Story_v.02' as 2025 update
 
 shearHingeOrNot = 0; % if there is a shear Hinge then different opensees file is used; using 1 would always work 
                      % but may not be the fastest in case of haselton-type models with flexural-only hinges

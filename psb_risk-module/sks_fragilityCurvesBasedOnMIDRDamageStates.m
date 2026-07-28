@@ -28,7 +28,8 @@
     end
 
     xlabel(xLab,'Interpreter','latex')
-    ylabel('$P[DS \ge ds_k]$','Interpreter','latex')
+    ylabel('$\mathrm{Pr}[DS \ge ds_k]$','Interpreter','latex')
+    % ylabel('$\mathrm{Pr}[DS \ge ds_k]$','Interpreter','latex')
     title('Fragility Curves')
     sks_figureFormat('powerpoint')
     legend(dsToPlotFragParam,'Location','southeast','Box','off')

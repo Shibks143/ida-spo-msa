@@ -13,12 +13,25 @@ switch buildingID
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%% Most updated Multi-objective Risk-targeted Seismic Design framework paper %%%%%%%%%%%
-
-    case '2433v02'
-        modelFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\ID2433_R5_5Story_v.02';
-        analysisTypeFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
-        VBAfileNameWithLocation = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\VBA_MODEL_FILES\2433v02_20260113General Excel Sheet-v22 (allInclusive).xlsm';
+    case '46053v02'
+        modelFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\ID46053_R5_5Story_v.02';
+        analysisTypeFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+        VBAfileNameWithLocation = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\VBA_MODEL_FILES\46053v05_20260313General Excel Sheet-v23.xlsm';
         designR = 5;
+
+    
+    case '35053v02'
+        modelFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\ID35053_R5_5Story_v.02';
+        analysisTypeFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+        VBAfileNameWithLocation = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\VBA_MODEL_FILES\35053v05_20260313General Excel Sheet 2016.xlsm';
+        designR = 5;
+
+
+    % case '2433v02'
+    %     modelFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\ID2433_R5_5Story_v.02';
+    %     analysisTypeFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output\(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+    %     VBAfileNameWithLocation = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Models\VBA_MODEL_FILES\2433v02_20260113General Excel Sheet-v22 (allInclusive).xlsm';
+    %     designR = 5;
 
     otherwise
         error(['Building ID not defined: ', buildingID]);

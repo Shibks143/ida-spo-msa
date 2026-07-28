@@ -48,6 +48,7 @@ elseif imOrAfeBound == 1 % bound over IM
 elseif imOrAfeBound == 2 % bound over AFE
     afeMin = boundRange(1, 1); afeMax = boundRange(1, 2); 
 end
+
 Sa_median = fragilityData(1); betaTot = fragilityData(2);
 
 %% number of points for numerical integration

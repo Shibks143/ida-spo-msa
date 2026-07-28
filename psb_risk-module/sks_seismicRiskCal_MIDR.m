@@ -10,6 +10,7 @@ damageMeasure =        MIDRInputs.damageMeasure;
 intensityMeasureType = MIDRInputs.intensityMeasureType;
 imTypeLIST =           MIDRInputs.imTypeLIST;
 BldgIdAndZoneLIST =    MIDRInputs.BldgIdAndZoneLIST;
+BldgId =               MIDRInputs.BldgId;
 fitModelLIST1 =        MIDRInputs.fitModelLIST;
 NLIST =                MIDRInputs.NLIST;
 TaLIST =               MIDRInputs.TaLIST;
@@ -58,7 +59,7 @@ for i = 1:size(dsLIST, 2) % over damage states
                 boundRange = [lowerBoundLIST(1, q), upperBoundLIST(1, q)];
                 fprintf('%i/%i, %s, %s, %s, %i, %i, [%f, %f]\n', counter, counterMax, ds, imType, fitModel, N, imOrAfeBound, boundRange(1), boundRange(2));
                 
-                tableCurr = masterFunRiskCal_MIDR(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, damageMeasure, intensityMeasureType, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin);
+                tableCurr = masterFunRiskCal_MIDR(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, damageMeasure, intensityMeasureType, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, boundRange, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin,BldgId);
                 disp(tableCurr.Properties.VariableNames) 
         
    %%  This part is added by shivakumar KS ON 9/4/2025, needs to be verify and fix it 

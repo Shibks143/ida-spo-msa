@@ -6,6 +6,15 @@ saT_old_AllComp = zeros(1, length(eqNumberLIST));
 if abs(newStoryDrift - 0.00)<1e-5 % sidesway collapse
 %     load DATA_collapse_CollapseSaAndStats_GMSetC_SaGeoMean collapseLevelForAllComp periodUsedForScalingGroundMotions
     load(matFileToLoad, 'collapseLevelForAllComp', 'periodUsedForScalingGroundMotions');
+    
+    fprintf('Length of collapseLevelForAllComp = %d\n', ...
+        length(collapseLevelForAllComp));
+
+    fprintf('Length of eqNumberLIST = %d\n', ...
+        length(eqNumberLIST));
+    
+    
+    
     saT_old_AllComp = collapseLevelForAllComp ;
     T_old = periodUsedForScalingGroundMotions;
 else
@@ -14,9 +23,14 @@ else
         eqFolder = sprintf('EQ_%d',eqNumber);
         cd(eqFolder)
 
-        load DATA_collapse_ProcessedIDADataForThisEQ ;
-        saLevels = saLevelsForIDAPlotPROCLIST;
-        maxDriftRatio = maxDriftRatioForPlotPROCLIST;
+        % load DATA_collapse_ProcessedIDADataForThisEQ ; % IDA related,added on 27 July 2026
+        % saLevels = saLevelsForIDAPlotPROCLIST;
+        % maxDriftRatio = maxDriftRatioForPlotPROCLIST;
+
+        load DATA_collapseMSAPlotDataForThisEQ; % MSA related
+        saLevels = saLevelsForMSAPlotLIST;
+        maxDriftRatio = maxDriftRatioForPlotLIST;
+        
 
         % simple interpolation may not work, since IDAs are non monotonous at times
     %     saCol_BasedOnDriftAllComp(eqIndex) = interp1(maxDriftRatio, saLevels, collapseDrift, 'pchip');

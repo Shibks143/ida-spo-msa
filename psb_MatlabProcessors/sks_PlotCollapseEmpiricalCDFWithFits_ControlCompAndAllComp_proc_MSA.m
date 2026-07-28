@@ -20,25 +20,18 @@
 % % -------------------
 function sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(msaInputs)
 
-analysisTypeLIST = msaInputs.analysisTypeLIST;
-eqNumberLIST     = msaInputs.eqNumberLIST;
+analysisTypeLIST     = msaInputs.analysisTypeLIST;
+eqNumberLIST         = msaInputs.eqNumberLIST;
 isConvertToSaKircher = msaInputs.isConvertToSaKircher;
 
-
-% ==========================================
-% USER SETTINGS (Figure Output Control)
-% ==========================================
-
-formatMode    = 'default';    % 'default' | 'powerPoint' | 'report' | 'paper'
 
 startDir = pwd;
 
 % =========================
 % Plot formatting options
 % =========================
-legendTextFontSizeInThisFile = 12;
 minValueForPlot = 0.0;
-maxValueForPlot = 3.5;
+maxValueForPlot = 3.0;
 
 % ======================================
 % LOOP over analysis types
@@ -167,7 +160,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         exportName = 'CollapseCDF_ControlComp_SaATC63';
     end
 
-    sks_plotMSAFragilityFromRuns(allSa_control, allCollapse_control, minValueForPlot, maxValueForPlot, legendTextFontSizeInThisFile, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher, formatMode);
+    sks_plotMSAFragilityFromRuns(allSa_control, allCollapse_control, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher);
 
 
     % ============================================================
@@ -215,7 +208,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         exportName = 'CollapseCDF_AllComp_SaATC63';
     end
 
-    sks_plotMSAFragilityFromRuns(allSa_all, allCollapse_all, minValueForPlot, maxValueForPlot, legendTextFontSizeInThisFile, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher, formatMode);
+    sks_plotMSAFragilityFromRuns(allSa_all, allCollapse_all, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher);
 
 end
 
@@ -229,7 +222,7 @@ end
 % ==========================================================
 % Helper function (must be below main function in same file)
 % ==========================================================
-function sks_plotMSAFragilityFromRuns(allSa, allCollapse, minValueForPlot, maxValueForPlot, legendTextFontSizeInThisFile, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher,formatMode)
+function sks_plotMSAFragilityFromRuns(allSa, allCollapse, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher)
 
 % Round to avoid float mismatch
 tol = 1e-4;
@@ -263,10 +256,19 @@ fprintf('Total collapses       = %d\n', sum(numOfCollapses));
 
 % ===== MLE Fit =====
 [theta_hat, beta_hat] = sks_Mle_MSA(saLevelList, numOfGroundMotions, numOfCollapses);
-fprintf('θ^ = %.3f g, β^ = %.3f\n', theta_hat, beta_hat);
+fprintf('θ̂ = %.3f g, β̂ₗₙ = %.3f\n', theta_hat, beta_hat);
+
+% fprintf('θ^ = %.3f g, β^ = %.3f\n', theta_hat, beta_hat);
 
 IM_vals = 0.01:0.01:10;
 P_Collapse = normcdf((log(IM_vals/theta_hat))/beta_hat);
+
+% Query collapse probability at a specific Sa value % added on 24th July 2026
+x_query = 0.53;   % Sa(T1) in g
+y_query = interp1(IM_vals, P_Collapse, x_query);
+
+fprintf('At Sa = %.3f g, P(Collapse) = %.7f\n', x_query, y_query);
+
 
 % ===== Plot =====
 figure;
@@ -274,8 +276,7 @@ plot(saLevelList, collapseProbability, 'rs', 'linewidth', 2, 'MarkerSize', 8, 'M
 hold on;
 plot(IM_vals, P_Collapse, 'r-', 'linewidth', 4);
 
-legh = legend('Observed fractions of collapse','Fitted fragility function','location', 'southeast');
-    set(legh, 'FontSize', legendTextFontSizeInThisFile);
+legend('Empirical', 'Fitted','Location','southeast','Interpreter','latex');
 
 xlim([minValueForPlot maxValueForPlot]);
 % xlim([0, max(saLevelList)*1.05]);
@@ -286,32 +287,32 @@ ylim([0 1]);
 limitsOfAxes = [minValueForPlot maxValueForPlot 0 1];
 XdimOfAxis = limitsOfAxes(2) - limitsOfAxes(1);
 YdimOfAxis = limitsOfAxes(4) - limitsOfAxes(3);
-pos = [limitsOfAxes(1) + 0.70 * XdimOfAxis, limitsOfAxes(3) + 0.70 * YdimOfAxis];
+pos = [limitsOfAxes(1) + 0.80 * XdimOfAxis, limitsOfAxes(3) + 0.70 * YdimOfAxis];
 
 text(pos(1), pos(2), ...
-    {['$$\hat{\theta} = ' sprintf('%5.3f', theta_hat) '\, g$$'], ...
-    ['$$\hat{\beta} = ' sprintf('%5.3f', beta_hat) '$$']}, ...
-    'Interpreter', 'latex', 'FontSize', 22, 'FontWeight', 'bold', ...
+    {['$$\hat{\theta} = ' sprintf('%5.3f', theta_hat) '\mathrm{g}$$'], ...
+    ['$$\hat{\beta}_{\mathrm{ln}} = ' sprintf('%5.3f', beta_hat) '$$']}, ... 
+    'Interpreter', 'latex', ...
+    'FontWeight', 'bold', ...
     'BackgroundColor', [0.875 0.875 0.875]);
 
 box on; grid on;
 
 % Axis label
 if(isConvertToSaKircher == 0)
-    temp = sprintf('$Sa_{geoM}(T=%.2f\\,s)\\,(g)$', periodUsedForScalingGroundMotions);
+    temp = sprintf('$Sa_{geoM}(T=%.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
 else
     DefineSaKircherOverSaGeoMeanValues
     temp = axisLabelForSaKircher;
 end
 
 xlabel(temp, 'Interpreter','latex');
-ylabel('$\mathrm{IP}[collapse]$', 'Interpreter','latex');
+ylabel('$\mathrm{Pr}[collapse]$', 'Interpreter','latex');
 
 % === Apply formatting + export ===
-sks_figureFormat(formatMode);
+sks_figureFormat('powerpoint');
 fullExportPath = fullfile(fixedOutputDirectory, analysisTypeFolder, exportName);
 sks_figureExport(fullExportPath);
-% sks_figureExport(exportName);
 
 end
 

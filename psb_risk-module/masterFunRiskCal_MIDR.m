@@ -28,7 +28,7 @@
 
 %%
 function tableWithAllInfo = masterFunRiskCal_MIDR(latLonLIST, zoneOfLocLIST, BldgIdAndZoneLIST, damageMeasure, intensityMeasureType, ds, imType, T1LIST, TaLIST, fitModel, N, imOrAfeBound, ...
-boundRangeInp, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin)
+boundRangeInp, verbose, imScaleFac, codeIdealizedHazData, factorOnImMin,BldgId)
 
 baseFolder = pwd;
 %% Inputs begin
@@ -193,7 +193,8 @@ for locID = 1:size(latLonLIST, 1)
         cd(baseFolder)
         %% 2. Load the fragility data for all archetypical buildings. (v21, P1_R2 buildings)
         dataDir = 'DATA_files';
-        fragDataFile = sprintf('DATA_fragility_ALL.mat');
+        fragDataFile = sprintf('DATA_fragility_%s_%s_%s.mat', damageMeasure, intensityMeasureType, BldgId);
+        % fragDataFile = sprintf('DATA_fragility_ALL.mat');
         % fragDataFile = sprintf('DATA_fragility_%s_%s.mat', damageMeasure, intensityMeasureType); 
         fileWithPath = fullfile(dataDir, fragDataFile);
 

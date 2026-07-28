@@ -8,6 +8,7 @@ damageMeasure =       MIDRInputs.damageMeasure;
 intensityMeasureType =MIDRInputs.intensityMeasureType;
 dsLIST =              MIDRInputs.dsLIST;
 BldgIdAndZoneLIST =   MIDRInputs.BldgIdAndZoneLIST;
+BldgId =              MIDRInputs.BldgId;
 
 
 %% To save run time of risk modules, we need to execute this script ONCE with appropriate lists of building ID, imType, and damage state.
@@ -19,7 +20,10 @@ saveDir = fullfile(baseFolder,'DATA_files');
 if ~exist(saveDir,'dir')
     mkdir(saveDir);
 end
-fragDataFileName = sprintf('DATA_fragility_%s_%s', damageMeasure, intensityMeasureType);
+fragDataFileName = sprintf('DATA_fragility_%s_%s_%s', ...
+    damageMeasure, intensityMeasureType, BldgId);
+
+% fragDataFileName = sprintf('DATA_fragility_%s_%s', damageMeasure, intensityMeasureType);
 
 count = 0;
 totalNumRuns = size(BldgIdAndZoneLIST, 1)*size(timePLIST, 2)*size(dsLIST, 2);

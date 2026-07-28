@@ -32,14 +32,16 @@ switch formatMode
         legendTextFontSize = 14;
         titleFontSize      = 14;
         axisLineWidth      = 0.75;  % changed on 17-June-2026, just to check (old size =1.2)
+        textFontSize       = 14;
 
     case 'powerpoint'
-        xAxisLabelFontSize = 26;
+        xAxisLabelFontSize = 26;    % changed on 19-July-2026, just to check (old size =26)   
         yAxisLabelFontSize = 26;
-        axisNumberFontSize = 20;
-        legendTextFontSize = 20;   % changed on 12-Mar-2026, just to check (old size =14)
-        titleFontSize      = 20;   % changed on 12-Mar-2026, just to check (old size =14)
+        axisNumberFontSize = 24;    % changed on 19-July-2026, just to check (old size =20) 
+        legendTextFontSize = 22;    % changed on 12-Mar-2026, just to check (old size =20)
+        titleFontSize      = 24;    % changed on 12-Mar-2026, just to check (old size =20)
         axisLineWidth      = 0.75;  % changed on 17-June-2026, just to check (old size =1.0)
+        textFontSize       = 24;    % added on 17-July-2026, for dimensional lines
 
     case 'report'
         xAxisLabelFontSize = 14;
@@ -48,7 +50,8 @@ switch formatMode
         legendTextFontSize = 12;
         titleFontSize      = 12;
         axisLineWidth      = 0.75; % changed on 17-June-2026, just to check (old size =1.2)
-
+        textFontSize       = 12;
+    
     case 'paper'
         xAxisLabelFontSize = 16;
         yAxisLabelFontSize = 16;
@@ -56,6 +59,8 @@ switch formatMode
         legendTextFontSize = 12;
         titleFontSize      = 14;
         axisLineWidth      = 0.75; % changed on 17-June-2026, just to check (old size =1.2)
+        textFontSize       = 14;
+
 
     otherwise
         error('Mode must be: default, powerpoint, report, paper')
@@ -109,7 +114,24 @@ end
 % -------- Legend ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
-    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','northeast');
+    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','southeast');
+end
+
+% -------- All text() objects ----------------------
+hText = findall(fig,'Type','text');
+
+for i = 1:length(hText)
+
+    % Skip axis labels and title
+    if isequal(hText(i),ax.Title) || ...
+            isequal(hText(i),ax.XLabel) || ...
+            isequal(hText(i),ax.YLabel) || ...
+            isequal(hText(i),ax.ZLabel)
+        continue
+    end
+    set(hText(i), ...
+        'FontSize', textFontSize, ...
+        'Interpreter', 'latex');
 end
 
 end

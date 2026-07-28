@@ -55,7 +55,7 @@ IDA_or_MSA = 'MSA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        0           0        0              0               1];
+    analyzeProcessPlotIndex = [0        0        0           1        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +66,7 @@ IDA_or_MSA = 'MSA';
                                         % can as well be kept zero if conventional collapse analysis is being performed.
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.08;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -172,6 +172,7 @@ switch eqListID
         eqFormatForCollapseList = eqFormatForCollapseList_SetC;             flagForEQFileFormat = flagForEQFileFormat_SetC;
         eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetC; 
         eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetC;       eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetC;
+        eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetC;
     case 'setD' 
         eqNumberLIST = eqNumberLIST_forProcessing_SetD;                     eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetD;
         eqFormatForCollapseList = eqFormatForCollapseList_SetD;             flagForEQFileFormat = flagForEQFileFormat_SetD;
@@ -240,6 +241,7 @@ idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 % MSA-specific inputs
 msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
 msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name; 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,79 @@
+clear;
+clc;
+close all;
+pwd
+
+%% Paths
+currentFolder = pwd;
+projectFolder = fileparts(currentFolder);
+
+% Output folder
+outputFolder = fullfile(projectFolder,'Output','AllDamageStatesFragility');
+
+% Create folder if it does not exist
+if ~exist(outputFolder,'dir')
+    mkdir(outputFolder);
+end
+
+
+%% Input
+im = linspace(0.1, 10, 500);
+
+% Bldg = 35053;
+% theta = [0.317, 0.673, 1.247, 1.579];
+% beta  = [0.428, 0.439, 0.423, 0.371];
+
+Bldg = 46053;
+theta = [0.349, 0.719, 1.540, 2.362];
+beta  = [0.467, 0.497, 0.481, 0.252];
+
+
+% Custom colors (keep same everywhere)
+colors = [ ...
+    0.93 0.69 0.13;   % Yellow (IO)
+    1.00 0.00 1.00;   % Magenta (LS)
+    0.00 0.00 0.00;   % Black (CP)
+    1.00 0.00 0.00];  % Red (Collapse)
+
+figure; 
+hold on;
+
+for i = 1:length(theta)
+    prob = normcdf(log(im./theta(i)) ./ beta(i));
+    plot(im, prob, 'LineWidth', 2.5, 'Color', colors(i,:));
+end
+
+xlabel('$Sa_{geoM}(T=0.71\,\mathrm{s})\,(\mathrm{g})$', 'Interpreter','latex');
+ylabel('$\Pr(DS \ge ds_i \mid IM = im)$', 'Interpreter','latex');
+
+% Legend with increased size 
+lgd = legend({'$\mathrm{IO}$', ...
+    '$\mathrm{LS}$', ...
+    '$\mathrm{CP}$', ...
+    '$\mathrm{Collapse}$'}, ...
+    'Location','southeast', ...
+    'Interpreter','latex');
+lgd.ItemTokenSize = [30, 18];   % increase line sample size
+lgd.Box = 'on';                 % optional: cleaner look
+
+% Axis limits and ticks
+xlim([0 2.5]);                 
+ylim([0 1]);                 
+xticks(0:0.5:2);
+yticks(0:0.2:1);
+
+grid on;
+sks_figureFormat('powerpoint')
+
+
+%% Export Figure
+figName = sprintf('FragilityCurves_AllDamageStates_BldgID_%d', Bldg);
+
+oldFolder = pwd;
+cd(outputFolder)
+
+sks_figureExport(figName)
+
+cd(oldFolder)
+
+
