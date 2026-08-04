@@ -3,7 +3,8 @@ clc;
 close all;
 pwd
 
-%% Paths
+%% for the IIT ROORKEE Conference paper
+% Paths
 currentFolder = pwd;
 projectFolder = fileparts(currentFolder);
 
@@ -20,30 +21,39 @@ end
 im = linspace(0.1, 10, 500);
 
 % Bldg = 35053;
-% theta = [0.317, 0.673, 1.247, 1.579];
-% beta  = [0.428, 0.439, 0.423, 0.371];
+% theta = [0.32, 0.67, 1.25, 1.52];  % as per excel data 30 july 2026
+% beta  = [0.52, 0.53, 0.51, 0.48];
 
 Bldg = 46053;
-theta = [0.349, 0.719, 1.540, 2.362];
-beta  = [0.467, 0.497, 0.481, 0.252];
-
+theta = [0.35, 0.72, 1.54, 2.05];
+beta  = [0.55, 0.58, 0.56, 0.46];
 
 % Custom colors (keep same everywhere)
 colors = [ ...
-    0.93 0.69 0.13;   % Yellow (IO)
+    0.00 0.00 1.00;   % Blue (IO)
     1.00 0.00 1.00;   % Magenta (LS)
     0.00 0.00 0.00;   % Black (CP)
     1.00 0.00 0.00];  % Red (Collapse)
+
+% Custom colors (keep same everywhere)
+% colors = [ ...
+%     0.93 0.69 0.13;   % Yellow (IO)
+%     1.00 0.00 1.00;   % Magenta (LS)
+%     0.00 0.00 0.00;   % Black (CP)
+%     1.00 0.00 0.00];  % Red (Collapse)
+
 
 figure; 
 hold on;
 
 for i = 1:length(theta)
     prob = normcdf(log(im./theta(i)) ./ beta(i));
-    plot(im, prob, 'LineWidth', 2.5, 'Color', colors(i,:));
+    plot(im, prob, 'LineWidth', 3.0, 'Color', colors(i,:));
+
 end
 
-xlabel('$Sa_{geoM}(T=0.71\,\mathrm{s})\,(\mathrm{g})$', 'Interpreter','latex');
+xlabel('${im} \equiv Sa_{geoM}(0.71\,\mathrm{s})\,(\mathrm{g})$', 'Interpreter','latex');
+% xlabel('$Sa_{geoM}(T=0.71\,\mathrm{s})\,(\mathrm{g})$', 'Interpreter','latex');
 ylabel('$\Pr(DS \ge ds_i \mid IM = im)$', 'Interpreter','latex');
 
 % Legend with increased size 

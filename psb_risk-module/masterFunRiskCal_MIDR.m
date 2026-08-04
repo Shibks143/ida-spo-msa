@@ -131,12 +131,26 @@ for locID = 1:size(latLonLIST, 1)
     matchingTa{locID, 1} = TaLIST(matchingBldgIndices{locID, 1});    % approximate period as per code (design force)
     for bldgNum = 1:size(matchingBldgIds{locID, 1}, 1)
         bldgIdCurr = matchingBldgIds{locID, 1}{bldgNum, 1};
-        T1Curr = matchingTimeP{locID, 1}(bldgNum, 1);
-        TaCurr = matchingTa{locID, 1}(bldgNum, 1);
-        
+        T1_eigenVal = matchingTimeP{locID, 1}(bldgNum, 1);
+        T1_code = matchingTa{locID, 1}(bldgNum, 1);
+        % T1_ogm = matchingTogm{locID, 1}(bldgNum, 1); % this needs to be
+        % written, MIDR_input structure would need to be passed to this
+        % function.
+
         inputDir = fullfile(baseFolder,'Input from Raghukanth');
         % 1a. extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
-        [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLonCurr, doPlot, plotType, locationLISTforPlot, T1Curr);
+        switch imType
+            case 'PGA'
+                T1_im = 0; % T1 for the im 
+            case 'Sa_Ta'
+                T1_im = T1_code;
+            case 'Sa_T1'
+                T1_im = T1_eigenVal;
+            case 'Sa_Togm'
+                error('If this error appears, it means IM for risk is given as T_ogm, but the risk function is not yet set up for T_ogm.');
+                % T1_im = 'T1_ogm';
+        end
+        [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20200111_v4(latLonCurr, doPlot, plotType, locationLISTforPlot, T1_im);
 
         %  1b. discretize each hazard curve individually
         [imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20200111_v2(fitModel, imValLIST, afe_Sa_T1_LIST, N, doPlot, plotType, imTypeForPlot, legendName);
@@ -147,14 +161,15 @@ for locID = 1:size(latLonLIST, 1)
             fprintf('---------------------------------------------------------------------------------------------------\n');
             fprintf('---- PLEASE NOTE THAT PROGRAM IS USING CODE-IDEALIZED HAZARD CURVE, AND NOT ACTUAL HAZARD DATA ----\n');
             switch zoneOfLoc
-                case 'II';  zoneMCE_PGA = 0.10;
-                case 'III'; zoneMCE_PGA = 0.16;
-                case 'IV';  zoneMCE_PGA = 0.24;
-                case 'V';   zoneMCE_PGA = 0.36;
+                case 'II';  zoneMCE_PGA = 0.10; zoneDBE_PGA = zoneMCE_PGA/2;
+                case 'III'; zoneMCE_PGA = 0.16; zoneDBE_PGA = zoneMCE_PGA/2;
+                case 'IV';  zoneMCE_PGA = 0.24; zoneDBE_PGA = zoneMCE_PGA/2;
+                case 'V';   zoneMCE_PGA = 0.36; zoneDBE_PGA = zoneMCE_PGA/2;
+                case 'VI_proposed';   zoneMCE_PGA = 0.75; zoneDBE_PGA = 0.50;
             end
-            switch T1Curr
+            switch T1_im
                 case 0;     SaByg = 1;
-                otherwise;  SaByg = min(1+15*T1Curr, min(2.5, 1/TaCurr));
+                otherwise;  SaByg = min(1+15*T1_im, min(2.5, 1/T1_code));
             end
             
             X = afeDisc; Y = imValDisc; % X- POE, Y- im values (used only for interpolation)
@@ -169,8 +184,8 @@ for locID = 1:size(latLonLIST, 1)
             elseif matchDBEWithPSHA2475 == 1 
                 fprintf('---- MATCHING CODE-IDEALIZED HAZARD WITH PSHA AT Tr = 2475y. ----\n');
                 DBE = H_2475/2;
-            else
-                DBE = zoneMCE_PGA/2 * SaByg; % design hazard value as per IS 1893 (Z/2 * Sa/g)
+            else % this is the default case now (2026)
+                DBE = zoneDBE_PGA * SaByg; % design hazard value as per IS 1893 (Z/2 * Sa/g)
             end
             MCE = 2*DBE;
             TrDBE = 475; TrMCE = 2475; 
@@ -203,12 +218,12 @@ for locID = 1:size(latLonLIST, 1)
             % imType is always 'Sa_T1' now; use different T1 values to consider all IM
             case 'Sa_T1' % the following piece basically equates imTypeT1 to imType if T_new is one of the above values, else to Sa_1p35, etc.
                 % following condition makes sure that we do not end up getting two variables as Sa_1p2 and Sa_1p20
-                if abs(T1Curr - 0) < 1e-6 % i.e., if it's PGA, assign 'PGA'
+                if abs(T1_im - 0) < 1e-6 % i.e., if it's PGA, assign 'PGA'
                     imTypeT1 = 'PGA';
-                elseif abs(mod(T1Curr*100, 10)) < 1e-6 % i.e., if the second digit after decimal is zero, e.g., 1.4
-                    imTypeT1 = sprintf('Sa_%ip%i', floor(T1Curr), int8(mod(T1Curr*10, 10))); % assign Sa_1p4
+                elseif abs(mod(T1_im*100, 10)) < 1e-6 % i.e., if the second digit after decimal is zero, e.g., 1.4
+                    imTypeT1 = sprintf('Sa_%ip%i', floor(T1_im), int8(mod(T1_im*10, 10))); % assign Sa_1p4
                 else                    % i.e., if the second digit after decimal is non-zero, e.g., 1.35
-                    imTypeT1 = sprintf('Sa_%ip%.2i', floor(T1Curr), int8(mod(T1Curr*100, 100))); % assign Sa_1p35
+                    imTypeT1 = sprintf('Sa_%ip%.2i', floor(T1_im), int8(mod(T1_im*100, 100))); % assign Sa_1p35
                 end
         end
           try
@@ -225,7 +240,7 @@ for locID = 1:size(latLonLIST, 1)
                 imMinMat = fragAllData.(bldgIdVar).imMin;
                 
                 % find matching time period and damage state
-                [~, rowId] = min(abs(timePDataVec - T1Curr)); % added on 22-Apr-2026
+                [~, rowId] = min(abs(timePDataVec - T1_im)); % added on 22-Apr-2026
                 colId = find(strcmp(dsDataVec, ds), 1);
                 % rowId = find(abs(timePDataVec - T1Curr) < 1e-6,1);
                 % colId = find(strcmp(dsDataVec, ds));
@@ -289,7 +304,7 @@ for locID = 1:size(latLonLIST, 1)
         if verbose == 2; fprintf('%i\t%s\t%s\t%4.3f\t%4.3f\t%4.3f\t%4.3f\t%.2e\t', counter, zoneOfLoc, bldgIdCurr, H_475, H_2475, mu_ds, omega, riskVal); end
         
         Zone = cellstr(zoneOfLoc); BldgID = cellstr(bldgIdCurr);
-        siteBldgDsT1 = cellstr(sprintf('%i-%i-%s-%.2fs', locID, bldgNum, ds, T1Curr));
+        siteBldgDsT1 = cellstr(sprintf('%i-%i-%s-%.2fs', locID, bldgNum, ds, T1_im));
         % storing all values in a structure
         tableWithAllInfo(counter, 1:10) = table(siteBldgDsT1, Zone, BldgID, boundRangeCurr(1), boundRangeCurr(2), H_475, H_2475, mu_ds, omega, riskVal);
         tableWithAllInfo.Properties.VariableNames{4} = sprintf('%s_Min', 'im'); % imTypeT1); % Since, IM changes with bldg now, we're identifying imType from the first var name

@@ -2,9 +2,9 @@
 #     run, so that Opensees can read the file and define the needed variables
 
 set dtForCollapseMATLAB 0.001250
-set minStoryDriftRatioForCollapseMATLAB 0.080
+set minStoryDriftRatioForCollapseMATLAB 0.060
 set elementUsedForColSensModelMATLAB clough
-set sensModel ID35053_R5_5Story_v.02
+set sensModel ID46053_R5_5Story_v.02
 set sensVariableName AllVar
 set sensVariableValue 0.00
 set AllVar 0.00
