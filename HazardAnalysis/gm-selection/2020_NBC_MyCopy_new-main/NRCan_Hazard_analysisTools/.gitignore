@@ -1,0 +1,7 @@
+*.bak
+*.pyc
+.DS_Store
+*.asv
+*.hold
+*mfd.pdf
+*.png

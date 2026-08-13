@@ -20,13 +20,13 @@ end
 %% Input
 im = linspace(0.1, 10, 500);
 
-% Bldg = 35053;
-% theta = [0.32, 0.67, 1.25, 1.52];  % as per excel data 30 july 2026
-% beta  = [0.52, 0.53, 0.51, 0.48];
+Bldg = 35053;
+theta = [0.32, 0.67, 1.25, 1.52];  % as per excel data 30 july 2026
+beta  = [0.52, 0.53, 0.51, 0.48];
 
-Bldg = 46053;
-theta = [0.35, 0.72, 1.54, 2.05];
-beta  = [0.55, 0.58, 0.56, 0.46];
+% Bldg = 46053;
+% theta = [0.35, 0.72, 1.54, 2.05];
+% beta  = [0.55, 0.58, 0.56, 0.46];
 
 % Custom colors (keep same everywhere)
 colors = [ ...

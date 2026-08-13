@@ -141,12 +141,17 @@ clear
             currentEQNum = currentEQNum_NotComp * 10 + eqCompIndex;
         
             % Go to the folder to open the saved spectrum file
-                cd ..;
-                cd EQ_Spectra_Saved;
+                % cd ..;
+                % cd EQ_Spectra_Saved;
+
+            % Open the saved spectrum file using direct path
+                fileName = sprintf('SaEQSpectrum_EQ_%d.mat', currentEQNum);
+                fullFilePath = fullfile('..', 'EQ_Spectra_Saved', fileName);
+                load(fullFilePath);
         
             % Open the saved spectrum file
-                fileName = sprintf('SaEQSpectrum_EQ_%d.mat', currentEQNum);
-                load(fileName);
+                % fileName = sprintf('SaEQSpectrum_EQ_%d.mat', currentEQNum);
+                % load(fileName);
             
             % Look through the damping ratio list and find the index that has
             %   the damping ratio that we want to plot.  If the damping ratio

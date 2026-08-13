@@ -1,0 +1,67 @@
+Created by Prakash S Badal at UBC Okanagan. Initial version. May 28, 2022.
+
+The metadata for earthquakes recorded by the KiKnet array (a database of ground motion records of Japanese). The raw data is publicly available on the KiK-net website (https://www.kyoshin.bosai.go.jp/kyoshin/search/index_en.html, accessed 7/1/2020). The description of each variables is given below:
+
+X:	 internal serial number
+
+EQID:	 unique earthquake ID. The first six digits represent the station number 
+and the rest is the recording time.
+
+Adress:	 event timestamp and EQID. Also the location of Sa variables in hdf file by Bahrampouri et al.
+
+EQ_name:	 Name of the earthquake as in literature. Not defined for all events
+
+EQ_year:	 Date of earthquake.
+
+hypo_lat:	 latitude of hypocenter
+
+hypo_long:	 longitude of hypocenter
+
+mechanism:	 fault mechanism per Garcia et al. (2012) definitions
+
+tectonic:	 tectonic regime per Garcia et al. (2012) definitions
+
+station:	 Station code.
+
+station_lat:	 latitude of station
+
+station_long:	 longitude of station
+
+soil_Vs30:	 Vs30 of the site in m/s
+
+magnitude:	 magnitude
+
+Rjb:	 Joyner-Boore distance in km
+
+rrup_0:	 rupture depth in km
+
+depth:	 depth of hypocenter in km
+
+samplingFreq:	 Sampling frequency of the recorder
+
+Periods:	 periods for spectral acceleration
+
+Sa_EW1:	 spectral acceleration along EW recorded by borehole seismcograph
+
+Sa_NS1:	 spectral acceleration along NS recorded by borehole seismcograph
+
+Sa_EW2:	 spectral acceleration along EW recorded by surface seismcograph
+
+Sa_NS2:	 spectral acceleration along NS recorded by surface seismcograph
+
+pga_EW1:	 pga along EW recorded by borehole seismograph 
+
+pga_NS1:	 pga along NS recorded by borehole seismograph 
+
+pga_EW2:	 pga along EW recorded by surface seismograph 
+
+pga_NS2:	 pga along NS recorded by surface seismograph 
+
+D5_95_EW1:	 Durations of recordings along EW1
+
+D5_95_NS1:	 Durations of recordings along NS1
+
+D5_95_EW2:	 Durations of recordings along EW2
+
+D5_95_NS2:	 Durations of recordings along NS2
+
