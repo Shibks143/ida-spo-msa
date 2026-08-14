@@ -27,6 +27,8 @@ password = input('Enter your password:\n', 's');
 %% web options
 webOptions = weboptions('Username', username, 'Password', password);
 
+%%%% username:shibks143 and Password: fAeXsK4nTBd %%%%%%%%%%%%%%%%%
+
 % example fileName- IBRH171103111515.tar.gz
 % example eqID-     IBRH171103111515
 % example URL:-     https://www.kyoshin.bosai.go.jp/kyoshin/download/kik/6comp/2011/03/20110311151500/IBRH171103111515.tar.gz
