@@ -31,10 +31,12 @@ exportgraphics(gcf,[exportName '.pdf'],'ContentType','vector');
 
 
 % % ---- High-resolution PNG (600 dpi) ----
+exportgraphics(fig, [exportName '.png'], 'Resolution', 600);
 % print(fig, [exportName '.png'], '-dpng', '-r600');
 
 % ---- High-resolution TIFF (600 dpi) ----
-print(fig, [exportName '.tiff'], '-dtiff', '-r600');
+exportgraphics(fig, [exportName '.tiff'], 'Resolution', 600);
+% print(fig, [exportName '.tiff'], '-dtiff', '-r600');
 
 % ---- EMF (Word/PowerPoint vector) ----
 print(fig, [exportName '.emf'], '-dmeta');

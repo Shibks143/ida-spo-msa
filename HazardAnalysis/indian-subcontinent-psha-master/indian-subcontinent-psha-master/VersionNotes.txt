@@ -1,0 +1,19 @@
+Outstanding concerns since v0:
+* zone 17: could be stable instead of active shallow
+* zones 169, 170, 172: only YCSH97 includes events to this depth
+* zones 903, 915, 916, 917, 918: oceanic not continental
+
+Fixed in v1:
+* major TRT and MSR reassignment with input from KKST
+* focal mechanisms & seismicity for zones 169 and 170 swapped
+* focal mechanism for zones 14 and 914 corrected from GCMT catalogue
+* switched zones 12, 13, 63, 137, 929, 931 to secondary focal plane
+
+Future work:
+1. Summarize TRT and MSR assignment changes between v0 and v1.
+2. Map all zone focal mechanisms against those recomputed from GCMT catalogue
+(1976-2008 and 1976-2017). Identify zones with multiple modes in their moment
+tensor distributions. Cross-reference against literature and USGS finite 
+fault solutions to choose between focal planes. Determine whether the added 
+complexity is worthwhile, and if so make this v2.
+3. Model the complex fault geometry of the Himalayan main frontal thrust.
