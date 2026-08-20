@@ -4,17 +4,7 @@ function [imValLIST, afe_PGA_LIST, afe_Sa0p1_LIST, afe_Sa0p2_LIST, afe_Sa0p5_LIS
 %% function returns interpolated hazard for any given (lat, lon) using the data file received from Raghukanth on Jan 11, 2020
 % 
 %%%%%%%%%%%%%%%%%% Sample Inputs %%%%%%%%%%%%%%%%%%
-% clear;
-% % tic
-% latLonLIST = [
-%     19.00   72.80; % Mumbai   (Table 5.4 of NDMA, 2011 report)
-%     28.62   77.22; % Delhi
-%     26.17   91.77; % Guwahati
-%     27.10   92.10; % an arbitrary grid point near Arunachal border
-% %     26.70   60.5;  % a grid point for validation
-%     ];
 % doPlot = 0;
-% plotType = 'semilog'; % 'semilog', 'loglog, 'linear'
 % imTypeForPlot = 'PGA'; % 'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'
 % locationLIST = {'Mumbai', 'Delhi', 'Guwahati', 'Arunachal'};
 %%%%%%%%%%%%%%%%%% End of sample Inputs %%%%%%%%%%%%%%%%%%

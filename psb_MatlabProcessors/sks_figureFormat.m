@@ -38,7 +38,7 @@ switch formatMode
         xAxisLabelFontSize = 26;    % changed on 19-July-2026, just to check (old size =26)   
         yAxisLabelFontSize = 26;
         axisNumberFontSize = 24;    % changed on 19-July-2026, just to check (old size =20) 
-        legendTextFontSize = 22;    % changed on 12-Mar-2026, just to check (old size =20)
+        legendTextFontSize = 10;    % changed on 12-Mar-2026, just to check (old size =20)
         titleFontSize      = 24;    % changed on 12-Mar-2026, just to check (old size =20)
         axisLineWidth      = 0.75;  % changed on 17-June-2026, just to check (old size =1.0)
         textFontSize       = 24;    % added on 17-July-2026, for dimensional lines
@@ -114,7 +114,7 @@ end
 % -------- Legend ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
-    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','southeast');
+    set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','northeast');
 end
 
 % -------- All text() objects ----------------------

@@ -114,7 +114,7 @@ end
 %                 k0_curr = hazCurParams(1, i); k1_curr = hazCurParams(2, i); k2_curr = hazCurParams(3, i);
 %                 afeDisc = k0_curr*exp(-k2_curr*(log(imValDisc)).^2 - k1_curr*log(imValDisc));
 %             end
-            
+        
         % Alternate 2. Split into three (averaged values in overlapping intervals)
             % 2a. first interval
             imValDiscA = logspace(log10(imValLIST(1, 1)), log10(imValLIST(1, 2)), N); % discretized im values
