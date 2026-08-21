@@ -1,4 +1,4 @@
-function [imValLIST, afeLISTLIST] = extractHazForLoc_20260818_v1(latLonLIST)
+function [imValLIST, afeLISTLIST, periodList] = extractHazForLoc_20260818_v1(latLonLIST)
 
 %% function returns interpolated hazard for any given (lat, lon) using the data file received from Raghukanth on Aug 18, 2026
 % modified by shivakumar K S on Aug 20th 2026 for the new PSHA data.
@@ -19,8 +19,8 @@ end
 fileName = 'hazard_20260818.mat';
 load(fileName, 'hazardCurveTable');
 tbl = hazardCurveTable;
-tbl.Properties.VariableNames   % lists all column names
-head(tbl)                       % preview first few rows
+% tbl.Properties.VariableNames     % lists all column names
+% head(tbl)                       % preview first few rows
 
 int_g     = tbl.int_g;
 c_0pt01s  = tbl.c_0pt01s;
@@ -53,46 +53,53 @@ c_5s      = tbl.c_5s;
 
 imValLIST = int_g(:)'; % 1x15 fixed IM grid, same across all periods
 nLoc = size(latLonLIST, 1);
+periodList = [0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.075, 0.09, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, ...
+    1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 5.0]; % 27 periods (index 1 = PGA proxy, c_0pt01s)
+
 if nLoc > 1
     warning('extractHazForLoc_20260818_v1:singleSiteOnly', ...
         'This .mat file currently contains data for ONE site only; replicating it for all %d requested locations.', nLoc);
 end
 
 % NOTE: No true PGA (T=0) field exists in this .mat file.
-% Sa(T=0.01s) is used as a PGA approximation per project decision.
-afe_PGA_LIST     = repmat(c_0pt01s, nLoc, 1); % same source as afe_PGA_LIST
-afe_Sa0p015_LIST = repmat(c_0pt015s, nLoc, 1);
-afe_Sa0p02_LIST  = repmat(c_0pt02s,  nLoc, 1);
-afe_Sa0p03_LIST  = repmat(c_0pt03s,  nLoc, 1);
-afe_Sa0p04_LIST  = repmat(c_0pt04s,  nLoc, 1);
-afe_Sa0p05_LIST  = repmat(c_0pt05s,  nLoc, 1);
-afe_Sa0p06_LIST  = repmat(c_0pt06s,  nLoc, 1);
-afe_Sa0p075_LIST = repmat(c_0pt075s, nLoc, 1);
-afe_Sa0p09_LIST  = repmat(c_0pt09s,  nLoc, 1);
-afe_Sa0p1_LIST   = repmat(c_0pt1s,   nLoc, 1);
-afe_Sa0p15_LIST  = repmat(c_0pt15s,  nLoc, 1);
-afe_Sa0p2_LIST   = repmat(c_0pt2s,   nLoc, 1);
-afe_Sa0p3_LIST   = repmat(c_0pt3s,   nLoc, 1);
-afe_Sa0p4_LIST   = repmat(c_0pt4s,   nLoc, 1);
-afe_Sa0p5_LIST   = repmat(c_0pt5s,   nLoc, 1);
-afe_Sa0p6_LIST   = repmat(c_0pt6s,   nLoc, 1);
-afe_Sa0p7_LIST   = repmat(c_0pt7s,   nLoc, 1);
-afe_Sa0p75_LIST  = repmat(c_0pt75s,  nLoc, 1);
-afe_Sa0p8_LIST   = repmat(c_0pt8s,   nLoc, 1);
-afe_Sa0p9_LIST   = repmat(c_0pt9s,   nLoc, 1);
-afe_Sa1p0_LIST   = repmat(c_1s,      nLoc, 1);
-afe_Sa1p2_LIST   = repmat(c_1pt2s,   nLoc, 1);
-afe_Sa1p5_LIST   = repmat(c_1pt5s,   nLoc, 1);
-afe_Sa2p0_LIST   = repmat(c_2s,      nLoc, 1);
-afe_Sa2p5_LIST   = repmat(c_2pt5s,   nLoc, 1);
-afe_Sa3p0_LIST   = repmat(c_3s,      nLoc, 1);
-afe_Sa5p0_LIST   = repmat(c_5s,      nLoc, 1);
+% Sa(T=0.01s) is used as a PGA approximation.
+afe_PGA_LIST     = repmat(c_0pt01s(:)',  nLoc, 1); 
+afe_Sa0p015_LIST = repmat(c_0pt015s(:)', nLoc, 1);
+afe_Sa0p02_LIST  = repmat(c_0pt02s(:)',  nLoc, 1);
+afe_Sa0p03_LIST  = repmat(c_0pt03s(:)',  nLoc, 1);
+afe_Sa0p04_LIST  = repmat(c_0pt04s(:)',  nLoc, 1);
+afe_Sa0p05_LIST  = repmat(c_0pt05s(:)',  nLoc, 1);
+afe_Sa0p06_LIST  = repmat(c_0pt06s(:)',  nLoc, 1);
+afe_Sa0p075_LIST = repmat(c_0pt075s(:)', nLoc, 1);
+afe_Sa0p09_LIST  = repmat(c_0pt09s(:)',  nLoc, 1);
+afe_Sa0p1_LIST   = repmat(c_0pt1s(:)',   nLoc, 1);
+afe_Sa0p15_LIST  = repmat(c_0pt15s(:)',  nLoc, 1);
+afe_Sa0p2_LIST   = repmat(c_0pt2s(:)',   nLoc, 1);
+afe_Sa0p3_LIST   = repmat(c_0pt3s(:)',   nLoc, 1);
+afe_Sa0p4_LIST   = repmat(c_0pt4s(:)',   nLoc, 1);
+afe_Sa0p5_LIST   = repmat(c_0pt5s(:)',   nLoc, 1);
+afe_Sa0p6_LIST   = repmat(c_0pt6s(:)',   nLoc, 1);
+afe_Sa0p7_LIST   = repmat(c_0pt7s(:)',   nLoc, 1);
+afe_Sa0p75_LIST  = repmat(c_0pt75s(:)',  nLoc, 1);
+afe_Sa0p8_LIST   = repmat(c_0pt8s(:)',   nLoc, 1);
+afe_Sa0p9_LIST   = repmat(c_0pt9s(:)',   nLoc, 1);
+afe_Sa1p0_LIST   = repmat(c_1s(:)',      nLoc, 1);
+afe_Sa1p2_LIST   = repmat(c_1pt2s(:)',   nLoc, 1);
+afe_Sa1p5_LIST   = repmat(c_1pt5s(:)',   nLoc, 1);
+afe_Sa2p0_LIST   = repmat(c_2s(:)',      nLoc, 1);
+afe_Sa2p5_LIST   = repmat(c_2pt5s(:)',   nLoc, 1);
+afe_Sa3p0_LIST   = repmat(c_3s(:)',      nLoc, 1);
+afe_Sa5p0_LIST   = repmat(c_5s(:)',      nLoc, 1);
 
+afeLISTLIST = [afe_PGA_LIST, afe_Sa0p015_LIST, afe_Sa0p02_LIST, afe_Sa0p03_LIST, afe_Sa0p04_LIST, afe_Sa0p05_LIST, afe_Sa0p06_LIST, ...
+    afe_Sa0p075_LIST, afe_Sa0p09_LIST, afe_Sa0p1_LIST, afe_Sa0p15_LIST, afe_Sa0p2_LIST, afe_Sa0p3_LIST, afe_Sa0p4_LIST, afe_Sa0p5_LIST, ...
+    afe_Sa0p6_LIST, afe_Sa0p7_LIST, afe_Sa0p75_LIST, afe_Sa0p8_LIST, afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa1p5_LIST, ...
+    afe_Sa2p0_LIST, afe_Sa2p5_LIST, afe_Sa3p0_LIST, afe_Sa5p0_LIST];
 
-afeLISTLIST = [afe_PGA_LIST', afe_Sa0p015_LIST', afe_Sa0p02_LIST', afe_Sa0p03_LIST', afe_Sa0p04_LIST', afe_Sa0p05_LIST', afe_Sa0p06_LIST', ...
-    afe_Sa0p075_LIST', afe_Sa0p09_LIST', afe_Sa0p1_LIST', afe_Sa0p15_LIST', afe_Sa0p2_LIST', afe_Sa0p3_LIST', afe_Sa0p4_LIST', afe_Sa0p5_LIST', ...
-    afe_Sa0p6_LIST', afe_Sa0p7_LIST', afe_Sa0p75_LIST', afe_Sa0p8_LIST', afe_Sa0p9_LIST', afe_Sa1p0_LIST', afe_Sa1p2_LIST', afe_Sa1p5_LIST', ...
-    afe_Sa2p0_LIST', afe_Sa2p5_LIST', afe_Sa3p0_LIST', afe_Sa5p0_LIST'];
+% afeLISTLIST = [afe_PGA_LIST, afe_Sa0p015_LIST, afe_Sa0p02_LIST, afe_Sa0p03_LIST, afe_Sa0p04_LIST, afe_Sa0p05_LIST, afe_Sa0p06_LIST, ...
+%     afe_Sa0p075_LIST, afe_Sa0p09_LIST, afe_Sa0p1_LIST, afe_Sa0p15_LIST, afe_Sa0p2_LIST, afe_Sa0p3_LIST, afe_Sa0p4_LIST, afe_Sa0p5_LIST, ...
+%     afe_Sa0p6_LIST, afe_Sa0p7_LIST, afe_Sa0p75_LIST, afe_Sa0p8_LIST, afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa1p5_LIST, ...
+%     afe_Sa2p0_LIST, afe_Sa2p5_LIST, afe_Sa3p0_LIST, afe_Sa5p0_LIST];
 
 %% plot PGA hazard curve
 if doPlot == 1

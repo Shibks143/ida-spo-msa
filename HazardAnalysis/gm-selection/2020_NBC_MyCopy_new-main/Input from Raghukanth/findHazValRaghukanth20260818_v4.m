@@ -81,10 +81,12 @@ function [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20260818_v4(latLonLIS
 % end
 
 
-[imValLIST, afeLISTLIST] = extractHazForLoc_20260818_v1(latLonLIST);
+[imValLIST, afeLISTLIST, periodList] = extractHazForLoc_20260818_v1(latLonLIST);
 
 numPtsOnInpHaz = size(imValLIST, 2); % number of points on input hazard
-timePLIST = [0, 0.1, 0.2, 0.5, 0.9, 1.0, 1.2, 2.0, 5.0];
+timePLIST = periodList;
+
+% timePLIST = [0, 0.1, 0.2, 0.5, 0.9, 1.0, 1.2, 2.0, 5.0];
 
 [M, I] = min(abs(T1 - timePLIST));
 if M < 1e-6
@@ -97,9 +99,11 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %% (WARNING) PSB, 2-26-20: We are not going beyond 2 sec as of now, because of anamolies in the data for Sa(5.0) as communicated to Prof. Raghukanth today.
-timePIDsToProc = 1:8; % 1:8 indicates that we're processing spectral acceleration values up to 2 sec
+% timePIDsToProc = 1:8; % 1:8 indicates that we're processing spectral acceleration values up to 2 sec
 % check the erroneous AFE values of the following graph after loading data dated 20200111
 % plot(1:38000, c_5s(:, 10), 'bo'); xlabel('Site ID'); ylabel('AFE for Sa(5.0) \geq 5g');
+
+timePIDsToProc = 1:length(timePLIST);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%
