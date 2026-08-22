@@ -1,7 +1,6 @@
-function [imValDisc, afeDisc, hazCurParams] = returnHazCurveRaghukanth20200111_v2(fitModel, imValLIST, afeLIST, N, doPlot, plotType, imTypeForPlot, legendName)
+function [imValDisc, afeDisc, hazCurParams] = returnHazCurveRaghukanth20200111_v2(hazardInputs, imValLIST, afeLIST)
 
 %% function develops digitized numerical hazard curve using four points derived from Raghukanth's data (received on Jan 11, 2020)
-% 
 %%%%%%%%%%%%%%%%%% Sample Inputs %%%%%%%%%%%%%%%%%%
 % clear;
 % fitModel = '2param'; % '2param' or '3param'; Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)]
@@ -12,13 +11,14 @@ function [imValDisc, afeDisc, hazCurParams] = returnHazCurveRaghukanth20200111_v
 % afeLIST = [8.26856E-02	3.47746E-02	1.36577E-02	4.95679E-03	1.61090E-03	4.48673E-04	9.31284E-05	1.06942E-05	5.21429E-07	9.73072E-09]; % Delhi
 % afeLIST = [3.34288E-01	1.24668E-01	3.92776E-02	1.25620E-02	4.21525E-03	1.25712E-03	2.62249E-04	3.36570E-05	2.33463E-06	7.18762E-08]; % Guwahati
 % afeLIST = [3.70651E-01	1.49167E-01	4.95066E-02	1.62939E-02	5.62982E-03	1.74907E-03	3.80267E-04	5.04012E-05	3.61580E-06	1.15167E-07]; % Arunachal (27.1, 92.1)
-
-% N = 21; % number of points for each sub-interval, i.e., between consecutive imValLIST values 
-% doPlot = 1; 
-% plotType = 'semilog'; % 'semilog', 'loglog, 'linear'
-% imTypeForPlot = 'PGA'; % (used only for xlabel) 'PGA', 'Sa_0p1', 'Sa_0p2', 'Sa_0p5', 'Sa_0p9', 'Sa_1p0', 'Sa_1p2', 'Sa_2p0', 'Sa_5p0'
-% legendName = {};
 %%%%%%%%%%%%%%%%%% End of sample Inputs %%%%%%%%%%%%%%%%%%
+
+fitModel      = hazardInputs.fitModel;
+N             = hazardInputs.N;
+doPlot        = hazardInputs.doPlot;
+plotType      = hazardInputs.plotType;
+imTypeForPlot = hazardInputs.imTypeForPlot;
+legendName    = hazardInputs.legendName;
 
 narginchk(3, 8)
 switch nargin

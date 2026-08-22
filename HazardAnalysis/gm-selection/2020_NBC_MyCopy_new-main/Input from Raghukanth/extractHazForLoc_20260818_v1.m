@@ -1,24 +1,26 @@
-function [imValLIST, afeLISTLIST, periodList] = extractHazForLoc_20260818_v1(latLonLIST)
+function [imValLIST, afeLISTLIST, periodList] = extractHazForLoc_20260818_v1(hazardInputs)
 
 %% function returns interpolated hazard for any given (lat, lon) using the data file received from Raghukanth on Aug 18, 2026
 % modified by shivakumar K S on Aug 20th 2026 for the new PSHA data.
 
-narginchk(1, 5)
-switch nargin
-    case 1
-        doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'PGA'; locationLIST = {};
-    case 2
-        plotType = 'semilog'; imTypeForPlot = 'PGA'; locationLIST = {};
-    case 3
-        imTypeForPlot = 'PGA'; locationLIST = {};
-    case 4
-        locationLIST = {};
-end
+latLonLIST   = hazardInputs.latLon;
+locationLIST = hazardInputs.locationLISTforPlot;
+doPlot       = hazardInputs.doPlot; 
+plotType     = hazardInputs.plotType;
 
 %% load the data
 fileName = 'hazard_20260818.mat';
-load(fileName, 'hazardCurveTable');
-tbl = hazardCurveTable;
+load(fileName, 'hazardCurveTable_Guwahati', 'hazardCurveTable_Delhi');
+
+switch locationLIST{1}
+    case 'Guwahati'
+        tbl = hazardCurveTable_Guwahati;
+    case 'Delhi'
+        tbl = hazardCurveTable_Delhi;
+    otherwise
+        error('Hazard curve data not available for location: %s', locationLIST{1});
+end
+
 % tbl.Properties.VariableNames     % lists all column names
 % head(tbl)                       % preview first few rows
 
@@ -95,11 +97,6 @@ afeLISTLIST = [afe_PGA_LIST, afe_Sa0p015_LIST, afe_Sa0p02_LIST, afe_Sa0p03_LIST,
     afe_Sa0p075_LIST, afe_Sa0p09_LIST, afe_Sa0p1_LIST, afe_Sa0p15_LIST, afe_Sa0p2_LIST, afe_Sa0p3_LIST, afe_Sa0p4_LIST, afe_Sa0p5_LIST, ...
     afe_Sa0p6_LIST, afe_Sa0p7_LIST, afe_Sa0p75_LIST, afe_Sa0p8_LIST, afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa1p5_LIST, ...
     afe_Sa2p0_LIST, afe_Sa2p5_LIST, afe_Sa3p0_LIST, afe_Sa5p0_LIST];
-
-% afeLISTLIST = [afe_PGA_LIST, afe_Sa0p015_LIST, afe_Sa0p02_LIST, afe_Sa0p03_LIST, afe_Sa0p04_LIST, afe_Sa0p05_LIST, afe_Sa0p06_LIST, ...
-%     afe_Sa0p075_LIST, afe_Sa0p09_LIST, afe_Sa0p1_LIST, afe_Sa0p15_LIST, afe_Sa0p2_LIST, afe_Sa0p3_LIST, afe_Sa0p4_LIST, afe_Sa0p5_LIST, ...
-%     afe_Sa0p6_LIST, afe_Sa0p7_LIST, afe_Sa0p75_LIST, afe_Sa0p8_LIST, afe_Sa0p9_LIST, afe_Sa1p0_LIST, afe_Sa1p2_LIST, afe_Sa1p5_LIST, ...
-%     afe_Sa2p0_LIST, afe_Sa2p5_LIST, afe_Sa3p0_LIST, afe_Sa5p0_LIST];
 
 %% plot PGA hazard curve
 if doPlot == 1
