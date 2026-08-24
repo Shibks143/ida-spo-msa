@@ -39,7 +39,8 @@ end
 
 Tcond = 0.01; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
-returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 
+returnPeriods_UHS     = returnPeriods_SaTcond;
+% returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 
 
 % period for spectral accelerations for different hazard curves — depends on pshaVersion
 switch pshaVersion
@@ -48,7 +49,7 @@ switch pshaVersion
         T1LIST = [0 0.1:0.1:0.5 1 1.50 2];
     case 'new'
         % new Aug 2026 data: 27 periods available, up to 5s
-        T1LIST = [0.01 0.05 0.5 1 1.50 2 3 5];
+        T1LIST = [0.01 0.05 0.1 0.5 1 1.50 2 3 5];
     otherwise
         error('Unknown pshaVersion: %s', pshaVersion);
 end

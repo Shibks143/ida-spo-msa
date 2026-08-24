@@ -27,11 +27,11 @@ print(fig, [exportName '.eps'], '-depsc2', '-painters');
 
 % ---- PDF (Journal-quality vector) ----
 % print(fig, [exportName '.pdf'], '-dpdf', '-painters');
-exportgraphics(gcf,[exportName '.pdf'],'ContentType','vector');
+% exportgraphics(gcf,[exportName '.pdf'],'ContentType','vector');
 
 
 % % ---- High-resolution PNG (600 dpi) ----
-exportgraphics(fig, [exportName '.png'], 'Resolution', 600);
+% exportgraphics(fig, [exportName '.png'], 'Resolution', 600);
 % print(fig, [exportName '.png'], '-dpng', '-r600');
 
 % ---- High-resolution TIFF (600 dpi) ----
