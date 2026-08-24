@@ -37,7 +37,7 @@ switch locName2
         error('Unknown locName2: %s', locName2);
 end
 
-Tcond = 0.7; % conditioning period for return-period-based Sa extraction
+Tcond = 0.01; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
 returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 
 
