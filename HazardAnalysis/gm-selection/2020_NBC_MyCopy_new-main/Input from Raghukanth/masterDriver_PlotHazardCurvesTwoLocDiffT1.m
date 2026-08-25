@@ -7,7 +7,7 @@ cd(baseFolder)
 
 
 %%% >>> START OF INPUT BLOCK HERE <<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-pshaVersion = 'new';  % 'old' -> 20200111_v4, 'new' -> 20260818_v4
+pshaVersion = 'old';  % 'old' -> 20200111_v4, 'new' -> 20260818_v4
 
 locName = 'Guwahati'; % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
 switch locName      
@@ -37,7 +37,7 @@ switch locName2
         error('Unknown locName2: %s', locName2);
 end
 
-Tcond = 0.7; % conditioning period for return-period-based Sa extraction
+Tcond = 0.0; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
 returnPeriods_UHS     = returnPeriods_SaTcond;
 % returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 
@@ -133,7 +133,7 @@ end
 
 
 %                 HazCur    Sa(Tcond)      UHS      ISResSpec   UHS_ISRes
-runHazardIndex =  [0           0            0          1            0  ];
+runHazardIndex =  [0           1            0          0            0  ];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,6 +232,5 @@ if runHazardIndex(5) == 1
     hazardInputs.returnPeriods_UHS = 475;  %[475, 2475];     % NEW: restrict UHS to these two Tr
     [periodsForUHS, UHS_Sa_ALL, UHS_Table_ALL, T_H, Sa_IS_LIST] = sks_UHS_ISResponse_combined_v1(hazardInputs);
 end
-
 
 toc
