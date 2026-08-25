@@ -1,4 +1,4 @@
-function Zone_i = sks_getZoneFactor_v1(earthquakeZone, returnPeriod)
+function Zone_factor = sks_getZoneFactor_v1(earthquakeZone, returnPeriod)
 %% Looks up (or log-linearly interpolates) the Earthquake Zone Factor Z
 % from Table 3 (Clause 6.2.2.2) -- "Earthquake Zone Factor (Z) for
 % Different Return Periods (T_R) in Different Earthquake Zones".
@@ -38,6 +38,6 @@ if any(returnPeriod < min(returnPeriodsTab)) || any(returnPeriod > max(returnPer
         min(returnPeriodsTab), max(returnPeriodsTab));
 end
 
-Zone_i = interp1(log(returnPeriodsTab), ZTab(rowIdx, :), log(returnPeriod), 'linear');
+Zone_factor = interp1(log(returnPeriodsTab), ZTab(rowIdx, :), log(returnPeriod), 'linear');
 
 end

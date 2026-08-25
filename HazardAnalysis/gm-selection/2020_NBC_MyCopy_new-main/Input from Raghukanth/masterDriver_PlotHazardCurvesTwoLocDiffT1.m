@@ -18,7 +18,7 @@ switch locName
     case 'Mumbai'
         latLon = [19.00  72.80]; earthquakeZone = 'III';
     case 'Delhi'
-        latLon = [28.62  77.22]; earthquakeZone = 'V';
+        latLon = [28.62  77.22]; earthquakeZone = 'IV';
     case 'Guwahati'
         latLon = [26.17  91.77]; earthquakeZone = 'VI';
     case 'ArunachalBorder'
@@ -30,14 +30,14 @@ end
 locName2 = 'Delhi';   % second location for the combined UHS comparison
 switch locName2
     case 'Delhi'
-        latLon2 = [28.62  77.22]; earthquakeZone2 = 'V';
+        latLon2 = [28.62  77.22]; earthquakeZone2 = 'IV';
     case 'Guwahati'
         latLon2 = [26.17  91.77]; earthquakeZone2 = 'VI';
     otherwise
         error('Unknown locName2: %s', locName2);
 end
 
-Tcond = 0.01; % conditioning period for return-period-based Sa extraction
+Tcond = 0.7; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
 returnPeriods_UHS     = returnPeriods_SaTcond;
 % returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 
@@ -49,7 +49,8 @@ switch pshaVersion
         T1LIST = [0 0.1:0.1:0.5 1 1.50 2];
     case 'new'
         % new Aug 2026 data: 27 periods available, up to 5s
-        T1LIST = [0.01 0.05 0.1 0.5 1 1.50 2 3 5];
+        T1LIST = [0.01 0.1:0.1:0.5 1 1.50 2];
+        % T1LIST = [0.01 0.05 0.1 0.5 1 1.50 2 3 5];
     otherwise
         error('Unknown pshaVersion: %s', pshaVersion);
 end
@@ -114,10 +115,10 @@ switch modeIS
         hazardInputs.earthquakeZone = earthquakeZone;
         hazardInputs.returnPeriods = [475 2475];
     case 'MultiZone'
-        hazardInputs.earthquakeZones = {'V','VI'};
+        hazardInputs.earthquakeZones = {'IV','VI'};
         hazardInputs.returnPeriod = 2475; %2475
     case 'Combined'
-        hazardInputs.earthquakeZones = {'V','VI'};
+        hazardInputs.earthquakeZones = {'IV','VI'};
         hazardInputs.returnPeriods = [475 2475];
     otherwise
         error('Unknown modeIS: %s', modeIS);
@@ -132,7 +133,7 @@ end
 
 
 %                 HazCur    Sa(Tcond)      UHS      ISResSpec   UHS_ISRes
-runHazardIndex =  [1           1            1          1            1  ];
+runHazardIndex =  [0           0            0          1            0  ];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -228,7 +229,7 @@ end
 if runHazardIndex(5) == 1
     hazardInputs.locNames = {locName, locName2};                % NEW: two locations
     hazardInputs.latLons = {latLon, latLon2};                    % NEW: latLon per location, matching locNames order
-    hazardInputs.returnPeriods_UHS = 2475;  %[475, 2475];     % NEW: restrict UHS to these two Tr
+    hazardInputs.returnPeriods_UHS = 475;  %[475, 2475];     % NEW: restrict UHS to these two Tr
     [periodsForUHS, UHS_Sa_ALL, UHS_Table_ALL, T_H, Sa_IS_LIST] = sks_UHS_ISResponse_combined_v1(hazardInputs);
 end
 

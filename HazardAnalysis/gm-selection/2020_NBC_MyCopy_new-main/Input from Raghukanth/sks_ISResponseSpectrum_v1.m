@@ -63,7 +63,6 @@ else
     error('sks_ISResponseSpectrum_v1:missingField', 'Specify returnPeriod or returnPeriods.');
 end
 
-locName    = hazardInputs.locName;
 baseFolder = hazardInputs.baseFolder;
 THmax =      hazardInputs.THmax;
 dT_H =       hazardInputs.dT_H;
@@ -157,14 +156,14 @@ if isfield(hazardInputs, 'doSave') && hazardInputs.doSave == 1
     zonesStr = strjoin(eqZones, '&');
 
     if strcmp(plotMode, 'MultiRP')
-        exportName = sprintf('ISDesignResponseSpectrum_Zone%s_%s', zonesStr, locName);
+        exportName = sprintf('ISDesignResponseSpectrum_Zone%s_%s', zonesStr);
 
     elseif strcmp(plotMode, 'MultiZone')
-        exportName = sprintf('ISDesignResponseSpectrum_Zones_%s_Tr%d_%s', zonesStr, rPeriods(1), locName);
+        exportName = sprintf('ISDesignResponseSpectrum_Zones_%s_Tr%d_%s', zonesStr, rPeriods(1));
 
     elseif strcmp(plotMode, 'Combined')
         rpStr = strjoin(string(rPeriods), '-');
-        exportName = sprintf( 'ISDesignResponseSpectrum_Zones_%s_Tr%s_%s', zonesStr, rpStr, locName);
+        exportName = sprintf( 'ISDesignResponseSpectrum_Zones_%s_Tr%s_%s', zonesStr, rpStr);
     end
     sks_figureExport(exportName);
     cd(baseFolder);
