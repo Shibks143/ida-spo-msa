@@ -37,7 +37,7 @@ for i = 1:numDB
 %     legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of selected ground motions');
     htitle = title('Response spectra of selected records (with 2.5/97.5%ile)');
     
-    ylim([0.01, 3])
+    ylim([0.01, 6])
 
     plotHandle(i, 1) = hMeanCMS;
     plotHandle(numDB + i, 1) = hSelRecs(end);

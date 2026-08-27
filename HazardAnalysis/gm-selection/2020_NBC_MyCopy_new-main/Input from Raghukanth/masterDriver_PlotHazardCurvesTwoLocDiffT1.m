@@ -7,7 +7,7 @@ cd(baseFolder)
 
 
 %%% >>> START OF INPUT BLOCK HERE <<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-pshaVersion = 'old';  % 'old' -> 20200111_v4, 'new' -> 20260818_v4
+pshaVersion = 'new';  % 'old' -> 20200111_v4, 'new' -> 20260818_v4
 
 locName = 'Guwahati'; % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
 switch locName      
@@ -37,7 +37,7 @@ switch locName2
         error('Unknown locName2: %s', locName2);
 end
 
-Tcond = 0.0; % conditioning period for return-period-based Sa extraction
+Tcond = 2; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
 returnPeriods_UHS     = returnPeriods_SaTcond;
 % returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 
@@ -116,7 +116,7 @@ switch modeIS
         hazardInputs.returnPeriods = [475 2475];
     case 'MultiZone'
         hazardInputs.earthquakeZones = {'IV','VI'};
-        hazardInputs.returnPeriod = 2475; %2475
+        hazardInputs.returnPeriod = 475; %2475
     case 'Combined'
         hazardInputs.earthquakeZones = {'IV','VI'};
         hazardInputs.returnPeriods = [475 2475];
@@ -133,7 +133,7 @@ end
 
 
 %                 HazCur    Sa(Tcond)      UHS      ISResSpec   UHS_ISRes
-runHazardIndex =  [0           1            0          0            0  ];
+runHazardIndex =  [0          1            0          0            0  ];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,7 +200,7 @@ if runHazardIndex(2) == 1
     for i = 1:length(returnPeriods_SaTcond)
         Tr = returnPeriods_SaTcond(i);
         targetAFE = 1/Tr;
-        targetSa_LIST(i) = interp1(log(afeSorted), imValSorted, log(targetAFE));
+        targetSa_LIST(i) = exp(interp1(log(afeSorted), log(imValSorted), log(targetAFE)));
         fprintf('Return period %5d yr -> Sa(%.2fs) = %.4f g\n', Tr, Tcond, targetSa_LIST(i));
     end
 end

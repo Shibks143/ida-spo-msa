@@ -519,7 +519,7 @@ if showPlots == 1
     hy = ylabel('Median S_a (g)');
     legh = legend([h21, h22], {'exp(target mean lnS_a)','exp(simulated mean lnS_a)'});
     htitle = title('Target and sample median Sa');
-    ylim([0.01, 2])
+    ylim([0.01, 3])
 
     figureFormatScript_forReport
 
@@ -771,7 +771,7 @@ if (showPlots)
         'Selected GM Response spectra'};
 
     legh = legend([h41, h42, h44(end)], strForLegend, 'location', 'southwest');
-    ylim([0.01, 2])
+    ylim([0.01, 3])
 
     figureFormatScript_forReport
     
@@ -790,7 +790,7 @@ if (showPlots)
     hy = ylabel('S_a (g)');
     legh = legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of selected ground motions', 'location', 'southwest');
     htitle = title ('Response spectra of selected ground motions at periods where error is minimized');
-    ylim([0.01, 2])
+    ylim([0.01, 3])
     figureFormatScript_forReport
     
     % Sample and target means
@@ -803,7 +803,7 @@ if (showPlots)
     hy = ylabel('Median S_a (g)');
     legh = legend([h61, h62], {'exp(target mean lnS_a)','exp(selected mean lnS_a)'});
     htitle = title('Target and selected median Sa');
-    ylim([0.01, 2])
+    ylim([0.01, 3])
 
     figureFormatScript_forReport
 

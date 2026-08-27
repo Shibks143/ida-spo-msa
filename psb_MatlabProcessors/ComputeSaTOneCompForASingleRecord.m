@@ -11,7 +11,8 @@ function[SaAbs] = ComputeSaTOneCompForASingleRecord(eqNum, T, dampRat, dT)
     currentFolderPath = [pwd];
     
 % Go to Sorted_Eq_Files folder to get file (folder location is hard-coded)
-    sortedEQFolderPath = 'C:\Benchmarking\Models\Sorted_EQ_Files';
+  sortedEQFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQs';  % added by Shiva on 27-08-2026
+% sortedEQFolderPath = 'C:\Benchmarking\Models\Sorted_EQ_Files';
     cd(sortedEQFolderPath)
 
 % Create the file name and open the TH file (must be in the same folder)

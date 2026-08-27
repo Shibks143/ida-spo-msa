@@ -11,8 +11,8 @@ lithologyType = 'Alluvium'; % Select site lithology; ref: Raghukanth et al (2024
 
 lithGroup = {'metamorphicRocks'; 'sedimentaryRocks'; 'lateriteLayers'; 'Alluvium'};
 ampFactor = [1.25; 1.50; 1.75; 1.85];
-idx = find(strcmp(lithGroup, lithologyType));
-AF = ampFactor(idx);  % Obtain corresponding amplification factor
+idx = strcmp(lithGroup, lithologyType);
+AF  = ampFactor(idx); % Obtain corresponding amplification factor
 
 periodLIST = {'c_0pt01s','c_0pt015s','c_0pt02s','c_0pt03s','c_0pt04s','c_0pt05s','c_0pt06s','c_0pt075s', ...
     'c_0pt09s','c_0pt1s','c_0pt15s','c_0pt2s','c_0pt3s','c_0pt4s','c_0pt5s','c_0pt6s', ...
@@ -47,14 +47,15 @@ buildAndStoreHazTable(fileName, locName, int_g, periodLIST, cDataCell, AF);
 
 %% ===================== helper function =====================
 function buildAndStoreHazTable(fileName, locName, int_g, periodNames, cDataCell, AF)
-% assemble columns: int_g first, then each period's c_* vector, all as column vectors
-cols = [{int_g(:)}, cellfun(@(v) v(:), cDataCell, 'UniformOutput', false)];
-varNames = [{'int_g'}, periodNames];
 
+% apply amplification factor only to intensity measure
+int_g = int_g * AF;
+% assemble columns
+cols = [{int_g(:)}, cellfun(@(v) v(:), cDataCell, 'UniformOutput', false)];
+
+varNames = [{'int_g'}, periodNames];
 hazardCurveTableTemp = table(cols{:}, 'VariableNames', varNames);
 
-% apply amplification factor to every column except int_g
-hazardCurveTableTemp{:, 2:end} = hazardCurveTableTemp{:, 2:end} * AF;
 
 % store under a location-specific variable name
 varName = sprintf('hazardCurveTable_%s', locName);

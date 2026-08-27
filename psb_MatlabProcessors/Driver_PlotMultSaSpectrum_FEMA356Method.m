@@ -42,7 +42,9 @@ clear
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the list of EQs 
     % ATC-63 Set A - First ten records only
-    eqNumberLIST = [1101,	1102,	1103,	1104,	1105,	1106,	1107,	1108,	1109,	1110]; 
+eqNumberLIST = [12011,	12011];
+
+    % eqNumberLIST = [1101,	1102,	1103,	1104,	1105,	1106,	1107,	1108,	1109,	1110]; 
 
 % Input the period range over which to scale the records
     periodForScaling = 1.0; % seconds - % This period MUST BE 1.0 to be consistent with the hazard curve below is anchored being 1.0 second!!!
@@ -50,7 +52,7 @@ clear
     period_high = 1.5 * periodForScaling;       % As per FEMA 356
 
 % Define Sa level and period for scaling
-    saLevelForPlot = 0.60; %0.82;   % g units.  This is what the hazard curve is scaled to and 
+    saLevelForPlot = 0.55; %0.82;   % g units.  This is what the hazard curve is scaled to and 
         
 % Define the damping level for the plot (this must be included in the
 %   SaEQSpectrum_EQ_###.mat files
@@ -79,7 +81,7 @@ clear
     lineSizeForMedianLine = 4;
     lineTypeForStDevLines = 'b-';
     lineSizeForStDevLines = 1;
-    lineTypeForUHS = 'r-'
+    lineTypeForUHS = 'r-';
     lineSizeForUHS = 4;
     
 % Title text
@@ -197,9 +199,9 @@ clear
                 
             % Go back to the Matlab processor folder
                 cd ..;
-                cd MatlabProcessors;
+                cd psb_MatlabProcessors; 
                 
-        end; % end for eqComp loops
+        end % end for eqComp loops
         
         % Loop for all periods and make the SRSS spectrum for this EQ
             clear currentSaVector_SRSS
@@ -229,7 +231,7 @@ clear
         end
         % Now take the average and compute the scale factor
         averageSaOverPeriodRange = mean(spectralValuesInPeriodRange);    % Note that this includes the 1.4 factor            
-        currentScaleFactor = averageScaledHazardCurveOverPeriodRange / averageSaOverPeriodRange
+        currentScaleFactor = averageScaledHazardCurveOverPeriodRange / averageSaOverPeriodRange;
             
         % Create scaled spectra
             eqCompIndex = 1;
@@ -276,7 +278,7 @@ clear
                 SaAbsScaled_forDesiredDampRat_ALLEQs_SRSS(:, recordIndex) = SaAbsScaled_forDesiredDampRat_SRSS(:, eqCompIndex);
                 recordIndex = recordIndex + 1;
 
-    end; % end for EQ loop
+    end % end for EQ loop
     
 % Now compute and plot the statistics of the spectra (if input says to do it)
     % Compute the Ln of all of the data points
@@ -324,8 +326,8 @@ clear
         grid on 
         box on
         title('FEMA 356 Scaling: Individual Component Spectra')
-        hx = xlabel('Period (seconds)')
-        hy = ylabel('Sa_{component} [g]')
+        hx = xlabel('Period (seconds)');
+        hy = ylabel('Sa_{component} [g]');
         FigureFormatScript;
         hold off
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -354,8 +356,8 @@ clear
         grid on 
         box on
         title('FEMA 356 Scaling: SRSS of Spectra')
-        hx = xlabel('Period (seconds)')
-        hy = ylabel('Sa_{SRSS} [g]')
+        hx = xlabel('Period (seconds)');
+        hy = ylabel('Sa_{SRSS} [g]');
         FigureFormatScript;
         hold off
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    

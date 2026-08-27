@@ -1,5 +1,5 @@
 function Zone_factor = sks_getZoneFactor_v1(earthquakeZone, returnPeriod)
-%% Looks up (or log-linearly interpolates) the Earthquake Zone Factor Z
+
 % from Table 3 (Clause 6.2.2.2) -- "Earthquake Zone Factor (Z) for
 % Different Return Periods (T_R) in Different Earthquake Zones".
 %

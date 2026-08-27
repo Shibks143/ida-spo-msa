@@ -64,7 +64,7 @@ for p = 1:nPerUHS
     % Sa corresponding to each return period
     for r = 1:nRP
         targetAFE = 1 / returnPeriods_UHS(r);
-        UHS_Sa(p,r) = interp1(log(afeSorted), imValSorted, log(targetAFE),'linear', NaN);
+        UHS_Sa(p,r) = exp(interp1(log(afeSorted), log(imValSorted), log(targetAFE), 'linear', NaN));
     end
 end
 
