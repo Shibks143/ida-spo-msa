@@ -17,16 +17,21 @@ Vs30 = userInputs.Vs30site;
 mechLIST = userInputs.mech;
 
 % deaggregation characteristics
-magLIST = userInputs.magLIST; distLIST = userInputs.distLIST;
+magLIST = userInputs.magLIST; 
+distLIST = userInputs.distLIST;
 GMMLIST = userInputs.GMM_LIST;
-T1_list = userInputs.T1; SaT1_list = userInputs.SaT1;
-Tmin = userInputs.Tmin; Tmax = userInputs.Tmax;
+T1_list = userInputs.T1; 
+SaT1_list = userInputs.SaT1;
+Tmin = userInputs.Tmin; 
+Tmax = userInputs.Tmax;
 
 % ground motion filtering characteristics
 isScaled = userInputs.allowScaling;
 maxScale = userInputs.maxSF; 
-notAllowedFilters.magLimit = userInputs.magLimit; notAllowedFilters.R_min = userInputs.R_min; 
-notAllowedFilters.Vs30Min = userInputs.Vs30Min; notAllowedFilters.Vs30Max = userInputs.Vs30Max; 
+notAllowedFilters.magLimit = userInputs.magLimit; 
+notAllowedFilters.R_min = userInputs.R_min; 
+notAllowedFilters.Vs30Min = userInputs.Vs30Min; 
+notAllowedFilters.Vs30Max = userInputs.Vs30Max; 
 
 % app.targetWhat? MeanCOVButton or MeanButton 
 useVar = userInputs.useVar; 
@@ -148,27 +153,38 @@ for i = 1:size(databaseLIST, 1)
 
     dirNameForSaving = sprintf('Results_%s_%s', dirNameAndSuffix, replace(tectonic, {'/', '-'}, {'_', '_'})); % Folder name for storing .dat and figures; 
 
-    GMSelectionInputs.tectonic = tectonic; GMSelectionInputs.IM_PSHA = IM_PSHA;
-    GMSelectionInputs.nGM = nGM; GMSelectionInputs.T1 = T1;
-    GMSelectionInputs.numPtsInT1 = numPtsInT1; GMSelectionInputs.isScaled = isScaled;
-    GMSelectionInputs.maxScale = maxScale; GMSelectionInputs.weights = weights;
-    GMSelectionInputs.nLoop = nLoop; GMSelectionInputs.penalty = penalty;
-    GMSelectionInputs.notAllowedFilters = notAllowedFilters; GMSelectionInputs.checkCorr = checkCorr;
-    GMSelectionInputs.seedValue = seedValue; GMSelectionInputs.outputFile = outputFile;
+    GMSelectionInputs.tectonic = tectonic; 
+    GMSelectionInputs.IM_PSHA = IM_PSHA;
+    GMSelectionInputs.nGM = nGM; 
+    GMSelectionInputs.T1 = T1;
+    GMSelectionInputs.numPtsInT1 = numPtsInT1; 
+    GMSelectionInputs.isScaled = isScaled;
+    GMSelectionInputs.maxScale = maxScale; 
+    GMSelectionInputs.weights = weights;
+    GMSelectionInputs.nLoop = nLoop; 
+    GMSelectionInputs.penalty = penalty;
+    GMSelectionInputs.notAllowedFilters = notAllowedFilters; 
+    GMSelectionInputs.checkCorr = checkCorr;
+    GMSelectionInputs.seedValue = seedValue; 
+    GMSelectionInputs.outputFile = outputFile;
     GMSelectionInputs.folderNameForSaving = dirNameForSaving;
-    GMSelectionInputs.M_bar = M_bar; GMSelectionInputs.Rjb_bar = Rjb_bar;
+    GMSelectionInputs.M_bar = M_bar; 
+    GMSelectionInputs.Rjb_bar = Rjb_bar;
     GMSelectionInputs.Vs30 = Vs30;
-    GMSelectionInputs.arb = arb; GMSelectionInputs.showPlots = showPlots;
-    GMSelectionInputs.useVar = useVar; GMSelectionInputs.faultType = mech;
-    GMSelectionInputs.GMPM = GMPM; GMSelectionInputs.gmmDir = gmmDir;
-    GMSelectionInputs.T_range = T_range; GMSelectionInputs.databaseToUse = databaseToUse;
+    GMSelectionInputs.arb = arb; 
+    GMSelectionInputs.showPlots = showPlots;
+    GMSelectionInputs.useVar = useVar; 
+    GMSelectionInputs.faultType = mech;
+    GMSelectionInputs.GMPM = GMPM; 
+    GMSelectionInputs.gmmDir = gmmDir;
+    GMSelectionInputs.T_range = T_range; 
+    GMSelectionInputs.databaseToUse = databaseToUse;
 
-%     eps_bar = step2_compareMeanValsAndFindEps_v2(M_bar, Rjb_bar, IM_PSHA, T1, Vs30, faultType, GMPM, gmmDir);
-    % find eps_bar; assign it to inputs and pass on to selection function
+%% find eps_bar; assign it to inputs and pass on to selection function  
     eps_bar = step2_compareMeanValsAndFindEps_v2(GMSelectionInputs);
     
     GMSelectionInputs.eps_bar = eps_bar; 
-
+%% execute ground motion selection function
     selectedRecords = step3_Select_GMs_Baker_NGA_KiK(GMSelectionInputs);
 
     % for multiple tectonics, update forbiddenRecs before next selection
@@ -209,21 +225,23 @@ if sum(abs(diff(magLIST))) < 1e-4 && sum(abs(diff(distLIST))) < 1e-4
     isEqualM_R_tuple = 1;
 end
 
-% plot combined plot of individual response spectrum
+%% plot combined plot of individual response spectrum
     step10a_plotPSaRecordsCombined(selectedRecordsComb, colorRecLIST);
 
-% plot mean and sigma of different targets
+%% plot mean and sigma of different targets
     step10b_plotMeanSigmaCombined(selectedRecordsComb, isEqualM_R_tuple);
-    
+  
+
 % save combine figures for the app
 cd(dirCombined);
 
-extensions = {'fig', 'epsc', 'png'}; % 'meta'
-for k = 1:length(extensions)
-    exportName = '1_AllRecordsSa'; figure(99); saveas(gcf, exportName, extensions{k})
-    exportName = '2_recordsMedian'; figure(88); saveas(gcf, exportName, extensions{k})
-    exportName = '3_recordsSigma'; figure(77); saveas(gcf, exportName, extensions{k})
-end
+figure(99);
+sks_figureExport('1_AllRecordsSa');
+figure(88);
+sks_figureExport('2_recordsMedian');
+figure(77);
+sks_figureExport('3_recordsSigma');
+
 
 % send some info for the app
 tectonic = repelem(databaseLIST, nGMLIST, 1); 

@@ -2,22 +2,34 @@
 function selectedRecords = step3_Select_GMs_Baker_NGA_KiK(GMSelectionInputs)
 
 % assign fields to local variables for easy calls
-    tectonic = GMSelectionInputs.tectonic;
-    nGM = GMSelectionInputs.nGM;	T1 = GMSelectionInputs.T1;
-    numPtsInT1 = GMSelectionInputs.numPtsInT1;	isScaled = GMSelectionInputs.isScaled;
-    maxScale = GMSelectionInputs.maxScale;	weights = GMSelectionInputs.weights;
-    nLoop = GMSelectionInputs.nLoop;	penalty = GMSelectionInputs.penalty;
-    notAllowedFilters = GMSelectionInputs.notAllowedFilters;	checkCorr = GMSelectionInputs.checkCorr;
-    seedValue = GMSelectionInputs.seedValue;	outputFile = GMSelectionInputs.outputFile;
-    dirNameForSaving = GMSelectionInputs.folderNameForSaving;	   
-    M_bar = GMSelectionInputs.M_bar;	Rjb_bar = GMSelectionInputs.Rjb_bar;
-    eps_bar = GMSelectionInputs.eps_bar;	Vs30 = GMSelectionInputs.Vs30;
-    arb = GMSelectionInputs.arb;	showPlots = GMSelectionInputs.showPlots;
-    useVar = GMSelectionInputs.useVar;	faultType = GMSelectionInputs.faultType;
-    GMPM = GMSelectionInputs.GMPM;	gmmDir = GMSelectionInputs.gmmDir;
-    T_range = GMSelectionInputs.T_range;	databaseToUse = GMSelectionInputs.databaseToUse;
-    forbiddenRecs_NGA = GMSelectionInputs.NGA_W2.forbiddenRecs;
-    forbiddenRecs_KiK = GMSelectionInputs.KiK_NET.forbiddenRecs;
+tectonic = GMSelectionInputs.tectonic;
+nGM = GMSelectionInputs.nGM;	
+T1 = GMSelectionInputs.T1;
+numPtsInT1 = GMSelectionInputs.numPtsInT1;	
+isScaled = GMSelectionInputs.isScaled;
+maxScale = GMSelectionInputs.maxScale;	
+weights = GMSelectionInputs.weights;
+nLoop = GMSelectionInputs.nLoop;	
+penalty = GMSelectionInputs.penalty;
+notAllowedFilters = GMSelectionInputs.notAllowedFilters;	
+checkCorr = GMSelectionInputs.checkCorr;
+seedValue = GMSelectionInputs.seedValue;	
+outputFile = GMSelectionInputs.outputFile;
+dirNameForSaving = GMSelectionInputs.folderNameForSaving;
+M_bar = GMSelectionInputs.M_bar;	
+Rjb_bar = GMSelectionInputs.Rjb_bar;
+eps_bar = GMSelectionInputs.eps_bar;	
+Vs30 = GMSelectionInputs.Vs30;
+arb = GMSelectionInputs.arb;	
+showPlots = GMSelectionInputs.showPlots;
+useVar = GMSelectionInputs.useVar;	
+faultType = GMSelectionInputs.faultType;
+GMPM = GMSelectionInputs.GMPM;	
+gmmDir = GMSelectionInputs.gmmDir;
+T_range = GMSelectionInputs.T_range;	
+databaseToUse = GMSelectionInputs.databaseToUse;
+forbiddenRecs_NGA = GMSelectionInputs.NGA_W2.forbiddenRecs;
+forbiddenRecs_KiK = GMSelectionInputs.KiK_NET.forbiddenRecs;
 
 baseFolder = pwd;
 %% Sample user inputs begins here
@@ -27,7 +39,7 @@ baseFolder = pwd;
 % nLoop      = 1; % changed it to 1 for 250 GM selection (otherwise the runtime is over 5 hours).
 %                 % 1 is good enough, if greedy algorithm is applied. There are a very good matches of median and correl
 % penalty    = 0; % notAllowed = []; % checkCorr  = 0; % change it to 1, if correlation plots are required
-% seedValue  = 1; 
+% seedValue  = 1;
 % M_bar     = 6.36; % R_bar     = 22.5; % eps_bar   = 1.03;
 % Vs30      = 760; % arb       = 0; % showPlots = 1; % useVar    = 1; % faultType = 'Reverse'; % GMPM = 'BA08';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,8 +54,8 @@ Rrup_bar   = Rjb_bar; % Can be modified by the user
 % Rjb_bar    = R_bar; % Can be modified by the user (renamed the variable, since the updated NGA database has Rjb as the variable)
 
 % record filtering criteria
-magLimit = notAllowedFilters.magLimit; R_min = notAllowedFilters.R_min; 
-Vs30Min = notAllowedFilters.Vs30Min; Vs30Max = notAllowedFilters.Vs30Max; 
+magLimit = notAllowedFilters.magLimit; R_min = notAllowedFilters.R_min;
+Vs30Min = notAllowedFilters.Vs30Min; Vs30Max = notAllowedFilters.Vs30Max;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -148,62 +160,63 @@ switch databaseToUse
         NGA_data_valid = NGA_data;
         % remove invalid rows in all variables except for Periods, getTimeSeries, and readme
         % RSN is stored as NGA_data_valid.NGA_num
-        NGA_data_valid.NGA_num(rec_ID_invalid, :) = []; 
-        
-        NGA_data_valid.Sa_1(rec_ID_invalid, :) = [];  NGA_data_valid.Sa_2(rec_ID_invalid, :) = [];  
-        NGA_data_valid.soil_Vs30(rec_ID_invalid, :) = []; 
-        NGA_data_valid.magnitude(rec_ID_invalid, :) = [];  NGA_data_valid.Rjb(rec_ID_invalid, :) = []; 
-        NGA_data_valid.closest_D(rec_ID_invalid, :) = []; 
+        NGA_data_valid.NGA_num(rec_ID_invalid, :) = [];
 
-%         NGA_data_valid.EQID(rec_ID_invalid, :) = []; NGA_data_valid.EQ_name(rec_ID_invalid, :) = []; NGA_data_valid.EQ_year(rec_ID_invalid, :) = []; NGA_data_valid.Filename_1(rec_ID_invalid, :) = [];
-%         NGA_data_valid.Filename_2(rec_ID_invalid, :) = []; NGA_data_valid.Filename_FN(rec_ID_invalid, :) = []; NGA_data_valid.Filename_FP(rec_ID_invalid, :) = [];
-%         NGA_data_valid.Filename_vert(rec_ID_invalid, :) = []; NGA_data_valid.NGA_num(rec_ID_invalid, :) = []; NGA_data_valid.Rjb(rec_ID_invalid, :) = []; NGA_data_valid.Sa_1(rec_ID_invalid, :) = [];
-%         NGA_data_valid.Sa_2(rec_ID_invalid, :) = []; NGA_data_valid.Sa_RotD100(rec_ID_invalid, :) = []; NGA_data_valid.Sa_RotD50(rec_ID_invalid, :) = []; NGA_data_valid.Sa_vert(rec_ID_invalid, :) = [];
-%         NGA_data_valid.Tp_FN(rec_ID_invalid, :) = []; NGA_data_valid.Tp_FP(rec_ID_invalid, :) = []; NGA_data_valid.closest_D(rec_ID_invalid, :) = []; NGA_data_valid.combined_D(rec_ID_invalid, :) = [];
-%         NGA_data_valid.dirLocation(rec_ID_invalid, :) = []; NGA_data_valid.eqid(rec_ID_invalid, :) = []; NGA_data_valid.fw_hw_indicator(rec_ID_invalid, :) = [];
-%         NGA_data_valid.hypo_lat(rec_ID_invalid, :) = []; NGA_data_valid.hypo_long(rec_ID_invalid, :) = []; NGA_data_valid.is_pulse_FN(rec_ID_invalid, :) = [];
-%         NGA_data_valid.is_pulse_FP(rec_ID_invalid, :) = []; NGA_data_valid.lowest_usable_freq(rec_ID_invalid, :) = []; NGA_data_valid.magnitude(rec_ID_invalid, :) = [];
-%         NGA_data_valid.mechanism(rec_ID_invalid, :) = []; NGA_data_valid.soil_GMX_1(rec_ID_invalid, :) = []; NGA_data_valid.soil_GMX_2(rec_ID_invalid, :) = [];
-%         NGA_data_valid.soil_GMX_3(rec_ID_invalid, :) = []; NGA_data_valid.soil_NEHRP(rec_ID_invalid, :) = []; NGA_data_valid.soil_Vs30(rec_ID_invalid, :) = [];
-%         NGA_data_valid.station_lat(rec_ID_invalid, :) = []; NGA_data_valid.station_long(rec_ID_invalid, :) = []; NGA_data_valid.station_name(rec_ID_invalid, :) = [];
-%         NGA_data_valid.station_seq_num(rec_ID_invalid, :) = [];
-    
-    % assign database variables to local variables
+        NGA_data_valid.Sa_1(rec_ID_invalid, :) = [];  NGA_data_valid.Sa_2(rec_ID_invalid, :) = [];
+        NGA_data_valid.soil_Vs30(rec_ID_invalid, :) = [];
+        NGA_data_valid.magnitude(rec_ID_invalid, :) = [];  NGA_data_valid.Rjb(rec_ID_invalid, :) = [];
+        NGA_data_valid.closest_D(rec_ID_invalid, :) = [];
+
+        %         NGA_data_valid.EQID(rec_ID_invalid, :) = []; NGA_data_valid.EQ_name(rec_ID_invalid, :) = []; NGA_data_valid.EQ_year(rec_ID_invalid, :) = []; NGA_data_valid.Filename_1(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.Filename_2(rec_ID_invalid, :) = []; NGA_data_valid.Filename_FN(rec_ID_invalid, :) = []; NGA_data_valid.Filename_FP(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.Filename_vert(rec_ID_invalid, :) = []; NGA_data_valid.NGA_num(rec_ID_invalid, :) = []; NGA_data_valid.Rjb(rec_ID_invalid, :) = []; NGA_data_valid.Sa_1(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.Sa_2(rec_ID_invalid, :) = []; NGA_data_valid.Sa_RotD100(rec_ID_invalid, :) = []; NGA_data_valid.Sa_RotD50(rec_ID_invalid, :) = []; NGA_data_valid.Sa_vert(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.Tp_FN(rec_ID_invalid, :) = []; NGA_data_valid.Tp_FP(rec_ID_invalid, :) = []; NGA_data_valid.closest_D(rec_ID_invalid, :) = []; NGA_data_valid.combined_D(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.dirLocation(rec_ID_invalid, :) = []; NGA_data_valid.eqid(rec_ID_invalid, :) = []; NGA_data_valid.fw_hw_indicator(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.hypo_lat(rec_ID_invalid, :) = []; NGA_data_valid.hypo_long(rec_ID_invalid, :) = []; NGA_data_valid.is_pulse_FN(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.is_pulse_FP(rec_ID_invalid, :) = []; NGA_data_valid.lowest_usable_freq(rec_ID_invalid, :) = []; NGA_data_valid.magnitude(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.mechanism(rec_ID_invalid, :) = []; NGA_data_valid.soil_GMX_1(rec_ID_invalid, :) = []; NGA_data_valid.soil_GMX_2(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.soil_GMX_3(rec_ID_invalid, :) = []; NGA_data_valid.soil_NEHRP(rec_ID_invalid, :) = []; NGA_data_valid.soil_Vs30(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.station_lat(rec_ID_invalid, :) = []; NGA_data_valid.station_long(rec_ID_invalid, :) = []; NGA_data_valid.station_name(rec_ID_invalid, :) = [];
+        %         NGA_data_valid.station_seq_num(rec_ID_invalid, :) = [];
+
+        % assign database variables to local variables
         NGA_num = NGA_data_valid.NGA_num;
 
         Periods = NGA_data_valid.Periods;
         Sa_1 = NGA_data_valid.Sa_1; Sa_2 = NGA_data_valid.Sa_2;
         soil_Vs30 = NGA_data_valid.soil_Vs30;
         mag = NGA_data_valid.magnitude; Rjb = NGA_data_valid.Rjb; closest_D = NGA_data_valid.closest_D;
-    % mechanism in NGA_W2 is 0 for Strike Slip, 1 for Normal, 2 for Reverse, 3 for Reverse Oblique, 4 for Normal Oblique, and -999 for unknown
+        % mechanism in NGA_W2 is 0 for Strike Slip, 1 for Normal, 2 for Reverse, 3 for Reverse Oblique, 4 for Normal Oblique, and -999 for unknown
 
     case 'KiK_NET'
-    % always load as a structure to not mix up existing variables in this function
+        % always load as a structure to not mix up existing variables in this function
         KiK_data = load('..\Database\KiK_NET_meta_data_surface'); % Load KiK-NET database for surface seismographs
-    
-    % remove forbidden records
+
+        % remove forbidden records
         KiK_data_toUse = KiK_data; % create a copy of useable KiK records after removing forbidden records
         if ~isempty(forbiddenRecs_KiK)
             [~, b] = ismember(forbiddenRecs_KiK, KiK_data.EQID);
-            KiK_data_toUse.EQID(b, :) = []; KiK_data_toUse.X(b, :) = []; 
-            KiK_data_toUse.Sa_NS2(b, :) = []; KiK_data_toUse.Sa_EW2(b, :) = []; 
-            KiK_data_toUse.soil_Vs30(b, :) = []; KiK_data_toUse.magnitude(b, :) = []; 
-            KiK_data_toUse.Rjb(b, :) = []; KiK_data_toUse.rrup_0(b, :) = []; 
+            KiK_data_toUse.EQID(b, :) = []; KiK_data_toUse.X(b, :) = [];
+            KiK_data_toUse.Sa_NS2(b, :) = []; KiK_data_toUse.Sa_EW2(b, :) = [];
+            KiK_data_toUse.soil_Vs30(b, :) = []; KiK_data_toUse.magnitude(b, :) = [];
+            KiK_data_toUse.Rjb(b, :) = []; KiK_data_toUse.rrup_0(b, :) = [];
         end
-        
-    % assign database variables to local variables
+
+        % assign database variables to local variables
         Periods = KiK_data_toUse.Periods;
-        EQID_KiK = KiK_data_toUse.EQID; X_KiK = KiK_data_toUse.X; 
+        EQID_KiK = KiK_data_toUse.EQID; X_KiK = KiK_data_toUse.X;
         Sa_1 = KiK_data_toUse.Sa_NS2; Sa_2 = KiK_data_toUse.Sa_EW2;
-        soil_Vs30 = KiK_data_toUse.soil_Vs30; mag = KiK_data_toUse.magnitude; 
+        soil_Vs30 = KiK_data_toUse.soil_Vs30; mag = KiK_data_toUse.magnitude;
         Rjb = KiK_data_toUse.Rjb; closest_D = KiK_data_toUse.rrup_0;
 
-    % Tectonic regime: 1 for Interface, 2 for Shallow Crustal, 3 for Intraslab, 4 for Upper Mantle (no data), 5 for Outer Subduction, and -99 for unknown [Garcia et al. 2012]
-    % Mechanism: 1 for Reverse Slip, 2 for Strike Slip, 3 for Normal, -99 for unknown [Garcia et al. 2012]
+        % Tectonic regime: 1 for Interface, 2 for Shallow Crustal, 3 for Intraslab, 4 for Upper Mantle (no data), 5 for Outer Subduction, and -99 for unknown [Garcia et al. 2012]
+        % Mechanism: 1 for Reverse Slip, 2 for Strike Slip, 3 for Normal, -99 for unknown [Garcia et al. 2012]
 end
 
 SaKnown    = sqrt(Sa_1.*Sa_2);
 perKnown   = Periods;
+
 % % nGM        = 12;
 % % T1         = 2.12;
 % % isScaled   = 1;
@@ -282,33 +295,55 @@ perKnown   = Periods;
 % % PerTgt    = logspace(log10(0.2*T1),log10(2*T1),20);
 % % showPlots = 1;
 % % useVar    = 1;
-% % 
+% %
 % % Rrup   = R_bar; % Can be modified by the user
 % % Rjb    = R_bar; % Can be modified by the user
-% % 
+% %
 % % faultType = 'Reverse';
-% % 
+% %
 % % %     GMPE = 'CB_2008_nga';
 % %     GMPE = 'BA_2008_nga';
-        
+
 
 % specific to Boore Atkinson 2008 GMPM
 % [sa, sigma] = BA_2008_nga (M, T, Rjb, Fault_Type, Vs30)
 % Rjb = Joyner-Boore distance (km)
-% Fault_Type    = 1 for unspecified fault 
+% Fault_Type    = 1 for unspecified fault
 %               = 2 for strike-slip fault
 %               = 3 for normal fault
 %               = 4 for reverse fault
 
-    if(strcmp(faultType, 'Strike-slip'))
-        Fault_Type = 2;
-    elseif(strcmp(faultType, 'Normal'))
-        Fault_Type = 3;
-    elseif(strcmp(faultType, 'Reverse') || strcmp(faultType, 'Thrust'))
-        Fault_Type = 4;
-    else
-        Fault_Type = 1;
-    end
+if(strcmp(faultType, 'Strike-slip'))
+    Fault_Type = 2;
+elseif(strcmp(faultType, 'Normal'))
+    Fault_Type = 3;
+elseif(strcmp(faultType, 'Reverse') || strcmp(faultType, 'Thrust'))
+    Fault_Type = 4;
+else
+    Fault_Type = 1;
+end
+
+% Fault mechanism parameters for ASK14: Dip angle (delta) and Rake angle (lambda): added by shivakumar ks, on 29-Aug-2026
+if(strcmp(faultType, 'Strike-slip'))
+    delta_ASK = 90; lambda_ASK = 0;
+elseif(strcmp(faultType, 'Normal'))
+    delta_ASK = 50; lambda_ASK = -90;
+elseif(strcmp(faultType, 'Reverse') || strcmp(faultType, 'Thrust'))
+    delta_ASK = 45; lambda_ASK = 90;
+else
+    delta_ASK = 45; lambda_ASK = 0;
+end
+
+% Fault mechanism parameters for CY14: Dip angle (delta) and Rake angle (lambda): added by shivakumar ks, on 29-Aug-2026
+if(strcmp(faultType, 'Strike-slip'))
+    delta_CY = 90; lambda_CY = 0;
+elseif(strcmp(faultType, 'Normal'))
+    delta_CY = 50; lambda_CY = -90;
+elseif(strcmp(faultType, 'Reverse') || strcmp(faultType, 'Thrust'))
+    delta_CY = 45; lambda_CY = 90;
+else
+    delta_CY = 45; lambda_CY = 0;
+end
 
 % Modify perTgt to include T1
 if ~any(PerTgt == T1)
@@ -322,7 +357,7 @@ sa = zeros(1,length(PerTgt));
 sigma = zeros(1,length(PerTgt));
 for i = 1:length(PerTgt)
     if strcmp(GMPM, 'CB08')
-        [sa(1,i), sigma(1,i)] = CB_2008_nga (M_bar, PerTgt(i), Rrup_bar, Rjb_bar, Ztor, delta, lambda, Vs30, Zvs, arb);
+        [sa(1,i), sigma(1,i)] = CB_2008_nga(M_bar, PerTgt(i), Rrup_bar, Rjb_bar, Ztor, delta, lambda, Vs30, Zvs, arb);
     elseif strcmp(GMPM, 'BA08')
         [sa(1,i), sigma(1,i)] = BA_2008_nga(M_bar, PerTgt(i), Rjb_bar, Fault_Type, Vs30);
     elseif strcmp(GMPM, 'BSSA14')
@@ -351,10 +386,10 @@ for i = 1:length(PerTgt)
             sa(1,i) = ratioSaT1_to_SaTmax * sa_AB03_Sub_Tmax;
             sigma(1,i) = sigma_AB03_Sub_Tmax;
         end
-        elseif strcmp(GMPM, 'Zhao06')
+    elseif strcmp(GMPM, 'Zhao06')
         if(strcmp(tectonic, 'Crustal')); FR = 1; SI = 0; SS = 0;
-        elseif(strcmp(tectonic, ' Interface/Subduction')); FR = 0; SI = 1; SS = 0; 
-        else; FR = 0; SI = 0; SS = 0; 
+        elseif(strcmp(tectonic, ' Interface/Subduction')); FR = 0; SI = 1; SS = 0;
+        else; FR = 0; SI = 0; SS = 0;
         end
         if PerTgt(i) <= 5
             [sa(1,i), sigma(1,i)] = Zhao_2006(PerTgt(i), M_bar,Rjb_bar,Rjb_bar,Vs30,FR,SI,SS,1);
@@ -373,6 +408,12 @@ for i = 1:length(PerTgt)
             sa(1,i) = ratioSaT1_to_SaTmax * sa_Zhao06_Tmax;
             sigma(1,i) = sigma_Zhao06_Tmax;
         end
+    elseif strcmp(GMPM, 'ASK14')                               %%% added by shivakumar ks, on 29-Aug-2026
+        [sa(1,i), sigma(1,i), ~] = ASK_2014_nga(M_bar, PerTgt(i), Rrup_bar, Rjb_bar, 0, 0, 999, delta_ASK, lambda_ASK, 0, 0, 999, 999, Vs30, 1, 0);
+
+    elseif strcmp(GMPM, 'CY14')                                %%% added by shivakumar ks, on 29-Aug-2026
+        [sa(1,i), sigma(1,i), ~] = CY_2014_nga(M_bar, PerTgt(i), Rrup_bar, Rjb_bar, 0, 0, delta_CY, lambda_CY, 999, Vs30, 0, 1, 0);
+
     else
         error('GMPE not in the list! Add the specific model here and execute again.')
     end
@@ -391,7 +432,7 @@ for i = 1:length(PerTgt)
 end
 
 if GMSelectionInputs.meanTargetCMS == 1
-    meanReq = log(sa) + sigma.*eps_bar.*rho; % CMS, basically 
+    meanReq = log(sa) + sigma.*eps_bar.*rho; % CMS, basically
 else % if GMSelectionInputs.meanTargetCMS == 0
     meanReq = log(sa) + sigma.*eps_bar; % UHS, basically (07-01-22, psb)
 end
@@ -404,38 +445,38 @@ UHS = exp(log(sa) + sigma.*eps_bar);
 covReq = zeros(length(PerTgt));
 for i=1:length(PerTgt)
     for j=1:length(PerTgt)
-        
-    % Periods
-    Ti = PerTgt(i); 
-    Tj = PerTgt(j);
-    
-    % Means and variances
-    rec1 = find(PerTgt == Ti); 
-    rec2 = find(PerTgt == Tj);
-    var1 = sigma(rec1)^2; 
-    var2 = sigma(rec2)^2;
-    
-    rec = find(PerTgt == T1);
 
-% (8-5-16, PSB) replaced the following obsolete set of codes by one single line given by corresponding term in the equation (9)
-% of Jayaram Lin Baker (2011) paper (first reference in this code)
+        % Periods
+        Ti = PerTgt(i);
+        Tj = PerTgt(j);
 
-%         varT = sigma(rec)^2;
-%         sigma11 = [var1                                                 baker_jayaram_correlation(Ti, Tj)*sqrt(var1*var2);
-%                    baker_jayaram_correlation(Ti, Tj)*sqrt(var1*var2)    var2                                            ];
-%         sigma22 = varT;
-%         sigma12 = [baker_jayaram_correlation(Ti, T1)*sqrt(var1*varT);
-%                    baker_jayaram_correlation(T1, Tj)*sqrt(var2*varT)];
-% %         sigmaCond = sigma11 - sigma12*inv(sigma22)*(sigma12)';
-%         sigmaCond = sigma11 - (1/sigma22)*(sigma12*sigma12');
-%         covReq(i,j) = sigmaCond(1,2);
-        
+        % Means and variances
+        rec1 = find(PerTgt == Ti);
+        rec2 = find(PerTgt == Tj);
+        var1 = sigma(rec1)^2;
+        var2 = sigma(rec2)^2;
+
+        rec = find(PerTgt == T1);
+
+        % (8-5-16, PSB) replaced the following obsolete set of codes by one single line given by corresponding term in the equation (9)
+        % of Jayaram Lin Baker (2011) paper (first reference in this code)
+
+        %         varT = sigma(rec)^2;
+        %         sigma11 = [var1                                                 baker_jayaram_correlation(Ti, Tj)*sqrt(var1*var2);
+        %                    baker_jayaram_correlation(Ti, Tj)*sqrt(var1*var2)    var2                                            ];
+        %         sigma22 = varT;
+        %         sigma12 = [baker_jayaram_correlation(Ti, T1)*sqrt(var1*varT);
+        %                    baker_jayaram_correlation(T1, Tj)*sqrt(var2*varT)];
+        % %         sigmaCond = sigma11 - sigma12*inv(sigma22)*(sigma12)';
+        %         sigmaCond = sigma11 - (1/sigma22)*(sigma12*sigma12');
+        %         covReq(i,j) = sigmaCond(1,2);
+
         if useVar == 0 % either CMS or UHS, but only with mean is targeted
             covReq(i,j) = 0.0;
         elseif useVar == 1 && GMSelectionInputs.meanTargetCMS == 1 % CMS and COV are targeted
             % General conditional covariance term
             covReq(i,j) = step3a_baker_jayaram_correlation(Ti, Tj) * sqrt(var1*var2) - ...
-                      step3a_baker_jayaram_correlation(Ti, T1) * step3a_baker_jayaram_correlation(Tj, T1) * sqrt(var1*var2);
+                step3a_baker_jayaram_correlation(Ti, T1) * step3a_baker_jayaram_correlation(Tj, T1) * sqrt(var1*var2);
 
         elseif useVar == 1 && GMSelectionInputs.meanTargetCMS == 0 % UHS and its dispersion aer targeted. Note- It is unconditional.
             covReq(i,j) = step3a_baker_jayaram_correlation(Ti, Tj) * sqrt(var1*var2);
@@ -455,10 +496,10 @@ end
 nTrials = 20;
 % Setting initial seed for simulation
 if seedValue ~= 0
-%     randn('seed',seedValue);
+    %     randn('seed',seedValue);
     rng(seedValue, 'v5normal'); % updated the random number generator
 else
-%     randn('seed', sum(100*clock));
+    %     randn('seed', sum(100*clock));
     rng(sum(100*clock), 'v5normal');
 end
 devTotalSim = zeros(nTrials,1);
@@ -471,13 +512,13 @@ for j=1:nTrials
     devSkewSim = skewness(log(gmCell{j}),1);
     devSigSim = std(log(gmCell{j})) - sqrt(diag(covReq))';
     devTotalSim(j) = weights(1) * sum(devMeanSim.^2) + weights(2) * sum(devSigSim.^2)+ 0.1 * (weights(1)+weights(2)) * sum(devSkewSim.^2);
-%     devTotalSim(j) = weights(1) * sum(devMeanSim.^2) + weights(2) * sum(devSigSim.^2);
+    %     devTotalSim(j) = weights(1) * sum(devMeanSim.^2) + weights(2) * sum(devSigSim.^2);
 end
 [tmp, recUse] = min(abs(devTotalSim));
 gm = gmCell{recUse};
 
 if showPlots == 1
-    
+
     % Plot simulated response spectra
     figure
     h12 = loglog(PerTgt, exp(meanReq + 1.96*sqrt(diag(covReq))'), '--r', 'linewidth', 3);
@@ -485,63 +526,81 @@ if showPlots == 1
     for i=1:nGM
         h13 = loglog(PerTgt,gm,'color',[0.5 0.5 0.5]);
     end
-% Median curve is plotted later to bring the CMS, UHS and bounds at the top. 
+    % Median curve is plotted later to bring the CMS, UHS and bounds at the top.
     h11 = loglog(PerTgt, exp(meanReq), '-r', 'linewidth', 3);
     h14 = loglog(PerTgt, exp(meanReq - 1.96*sqrt(diag(covReq))'), '--r', 'linewidth', 3);
     h15 = plot(PerTgt, UHS, 'b-', 'LineWidth', 3);
-    
-    axis([min(PerTgt) max(PerTgt) 1e-2 2])
-    hx = xlabel('Period (s)');
-    hy = ylabel('S_a (g)');
-%     legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of simulated ground motions')
-    strForLegend = {'Median response spectrum (CMS)'
-                    '2.5 and 97.5 %ile response spectra'
-                    'Simulated response spectra'
-                    'Uniform Hazard Spectrum (UHS)'};
 
-    legh = legend([h11, h12, h13(end), h15], strForLegend, 'location', 'southwest');
+    axis([min(PerTgt) max(PerTgt) 1e-2 5])
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('$S_a$ (g)', 'Interpreter', 'latex');
+    strForLegend = { ...
+        'Median response spectrum (CMS)', ...
+        '2.5 and 97.5\%ile response spectra', ...
+        'Simulated response spectra', ...
+        'Uniform Hazard Spectrum (UHS)'};
 
-    htitle = title('Response spectra of simulated ground motions');
-    
-    figureFormatScript_forReport
-    
+    % xlabel('Period (s)');
+    % ylabel('S_a (g)');
+    %     legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of simulated ground motions')
+    % strForLegend = {'Median response spectrum (CMS)'
+    %                 '2.5 and 97.5 %ile response spectra'
+    %                 'Simulated response spectra'
+    %                 'Uniform Hazard Spectrum (UHS)'};
+
+    legend([h11, h12, h13(end), h15], strForLegend, 'location', 'southwest');
+    title('Response spectra of simulated ground motions');
+
+    sks_figureFormat('powerpoint')
+    % figureFormatScript_forReport
+
 
     exportName = sprintf('3a_Fig1_SimulatedGMsWithCMS_%i',nGM);
     step3b_psb_SaveFigure(dirNameForSaving, exportName) % save .fig, .eps, .png, .emf files
-    
+
     % Plot target and simulated means
     figure
     h21 = loglog(PerTgt,exp(meanReq), 'r-', 'LineWidth', 3);
     hold on
     h22 = loglog(PerTgt,exp(mean(log(gm))),'b--', 'LineWidth', 3);
     axis([min(PerTgt) max(PerTgt) 1e-2 5])
-    hx = xlabel('Period (s)');
-    hy = ylabel('Median S_a (g)');
-    legh = legend([h21, h22], {'exp(target mean lnS_a)','exp(simulated mean lnS_a)'});
-    htitle = title('Target and sample median Sa');
-    ylim([0.01, 3])
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('Median $S_a$ (g)', 'Interpreter', 'latex');
+    legend([h21, h22], {'$\exp(\mathrm{target\ mean}\ \ln S_a)$', '$\exp(\mathrm{simulated\ mean}\ \ln S_a)$'}, 'Interpreter', 'latex');
+    title('Target and sample median $S_a$', 'Interpreter', 'latex');
+    % xlabel('Period (s)');
+    % ylabel('Median S_a (g)');
+    % legend([h21, h22], {'exp(target mean lnS_a)','exp(simulated mean lnS_a)'});
+    % title('Target and sample median Sa');
+    ylim([0.01, 5])
+    sks_figureFormat('powerpoint')
 
-    figureFormatScript_forReport
+    % figureFormatScript_forReport
 
     exportName = sprintf('3b_Fig2_SimulatedMedian_%i', nGM);
     step3b_psb_SaveFigure(dirNameForSaving, exportName)
-    
-% Plot target and simulated standard deviations
+
+    % Plot target and simulated standard deviations
     figure
     h31 = semilogx(PerTgt,sqrt(diag(covReq))', 'r-', 'LineWidth', 3);
     hold on
     h32 = semilogx(PerTgt,std(log(gm)), 'b--', 'LineWidth', 3);
     axis([min(PerTgt) max(PerTgt) 0 0.7])
-    hx = xlabel('Period (s)');
-    hy = ylabel('\sigma(lnS_a)');
-    legh = legend([h31, h32], {'Target \sigma(lnS_a)','Simulated \sigma(lnS_a)'});
-    htitle = title('Target and simulated \sigma(ln S_a)');
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('$\sigma(\ln S_a)$', 'Interpreter', 'latex');
+    legend([h31, h32], {'Target $\sigma(\ln S_a)$', 'Simulated $\sigma(\ln S_a)$'}, 'Interpreter', 'latex');
+    title('Target and simulated $\sigma(\ln S_a)$', 'Interpreter', 'latex');
+    % xlabel('Period (s)');
+    % ylabel('\sigma(lnS_a)');
+    % legend([h31, h32], {'Target \sigma(lnS_a)','Simulated \sigma(lnS_a)'});
+    % title('Target and simulated \sigma(ln S_a)');
+    sks_figureFormat('powerpoint')
 
-    figureFormatScript_forReport
+    % figureFormatScript_forReport
 
     exportName = sprintf('3c_Fig3_SimulatedVar_%i',nGM);
     step3b_psb_SaveFigure(dirNameForSaving, exportName)
-    
+
 end
 
 %% Arrange the available spectra in a usable format and check for invalid input
@@ -569,35 +628,35 @@ sampleSmall = [];
 finalScaleFac = ones(nGM,1);
 for i = 1:nGM
     err = zeros(nBig,1);
-    
+
     scaleFac = ones(nBig,1);
     for j=1:nBig
         if (isScaled == 1)
-            
+
             if exp(sampleBig(j,PerTgt == T1)) == 0
                 scaleFac(j) = -1;
                 err(j) = 1000000;
             else
                 scaleFac(j) = exp(lnSa1)/exp(sampleBig(j,PerTgt == T1));
-%                 if (scaleFac(j) > maxScale || soil_Vs30(j)==-1 || any(notAllowed==j)) % using notAllowed as struct now (06-13-22, psb) 
+                %                 if (scaleFac(j) > maxScale || soil_Vs30(j)==-1 || any(notAllowed==j)) % using notAllowed as struct now (06-13-22, psb)
                 if (scaleFac(j) > maxScale || soil_Vs30(j)==-1)
                     err(j) = 2000000; % using different indicators to backtrace the reasons behind removal of a time-history
-% when any of the filtering criteria is -99, it's not active (6-13-22, psb)    
+                    % when any of the filtering criteria is -99, it's not active (6-13-22, psb)
                 elseif (magLimit ~= -99 && abs(M_bar - mag(j)) > abs(magLimit)) || (R_min ~= -99 && (Rjb(j) < R_min || isnan(Rjb(j)))) || (Vs30Min ~= -99 && (soil_Vs30(j) < Vs30Min || isnan(soil_Vs30(j)))) || (Vs30Max ~= -99 && soil_Vs30(j) > Vs30Max)
-                    err(j) = 2000000; 
+                    err(j) = 2000000;
                 else
                     err(j) = sum((log(exp(sampleBig(j,:))*scaleFac(j)) - log(gm(i,:))).^2);
-                    % note that the scale factor are on the sa values and sampleBig is in log. 
-                    % So use exp first, for converting to normal value. Then, 
+                    % note that the scale factor are on the sa values and sampleBig is in log.
+                    % So use exp first, for converting to normal value. Then,
                     % apply scale factor and then take log again.
                 end
             end
         else
-%             if (soil_Vs30(j)==-1 || any(notAllowed==j)) % using notAllowed as struct now (06-13-22, psb) 
+            %             if (soil_Vs30(j)==-1 || any(notAllowed==j)) % using notAllowed as struct now (06-13-22, psb)
             if soil_Vs30(j)==-1
                 err(j) = 3000000;
             elseif (magLimit ~= -99 && abs(M_bar - mag(j)) > abs(magLimit)) || (R_min ~= -99 && (Rjb(j) < R_min || isnan(Rjb(j)))) || (Vs30Min ~= -99 && (soil_Vs30(j) < Vs30Min || isnan(soil_Vs30(j)))) || (Vs30Max ~= -99 && soil_Vs30(j) > Vs30Max)
-                err(j) = 2000000; 
+                err(j) = 2000000;
             else
                 err(j) = sum((sampleBig(j,:) - log(gm(i,:))).^2);
                 if err(j) == inf
@@ -607,7 +666,7 @@ for i = 1:nGM
         end
         % if some record is already considered, don't consider it this time.
         if (any(recID == j))
-%             fprintf('j = %i, error = %f\n', j, err(j));
+            %             fprintf('j = %i, error = %f\n', j, err(j));
             err(j) = 5000000;
         end
     end
@@ -622,7 +681,7 @@ for i = 1:nGM
         finalScaleFac(i) = 1;
     end
     sampleSmall = [sampleSmall;log(exp(sampleBig(recID(i),:))*scaleFac(recID(i)))];
-    
+
 end
 
 switch databaseToUse
@@ -632,7 +691,7 @@ switch databaseToUse
         disp(sort(NGA_num(recID))'); % recID contains an indices for valid records only. Corresponding RSN are stored as NGA_num in valid database.
     case 'KiK_NET'
         fprintf('As a result of primary algorithm, code (X) of the selected records from KiK-NET database are \n');
-        disp(X_KiK(recID)'); 
+        disp(X_KiK(recID)');
         fprintf('Corresponding record IDs (EQID) in KiK-NET database are \n');
         disp(EQID_KiK(recID)');
 end
@@ -654,7 +713,7 @@ for k=1:nLoop % Number of passes
 
         sampleSmall(i,:) = []; % eliminate the i'th gm from the list
         recID(i,:) = []; % also eliminate the i'th record ID
-        
+
         % Try to add a new spectra to the subset list
         for j=1:nBig
 
@@ -681,7 +740,7 @@ for k=1:nLoop % Number of passes
                 devTotal = devTotal + sum(abs(exp(sampleSmall(m,:))>exp(meanReq+3*sqrt(diag(covReq))'))) * penalty;
             end
 
-%             if (scaleFac(j) > maxScale || soil_Vs30(j)==-1 || any(notAllowed==j)) % using notAllowed as struct now (06-13-22, psb)  
+            %             if (scaleFac(j) > maxScale || soil_Vs30(j)==-1 || any(notAllowed==j)) % using notAllowed as struct now (06-13-22, psb)
             if isScaled == 1 && (scaleFac(j) > maxScale || soil_Vs30(j)==-1)
                 devTotal = devTotal + 1000000;
             elseif (magLimit ~= -99 && abs(M_bar - mag(j)) > abs(magLimit)) || (R_min ~= -99 && (Rjb(j) < R_min || isnan(Rjb(j)))) || (Vs30Min ~= -99 && (soil_Vs30(j) < Vs30Min || isnan(soil_Vs30(j)))) || (Vs30Max ~= -99 && soil_Vs30(j) > Vs30Max)
@@ -703,7 +762,7 @@ for k=1:nLoop % Number of passes
         else
             finalScaleFac(i) = 1;
         end
-%         sampleSmall = [sampleSmall(1:i-1,:);sampleBig(minID,:)+log(scaleFac(minID));sampleSmall(i:end,:)];
+        %         sampleSmall = [sampleSmall(1:i-1,:);sampleBig(minID,:)+log(scaleFac(minID));sampleSmall(i:end,:)];
         sampleSmall = [sampleSmall(1:i-1,:);sampleBig(minID,:)+log(finalScaleFac(i));sampleSmall(i:end,:)];
         recID = [recID(1:i-1);minID;recID(i:end)];
     end
@@ -757,27 +816,31 @@ if (showPlots)
     hold on
     perKnown(recPer) = PerTgt;
     h44 = loglog(perKnown,SaKnown(finalRecords,:).*repmat(finalScaleFactors,1,size(SaKnown,2)),'color',[0.5 0.5 0.5]);
-% Median curve is plotted later to bring the CMS and bounds at the top. 
+    % Median curve is plotted later to bring the CMS and bounds at the top.
     h41 = loglog(PerTgt, exp(meanReq), 'r', 'linewidth', 3);
     h43 = loglog(PerTgt, exp(meanReq - 1.96*sqrt(diag(covReq))'), '--r', 'linewidth', 3);
     axis([min(PerTgt) max(PerTgt) 1e-2 5])
-    hx = xlabel('Period (s)');
-    hy = ylabel('S_a (g)');
-%     legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of selected ground motions');
-    htitle = title('Response spectra of selected ground motions');
-    
-    strForLegend = {'Median response spectrum (CMS)'
-        '2.5 and 97.5 %ile response spectra'
-        'Selected GM Response spectra'};
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('$S_a$ (g)', 'Interpreter', 'latex');
+    % xlabel('Period (s)');
+    % ylabel('S_a (g)');
+    %     legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of selected ground motions');
+    title('Response spectra of selected ground motions');
+    strForLegend = { 'Median response spectrum (CMS)', '2.5 and 97.5\%ile response spectra', 'Selected GM response spectra'};
 
-    legh = legend([h41, h42, h44(end)], strForLegend, 'location', 'southwest');
-    ylim([0.01, 3])
+    % strForLegend = {'Median response spectrum (CMS)'
+    % '2.5 and 97.5 %ile response spectra'
+    % 'Selected GM Response spectra'};
 
-    figureFormatScript_forReport
-    
+    legend([h41, h42, h44(end)], strForLegend, 'location', 'southwest');
+    ylim([0.01, 5])
+
+    sks_figureFormat('powerpoint')
+    % figureFormatScript_forReport
+
     exportName = sprintf('3d_Fig4_SelectedGMsWithCMS_%i',nGM);
     step3b_psb_SaveFigure(dirNameForSaving, exportName)
-    
+
     % Plot spectra only at periods where error is minimized
     figure
     loglog(PerTgt, exp(meanReq), 'r', 'linewidth', 3)
@@ -786,42 +849,53 @@ if (showPlots)
     loglog(PerTgt, exp(sampleBig(finalRecords,:)).*repmat(finalScaleFactors,1,length(PerTgt)),'color',[0.5 0.5 0.5],'linewidth',1)
     loglog(PerTgt, exp(meanReq - 1.96*sqrt(diag(covReq))'), '--r', 'linewidth', 3)
     axis([min(PerTgt) max(PerTgt) 1e-2 5])
-    hx = xlabel('Period (s)');
-    hy = ylabel('S_a (g)');
-    legh = legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of selected ground motions', 'location', 'southwest');
-    htitle = title ('Response spectra of selected ground motions at periods where error is minimized');
-    ylim([0.01, 3])
-    figureFormatScript_forReport
-    
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('$S_a$ (g)', 'Interpreter', 'latex');
+    % xlabel('Period (s)');
+    % ylabel('S_a (g)');
+    legend('Median response spectrum','2.5 and 97.5 percentile response spectra','Response spectra of selected ground motions', 'location', 'southwest');
+    title ('Response spectra of selected ground motions at periods where error is minimized');
+    ylim([0.01, 5])
+    sks_figureFormat('powerpoint')
+    % figureFormatScript_forReport
+
     % Sample and target means
     figure
     h61 = loglog(PerTgt,exp(meanReq),'r-','linewidth',3);
     hold on
     h62 = loglog(PerTgt,exp(mean(sampleSmall)),'b--','linewidth',3);
     axis([min(PerTgt) max(PerTgt) 1e-2 2])
-    hx = xlabel('Period (s)');
-    hy = ylabel('Median S_a (g)');
-    legh = legend([h61, h62], {'exp(target mean lnS_a)','exp(selected mean lnS_a)'});
-    htitle = title('Target and selected median Sa');
-    ylim([0.01, 3])
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('Median $S_a$ (g)', 'Interpreter', 'latex');
+    % xlabel('Period (s)');
+    % ylabel('Median S_a (g)');
+    legend([h61, h62], {'$\exp(\mathrm{target\ mean}\ \ln S_a)$', '$\exp(\mathrm{selected\ mean}\ \ln S_a)$'}, 'Interpreter', 'latex');
+    % legend([h61, h62], {'exp(target mean lnS_a)','exp(selected mean lnS_a)'});
+    title('Target and selected median Sa');
+    ylim([0.01, 5])
+    sks_figureFormat('powerpoint')
 
-    figureFormatScript_forReport
+    % figureFormatScript_forReport
 
     exportName = sprintf('3f_Fig6_SelectedMedian_%i', nGM);
     step3b_psb_SaveFigure(dirNameForSaving, exportName)
-    
+
     % Sample and target standard deviations
     figure
     h71 = semilogx(PerTgt,sqrt(diag(covReq))','r-','linewidth',3);
     hold on
     h72 = semilogx(PerTgt,std(sampleSmall),'b--','linewidth',3);
     axis([min(PerTgt) max(PerTgt) 0 0.7])
-    hx = xlabel('Period (s)');
-    hy = ylabel('\sigma(lnS_a)');
-    legh = legend([h71, h72], {'Target \sigma(lnS_a)','Selected \sigma(lnS_a)'});
-    htitle = title('Target and selected \sigma(lnS_a)');
-    
-    figureFormatScript_forReport
+    xlabel('Period (s)', 'Interpreter', 'latex');
+    ylabel('$\sigma(\ln S_a)$', 'Interpreter', 'latex');
+    legend([h71, h72], {'Target $\sigma(\ln S_a)$', 'Selected $\sigma(\ln S_a)$'}, 'Interpreter', 'latex');
+    title('Target and selected $\sigma(\ln S_a)$', 'Interpreter', 'latex');
+    % xlabel('Period (s)');
+    % ylabel('\sigma(lnS_a)');
+    % legend([h71, h72], {'Target \sigma(lnS_a)','Selected \sigma(lnS_a)'});
+    % title('Target and selected \sigma(lnS_a)');
+    sks_figureFormat('powerpoint')
+    % figureFormatScript_forReport
 
     exportName = sprintf('3g_Fig7_SelectedSigma_%i', nGM);
     step3b_psb_SaveFigure(dirNameForSaving, exportName)
@@ -836,8 +910,8 @@ end
 %% Output data to file (best viewed with textpad)
 tempFolder = pwd;
 cd(dirNameForSaving)
-    fin = fopen(outputFile,'w');
-    
+fin = fopen(outputFile,'w');
+
 switch databaseToUse
     case 'NGA_W2'
         fprintf(fin,'[NGA-W2]\n%s\t%s\t%s\n','SNo','RSN','SF');
@@ -859,12 +933,12 @@ fprintf('Selected records stored as %s \n', fullfile(pwd, dirNameForSaving, outp
 
 cd(tempFolder)
 
-%% output variables to the function 
+%% output variables to the function
 switch databaseToUse
     case 'NGA_W2'
-%         [sortedrec, index] = sort(finalRecords); % (06-06-22, psb) Not sorting any more. It messes with order of scaling factors, etc. 
-%         ID = NGA_num(sortedrec);
-%         finalScaleFactors = finalScaleFactors(index); % reorder scale factors 
+        %         [sortedrec, index] = sort(finalRecords); % (06-06-22, psb) Not sorting any more. It messes with order of scaling factors, etc.
+        %         ID = NGA_num(sortedrec);
+        %         finalScaleFactors = finalScaleFactors(index); % reorder scale factors
         ID = NGA_num(finalRecords);
     case 'KiK_NET'
         ID = EQID_KiK(finalRecords);

@@ -42,7 +42,7 @@
 %          prediction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [Sa, sigma, period1] = CY_2014_nga(M, T, Rup, Rjb, Rx, Ztor, delta, lambda, Z10, Vs30,Fhw, FVS30, region)
+function [Sa, sigma, period1] = CY_2014_nga(M, T, Rup, Rjb, Rx, Ztor, delta, lambda, Z10, Vs30, Fhw, FVS30, region)
 
 period = [-1 0 0.01	0.02	0.03	0.04	0.05	0.075	0.1	0.12	0.15	0.17	0.2	0.25	0.3	0.4	0.5	0.75	1	1.5	2	3	4	5	7.5	10];
 

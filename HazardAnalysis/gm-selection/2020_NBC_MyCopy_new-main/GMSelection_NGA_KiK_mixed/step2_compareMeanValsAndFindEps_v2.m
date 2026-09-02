@@ -1,11 +1,14 @@
 
 function [epsilon_bar] = step2_compareMeanValsAndFindEps_v2(GMSelectionInputs)
 
-% function [epsilon_bar] = step2_compareMeanValsAndFindEps_v2(M_bar, Rjb_bar, IM_PSHA, period, vs30, faultType, GMPM, gmmDir)
-M_bar = GMSelectionInputs.M_bar; Rjb_bar = GMSelectionInputs.Rjb_bar;
-IM_PSHA = GMSelectionInputs.IM_PSHA; T1 = GMSelectionInputs.T1;
-Vs30 = GMSelectionInputs.Vs30; faultType = GMSelectionInputs.faultType;
-GMPM = GMSelectionInputs.GMPM; gmmDir = GMSelectionInputs.gmmDir;
+M_bar = GMSelectionInputs.M_bar; 
+Rjb_bar = GMSelectionInputs.Rjb_bar;
+IM_PSHA = GMSelectionInputs.IM_PSHA; 
+T1 = GMSelectionInputs.T1;
+Vs30 = GMSelectionInputs.Vs30; 
+faultType = GMSelectionInputs.faultType;
+GMPM = GMSelectionInputs.GMPM; 
+gmmDir = GMSelectionInputs.gmmDir;
 tectonic = GMSelectionInputs.tectonic;
 
 baseFolder = pwd;
@@ -335,7 +338,94 @@ try % Not each GMPMs is defined for all Spectral time periods.
 catch
     
 end
+%% ASK14 added by shivakumar ks, on 29-Aug-2026
+try % Not each GMPMs is defined for all Spectral time periods.
+    % Map fault mechanism parameters: Dip angle (delta) and Rake angle (lambda)
+    if strcmp(faultType, 'Strike-slip')
+        delta = 90;
+        lambda = 0;
+    elseif strcmp(faultType, 'Normal')
+        delta = 50;
+        lambda = -90;
+    elseif strcmp(faultType, 'Reverse') || strcmp(faultType, 'Thrust')
+        delta = 45;
+        lambda = 90;
+    else
+        delta = 45;  % Default dip angle (degrees)
+        lambda = 0;  % Default rake angle (degrees)
+    end
 
+    % Define distance, fault, and site parameters
+    Rrup   = Rjb_bar; % Rupture distance (approx. Rjb when unknown)
+    Rx     = 0;       % Horizontal distance perpendicular to fault strike
+    Ry0    = 999;     % Horizontal distance parallel to strike off rupture end (999 = unknown)
+    Ztor   = 999;     % Depth to top of rupture plane in km (999 = unknown)
+    W      = 999;     % Down-dip rupture width in km (999 = unknown)
+    Z10    = 999;     % Depth to Vs = 1.0 km/s horizon in km (999 = default empirical relation)
+    fas    = 0;       % Event flag: 0 = Mainshock, 1 = Aftershock
+    HW     = 0;       % Hanging-wall flag: 0 = Exclude, 1 = Include
+    % Vs30          = shear wave velocity averaged over top 30 m in m/s
+    % FVS30         = 1 for measured Vs30
+    %               = 0 for Vs30 inferred from geology
+    FVS30  = 1;       % 1 = Specified/measured Vs30
+    region = 0;       % Tectonic region: 0 = Global (including Taiwan/Turkey)
+
+    % Signature: (M, T, Rrup, Rjb, Rx, Ry0, Ztor, delta, lambda, fas, HW, W, Z10, Vs30, FVS30, region)
+    [sa_ASK14, sigma_ASK14, ~] = ASK_2014_nga(M_bar, T1, Rrup, Rjb_bar, Rx, Ry0, Ztor, delta, lambda, fas, HW, W, Z10, Vs30, FVS30, region);
+    eps_ASK14 = (log(IM_PSHA) - log(sa_ASK14)) / sigma_ASK14;
+
+    fprintf('ASK14 \t %.3f \t\t %.3f \t\t %.3f \t\t\t %.3f \n', T1, sa_ASK14, sigma_ASK14, eps_ASK14);
+
+catch
+    fprintf('T1 is outside the ASK14 valid range (0.01-10 sec). Cannot compute directly.\n');
+end
+
+%% CY14 added by shivakumar ks, on 29-Aug-2026
+try % Not each GMPMs is defined for all Spectral time periods.
+    % Map fault mechanism parameters: Dip angle (delta) and Rake angle (lambda)
+    if strcmp(faultType, 'Strike-slip')
+        delta = 90;
+        lambda = 0;
+    elseif strcmp(faultType, 'Normal')
+        delta = 50;
+        lambda = -90;
+    elseif strcmp(faultType, 'Reverse') || strcmp(faultType, 'Thrust')
+        delta = 45;
+        lambda = 90;
+    else
+        delta = 45;  % Default dip angle (degrees)
+        lambda = 0;  % Default rake angle (degrees)
+    end
+
+    % Define distance, fault, and site parameters
+    Rup    = Rjb_bar;  % Rupture distance (approx. Rjb when unknown)
+    Rx     = 0;        % Horizontal distance perpendicular to fault strike (km)
+    Ztor   = 999;      % Depth to top of rupture plane in km (999 = default empirical relation)
+    Z10    = 999;      % Depth to Vs = 1.0 km/s horizon in km (999 = default empirical relation)
+    Fhw    = 0;        % Hanging-wall flag: 0 = Exclude, 1 = Include
+    % FVS30            = 1 for measured Vs30
+    %                  = 0 for Vs30 inferred from geology
+    FVS30  = 1;        % 1 = Specified/measured Vs30
+    region = 0;        % Tectonic region: 0 = Global 
+
+    % Signature: (M, T, Rup, Rjb, Rx, Ztor, delta, lambda, Z10, Vs30, Fhw, FVS30, region)
+
+    [sa_CY14, sigma_CY14, ~] = CY_2014_nga(M_bar, T1, Rup, Rjb_bar, Rx, Ztor, delta, lambda, Z10, Vs30, Fhw, FVS30, region);
+    eps_CY14 = (log(IM_PSHA)- log(sa_CY14)) / sigma_CY14;
+
+     fprintf('CY14 \t %.3f \t\t %.3f \t\t %.3f \t\t\t %.3f \n', T1, sa_CY14, sigma_CY14, eps_CY14);
+
+catch
+    fprintf('T1 is outside the CY14 valid range. Cannot compute directly.\n');
+end
+
+
+
+%% Select epsilon corresponding to the chosen GMM 
+% Each GMM-specific block above computes its own epsilon value.
+% This switch statement extracts the epsilon associated with the
+% user-selected Ground Motion Prediction Model (GMPM) and assigns
+% it to the output variable epsilon_bar.
 
 switch GMPM
     case 'BJF97'
@@ -358,7 +448,12 @@ switch GMPM
         epsilon_bar = eps_AB03_Sub;
     case 'Zhao06'
         epsilon_bar = eps_Zhao06;
+    case 'ASK14'
+        epsilon_bar = eps_ASK14;
+    case 'CY14'
+        epsilon_bar = eps_CY14;
 end
+
 fprintf('----------------------------\n');
 fprintf('GMPM \t TimeP \t PSHA_mean IM (g)\t eps_bar\n');
 fprintf('%s \t %.3f \t\t %.3f \t\t\t %.3f \n', GMPM, T1, IM_PSHA, epsilon_bar);

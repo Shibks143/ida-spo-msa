@@ -45,9 +45,10 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'MSA';
-    
-     eqListID = 'setC';  
+IDA_or_MSA = 'IDA';
+
+     eqListID = 'SetCS_30'; maxScalingTH = 4; 
+     % eqListID = 'setC';  
     % eqListID = 'setD' ;
     % eqListID = 'setDNotC'; 
     % eqListID = 'setG';
@@ -55,7 +56,7 @@ IDA_or_MSA = 'MSA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        0        0           1        0              0               0];
+    analyzeProcessPlotIndex = [1        1        1           1        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -160,6 +161,17 @@ IDA_or_MSA = 'MSA';
         eqFormatForCollapseList_SetTest = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
         flagForEQFileFormat_SetTest = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
    
+    % Guw30_46053_Sca4 30 pairs of conditional spectra targeted Ground Motion for Guwahati
+    eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [70011  70012  70021  70022  70031  70032  70041  70042  70051  70052  70061  70062  70071  70072  70081  70082  70091  70092  70101  70102  70111  70112  70121  70122  70131  70132  70141  70142  70151  70152  70161  70162  70171  70172  70181  70182  70191  70192  70201  70202  70211  70212  70221  70222  70231  70232  70241  70242  70251  70252  70261  70262  70271  70272  70281  70282  70291  70292  70301  70302];
+    eqListForCollapseIDAs_Name_Guw30_46053_Sca4 = 'GMSetGuw22_46053_Sca4';
+    eqListForCollapseIDAs_Name_SetCS_30 = 'GMSetGuw22_46053_Sca4';
+
+    eqNumberLIST_forCollapseIDAs_Guw30_46053_Sca4 = [7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7011 7012 7013 7014 7015 7016 7017 7018 7019 7020 7021 7022 7023 7024 7025 7026 7027 7028 7029 7030];  
+    eqFormatForCollapseList_Guw30_46053_Sca4 = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
+    flagForEQFileFormat_Guw30_46053_Sca4 = 2;                           % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
+
+
+
 isProcessMultipleCollapseRuns = true;   % or false
 isPlotCollapseIDAs = true;   % or false
 isConvertToSaKircher = false;   % or true (depending on need)
@@ -194,6 +206,25 @@ switch eqListID
         eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;         
         eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;    eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
 
+    case 'SetCS_30'
+        % Run site-specific conditional spectra matching 30 GMs
+        switch bldgID
+            case 46053
+                switch maxScalingTH
+                    case 4
+                        eqNumberLIST = eqNumLIST_forProcessing_SetGuw30_46053_Sca4;
+                        eqFormatForCollapseList = eqFormatForCollapseList_Guw30_46053_Sca4;
+                        flagForEQFileFormat = flagForEQFileFormat_Guw30_46053_Sca4;
+                        eqNumberLIST_forProcessing = eqNumLIST_forProcessing_SetGuw30_46053_Sca4;
+                        eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetCS_30;
+                        eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_Guw30_46053_Sca4;
+
+                    % case 2
+                    %     eqNumberLIST = eqNumLIST_forProcessing_SetGuw30_46053_Sca2;
+                    %     eqFormatForCollapseList = eqFormatForCollapseList_Guw30_46053_Sca2;
+                    %     flagForEQFileFormat = flagForEQFileFormat_Guw30_46053_Sca2;
+                end
+        end 
 end
 
 %% Simplifying Input structures
@@ -239,9 +270,9 @@ idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
 idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 
 % MSA-specific inputs
-msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name; 
+% msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+% msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+% msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name; 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -42,7 +42,7 @@ exportgraphics(fig, [exportName '.tiff'], 'Resolution', 600);
 print(fig, [exportName '.emf'], '-dmeta');
 
 % ---- Close figure to free memory ----
-close(fig);
+% close(fig);
 
 end
 

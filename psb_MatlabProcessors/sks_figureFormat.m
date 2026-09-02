@@ -66,56 +66,106 @@ switch formatMode
         error('Mode must be: default, powerpoint, report, paper')
 end
 
+
 % -------- Get Handles -----------------------------
 fig = gcf;
-ax  = gca;
+allAxes = findall(fig, 'Type', 'axes');   % ALL tiles, not just the active one
 
-% -------- Axes Base Formatting --------------------
-set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
-grid(ax,'on')
-ax.GridAlpha = 0.1;        % 0.2 can be used 
-ax.GridLineWidth = 0.25;   % 0.5 by default but for thinner grid lines, it is 0.25
+for k = 1:length(allAxes)
+    ax = allAxes(k);
 
+    % -------- Axes Base Formatting --------------------
+    set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
+    grid(ax,'on')
+    ax.GridAlpha = 0.1;
+    ax.GridLineWidth = 0.25;
 
-% This is only for loglog plots----------------------
-% grid(ax,'minor')
-% ax.MinorGridAlpha = 0.10;
-% ax.XMinorTick = 'on';
-% ax.YMinorTick = 'on';
-% ax.XMinorGrid = 'on';
-% ax.YMinorGrid = 'on';
-% end of this is only for loglog plots, otherwise use below off condition--------------
+    ax.XMinorTick = 'off';
+    ax.YMinorTick = 'off';
+    ax.XMinorGrid = 'off';
+    ax.YMinorGrid = 'off';
 
-ax.XMinorTick = 'off';
-ax.YMinorTick = 'off';
-ax.XMinorGrid = 'off';
-ax.YMinorGrid = 'off';
+    % -------- X Label ---------------------------------
+    if isgraphics(ax.XLabel)
+        set(ax.XLabel,'FontSize',xAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+    end
 
-% -------- X Label ---------------------------------
-if isgraphics(ax.XLabel)
-    set(ax.XLabel,'FontSize',xAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+    % -------- Y Label ---------------------------------
+    if isgraphics(ax.YLabel)
+        set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+    end
+
+    % -------- Z Label ---------------------------------
+    if isgraphics(ax.ZLabel)
+        set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+    end
+
+    % -------- Title -----------------------------------
+    if isgraphics(ax.Title)
+        set(ax.Title,'FontSize',titleFontSize,'Interpreter','latex');
+    end
 end
 
-% -------- Y Label ---------------------------------
-if isgraphics(ax.YLabel)
-    set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
-end
-
-% -------- Z Label --------------------------------- c
-if isgraphics(ax.ZLabel)
-    set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
-end
-
-% -------- Title -----------------------------------
-if isgraphics(ax.Title)
-    set(ax.Title,'FontSize',titleFontSize,'Interpreter','latex');
-end
-
-% -------- Legend ----------------------------------
+% -------- Legend (unchanged, already correct) ----------------------------------
 hleg = findobj(fig,'Type','Legend');
 if ~isempty(hleg)
     set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','northeast');
 end
+
+
+
+% 
+% % -------- Get Handles -----------------------------
+% fig = gcf;
+% ax  = gca;
+% 
+% % -------- Axes Base Formatting --------------------
+% set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
+% grid(ax,'on')
+% ax.GridAlpha = 0.1;        % 0.2 can be used 
+% ax.GridLineWidth = 0.25;   % 0.5 by default but for thinner grid lines, it is 0.25
+% 
+% 
+% % This is only for loglog plots----------------------
+% % grid(ax,'minor')
+% % ax.MinorGridAlpha = 0.10;
+% % ax.XMinorTick = 'on';
+% % ax.YMinorTick = 'on';
+% % ax.XMinorGrid = 'on';
+% % ax.YMinorGrid = 'on';
+% % end of this is only for loglog plots, otherwise use below off condition--------------
+% 
+% ax.XMinorTick = 'off';
+% ax.YMinorTick = 'off';
+% ax.XMinorGrid = 'off';
+% ax.YMinorGrid = 'off';
+% 
+% % -------- X Label ---------------------------------
+% if isgraphics(ax.XLabel)
+%     set(ax.XLabel,'FontSize',xAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+% end
+% 
+% % -------- Y Label ---------------------------------
+% if isgraphics(ax.YLabel)
+%     set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+% end
+% 
+% % -------- Z Label --------------------------------- c
+% if isgraphics(ax.ZLabel)
+%     set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
+% end
+% 
+% % -------- Title -----------------------------------
+% if isgraphics(ax.Title)
+%     set(ax.Title,'FontSize',titleFontSize,'Interpreter','latex');
+% end
+% 
+% % -------- Legend ----------------------------------
+% hleg = findobj(fig,'Type','Legend');
+% if ~isempty(hleg)
+%     set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','northeast');
+% end
+
 
 % -------- All text() objects ----------------------
 hText = findall(fig,'Type','text');

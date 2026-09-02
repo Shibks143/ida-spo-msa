@@ -67,16 +67,20 @@ end
 
 figure(88) 
 xlim([min(PerTgt) max(PerTgt)]); ylim([0.01, 3]);
-hx = xlabel('Period, $ T $ (s)', 'Interpreter','latex');     hy = ylabel('$\mu_{Sa(T)} $ (g)', 'Interpreter','latex');
+xlabel('Period, $ T $ (s)', 'Interpreter','latex');    
+ylabel('$\mu_{Sa(T)} $ (g)', 'Interpreter','latex');
 %     legh = legend([h881, h882], {'exp(target mean ln Sa)','exp(selected mean lnSa)'});
-legh = legend(plotHandleMedian, strForLegendMean, 'location', 'southwest');
-htitle = title('Target and selected median Sa');
+legend(plotHandleMedian, strForLegendMean, 'location', 'southwest');
+title('Target and selected median Sa');
 figureFormatScript_forReport
 
 figure(77)
 xlim([min(PerTgt) max(PerTgt)]); ylim([0, 0.7]);
-hx = xlabel('Period, $ T $ (s)', 'Interpreter','latex');     hy = ylabel('$\sigma_{\ln Sa(T)}$', 'Interpreter','latex');
+xlabel('Period, $ T $ (s)', 'Interpreter','latex');     
+ylabel('$\sigma_{\ln Sa(T)}$', 'Interpreter','latex');
 %     legh = legend([h771, h772], {'Target $\sigma_{\ln Sa}$','Selected $\sigma_{\ln Sa}$'}, 'Interpreter','latex');
-legh = legend(plotHandlecov, strForLegendcov, 'location', 'southwest');
-htitle = title('Target and selected \sigma(lnSa)');
-figureFormatScript_forReport
+legend(plotHandlecov, strForLegendcov, 'location', 'southwest');
+title('Target and selected \sigma(lnSa)');
+sks_figureFormat('powerpoint')
+
+% figureFormatScript_forReport
