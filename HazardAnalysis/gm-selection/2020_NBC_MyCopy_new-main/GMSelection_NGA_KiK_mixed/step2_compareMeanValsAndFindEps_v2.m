@@ -367,8 +367,8 @@ try % Not each GMPMs is defined for all Spectral time periods.
     % Vs30          = shear wave velocity averaged over top 30 m in m/s
     % FVS30         = 1 for measured Vs30
     %               = 0 for Vs30 inferred from geology
-    FVS30  = 1;       % 1 = Specified/measured Vs30
-    region = 0;       % Tectonic region: 0 = Global (including Taiwan/Turkey)
+    FVS30  = 0;       % 1 = Vs30 inferred from geology, 0 = Vs30 measured 
+    region = 0;       % Tectonic region: 0 = Global 
 
     % Signature: (M, T, Rrup, Rjb, Rx, Ry0, Ztor, delta, lambda, fas, HW, W, Z10, Vs30, FVS30, region)
     [sa_ASK14, sigma_ASK14, ~] = ASK_2014_nga(M_bar, T1, Rrup, Rjb_bar, Rx, Ry0, Ztor, delta, lambda, fas, HW, W, Z10, Vs30, FVS30, region);
@@ -405,7 +405,7 @@ try % Not each GMPMs is defined for all Spectral time periods.
     Fhw    = 0;        % Hanging-wall flag: 0 = Exclude, 1 = Include
     % FVS30            = 1 for measured Vs30
     %                  = 0 for Vs30 inferred from geology
-    FVS30  = 1;        % 1 = Specified/measured Vs30
+    FVS30  = 0;       % 1 = Vs30 inferred from geology, 0 = Vs30 measured 
     region = 0;        % Tectonic region: 0 = Global 
 
     % Signature: (M, T, Rup, Rjb, Rx, Ztor, delta, lambda, Z10, Vs30, Fhw, FVS30, region)
