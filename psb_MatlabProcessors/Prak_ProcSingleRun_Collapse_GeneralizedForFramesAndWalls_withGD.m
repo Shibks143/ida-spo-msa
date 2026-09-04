@@ -114,7 +114,7 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function[scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = Prak_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD(analysisType, modelName, saTOneForRun, eqNumber, dataSavingOption)
+function[scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = Prak_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD(analysisType, modelName, saTOneForRun, eqNumber, dataSavingOption, eqDataFolder)
 
 % IMPORTANT: This is the only processing file that has been being updated
 % for the archetype work (7-25-06, CBH)
@@ -283,7 +283,8 @@ numFloors = numStories + 1;
 % For the PFA calculations, we need to get the EQ TH vector so that we can add it with the relative accelerations to get absolute accelerations at each floor.
     % Go into the EQ folder to open the sorted EQ file
         startFolder = [pwd];
-        cd C:\Users\sks\OpenSeesProcessingFiles\EQs
+        cd(eqDataFolder)
+        % cd C:\Users\sks\OpenSeesProcessingFiles\EQs
             
     % Make the name of the sorted EQ file to read, as well as dtFile and
     % numPoints file (later two added by CBH on 12-17-08 to make things

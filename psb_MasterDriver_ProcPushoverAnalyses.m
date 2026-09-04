@@ -4,6 +4,23 @@ tic
 
 baseFolder = pwd;
 
+% Automatically detect current root directory (works on both Windows and Linux HPC)
+rootDir = fileparts(mfilename('fullpath'));
+
+% Add code folders to MATLAB search path
+addpath(genpath(fullfile(rootDir, 'psb_MatlabProcessors')));
+addpath(genpath(fullfile(rootDir, 'psb_IntensityMeasures')));
+addpath(genpath(fullfile(rootDir, 'OpenSeesProcessingFiles')));
+addpath(genpath(fullfile(rootDir, 'Models')));
+
+%% This one for running script at HPC (Paramshakti); added on 02-sep-2026
+if isunix
+    setenv('PATH', ['/home/apps/MLDL/DL-CondaPy3/envs/opensees/bin:' getenv('PATH')]);
+end
+% setenv('PATH', ['/home/apps/MLDL/DL-CondaPy3/envs/opensees/bin:' getenv('PATH')]);
+
+%% Conventional code starts from here
+
 fileNameLIST = {'ID2433_R5_5Story_v.02';};  % 'ID2433_R5_5Story_v.02' as per IS 1893 (2002) and 'ID46053_R5_5Story_v.02' as 2025 update
 
 shearHingeOrNot = 0; % if there is a shear Hinge then different opensees file is used; using 1 would always work 
@@ -14,11 +31,16 @@ plotDefoShape = 1;                    % plot deformed shape
 for buildingIndex = 1:size(fileNameLIST, 1)
     fileName = fileNameLIST{buildingIndex, 1};
 
-cd Models\
+cd Models
 cd(fileName)
 
 fprintf('Running %i/%i... Building: %s  \n', buildingIndex, length(fileNameLIST), fileName);
-!OpenSees psb_RunMeanAnalysis.tcl > "..\outp_spo.txt" 2>&1
+
+%% Common code block %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+system('OpenSees psb_RunMeanAnalysis.tcl');
+
+% !OpenSees psb_RunMeanAnalysis.tcl > "..\outp_spo.txt" 2>&1
 
 cd(baseFolder)
 
@@ -77,7 +99,8 @@ analysisType_forPO = sprintf('(%s)_(AllVar)_(0.00)_(clough)', fileName);
     cd Output
     cd(analysisType_forPO)
     save('DATA_pushover.mat');
-    cd ..\..
+    cd ..
+    cd ..
     close;
     close;
 end
@@ -86,7 +109,8 @@ end
 if plotDefoShape == 1
     fprintf('Plotting deformed shape...\n');
         % Go to visual processors folder
-        cd psb_MatlabProcessors\MovieAndVisualProcessors
+        cd(fullfile('psb_MatlabProcessors', 'MovieAndVisualProcessors'))
+       
     for buildingIndex = 1:size(fileNameLIST, 1)
         fileName = fileNameLIST{buildingIndex, 1};
         underscoreLocs = strfind(fileName, '_');
@@ -98,8 +122,9 @@ if plotDefoShape == 1
         pushoverStepNameIdentifier = 'lastStep'; 
 
         psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotOption, maxOnDemandCapacityRatioToPlot, pushoverStepNameIdentifier);
-
-        cd ..\..
+        
+        cd ..
+        cd ..
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

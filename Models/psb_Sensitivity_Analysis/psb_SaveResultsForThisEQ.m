@@ -27,9 +27,9 @@ try
     cd Output;
 catch
     try
-        cd ..\Output;
+        cd(fullfile('..', 'Output'));
     catch
-        cd ..\..\Output;
+        cd(fullfile('..', '..', 'Output'));
     end
 end
 

@@ -1,3 +1,4 @@
+
 function [] = psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotOption, maxOnDemandCapacityRatioToPlot, pushoverStepNameIdentifier)
 %
 % Function: psb_pushoverDeformedShape.m
@@ -80,11 +81,10 @@ for bldgIndex = 1:length(bldgID_LIST)
     cd ..
     cd ..
     cd Output
-
     cd(analysisDir)
     cd EQ_9991
     cd Sa_0.00
-
+ 
     load('DATA_allDataForThisSingleRun.mat', 'nodeArray', 'nodeNumsAtEachFloorLIST', 'elementArray');
 
 %% floorDispVECTOR 
@@ -128,10 +128,12 @@ for currentFloorNum = 2:maxFloorNum
             break
         end
         % Loop for the five joint nodes and compute the current and max ever plastic rotation demands
-            cd Elements\Joints
+            cd(fullfile('Elements', 'Joints'));
+            % cd Elements\Joints
             outpFileName = sprintf('Joint_ForceAndDef_%i.out', currentJointNum);
             elementArray{currentJointNum}.JointForceAndDeformation = load(outpFileName);
-            cd ..\..
+            cd ..
+            cd ..
             for currentJointNodeNum = 1:5
                 currentMaxPlasticRotationDemand_abs = max(abs(elementArray{currentJointNum}.JointForceAndDeformation(:, currentJointNodeNum)));
                 plasticRotationARRAY{currentJointNum}.jointNodePHRDemand{currentJointNodeNum} = currentMaxPlasticRotationDemand_abs;
@@ -154,7 +156,8 @@ cd RunInformation
 if isfile('hingeAroundJointToRecordMVLISTOUT.out') == 1
     colHingeWithShear = load('hingeAroundJointToRecordMVLISTOUT.out');
     hingesWithFlexure = load('hingeAroundJointToRecordMLISTOUT.out');
-    cd ..\Elements\DamageIndex
+    cd(fullfile(tempDir, 'Elements', 'DamageIndex'));
+    % cd ..\Elements\DamageIndex
     for currentFloorNum = 2:maxFloorNum
         for currentColLineNum = 1:numColLines
             newModelColDownHingeNum = colHingeWithShear(currentFloorNum - 1 , currentColLineNum);
@@ -177,7 +180,9 @@ if isfile('hingeAroundJointToRecordMVLISTOUT.out') == 1
             end
         end
     end
-    cd ..\.. % now we are in Sa_0.00, from where we started
+   
+    cd ..
+    cd .. % now we are in Sa_0.00, from where we started
 end
 cd(tempDir)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,11 +199,14 @@ cd(tempDir)
             break
         end        
         % Get the PHR demands from the elementArray
-        cd Elements\Hinges
+        % cd Elements\Hinges
+        cd(fullfile('Elements', 'Hinges'));
         outpFileName = sprintf('HingeRotTH_%i.out', currentColBaseHingeNum);
         elementArray{currentColBaseHingeNum}.rotTH = load(outpFileName);
-        cd ..\..
-        
+        cd ..
+        cd ..
+        % Safely returns to Sa_0.00 root folder
+
         currentMaxPlasticRotationDemand_abs = max(abs(elementArray{currentColBaseHingeNum}.rotTH));
         plasticRotationARRAY{currentColBaseHingeNum}.columnBasePHRDemand = currentMaxPlasticRotationDemand_abs;
     end % end of for loop for colLines
@@ -208,15 +216,17 @@ cd(tempDir)
 m = matfile('DATA_allDataForThisSingleRun.mat', 'Writable', true);
 m.elementArray = elementArray;
 
-cd ..\..\..\.. % come back four levels to reach main folder
-   
-cd psb_MatlabProcessors\MovieAndVisualProcessors
+% cd ..\..\..\.. % come back four levels to reach main folder
+% cd psb_MatlabProcessors\MovieAndVisualProcessors
+% cd(fullfile(baseFolder, 'psb_MatlabProcessors', 'MovieAndVisualProcessors'));
+cd(baseFolder)
 figure(figNumStart + bldgIndex)
 try % (as of now, distorted frame module is programmed for SMRF with concentrated plasticity. Not plotting for diagrid
     psb_DrawDistortedFrame(buildingInfo, bldgID, floorDispVECTOR, plasticRotationARRAY, analysisDir, 9991, 0, isHingesHighlighted, ...
                         hingeHighlighted_1, hingeHighlighted_2, highlightedHingeColor_1, highlightedHingeColor_2, titleOption, ...
                         maxOnDemandCapacityRatioToPlot, saDefType, periodUsedForScalingGroundMotionsFromMatlab);
 catch 
+    cd(baseFolder);
     continue
 end
 cd(baseFolder);
@@ -229,8 +239,11 @@ for bldgIndex = 1:length(bldgID_LIST)
    analysisDir = analysisDirLIST{bldgIndex};
    modelName = strtok(analysisDir, ')'); modelName = modelName(2:end);
    
-   cd ..\..\Output
-   cd(analysisDir)
+   % cd ..
+   % cd ..
+   % cd Output
+   % cd(analysisDir)
+   cd(fullfile(baseFolder, '..', '..', 'Output', analysisDir));
 
    exportName = sprintf('PushoverDeformedShape_%s_%s', pushoverStepNameIdentifier, modelName);
    sks_figureExport(exportName)
@@ -240,3 +253,4 @@ for bldgIndex = 1:length(bldgID_LIST)
    close;
 end 
 % toc
+

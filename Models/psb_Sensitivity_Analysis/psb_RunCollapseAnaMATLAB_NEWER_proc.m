@@ -25,6 +25,8 @@
 
 function psb_RunCollapseAnaMATLAB_NEWER_proc(idaInputs)
 
+eqDataFolder =                         idaInputs.eqDataFolder ;
+eqSpectraFolder =                      idaInputs.eqSpectraFolder ;
 dtForCollapseMATLAB =                  idaInputs.dtForCollapseMATLAB ;
 minStoryDriftRatioForCollapseMATLAB =  idaInputs.minStoryDriftRatioForCollapseMATLAB ;
 elementUsedForColSensModelMATLAB =     idaInputs.elementUsedForColSensModelMATLAB ;
@@ -44,6 +46,8 @@ dampingRatioUsedForSaDef =             idaInputs.dampingRatioUsedForSaDef ;
 extraSecondsToRunAnalysis =            idaInputs.extraSecondsToRunAnalysis ;
 % timeTakenInMinsForEachAnalysisOld =       idaInputs.timeTakenInMinsForEachAnalysisOld ;
 eqTimeHistoryPreFormatted =            idaInputs.eqTimeHistoryPreFormatted ;
+
+disp(eqDataFolder)
 
 % Fill in unset optional values.
 switch nargin
@@ -101,21 +105,23 @@ for sensModelIndex = 1:length(sensModelLIST)
         dtOfTimeHistory = zeros(totalNumOfEqRecords, 1);
         matrixOfDtForCollapseMATLAB = zeros(totalNumOfEqRecords, 2);
 
-        %              eqNumberLIST
+        %  eqNumberLIST
         for indexForEQ = 1:totalNumOfEqRecords
             eqNumber = eqNumberLIST(1,indexForEQ);
             matrixOfDtForCollapseMATLAB(indexForEQ, 1) = eqNumber;
             sensDir = pwd;
 
             %	(4-30-16, PSB) implemented to debug for the cases when curtailed ground motions are used and some goof up occurs.
-            numPointsFromLengthOfTH = size(load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
-            numPointsFromFile = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('NumPointsFile_(%d).txt', eqNumber)));
+            % numPointsFromLengthOfTH = size(load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
+            % numPointsFromFile = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('NumPointsFile_(%d).txt', eqNumber)));
+            numPointsFromLengthOfTH = size(load(fullfile(eqDataFolder, sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
+            numPointsFromFile = load(fullfile(eqDataFolder, sprintf('NumPointsFile_(%d).txt', eqNumber)));
 
             if (numPointsFromLengthOfTH ~= numPointsFromFile)
                 error('psbCode:chkForLengthOfGM', 'Length of SortedEQFile is not same as value in NumPointsFile of EQ ID = %d \n', eqNumber);
             end
-
-            dtOfTimeHistory(indexForEQ) = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('DtFile_(%d).txt',eqNumber)));
+            % dtOfTimeHistory(indexForEQ) = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('DtFile_(%d).txt',eqNumber)));
+            dtOfTimeHistory(indexForEQ) = load(fullfile(eqDataFolder, sprintf('DtFile_(%d).txt',eqNumber)));
 
             if (dtForCollapseMATLAB >= 1)
                 matrixOfDtForCollapseMATLAB(:, 2) = dtOfTimeHistory/dtForCollapseMATLAB;
@@ -142,9 +148,10 @@ for sensModelIndex = 1:length(sensModelLIST)
             psb_mkdir_if_not_exist(specificSensFolderForSeparateEqs); % matlab throws error if directory already exists, hence the function
 
             currentFolderTemp = pwd;
-            addressForSensDir = sprintf('%s\\%s',currentFolderTemp, specificSensFolderForSeparateEqs);
+            addressForSensDir = fullfile(currentFolderTemp, specificSensFolderForSeparateEqs);
             copyfile('psb_RunCollapseSensAnalysisMATLAB.tcl', addressForSensDir);
-
+            % addressForSensDir = sprintf('%s\\%s',currentFolderTemp, specificSensFolderForSeparateEqs);
+            % copyfile('psb_RunCollapseSensAnalysisMATLAB.tcl', addressForSensDir);
             %         cd(specificSensFolderForSeparateEqs) % Now in the earthquake specific folder
             %         cd .. % back to the Prak_Sensitivity_Analysis folder
         end
@@ -161,8 +168,11 @@ for sensModelIndex = 1:length(sensModelLIST)
             psb_mkdir_if_not_exist(specificModelFolderForSeparateEqs); % matlab throws error if directory already exists, hence the function
 
             currentFolderTemp = pwd;
-            addressForModelDir = sprintf('%s\\%s',currentFolderTemp, specificModelFolderForSeparateEqs);
+            addressForModelDir = fullfile(currentFolderTemp, specificModelFolderForSeparateEqs);
             copyfile('*.tcl', addressForModelDir);
+
+            % addressForModelDir = sprintf('%s\\%s',currentFolderTemp, specificModelFolderForSeparateEqs);
+            % copyfile('*.tcl', addressForModelDir);
             % note that if *.* command is given for copying then it becomes a spiral and folders created in the last iterations get copied into the next one
             % if some other extension files are to be copied as well, it is recommended to give the command again, for ex- copyfile('*.m','.') etc
 
@@ -224,13 +234,13 @@ for sensModelIndex = 1:length(sensModelLIST)
                 eqNumberForGeoMean = floor(eqNumber / 10.0);
                 if (flagForEQFileFormat == 1)
                     % Scaling by component Sa
-                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
+                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
                     saCompScaled = currentSaLevel;
                     saGeoMeanScaled = -1;       % Just put a dummy variable because likely we did not define both components of GM
                 elseif (flagForEQFileFormat == 2)
                     % Scaling by geometric mean Sa
-                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaGeoMeanValueForAnEQ(eqNumberForGeoMean, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
-                    saCompScaled = scaleFactorForRunFromMatlab * psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
+                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaGeoMeanValueForAnEQ(eqNumberForGeoMean, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
+                    saCompScaled = scaleFactorForRunFromMatlab * psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
                     saGeoMeanScaled = currentSaLevel;
                 else
                     error('Invalid value for flagForEQFileFormat!!!')
@@ -264,7 +274,8 @@ for sensModelIndex = 1:length(sensModelLIST)
                 %      disp(temp99);
 
                 %      disp(pwd)
-                cd(sprintf('%s\\%s', sensDir, specificSensFolderForSeparateEqs))
+                % cd(sprintf('%s\\%s', sensDir, specificSensFolderForSeparateEqs))
+                cd(fullfile(sensDir, specificSensFolderForSeparateEqs))
                 % try
                 %     cd(specificSensFolderForSeparateEqs)
                 % catch
@@ -325,10 +336,9 @@ for sensModelIndex = 1:length(sensModelLIST)
                 %     specificSensFolderForSeparateEqs = sprintf('sens_%d',eqNumber);
                 %     cd(specificSensFolderForSeparateEqs) % Now in the earthquake specific folder
                 disp(pwd)
-                %     !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
-                %     !OpenSees_2.5.0 psb_RunCollapseSensAnalysisMATLAB.tcl
 
-                !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
+                % !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
+                system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl') 
 
                 % if strcmp(openseesFileToUse, 'default') % USE OpenSees_2.5.0_64bit_downloaded_11-13-16, when Shear Limit State material is not in use
                 %     !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
@@ -615,13 +625,13 @@ for sensModelIndex = 1:length(sensModelLIST)
                 eqNumberForGeoMean = floor(eqNumber / 10.0);
                 if (flagForEQFileFormat == 1)
                     % Scaling by component Sa
-                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
+                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
                     saCompScaled = currentSaLevel;
                     saGeoMeanScaled = -1;       % Just put a dummy variable because likely we did not define both components of GM
                 elseif (flagForEQFileFormat == 2)
                     % Scaling by geometric mean Sa
-                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaGeoMeanValueForAnEQ(eqNumberForGeoMean, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
-                    saCompScaled = scaleFactorForRunFromMatlab * psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
+                    scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaGeoMeanValueForAnEQ(eqNumberForGeoMean, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
+                    saCompScaled = scaleFactorForRunFromMatlab * psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
                     saGeoMeanScaled = currentSaLevel;
                 else
                     error('Invalid value for flagForEQFileFormat!!!')
@@ -708,16 +718,9 @@ for sensModelIndex = 1:length(sensModelLIST)
                 %     specificSensFolderForSeparateEqs = sprintf('sens_%d',eqNumber);
                 %     cd(specificSensFolderForSeparateEqs) % Now in the earthquake specific folder
                 disp(pwd)
-                %     disp('prak99 \n');
-
-                %     !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
-                %     !OpenSees_2.5.0 psb_RunCollapseSensAnalysisMATLAB.tcl
-
-                %     !OpenSees_64-kNmmMPa-PSB-11-01-16 psb_RunCollapseSensAnalysisMATLAB.tcl
-                %     !OpenSees_2.5.0_64bit_downloaded_11-13-16 psb_RunCollapseSensAnalysisMATLAB.tcl
-
-
-                !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
+             
+                % !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
+                system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl')
 
                 % if strcmp(openseesFileToUse, 'default') % USE OpenSees_2.5.0_64bit_downloaded_11-13-16, when Shear Limit State material is not in use
                 %     !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl

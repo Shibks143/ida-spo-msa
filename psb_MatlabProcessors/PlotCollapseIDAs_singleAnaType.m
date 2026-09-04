@@ -30,6 +30,7 @@
 % -------------------
 function[void] = PlotCollapseIDAs_singleAnaType(idaInputs)
 
+eqSpectraFolder =                idaInputs.eqSpectraFolder;
 analysisType =                   idaInputs.analysisType;
 % eqNumberLIST =                 idaInputs.eqNumberLIST;
 eqListForCollapseIDAs_Name =     idaInputs.eqListForCollapseIDAs_Name;
@@ -126,8 +127,8 @@ for eqInd = 1:(length(eqNumberLIST))
         else
             % We want to plot with Sa,Kircher(T=1s), so do conversion and
             % plot
-            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat);
-            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat);
+            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
+            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC1.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
             plot(maxDriftRatioForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
             clear saGeoMeanAtOneSec saGeoMeanAtTOne
@@ -279,8 +280,8 @@ for eqInd = 1:(length(eqNumberLIST))
         else
             % We want to plot with Sa,Kircher(T=1s), so do conversion and
             % plot
-            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat);
-            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat);
+            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
+            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC2.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
             plot(maxDriftRatioForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
             clear saGeoMeanAtOneSec saGeoMeanAtTOne
@@ -475,8 +476,8 @@ end
             eqCompNumber = eqCompNumberLIST(eqInd);
             eqNumber = floor(eqCompNumber/10);
             
-            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat);
-            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat);
+            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
+            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             collapseLevelForAllComp(eqInd) = collapseLevelForAllComp(eqInd) * (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
         end
         
@@ -487,8 +488,8 @@ end
             % number to do the Kircher conversion later
             eqCompNumber = eqNumber * 10.0 + 1.0;
         
-            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat);
-            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat);
+            saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
+            saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             collapseLevelForAllControlComp(eqInd) = collapseLevelForAllControlComp(eqInd) * (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
         end    
             

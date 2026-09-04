@@ -16,7 +16,7 @@
 % Curt Haselton
 % 9-26-28-05
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function[Sa_abs_psuedo_geoMean] = psb_RetrieveSaGeoMeanValueForAnEQ(eqNum, T, dampRat)
+function[Sa_abs_psuedo_geoMean] = psb_RetrieveSaGeoMeanValueForAnEQ(eqNum, T, dampRat, eqSpectraFolder)
 
 % eqNum=12011; T=0.86; dampRat=0.05; % trial values
 
@@ -24,10 +24,10 @@ function[Sa_abs_psuedo_geoMean] = psb_RetrieveSaGeoMeanValueForAnEQ(eqNum, T, da
 % compute the Sa,geoMean and return it.
     % Component 1:
         eqNum_comp1 = eqNum * 10 + 1;
-        saComp_comp1 = psb_RetrieveSaCompValueForAnEQ(eqNum_comp1, T, dampRat);
+        saComp_comp1 = psb_RetrieveSaCompValueForAnEQ(eqNum_comp1, T, dampRat, eqSpectraFolder);
     % Component 2:
         eqNum_comp2 = eqNum * 10 + 2;
-        saComp_comp2 = psb_RetrieveSaCompValueForAnEQ(eqNum_comp2, T, dampRat);
+        saComp_comp2 = psb_RetrieveSaCompValueForAnEQ(eqNum_comp2, T, dampRat, eqSpectraFolder);
     % Compute GeoMean
         Sa_abs_psuedo_geoMean = (saComp_comp1 * saComp_comp2) ^ 0.5;
 

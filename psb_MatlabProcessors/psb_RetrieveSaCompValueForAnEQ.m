@@ -10,7 +10,7 @@
 % Curt Haselton
 % 9-26-05
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function[Sa_abs_psuedo] = psb_RetrieveSaCompValueForAnEQ(eqNum, T, dampRat)
+function[Sa_abs_psuedo] = psb_RetrieveSaCompValueForAnEQ(eqNum, T, dampRat, eqSpectraFolder)
 
 % eqNum=120111; T=0.86; dampRat=0.05; %trial values
 
@@ -23,8 +23,9 @@ function[Sa_abs_psuedo] = psb_RetrieveSaCompValueForAnEQ(eqNum, T, dampRat)
     currentFolderPath = [pwd];
     
 % Go to Sorted_Eq_Files folder to get file (folder location is hard-coded)
-    eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved';
-    cd(eqSpectraFolderPath)
+    % eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved';
+    % cd(eqSpectraFolderPath)
+    cd(eqSpectraFolder)
 
 % Open the spectrum for this EQ
     eqSpectrumFileName = sprintf('SaEQSpectrum_EQ_%d.mat', eqNum);

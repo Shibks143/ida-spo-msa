@@ -1,9 +1,4 @@
-
-tic 
-tStart= tic;
-
-%
-% -------------------
+%% -------------------
 % This runs the dynamic earthquake analyses, processes the analyses, then makes/saves all of the results.
 %
 % Assumptions and Notices: 
@@ -14,7 +9,26 @@ tStart= tic;
 %
 % Units: Whatever OpenSees is using - kN, mm, radians
 %
-% -------------------
+%% -------------------
+
+tic 
+tStart= tic;
+baseFolder = pwd;
+
+% Automatically detect current root directory (works on both Windows and Linux HPC)
+rootDir = fileparts(mfilename('fullpath'));
+ 
+% Add code folders to MATLAB search path
+addpath(genpath(fullfile(rootDir, 'psb_MatlabProcessors')));
+addpath(genpath(fullfile(rootDir, 'psb_IntensityMeasures')));
+addpath(genpath(fullfile(rootDir, 'OpenSeesProcessingFiles')));
+addpath(genpath(fullfile(rootDir, 'Models')));
+
+% This one for running script at HPC (Paramshakti); added on 02-sep-2026
+if isunix
+    setenv('PATH', ['/home/apps/MLDL/DL-CondaPy3/envs/opensees/bin:' getenv('PATH')]);
+end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define building information - change this for the building being used
@@ -47,8 +61,8 @@ tStart= tic;
     
 IDA_or_MSA = 'IDA';
 
-     eqListID = 'SetCS_30'; maxScalingTH = 4; 
-     % eqListID = 'setC';  
+     % eqListID = 'SetCS_30'; maxScalingTH = 4; 
+     eqListID = 'setC';  
     % eqListID = 'setD' ;
     % eqListID = 'setDNotC'; 
     % eqListID = 'setG';
@@ -56,18 +70,18 @@ IDA_or_MSA = 'IDA';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1        0              0               0];
+    analyzeProcessPlotIndex = [0        1        1           1        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         
-	extraSecondsToRunAnalysis = 5.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
-                                        % can as well be kept zero if conventional collapse analysis is being performed.
+	extraSecondsToRunAnalysis = 0.00;   % (11-3-15, PSB) extra (5 or any) seconds added to the time history duration for extracting residual drift in the structure.
+                                        % can as well be kept zero if conventional collapse analysis is being performed. 
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.06;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -229,6 +243,8 @@ end
 
 %% Simplifying Input structures
 % COMMON inputs
+idaInputs.eqDataFolder =                        fullfile(rootDir, 'OpenSeesProcessingFiles', 'EQs');
+idaInputs.eqSpectraFolder =                     fullfile(rootDir, 'OpenSeesProcessingFiles', 'EQ_Spectra_Saved');
 idaInputs.dtForCollapseMATLAB =                 dtForCollapseMATLAB;
 idaInputs.minStoryDriftRatioForCollapseMATLAB = minStoryDriftRatioForCollapseMATLAB; 
 idaInputs.elementUsedForColSensModelMATLAB =    elementUsedForColSensModelMATLAB;
@@ -277,15 +293,16 @@ idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-baseFolder = pwd;
+% baseFolder = pwd;
 
 if analyzeProcessPlotIndex(1) == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Run the analyses 
 
 % Go to folder
-    cd Models
-    cd psb_Sensitivity_Analysis
+    cd(fullfile('Models', 'psb_Sensitivity_Analysis'))
+    % cd Models
+    % cd psb_Sensitivity_Analysis
         % [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
 %        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
         sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
@@ -387,12 +404,20 @@ end
 %% If we reached here, save a file on desktop stating the same. Since, I am running two analyses back to back, I wouldn't be able to know if there 
 % was any error in running the first analyses
 
-    tElapsed = toc(tStart);
-    
-    fileName = sprintf('CheckFile %s.mat', analysisType);
-    cd C:\Users\sks\Desktop
-    save(fileName, 'tElapsed');
+tElapsed = toc(tStart);
+fileName = sprintf('CheckFile %s.mat', analysisType);
 
-    % Go back to starting folder
-    cd(baseFolder)
-    toc
+if ispc
+    homeDir = getenv('USERPROFILE');   % Windows home folder
+else
+    homeDir = getenv('HOME');          % Linux/Mac home folder
+end
+desktopDir = fullfile(homeDir, 'Desktop');
+
+if ~exist(desktopDir, 'dir')
+    desktopDir = baseFolder;   % fallback if no Desktop folder exists (common on Linux)
+end
+save(fullfile(desktopDir, fileName), 'tElapsed');
+% Go back to starting folder
+cd(baseFolder)
+toc  
