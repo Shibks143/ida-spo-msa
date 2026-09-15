@@ -23,7 +23,7 @@ function[Sa_abs_psuedo] = psb_RetrieveSaCompValueForAnEQ(eqNum, T, dampRat, eqSp
     currentFolderPath = [pwd];
     
 % Go to Sorted_Eq_Files folder to get file (folder location is hard-coded)
-    % eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved';
+    % eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQ_Spectra_Saved';
     % cd(eqSpectraFolderPath)
     cd(eqSpectraFolder)
 

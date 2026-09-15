@@ -1,6 +1,7 @@
 Output/
 _superseded/
 DesignModels/
+OpenSeesProcessingFiles/
 
 # Hazard analysis generated folders
 HazardAnalysis/CS_Selection/

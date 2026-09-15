@@ -9,6 +9,9 @@
 % -------------------
 function sks_RunCollapseAnaMATLAB_MSA(msaInputs)
 
+eqDataFolder =                                  msaInputs.eqDataFolder ;
+eqDataFolder =                                  strrep(eqDataFolder, '\', '/');
+eqSpectraFolder =                               msaInputs.eqSpectraFolder ;
 sensModelLIST =                                  msaInputs.sensModelLIST;
 dtForCollapseMATLAB =                            msaInputs.dtForCollapseMATLAB;
 minStoryDriftRatioForCollapseMATLAB =            msaInputs.minStoryDriftRatioForCollapseMATLAB; 
@@ -24,6 +27,8 @@ periodUsedForScalingGroundMotions =              msaInputs.periodUsedForScalingG
 dampingRatioUsedForSaDef =                       msaInputs.dampingRatioUsedForSaDef; 
 extraSecondsToRunAnalysis =                      msaInputs.extraSecondsToRunAnalysis; 
 eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreFormatted;
+
+disp(eqDataFolder)
 
 % (11-3-15, PSB) added parameter extraSecondsToRunAnalysis. This is carried over to the varDefinitionsFromMATLAB.tcl file via RunSingleEQ_NEWER.m and 
 % WritevarToFileForOSMATLAB.m 
@@ -73,14 +78,19 @@ eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreForma
                 sensDir = pwd;
                     
            %	(4-30-16, PSB) implemented to debug for the cases when curtailed ground motions are used and some goof up occurs.    
-            numPointsFromLengthOfTH = size(load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
-            numPointsFromFile = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('NumPointsFile_(%d).txt', eqNumber)));
+            % numPointsFromLengthOfTH = size(load(fullfile('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs', sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
+            % numPointsFromFile = load(fullfile('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs', sprintf('NumPointsFile_(%d).txt', eqNumber)));
+            numPointsFromLengthOfTH = size(load(fullfile(eqDataFolder, sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
+            numPointsFromFile = load(fullfile(eqDataFolder, sprintf('NumPointsFile_(%d).txt', eqNumber)));
+
 
             if (numPointsFromLengthOfTH ~= numPointsFromFile) 
-                error('psbCode:chkForLengthOfGM', 'Length of SortedEQFile is not same as value in NumPointsFile of EQ ID = %d \n', eqNumber);
+                error('sksCode:chkForLengthOfGM', 'Length of SortedEQFile is not same as value in NumPointsFile of EQ ID = %d \n', eqNumber);
             end 
                     
-                dtOfTimeHistory(indexForEQ) = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('DtFile_(%d).txt',eqNumber)));
+                % dtOfTimeHistory(indexForEQ) = load(fullfile('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs', sprintf('DtFile_(%d).txt',eqNumber)));
+                dtOfTimeHistory(indexForEQ) = load(fullfile(eqDataFolder, sprintf('DtFile_(%d).txt',eqNumber)));
+
 
                 if (dtForCollapseMATLAB >= 1)
                     matrixOfDtForCollapseMATLAB(:, 2) = dtOfTimeHistory/dtForCollapseMATLAB;
@@ -163,13 +173,13 @@ eqTimeHistoryPreFormatted =                      msaInputs.eqTimeHistoryPreForma
                             eqNumberForGeoMean = floor(eqNumber / 10.0);
                             if (flagForEQFileFormat == 1)
                                 % Scaling by component Sa
-                                scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
+                                scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
                                 saCompScaled = currentSaLevel;
                                 saGeoMeanScaled = -1;       % Just put a dummy variable because likely we did not define both components of GM
                             elseif (flagForEQFileFormat == 2)
                                 % Scaling by geometric mean Sa
-                                scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaGeoMeanValueForAnEQ(eqNumberForGeoMean, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
-                                saCompScaled = scaleFactorForRunFromMatlab * psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef);
+                                scaleFactorForRunFromMatlab = currentSaLevel / psb_RetrieveSaGeoMeanValueForAnEQ(eqNumberForGeoMean, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
+                                saCompScaled = scaleFactorForRunFromMatlab * psb_RetrieveSaCompValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, eqSpectraFolder);
                                 saGeoMeanScaled = currentSaLevel;
                             else
                                 error('Invalid value for flagForEQFileFormat!!!')
@@ -213,6 +223,8 @@ sensModel
     fprintf(myFileStream, 'set %s %.2f\n', sensVariableName, sensVariableValue);
     fprintf(myFileStream, 'set eqNumber %d\n', eqNumber);
     fprintf(myFileStream, 'set eqFormatForCollapseList %s\n', eqFormatForCollapseList);
+    fprintf(myFileStream, 'global eqDataFolder\n');
+    fprintf(myFileStream, 'set eqDataFolder %s\n', eqDataFolder);
     % This was updated on 6-29-06 to output a scale factor for the run as well as the Sa level; also add some other information to transfer.
     fprintf(myFileStream, 'set currentSaLevel %.2f\n', currentSaLevel);
 	fprintf(myFileStream, 'puts "currentSaLevel is $currentSaLevel"\n');

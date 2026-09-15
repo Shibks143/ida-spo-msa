@@ -45,6 +45,7 @@ for analysisTypeIndex = 1:length(analysisTypeLIST)
 
     % Call the function to do the collapse MSAs for a single analysisType
     sks_PlotCollapse_singleAnaType_MSA(msaInputs);
+    sks_PlotCollapse_singleAnaType_MSA_RDR(msaInputs);
 
 end
 

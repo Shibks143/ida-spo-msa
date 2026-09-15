@@ -23,6 +23,8 @@
 function PlotCollapseEmpiricalCDFWithFits_plotAllComp_proc(idaInputs)
 
 sigmaLnModeling =            idaInputs.sigmaLnModeling;
+sigmaLnDesignReq =           idaInputs.sigmaLnDesignReq;
+sigmaLnTestData =            idaInputs.sigmaLnTestData;
 analysisType =               idaInputs.analysisType;
 eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name;
 isConvertToSaKircher =       idaInputs.isConvertToSaKircher;
@@ -125,7 +127,8 @@ formatMode =                 idaInputs.formatMode;
 % Compute the variance expanded for modeling uncertainty and do lognormal
 % plot of the expanded variance
 if(plotCDFWithAdditionalUncertainty == 1)
-    expandedSigmaLn = sqrt(stDevLnCollapseSaTOneAllComp ^ 2 + sigmaLnModeling ^ 2);
+    expandedSigmaLn = sqrt(stDevLnCollapseSaTOneAllComp^2 + sigmaLnDesignReq^2 + sigmaLnTestData^2 + sigmaLnModeling^2 );
+    
     % plot
     PlotLogNormalCDF(meanLnCollapseSaTOneAllComp, expandedSigmaLn, minValueForPlot, maxValueForPlot, markerTypeForLognormalExpandedVariance)
 end
@@ -134,13 +137,13 @@ end
 % Do final plot details
     if(plotNormalCDF == 1)
         if(plotCDFWithAdditionalUncertainty == 1)
-            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
+            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Lognormal CDF (RTR + MDL + TD + DR)', 'Location', 'Southeast');
         else
             legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Location', 'Southeast');
         end
     else
         if(plotCDFWithAdditionalUncertainty == 1)
-            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
+            legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Lognormal CDF (RTR + MDL + TD + DR)', 'Location', 'Southeast');
         else
             legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Location', 'Southeast');
         end
@@ -177,7 +180,7 @@ end
     cd psb_MatlabProcessors;
 
 % Clear variables
-    clear collapseLevelForAllComp meanCollapseSaTOneAllComp meanLnCollapseSaTOneAllComp stDevCollapseSaTOneAllComp stDevLnCollapseSaTOneAllComp
+% clear collapseLevelForAllComp meanCollapseSaTOneAllComp meanLnCollapseSaTOneAllComp stDevCollapseSaTOneAllComp stDevLnCollapseSaTOneAllComp
 
 
 

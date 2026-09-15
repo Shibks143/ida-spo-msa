@@ -258,16 +258,13 @@ fprintf('Total collapses       = %d\n', sum(numOfCollapses));
 [theta_hat, beta_hat] = sks_Mle_MSA(saLevelList, numOfGroundMotions, numOfCollapses);
 fprintf('θ̂ = %.3f g, β̂ₗₙ = %.3f\n', theta_hat, beta_hat);
 
-% fprintf('θ^ = %.3f g, β^ = %.3f\n', theta_hat, beta_hat);
-
 IM_vals = 0.01:0.01:10;
 P_Collapse = normcdf((log(IM_vals/theta_hat))/beta_hat);
 
 % Query collapse probability at a specific Sa value % added on 24th July 2026
-x_query = 0.53;   % Sa(T1) in g
-y_query = interp1(IM_vals, P_Collapse, x_query);
-
-fprintf('At Sa = %.3f g, P(Collapse) = %.7f\n', x_query, y_query);
+% x_query = 0.53;   % Sa(T1) in g
+% y_query = interp1(IM_vals, P_Collapse, x_query); 
+% fprintf('At Sa = %.3f g, P(Collapse) = %.7f\n', x_query, y_query);
 
 
 % ===== Plot =====

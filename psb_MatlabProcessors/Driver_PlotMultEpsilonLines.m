@@ -96,7 +96,7 @@ clear
 
         % Go to the folder to open the saved spectrum file
             currentFolderPath = [pwd];
-            eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\Epsilon_Files_Saved';
+            eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Epsilon_Files_Saved';
             cd(eqSpectraFolderPath)
         
         % Open the saved spectrum file

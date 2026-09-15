@@ -13,12 +13,13 @@
 % -------------------
 function[void] = Prak_ProcessMultipleCollapseRuns_Generalized_withGD(idaInputs)
 
-analysisTypeLIST = idaInputs.analysisTypeLIST;
-modelNameLIST = idaInputs.modelNameLIST;
-eqNumberLIST = idaInputs.eqNumberLIST;
-collapseDriftThreshold = idaInputs.collapseDriftThreshold;
-dataSavingOption = idaInputs.dataSavingOption;
-eqDataFolder = idaInputs.eqDataFolder;
+analysisTypeLIST =          idaInputs.analysisTypeLIST;
+modelNameLIST =             idaInputs.modelNameLIST;
+eqNumberLIST =              idaInputs.eqNumberLIST;
+collapseDriftThreshold =    idaInputs.collapseDriftThreshold;
+dataSavingOption =          idaInputs.dataSavingOption;
+eqDataFolder =              idaInputs.eqDataFolder;
+extraSecondsToRunAnalysis = idaInputs.extraSecondsToRunAnalysis;
 
 % Note that the Sa levels to use come from the file in the Collapse folder
 
@@ -34,25 +35,24 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     modelName = modelNameLIST{analysisTypeNum};
 
     cd ..
-
     cd Output
-    %                 cd K:\PrakRuns_I_Output_In_K % Use when output is in external HDD. Change back to cd output and comment this out when output folder is in I drive.
-
     fixedOutputDirectory = pwd;
 
 
+    % par
+    
     parfor eqNumNum = 1:length(eqNumberLIST)
-        eqNumber = eqNumberLIST(eqNumNum)
+           eqNumber = eqNumberLIST(eqNumNum);
 
         % Get the Sa levels that were run for the collapse analysis
         % First change the directory to get into the correct folder for processing
 
-        %                     cd ..;
-        %                     cd Output;
+        %   cd ..;
+        %   cd Output;
         cd(fixedOutputDirectory)
 
         % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
-        analysisTypeFolder = sprintf('%s', analysisType)
+        analysisTypeFolder = sprintf('%s', analysisType);
         cd(analysisTypeFolder);
 
         % EQ folder name
@@ -65,7 +65,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         fileNameToLoad = 'DATA_CollapseResultsForThisSingleEQ.mat';
         [collapseSaLevel, saLevelForEachRun, tolerance, isSingularForEachRun, isNonConvForEachRun, isCollapsedForEachRun] = Prak_loadDATAForEachEq(fileNameToLoad);
         %                     load('DATA_CollapseResultsForThisSingleEQ.mat', 'collapseSaLevel', 'saLevelForEachRun', 'tolerance', 'isSingularForEachRun', 'isNonConvForEachRun', 'isCollapsedForEachRun')
-        collapseLevelFromFileOpened = collapseSaLevel
+        collapseLevelFromFileOpened = collapseSaLevel;
         %                     clear collapseSaLevel;  % I don't want to use this value in the file that comes from when I ran the collapse analysis.  This value is slightly inaccurate in some cases.
         collapseSaLevel = [];
 
@@ -73,10 +73,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         toleranceUsedInCollapseAlgo = tolerance;    % Rename
 
         % Get back to initial folder
-        cd ..;
-        cd ..;
-        cd ..;
-        cd psb_MatlabProcessors;
+        cd(fullfile('..', '..', '..', 'psb_MatlabProcessors'));
 
 
         % Do processing for this EQ, for all the Sa levels that were run for the collapse analysis (actually only those that are below the collapse point)
@@ -85,27 +82,33 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         %                     clear saLevelsForIDAPlotLIST maxDriftRatioForPlotLIST
         saLevelsForIDAPlotLIST = [];
         maxDriftRatioForPlotLIST = [];
+        maxResidualDriftRatioForPlotLIST = [];
+        maxPFAForPlotLIST = [];
 
         % For this EQ, start the plot vectors with a (0, 0) in the first entry
         listIndex = 1;
         saLevelsForIDAPlotLIST(1, listIndex) = 0;
+        maxDriftRatioForPlotLIST(1, listIndex) = 0;
+        maxResidualDriftRatioForPlotLIST(1, listIndex) = 0; 
+        maxPFAForPlotLIST(1, listIndex) = 0; 
 
         %                     scaleFactorsForIDAPlotLIST(1, listIndex) = 0; % (11-29-15, PSB) enable if there is any error later on
 
-        maxDriftRatioForPlotLIST(1, listIndex) = 0;
-
+        
         listIndex = 2;
         maxSaLevelEverAddedToLIST = 0;
         firstSaAboveCollapsePoint = 100.0;
         maxDriftRatioForFirstSaAboveCollapsePoint = 100.0;
+        maxResidualDriftRatioForFirstSaAboveCollapsePoint = 100.0;
+        maxPFAForFirstSaAboveCollapsePoint = 100.0;
         foundPointAboveCollapse = 0;
         isNonConvAboveCollapse = -1;
         isSingularAboveCollapse = -1;
         isCollapsedAboveCollapse = -1;
 
         for saLevelNum = 1:length(saLevelsRunForCollapseAnalysis)
-            saTOneForRun = saLevelsRunForCollapseAnalysis(saLevelNum)
-            z = 'got here b'
+            saTOneForRun = saLevelsRunForCollapseAnalysis(saLevelNum);
+            z = 'got here b';
 
             % If it's under the collapse point, within the tolerance that we allow, then process...This should save all of the non-collapsed points and only
             %   one collapsed point.  Note that the stop for Sa
@@ -123,10 +126,19 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
                     % Call the processing file to do the processing and to find the maxDriftLevel for each Sa level that was run...
                     %ProcessSingleRunPinchDmgCol
-                    % Updated on 12-8-05 when cleaning-up
-                    % processors
+                    % Updated on 12-8-05 when cleaning-up processors
                     %[scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = ProcSingleRun_Collapse_Generalized(analysisType, modelName, saTOneForRun, eqNumber);     % I am using this so it saves the data for each run (good b/c it only takes 3kB per run to save the information) (for sending results to Buffalo)
-                    [scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = Prak_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD(analysisType, modelName, saTOneForRun, eqNumber, dataSavingOption, eqDataFolder);
+                    
+                    [scaleFactorForRun, maxDriftRatioForFullStr, maxResidualDriftRatioForFullStr, maxPFAForFullStr, isNonConv, isSingular, isCollapsed] = ...
+                        sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_IDA(analysisType, modelName, saTOneForRun, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder);
+                    
+                        % sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder); % taken from MSA
+                    
+                    % there are lot of analyses, procedures etc are available in below function file, can be used for further analyses later times
+                    
+                    % [scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = ...
+                        % Prak_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD(analysisType, modelName, saTOneForRun, eqNumber, dataSavingOption, eqDataFolder);
+                    
                     %ProcSingleRun_Collapse_Generalized_Full;
                     %ProcSingleRun_Collapse_Simple;          % This is a reduced processor that just computes what it needs and does not save a file for each Sa value
                     %ProcSingleRunNlBmColFullPO_newGeneral_
@@ -143,6 +155,8 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                             % Save point above collapsed
                             firstSaAboveCollapsePoint = saTOneForRun; % indexed to the saLevelsForIDAPlotList in the end if no smaller Sa with collapse is found
                             maxDriftRatioForFirstSaAboveCollapsePoint = maxDriftRatioForFullStr;
+                            maxResidualDriftRatioForFirstSaAboveCollapsePoint = maxResidualDriftRatioForFullStr;
+                            maxPFAForFirstSaAboveCollapsePoint = maxPFAForFullStr;
                             isNonConvAboveCollapse = isNonConv;
                             isSingularAboveCollapse = isSingular;
                             isCollapsedAboveCollapse = isCollapsed;
@@ -176,7 +190,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                         end
 
                         % Now after the processing, there is defined a value of maxDriftForFullFrame, that I will store here to have the max drift level in the frame for this Sa level
-                        saLevelsForIDAPlotLIST(1, listIndex) = saTOneForRun
+                        saLevelsForIDAPlotLIST(1, listIndex) = saTOneForRun;
 
                         % (11-29-15, PSB) enable if there is any error later on
                         % scaleFactorsForIDAPlotLIST(1, listIndex) = scaleFactorForRun;
@@ -188,6 +202,8 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                         unscaledSaLevelOfRecord_SaIsBasedOnScalingMethodUsed = saTOneForRun / scaleFactorForRun;
 
                         maxDriftRatioForPlotLIST(1, listIndex) = maxDriftRatioForFullStr;
+                        maxResidualDriftRatioForPlotLIST(1, listIndex) = maxResidualDriftRatioForFullStr;
+                        maxPFAForPlotLIST(1, listIndex) = maxPFAForFullStr;
 
                         %                                         isNonConvLIST(1, listIndex) = isNonConv;
                         %                                         isSingularLIST(1, listIndex) = isSingular;
@@ -196,7 +212,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                         [a, b, c] =  Prak_assignValues(isNonConv, isSingular, isCollapsed, listIndex);
                         isNonConvLIST = a;
                         isSingularLIST = b;
-                        isCollapsedLIST = c
+                        isCollapsedLIST = c;
 
                         % Update the index
                         listIndex = listIndex + 1;
@@ -213,6 +229,8 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
             %disp('Adding point above the collapse point');
             saLevelsForIDAPlotLIST(1, listIndex) = firstSaAboveCollapsePoint;
             maxDriftRatioForPlotLIST(1, listIndex) = maxDriftRatioForFirstSaAboveCollapsePoint;
+            maxResidualDriftRatioForPlotLIST(1, listIndex) = maxResidualDriftRatioForFirstSaAboveCollapsePoint;
+            maxPFAForPlotLIST(1, listIndex) = maxPFAForFirstSaAboveCollapsePoint;
 
             %                             isNonConvLIST(1, listIndex) = isNonConvAboveCollapse;
             %                             isSingularLIST(1, listIndex) = isSingularAboveCollapse;
@@ -248,18 +266,17 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                 error('collapse Sa level is incorrect - abort')
             end
         end
-        % Average the two values to find the
-        % collapseSaLevel
+        % Average the two values to find the collapseSaLevel
         collapseSaLevel = (currentSaLevel + lastStepSaLevel) / 2.0;
-        collapseSaLevel
+        disp(collapseSaLevel)
         %                         unscaledSaLevelOfRecord_SaIsBasedOnScalingMethodUsed
 
 
 
         % For this EQ, save the information needed for an IDA plot
         % First change the directory to get into the correct folder for processing
-        cd ..;
-        cd Output;
+        cd(fullfile('..', 'Output'));
+     
         % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
         analysisTypeFolder = sprintf('%s', analysisType);
         cd(analysisTypeFolder);
@@ -277,26 +294,19 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         % (ii) scaleFactorOnCompAtCollapse is not required for subsequent use
         % and therefore, I am assigning a very high number of 999.
         try
-            % Compute the scale factor at collapse (scale factor on
-            % the actual record)
+            % Compute the scale factor at collapse (scale factor on the actual record)
             scaleFactorOnCompAtCollapse = collapseSaLevel / unscaledSaLevelOfRecord_SaIsBasedOnScalingMethodUsed;
 
-            Prak_saveDATA_Collapse(fileName, saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis, isNonConvLIST, isSingularLIST, isCollapsedLIST, scaleFactorOnCompAtCollapse);
+            Prak_saveDATA_Collapse(fileName, saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, maxResidualDriftRatioForPlotLIST, maxPFAForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis, isNonConvLIST, isSingularLIST, isCollapsedLIST, scaleFactorOnCompAtCollapse);
         catch
-            Prak_saveDATA_Collapse(fileName, saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis, isNonConvLIST, isSingularLIST, isCollapsedLIST, 999);
+            Prak_saveDATA_Collapse(fileName, saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, maxResidualDriftRatioForPlotLIST, maxPFAForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis, isNonConvLIST, isSingularLIST, isCollapsedLIST, 999);
         end
 
-        %                         save(fileName, 'saLevelsForIDAPlotLIST', 'maxDriftRatioForPlotLIST', 'collapseSaLevel', 'saLevelsRunForCollapseAnalysis', 'isNonConvLIST', 'isSingularLIST', 'isCollapsedLIST', 'scaleFactorOnCompAtCollapse');
-
         % Clear these variable for next time
-        %                         clear saLevelsForIDAPlotLIST maxDriftRatioForPlotLIST collapseSaLevel saLevelsRunForCollapseAnalysis collapseSaLevel saLevelsRunForCollapseAnalysis
-        Prak_clearVarsForProcessing(saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis)
+        Prak_clearVarsForProcessing(saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, maxResidualDriftRatioForPlotLIST, maxPFAForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis)
 
         % Back to starting folder
-        cd ..;
-        cd ..;
-        cd ..;
-        cd psb_MatlabProcessors;
+        cd(fullfile('..', '..', '..', 'psb_MatlabProcessors'));
 
     end
 

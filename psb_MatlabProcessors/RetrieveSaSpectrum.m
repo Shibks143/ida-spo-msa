@@ -15,7 +15,7 @@ function[periodVector, saVector] = RetrieveSaSpectrum(eqCompNumber, dampingRatio
         currentFolderPath = [pwd];
     
     % Go to Sorted_Eq_Files folder to get file (folder location is hard-coded)
-        eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved';
+        eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQ_Spectra_Saved';
         cd(eqSpectraFolderPath)
         
     % Open the saved spectrum file

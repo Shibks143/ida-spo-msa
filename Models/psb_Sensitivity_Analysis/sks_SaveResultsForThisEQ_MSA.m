@@ -16,21 +16,17 @@ analysisFolderName = sprintf('(%s)_(%s)_(%.2f)_(%s)', sensModel, sensVariableNam
 
 sensDir = pwd;
 while true
-    
+
     [parent,currentFolder] = fileparts(pwd);
-    
+
     if strcmpi(currentFolder,'Models')
         break
     end
-    
     cd ..
-    
 end
 
 cd ..           % go to project root
-cd Output
-cd(analysisFolderName)
-
+cd(fullfile('Output', analysisFolderName));
 eqFolder = sprintf('EQ_%d',eqNumber);
 cd(eqFolder)
 

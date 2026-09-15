@@ -124,7 +124,7 @@ end
     
 % Go to the EQ_Spectra_Saved folder and save the results
     currentFolderPath = [pwd];
-    eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\Epsilon_Files_Saved';
+    eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Epsilon_Files_Saved';
     cd(eqSpectraFolderPath)
     
 	% Save results

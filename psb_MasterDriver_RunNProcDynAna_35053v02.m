@@ -47,13 +47,13 @@ tStart= tic;
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'MSA';
+IDA_or_MSA = 'IDA';
     
-     eqListID = 'setC';  
+     % eqListID = 'setC';  
     % eqListID = 'setD' ;
     % eqListID = 'setDNotC'; 
     % eqListID = 'setG';
-    % eqListID = 'setTest';
+    eqListID = 'setTest';
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
@@ -64,11 +64,11 @@ IDA_or_MSA = 'MSA';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         
-	extraSecondsToRunAnalysis = 5.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
+	extraSecondsToRunAnalysis = 0.00;   % (11-3-15, PSB) extra seconds added to the time history duration for extracting residual drift in the structure.
                                         % can as well be kept zero if conventional collapse analysis is being performed.
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.06;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -195,6 +195,7 @@ switch eqListID
         eqFormatForCollapseList = eqFormatForCollapseList_SetTest;          flagForEQFileFormat = flagForEQFileFormat_SetTest;
         eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;         
         eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;    eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
+        eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
 
 end
 

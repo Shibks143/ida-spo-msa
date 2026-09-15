@@ -34,7 +34,7 @@ baseFolder = pwd; baseF = pwd;
 %   whatToDo = '7b.extractSaValForVariousEQs';
 %   whatToDo = '7c.plotUHS_CMS_WithGMPM';
 %  whatToDo = '8.compareOrPlotGroundMotionTH';
-%  whatToDo = '9.curtailGroundMotionBasedOnPGA';
+ whatToDo = '9.curtailGroundMotionBasedOnPGA';
 %   whatToDo = '9a.curtailGroundMotionBasedOnPGAForMumbai250';
 %   whatToDo = '9b.curtailGroundMotionBasedOnPGAForMumbai50Remaining';
 %   whatToDo = '9c.curtailGroundMotionBasedOnPGAForMumbai22Remaining';
@@ -110,7 +110,7 @@ baseFolder = pwd; baseF = pwd;
 %  whatToDo = '30.readTextFilesSevenSections';
 %  whatToDo = '31.opentextFilesInNotepad++';
 % whatToDo = '32.CopyAllMatFilesFromAnalysisOutput';
-whatToDo = '32a.CopyAllMatFilesFromAnalysisOutput_BRBGF';
+% whatToDo = '32a.CopyAllMatFilesFromAnalysisOutput_BRBGF';
 % whatToDo = '32b.CopyAllFigFilesFromMultipleDirectory_GMReport';
 % whatToDo = '32c.FormatFigFilesInBulk_GMReport_Overleaf';
 % whatToDo = '33.plotIDA_quantiles_mean_84_16';
@@ -2352,41 +2352,79 @@ end
     case '9.curtailGroundMotionBasedOnPGA'      
 %% 
 % This saves the files in H:\PrakRuns just to be cautious, I am not pasting these values in final directory.
-eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
-eqNumberLIST_forProcessing_SetD = [120111	120112	120121	120122	120131	120132	120141	120142	120151	120152	120161	120162	120411	120412	120521	120522	120611	120612	120621	120622	120631	120632	120641	120642	120711	120712	120721	120722	120731	120732	120741	120742	120811	120812	120821	120822	120911	120912	120921	120922	120931	120932	121011	121012	121021	121022	121031	121032	121041	121042	121051	121052	121061	121062	121111	121112	121211	121212	121221	121222	121231	121232	121321	121322	121411	121412	121421	121422	121431	121432	121441	121442	121451	121452	121461	121462	121511	121512	121711	121712];
+% eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
+% eqNumberLIST_forProcessing_SetD = [120111	120112	120121	120122	120131	120132	120141	120142	120151	120152	120161	120162	120411	120412	120521	120522	120611	120612	120621	120622	120631	120632	120641	120642	120711	120712	120721	120722	120731	120732	120741	120742	120811	120812	120821	120822	120911	120912	120921	120922	120931	120932	121011	121012	121021	121022	121031	121032	121041	121042	121051	121052	121061	121062	121111	121112	121211	121212	121221	121222	121231	121232	121321	121322	121411	121412	121421	121422	121431	121432	121441	121442	121451	121452	121461	121462	121511	121512	121711	121712];
 %    eqLIST = eqNumberLIST_forProcessing_SetC;
-    eqLIST = [880101];
+% eqLIST = [880101];
+
+eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [70011  70012  70021  70022  70031  70032  70041  70042  70051  70052  70061  70062  70071  70072  70081  70082  70091  70092  70101  70102  70111  70112  70121  70122  70131  70132  70141  70142  70151  70152  70161  70162  70171  70172  70181  70182  70191  70192  70201  70202  70211  70212  70221  70222  70231  70232  70241  70242  70251  70252  70261  70262  70271  70272  70281  70282  70291  70292  70301  70302];
+eqLIST = eqNumLIST_forProcessing_SetGuw30_46053_Sca4;
+    
    doPlot = 1; % 1- Plot. 0- don't plot. Use 1, when processing smaller number of EQs
 
-cutOffFraction = 0.05; % this is the fraction of PGA, below which GM would be curtailed from tails (beginning and end)
+cutOffFraction = 0.01; % 0.05 % this is the fraction of PGA, below which GM would be curtailed from tails (beginning and end)
 minCurtailFraction = 0.05; % don't curtail the time history less than this fraction on either side.
                            % this is to avoid unnecessarily modifying time histories without much advantage.
   
-MarkerTypeList={'r-','b--','k-.','g--','y..',[.5 .6 .7],[.8 .2 .6],}; % Cell array of 7 markers.
+% MarkerTypeList={'r-','b--','k-.','g--','y..',[.5 .6 .7],[.8 .2 .6],}; % Cell array of 7 markers.
+
+% ---- Fixed marker/color list: all valid linespecs, no raw RGB triplets ----
+MarkerTypeList = {'r-','b--','k-.','g--','m:','c-.','y-'}; % 7 valid linespecs
 totNumOfEQs = length(eqLIST);
+
+
+% ---- Storage for summary table ----
+eqNum           = zeros(totNumOfEQs,1);
+PGA             = zeros(totNumOfEQs,1);
+PGV             = zeros(totNumOfEQs,1);
+leftCurtail     = zeros(totNumOfEQs,1);
+rightCurtail    = zeros(totNumOfEQs,1);
+numPointsBefore = zeros(totNumOfEQs,1);
+numPointsAfter  = zeros(totNumOfEQs,1);
+durationBefore  = zeros(totNumOfEQs,1);
+durationAfter   = zeros(totNumOfEQs,1);
+totalCurtail    = zeros(totNumOfEQs,1);
+
 for eqIndex = 1:totNumOfEQs
     GMTimeHistory = []; % initiate everytime
     timeArray = [];
     
-    cd C:\OpenSeesProcessingFiles\EQs\ORIGINAL_TIME_HISTORIES
+    % cd C:\OpenSeesProcessingFiles\EQs\ORIGINAL_TIME_HISTORIES
+    cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\EQs    
     eqNumber = eqLIST(eqIndex);
+    eqNum(eqIndex) = eqNumber;
 
     dt = load(sprintf('DtFile_(%i).txt', eqNumber));
     numPoints = load(sprintf('NumPointsFile_(%i).txt', eqNumber));
     GMTimeHistory = load(sprintf('SortedEQFile_(%i).txt', eqNumber));
     timeArray = 0:dt:dt * (numPoints - 1);
     
+    % Original GM information
+    numPointsBefore(eqIndex) = numPoints;
+    durationBefore(eqIndex) = dt * (numPoints - 1);
+
     cutOffValue = cutOffFraction * max(abs(GMTimeHistory));
 
     if (doPlot == 1)
         figure(51) % random number to avoid possible conflict, just in case of some other existing figure
-        plot(timeArray, GMTimeHistory, MarkerTypeList{eqIndex},'LineWidth',1.0); hold on; grid on;
+        markerIdx = mod(eqIndex-1, length(MarkerTypeList)) + 1;
+        plot(timeArray, GMTimeHistory, MarkerTypeList{markerIdx},'LineWidth',1.0); hold on; grid on;
         xlabel('Time (second) \rightarrow'); ylabel('Ground accelration (g) \rightarrow');
         % plot the cut off line
         plot(timeArray, cutOffValue * ones(length(timeArray), 1), 'k-', 'LineWidth', 1);
     end    
+    PGA(eqIndex) = max(abs(GMTimeHistory));
+   
+    % Calculate velocity by integrating acceleration
+    acceleration_mps2 = GMTimeHistory * 9.80665;
+    velocity_mps = cumtrapz(timeArray, acceleration_mps2);
 
-    fprintf('PGA for eqNum %i is %5.3f \n', eqNumber, max(GMTimeHistory));
+    % Peak Ground Velocity
+    PGV(eqIndex) = max(abs(velocity_mps));
+
+    fprintf('PGA for eqNum %i is %5.3f g \n', eqNumber, PGA(eqIndex));
+    fprintf('PGV for eqNum %i is %5.3f m/s \n', eqNumber, PGV(eqIndex));
+
 
 % find the first time step when acceleration exceeds the cut-off value
     firstTimeIndexOfCurtailedGM = find(abs(GMTimeHistory) > cutOffValue, 1);
@@ -2399,11 +2437,19 @@ for eqIndex = 1:totNumOfEQs
     if ((firstTimeIndexOfCurtailedGM < minCurtailFraction * numPoints) && (lastTimeIndexOfCurtailedGM > (1 - minCurtailFraction) * numPoints))
         fprintf('Possible curtailment is too small on either sides. Hence, is not performed. \n');
 
-        cd H:\PrakRuns
+        % cd H:\PrakRuns
+        cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\1pct_CurtailedGMs
         save(sprintf('SortedEQFile_(%i).txt', eqNumber), 'GMTimeHistory', '-ascii');
         save(sprintf('NumPointsFile_(%i).txt', eqNumber), 'numPoints', '-ascii');
         disp(['Files saved as ', fullfile(pwd, sprintf('SortedEQFile_(%i).txt', eqNumber)), ' and ', sprintf('NumPointsFile_(%i).txt', eqNumber)]);
         fprintf('---------------------------------------------- \n');
+        
+        leftCurtail(eqIndex)  = 0;   
+        rightCurtail(eqIndex) = 0;
+        numPointsAfter(eqIndex) = numPoints;
+        durationAfter(eqIndex) = durationBefore(eqIndex);
+        totalCurtail(eqIndex) = 0;    
+        
         continue
     end
         
@@ -2412,9 +2458,11 @@ for eqIndex = 1:totNumOfEQs
 %         fprintf('First Time Index exceeding the cut-off is %i, this is less than %i (i.e. less than %i%% away from start of GM) \n hence, no curtailement from left side is done! \n', firstTimeIndexOfCurtailedGM, minCurtailFraction * numPoints, minCurtailFraction * 100);
         fprintf('--- No curtailment from Left side is done --- \t');
         firstTimeIndexOfCurtailedGM = 1;
+        leftCurtail(eqIndex) = 0; 
     else
         firstTimeIndexOfCurtailedGM = firstTimeIndexOfCurtailedGM - round(0.01 * numPoints); % include some points even before cut off
         fprintf('--- %i%% curtailment from Left side is done --- \t', round((firstTimeIndexOfCurtailedGM / numPoints) * 100));
+        leftCurtail(eqIndex) = round((firstTimeIndexOfCurtailedGM / numPoints) * 100);
     end
     
 % During final timeperiod, if reduction in GM duration is less than 5%, don't do it.
@@ -2422,31 +2470,64 @@ for eqIndex = 1:totNumOfEQs
 %         fprintf('Last Time Index exceeding the cut-off is %i, this is more than %i (i.e. less than %i%% away from end of GM) \n hence, no curtailement from right side is done! \n', lastTimeIndexOfCurtailedGM, (1- minCurtailFraction) * numPoints, minCurtailFraction * 100);
         fprintf('--- No curtailment from Right side is done --- \n');
         lastTimeIndexOfCurtailedGM = numPoints;
+        rightCurtail(eqIndex) = 0;
     else
         lastTimeIndexOfCurtailedGM = lastTimeIndexOfCurtailedGM + round(0.01 * numPoints); % include some points even after cut off
         fprintf('--- %i%% curtailment from Right side is done --- \n', round(100 - (lastTimeIndexOfCurtailedGM / numPoints) * 100));
+        rightCurtail(eqIndex) = round(100 - (lastTimeIndexOfCurtailedGM / numPoints) * 100); 
     end
 
     curtailedGMTimeHistory = GMTimeHistory(firstTimeIndexOfCurtailedGM:lastTimeIndexOfCurtailedGM);
     curtailedNumPoints = lastTimeIndexOfCurtailedGM - firstTimeIndexOfCurtailedGM + 1;
     curtailedTimeArray = 0:dt:dt * (curtailedNumPoints - 1);
+
+    % Curtailed GM information
+    numPointsAfter(eqIndex) = curtailedNumPoints;
+    durationAfter(eqIndex) = dt * (curtailedNumPoints - 1);
+    totalCurtail(eqIndex) = round((numPoints - curtailedNumPoints) / numPoints * 100);
     
     if (doPlot == 1)
         figure(52)
-        plot(curtailedTimeArray, curtailedGMTimeHistory, MarkerTypeList{eqIndex},'LineWidth',1.0); hold on; grid on;
+        markerIdx = mod(eqIndex-1, length(MarkerTypeList)) + 1;
+        plot(curtailedTimeArray, curtailedGMTimeHistory, MarkerTypeList{markerIdx},'LineWidth',1.0); hold on; grid on;
         xlabel('Time (second) \rightarrow'); ylabel('Ground accelration (g) \rightarrow');
     end
     
-    cd H:\PrakRuns
+    % cd H:\PrakRuns
+    cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\1pct_CurtailedGMs
     save(sprintf('SortedEQFile_(%i).txt', eqNumber), 'curtailedGMTimeHistory', '-ascii');
     save(sprintf('NumPointsFile_(%i).txt', eqNumber), 'curtailedNumPoints', '-ascii');
     disp(['Files saved as ', fullfile(pwd, sprintf('SortedEQFile_(%i).txt', eqNumber)), ' and ', sprintf('NumPointsFile_(%i).txt', eqNumber)]);
     
-    curtailmentPercentage(eqIndex) = round((numPoints - curtailedNumPoints)/ numPoints *100);
-    fprintf('NumPoints were reduced from %i to %i (%i%% curtailment) \n', numPoints, curtailedNumPoints, curtailmentPercentage(eqIndex));
+    % curtailmentPercentage(eqIndex) = round((numPoints - curtailedNumPoints)/ numPoints *100);
+    % fprintf('NumPoints were reduced from %i to %i (%i%% curtailment) \n', numPoints, curtailedNumPoints, curtailmentPercentage(eqIndex));
+    fprintf('NumPoints were reduced from %i to %i (%i%% curtailment) \n', numPoints, curtailedNumPoints, totalCurtail(eqIndex));
     fprintf('---------------------------------------------- \n');
    
 end
+% ---- Build and display the table ----
+PGA             = compose('%.2f', PGA);
+PGV             = compose('%.2f', PGV);
+durationBefore  = compose('%.2f', durationBefore);
+durationAfter   = compose('%.2f', durationAfter);
+
+curtailmentTable = table(eqNum, PGA, PGV, numPointsBefore, numPointsAfter, durationBefore, durationAfter, leftCurtail, rightCurtail, totalCurtail, ...
+    'VariableNames', { 'eqNum', 'PGA_g', 'PGV_mps', 'NumPointsBefore', 'NumPointsAfter', 'DurationBefore_sec', ...
+    'DurationAfter_sec', 'LeftCurtailPct', 'RightCurtailPct', 'TotalCurtailPct'});
+
+disp(curtailmentTable);
+fileName = sprintf('%.0fpctCurtailmentSummaryTable.xlsx', cutOffFraction * 100);
+writetable(curtailmentTable, fileName);
+
+
+
+if (doPlot == 1)
+    cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\1pct_CurtailedGMs
+    saveas(figure(51), 'OriginalGM_AllEQs.png');
+    fileName = sprintf('%.0fpctCurtailedGM_AllEQs.png', cutOffFraction * 100);
+    saveas(figure(52), fileName);
+end
+
 
     case '9a.curtailGroundMotionBasedOnPGAForMumbai250'
 %% 

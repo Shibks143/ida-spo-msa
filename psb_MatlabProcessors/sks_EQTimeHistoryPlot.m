@@ -13,8 +13,9 @@ clc; clear; close all; tic
 
 
 %%%%%%% Start Inputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-folderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQs';
+folderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs';
 formatMode = 'report';   % 'default','paper','report','powerPoint'
+closeFigures = 1;       % 1 = close after export, 0 = keep figures open
 
 % List of earthquake numbers to plot
 % eqList = [70011, 70012];
@@ -35,7 +36,7 @@ nFigs = ceil(length(eqList) / recordsPerFig);   % number of figures needed
 %%%%%%%%% End of Inputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Base export folder
-baseFolder = 'E:\OpenSees_PracticeExamples\ida-spo-msa\Output';
+baseFolder = 'E:\StaticDynamicAnalysis\ida-spo-msa\Output\EQ_TimeHistory\cutailedGMs';
 exportFolder = fullfile(baseFolder, 'EQ_TimeHistory');
 if ~exist(exportFolder, 'dir')
     mkdir(exportFolder);
@@ -120,6 +121,9 @@ for figIdx = 1:nFigs
     end
 
     fprintf('Saved combined grid plot %d of %d in:\n%s\n', figIdx, nFigs, exportFolder);
+    if closeFigures
+        close(gcf);
+    end
 
 end
 

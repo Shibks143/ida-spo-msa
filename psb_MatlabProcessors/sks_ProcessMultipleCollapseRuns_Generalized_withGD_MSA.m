@@ -21,6 +21,7 @@ collapseDriftThreshold =     msaInputs.collapseDriftThreshold;
 dataSavingOption =           msaInputs.dataSavingOption;
 eqNumberLIST              =  msaInputs.eqNumberLIST;
 extraSecondsToRunAnalysis =  msaInputs.extraSecondsToRunAnalysis;
+eqDataFolder =               msaInputs.eqDataFolder;
 % modelName                  = msaInputs.modelName;
 % =========================================================================
 % sks_ProcessMultipleCollapseRuns_MSA_Only
@@ -86,7 +87,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     % ======================================
     % LOOP over EQs
     % ======================================
-    for eqIndex = 1:length(eqNumberLIST)
+    parfor eqIndex = 1:length(eqNumberLIST)
         eqNumber = eqNumberLIST(eqIndex);
         modelName = modelNameLIST{analysisTypeNum};
 
@@ -117,7 +118,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
             % Call single-run function and capture all outputs
             [scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = ...
-                sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis);
+                sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder);
 
             % Store directly into the structure
             allResultsForThisEQ(saIndex).scaleFactorForRun       = scaleFactorForRun;
@@ -178,10 +179,9 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         % ==========================================================
         fileNameToSave = fullfile(eqFolderPath, 'DATA_collapseMSAPlotDataForThisEQ.mat');
 
-        save(fileNameToSave, ...
-            'saLevelsForMSAPlotLIST', 'maxDriftRatioForPlotLIST', 'isCollapsedLIST', 'isSingularLIST', 'isNonConvLIST', ...
-            'periodUsedForScalingGroundMotions', 'minStoryDriftRatioForCollapseMATLAB', 'eqNumber', 'analysisType');
-
+        sks_saveDATA_MSA(fileNameToSave, saLevelsForMSAPlotLIST, maxDriftRatioForPlotLIST, isCollapsedLIST, isSingularLIST, isNonConvLIST, ...
+            periodUsedForScalingGroundMotions, minStoryDriftRatioForCollapseMATLAB, eqNumber, analysisType);
+        
         fprintf('Saved MSA plot data: EQ_%d (%s)\n', eqNumber, analysisType);
 
     end

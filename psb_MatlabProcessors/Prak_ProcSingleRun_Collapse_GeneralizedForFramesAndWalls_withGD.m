@@ -91,10 +91,10 @@
 %
 %       jointShearDistortionAbsMaxForFullBldg - maximum of the above values for all joints in the building
 %
-%       baseShear - a stucture of base shear
+%       baseShear - a structure of base shear
 %                           Fields: TH, AbsMax
 %       pseudoTimeVector - a 1 x numTimeSteps vector holding the
-%       psuedoTime.  This is mainly created for plotting and to see how long the EQ converged for.
+%       pseudoTime.  This is mainly created for plotting and to see how long the EQ converged for.
 %       maxConvergedTime = the maximum pseudotime that the EQ converged to. 
 %       dataSavingOption - options for how much data to save
 %               = 1 - save all data (time histories, etc.) - these files
@@ -104,7 +104,7 @@
 %               = 3 - save both of the above files (b/c different
 %               processors use different files, so this may be useful)
 %               = 4 - only process and save the drift data (useful for
-%               collapse saneisitivity studies)
+%               collapse sensitivity studies)
 %
 %   NOT used now for nlBmCol model (were for hyst hinge model):
 %       maxRotation - the maximum rotation of any hinge in the frame
@@ -150,7 +150,7 @@ g = 9810;
     period = 1.0/33.0;  % From Cornell conversation
     dampRatio = 0.05;    % To not make the value artificially high
     
-% Input how many seconds at the end of the EQ should be used to comput residual drifts.  The residual drift is used as the avergae of the min and max
+% Input how many seconds at the end of the EQ should be used to compute residual drifts.  The residual drift is used as the avergae of the min and max
 %   values over the last X seconds of the EQ (assuming that the dT is not split over these last few seconds, so if it is split, then it effectively 
 %   averages over a bit more time at the end.
     secAtEndOfEQForResidual = 3.0; % have patience, this param is used far below around line number 850, 906 of this code (PSB)
@@ -176,7 +176,7 @@ filePrefix = sprintf('');
     cd(saFolder);
     
     % If there is a RunInformation folder (i.e. if I didn't stop the running), then process the Run Information.
-    runFolderName = 'RunInformation';
+        runFolderName = 'RunInformation';
         cd(runFolderName)
         
         % New collapse items %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -267,9 +267,8 @@ filePrefix = sprintf('');
 %         eqFullLength = load('eqFullLengthOUT.out');
         maxTolUsed = load('maxTolUsedOUT.out');
         cd ..;
-    
-    cd ..;
-    cd ..;
+        cd ..;
+        cd ..;
 
 
 % Note that floors are numbered starting with one for the ground floor
@@ -282,9 +281,9 @@ numFloors = numStories + 1;
 %%%%%%%%%%%%%%%%%%   
 % For the PFA calculations, we need to get the EQ TH vector so that we can add it with the relative accelerations to get absolute accelerations at each floor.
     % Go into the EQ folder to open the sorted EQ file
-        startFolder = [pwd];
+        startFolder = pwd;
         cd(eqDataFolder)
-        % cd C:\Users\sks\OpenSeesProcessingFiles\EQs
+        % cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs
             
     % Make the name of the sorted EQ file to read, as well as dtFile and
     % numPoints file (later two added by CBH on 12-17-08 to make things
@@ -335,7 +334,7 @@ numFloors = numStories + 1;
 %         dtForCurrentEQ = dtForEQRecord(eqNumber);
 %         
 %         eqTimeLength = ... % This was removed on 12-17-08 as well.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
        
     % Make a timeVector for the EQ record
         % Get max time for the EQ (for convergence stuff later)
@@ -374,10 +373,12 @@ numFloors = numStories + 1;
         cd ..;
         cd Output;
         cd(analysisTypeFolder);
-    %%%%%%%%%%%%%%%%%%  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%% Get node data, first get to node folder %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Get node data, first get into node folder %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Node data
 cd(eqFolder);
 cd(saFolder);
@@ -394,7 +395,7 @@ cd Nodes;
         % Make a vector of the psuedoTime before removing time data (really doesn't need to be in the loop, but easier)
         pseudoTimeVector = nodeArray{nodeNum}.displTH(:, 1);
         % Remove time data from node array
-        nodeArray{nodeNum}.displTH = nodeArray{nodeNum}.displTH(:, 2:4);   
+        nodeArray{nodeNum}.displTH = nodeArray{nodeNum}.displTH(:, 2:4);    % removing time data
         nodeArray{nodeNum}.displMax = max(nodeArray{nodeNum}.displTH);
         nodeArray{nodeNum}.displMin = min(nodeArray{nodeNum}.displTH);
         nodeArray{nodeNum}.displAbsMax = max(abs(nodeArray{nodeNum}.displMax), abs(nodeArray{nodeNum}.displMin)); % faster
@@ -431,8 +432,7 @@ cd Nodes;
             absMaxDisplOfFloor{floorIndex} = nodeArray{nodeNumsAtEachFloorLIST(floorIndex)}.displAbsMax;
         end
    
-    % Do this as long as we are not only saving drift data (for sens.
-    % studies)
+    % Do this as long as we are not only saving drift data (for sens. studies)
     if(dataSavingOption ~= 4)
         % Load node acceleration TH data, and compute the max/min/absMax
         cd AccelTH;
@@ -443,7 +443,7 @@ cd Nodes;
             nodeFileName = sprintf('%sTHNodeAccel_%.0f.out', filePrefix, nodeNum);
             nodeArray{nodeNum}.accelTH = load(nodeFileName);
             nodeArray{nodeNum}.accelTH = nodeArray{nodeNum}.accelTH(:, 2:4);    % removing time data
-%           nodeArray{nodeNum}.accelTH = nodeArray{nodeNum}.accelTH(:, 1);    % removing dof 2 data
+%           nodeArray{nodeNum}.accelTH = nodeArray{nodeNum}.accelTH(:, 1);      % removing dof 2 data
             nodeArray{nodeNum}.accelMax = max(nodeArray{nodeNum}.accelTH);
             nodeArray{nodeNum}.accelMin = min(nodeArray{nodeNum}.accelTH);
             nodeArray{nodeNum}.accelAbsMax = max(abs(nodeArray{nodeNum}.accelMax), abs(nodeArray{nodeNum}.accelMin)); % faster
@@ -452,10 +452,14 @@ cd Nodes;
         cd ..;
     end
 cd ..;
-%%%%%%% End node data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% End node data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%% Get element data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%% Get element data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do this as long as we are not only saving drift data (for sens.
 % studies)
 if(dataSavingOption ~= 4)
@@ -579,7 +583,7 @@ end
 % studies)
 if(dataSavingOption ~= 4)
     
-%     % Decide whther or not to load the hinge recorders - FOR ELASTIC WITH HYST HINGE MODEL, AND for the hinges of the gravity frame
+%     % Decide whether or not to load the hinge recorders - FOR ELASTIC WITH HYST HINGE MODEL, AND for the hinges of the gravity frame
 %     if(defineHystHingeRecorders == 1)
 %     
         % Load hinge force and deformation files
@@ -616,7 +620,7 @@ if(dataSavingOption ~= 4)
 % %             currentRotation = elementArray{hingeNum}.rotAbsMax;
 % %             
 % %             if(currentRotation > maxRotation)
-% %                 % If the current hinge has the higest rotation, then update the values
+% %                 % If the current hinge has the highest rotation, then update the values
 % %                 maxRotation = currentRotation;
 % %                 hingeWithMaxRotation = hingeElementsToRecordLIST(hingeIndex);
 % %             end
@@ -631,12 +635,11 @@ if(dataSavingOption ~= 4)
 %     
 %     end
     
-    
 
 %         defineJointRecorders = load('defineJointRecordersOUT.out');
 %         jointNumToRecordLIST = load('jointNumToRecordLISTOUT.out');
 %     
-     % Decide whther or not to load the joint recorders
+     % Decide whether or not to load the joint recorders
     if(defineJointRecorders == 1)
     
 %         disp('Loading joint data...')
@@ -660,6 +663,9 @@ end
 %%%%%%% End element data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % START DATA PROCESSING
@@ -833,6 +839,7 @@ if(~(isempty(jointNumToRecordLIST)) && (dataSavingOption ~= 4))
 end
 
 
+
 % Compute roof drift ratio.  This assumes that the displacement for drift is in dof 1 (x dof)
     buildingHeight = max(floorHeightsLIST);
     temp = length(nodeNumsAtEachFloorLIST);
@@ -845,14 +852,14 @@ end
     roofDriftRatio.AbsMax = max(abs(roofDriftRatio.Max), abs(roofDriftRatio.Min)); % faster
 %     roofDriftRatio.AbsMax = max(abs(roofDriftRatio.TH)); 
     
-    % Compute the residual drift ratios.  Take the average of the nax and min drifts over the last few seconds of the EQ.
+    % Compute the residual drift ratios.  Take the average of the max and min drifts over the last few seconds of the EQ.
     numPointsAtEndOfEQToUse = round(secAtEndOfEQForResidual / dtForAnalysis);
     lastPointNumAtEndOfEQ = length(roofDriftRatio.TH);
     pointNumAtStartOfResidualCalc = lastPointNumAtEndOfEQ - numPointsAtEndOfEQToUse;
         
     % Do error check, so that if there are less than the numPointsAtEndOfEQToUse in the full EQ (like for some collapse cases), then we will not try to do the calc. and we will not have an error
         if(lastPointNumAtEndOfEQ < (numPointsAtEndOfEQToUse + 10))
-            % If we get here, then just put "999" in for the residual drift, because there are not enough convergerged points, meaning that the building probably collapsed for this analysis!
+            % If we get here, then just put "999" in for the residual drift, because there are not enough converged points, meaning that the building probably collapsed for this analysis!
             roofDriftRatio.Residual = 999.0;
         else
             % If we get here, we have enough at the end of the record to compute a residual drift, so do it...
@@ -873,8 +880,8 @@ end
     
     
 % Compute story drift ratios (note that the ground floor is floor 1)
-%    This assumes that the displacement for drift is in dof 1 (x dof)
-maxDriftForFullFrame = 0;
+% This assumes that the displacement for drift is in dof 1 (x dof)
+maxDriftForFullFrame = 0; % Initialize to zero before finding the maximum story drift
 for floorNum = 2:length(floorHeightsLIST)
     storyNum = floorNum - 1;
     storyHeight = floorHeightsLIST(floorNum) - floorHeightsLIST(floorNum - 1);
@@ -887,23 +894,23 @@ for floorNum = 2:length(floorHeightsLIST)
         % The lower floor is the ground, so it has zero displacement 
         storyDriftRatio{storyNum}.TH = (nodeArray{upperFloorNodeNum}.displTH(:,1) - 0) / storyHeight;  
     else
-        % We are in an upper floor - do normal cacluation
+        % We are in an upper floor - do normal calculation
         storyDriftRatio{storyNum}.TH = (nodeArray{upperFloorNodeNum}.displTH(:,1) - nodeArray{lowerFloorNodeNum}.displTH(:,1)) / storyHeight; 
     end
-    storyDriftRatio{storyNum}.Max = max(storyDriftRatio{storyNum}.TH);
-    storyDriftRatio{storyNum}.Min = min(storyDriftRatio{storyNum}.TH);
-    storyDriftRatio{storyNum}.AbsMax = max(abs(max(storyDriftRatio{storyNum}.TH)), abs(min(storyDriftRatio{storyNum}.TH)));
-%     storyDriftRatio{storyNum}.AbsMax = max(abs(storyDriftRatio{storyNum}.TH));
+    storyDriftRatio{storyNum}.Max = max(storyDriftRatio{storyNum}.TH);                         % maximum positive drift for that particular story, then goes in storyNum loop
+    storyDriftRatio{storyNum}.Min = min(storyDriftRatio{storyNum}.TH);                         % maximum negative drift for that particular story, then goes in storyNum loop
+%   storyDriftRatio{storyNum}.AbsMax = max(abs(max(storyDriftRatio{storyNum}.TH)), abs(min(storyDriftRatio{storyNum}.TH)));
+%   storyDriftRatio{storyNum}.AbsMax = max(abs(storyDriftRatio{storyNum}.TH));
     storyDriftRatio{storyNum}.AbsMax = max(abs(storyDriftRatio{storyNum}.Max), abs(storyDriftRatio{storyNum}.Min));
 
     
     % If this story has higher drift, update max value
     if(storyDriftRatio{storyNum}.AbsMax > maxDriftForFullFrame)
-        maxDriftForFullFrame = storyDriftRatio{storyNum}.AbsMax;
+        maxDriftForFullFrame = storyDriftRatio{storyNum}.AbsMax;            % maximum of single highest AbsMax across all stories.
     end
 
     
-    % Compute the residual drift ratios.  Take the average of the nax and min drifts over the last few seconds of the EQ.
+    % Compute the residual drift ratios.  Take the average of the max and min drifts over the last few seconds of the EQ.
         numPointsAtEndOfEQToUse = round(secAtEndOfEQForResidual / dtForAnalysis);
         lastPointNumAtEndOfEQ = length(storyDriftRatio{storyNum}.TH);
         pointNumAtStartOfResidualCalc = lastPointNumAtEndOfEQ - numPointsAtEndOfEQToUse;
@@ -928,8 +935,8 @@ for floorNum = 2:length(floorHeightsLIST)
         storyDriftRatioToSave{storyNum}.AbsMax = storyDriftRatio{storyNum}.AbsMax;
         storyDriftRatioToSave{storyNum}.Residual = storyDriftRatio{storyNum}.Residual;
 
-
 end
+
 
 if(dataSavingOption ~= 4)
     % Make a cell structure of vectors of floor accelerations
@@ -938,7 +945,7 @@ if(dataSavingOption ~= 4)
         floorAccel{floorNum}.relTH = nodeArray{floorNodeNum}.accelTH(:,1);
         floorAccel{floorNum}.relAbsMax = nodeArray{floorNodeNum}.accelAbsMax(1);
     
-        % Format the response acceleration to get rid of intermeddiate steps (to just have one point for each dT)
+        % Format the response acceleration to get rid of intermediate steps (to just have one point for each dT)
         % First process the accel vector to not have any extra steps that subdivide dT...
         evenStepNum = 1;
         currentEvenlySpacedTimeStep = 0;
@@ -967,11 +974,11 @@ if(dataSavingOption ~= 4)
             % Find the abs max.
             floorAccel{floorNum}.absAbsMax = max(abs(floorAccel{floorNum}.absTH));
     
-        % Filter the floor accelerations to remove strange numerical noise.  Use the Newmark schmeme with T = 1/33 (Cornell) and no damping.  
+        % Filter the floor accelerations to remove strange numerical noise.  Use the Newmark scheme with T = 1/33 (Cornell) and no damping.  
         %   Note that the ComputeAllResponsesNewmark.m returns more information than I need (i.e. displ., vel., etc.), so I am storing those in junk variables!
-            %function[maxRelDispReponse, maxRelVelReponse, maxAbsAccelReponse, maxPsuedoAccelReponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
+            %function[maxRelDispResponse, maxRelVelResponse, maxAbsAccelResponse, maxPsuedoAccelResponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
             % Go back to the Matlab folder to do the processing
-            tempFolder2 = [pwd];
+            tempFolder2 = pwd;
             cd ..;
             cd ..;
             cd ..;
@@ -992,6 +999,8 @@ if(dataSavingOption ~= 4)
 
     end
 end
+
+
 
 % Compute base shear
 % baseShear.TH = zeros(length(elementArray{columnNumsAtBaseLIST(1)}.globalForceTH(:, 1)), 1);    %Just initializing it to zero vector of correct length
@@ -1290,17 +1299,12 @@ maxConvergedTime = max(pseudoTimeVector); %pseudoTimeVector is derived from dipl
             maxDriftRatioForFullStr = currentDriftRatio;
         end
     end
-
-        
-%                 periodUsedForScalingGroundMotionsFromMatlab = load('periodUsedForScalingGroundMotionsFromMatlabOUT.out');
-%         dampingRatioUsedForSaDefFromMatlab
-    
+  
                 
 % Save all of this data into the folder for the proper EQ, under the correct Sa level (we are already in the right folder)
 % Only save the information that is needed so that it will be more "bug resistant".
 
-% Decide what we want to save (based on input to this function (either
-% reduced data or full data)
+%% Decide what we want to save (based on input to this function (either reduced data or full data)
 if(dataSavingOption == 1)
     if(~isempty(jointNumToRecordLIST))
         % Save the full data, with joint information
@@ -1322,6 +1326,7 @@ if(dataSavingOption == 1)
         'storyDriftRatio', 'ground', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab', 'dampingRatioUsedForSaDefFromMatlab',...
         'roofDriftRatioToSave', 'numStories')
     end
+
 elseif(dataSavingOption == 2)
     if(~isempty(jointNumToRecordLIST))
         % Save a reduced amount of data, with joint information
@@ -1341,6 +1346,7 @@ elseif(dataSavingOption == 2)
         'saCompScaled', 'saGeoMeanScaled', 'buildingHeight', 'periodUsedForScalingGroundMotionsFromMatlab',...
         'roofDriftRatioToSave', 'numStories')
     end
+
 elseif(dataSavingOption == 3)
     if(~isempty(jointNumToRecordLIST))
         % Save both full and reduced files (because different processors usealingGroundMotionsFromMatlab', 'dampingRa
@@ -1384,8 +1390,9 @@ elseif(dataSavingOption == 3)
         'roofDriftRatioToSave', 'numStories')
 
     end
+
 elseif(dataSavingOption == 4)
-    % Save the bare-bones file of just the drift data, etc.
+        % Save the bare-bones file of just the drift data, etc.
         % Save a reduced amount of data, NO joint information
         fileName = ['DATA_reducedSensDataForThisSingleRun.mat'];
         
@@ -1396,13 +1403,9 @@ elseif(dataSavingOption == 4)
 end
 
 
- % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
-    % Go to Output folder
-        cd ..;
-        cd ..;
-        cd ..;
-    % Make a WARNING file, go into fodler first
-        cd Conv_Warning_Files;
+    % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
+    cd(fullfile('..', '..', '..', 'Conv_Warning_Files')); % Make a WARNING file, go into folder first
+
     
     % Output a warnings if needed
         if(isCurrentAnalysisConv == 0)
@@ -1431,10 +1434,7 @@ end
         
         
 % Get back to the MatlabProcessors folder where we started
-cd ..;
-cd ..;
-cd psb_MatlabProcessors;
-
+cd(fullfile('..', '..', 'psb_MatlabProcessors'));
 disp('Processing Finished for this EQ.');
 
 %     eigenvaluesAfterEQ = load('eigenvaluesAfterEQOUT.out');

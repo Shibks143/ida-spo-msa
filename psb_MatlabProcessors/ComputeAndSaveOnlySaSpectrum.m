@@ -43,7 +43,7 @@ temp = sprintf('**** Computing spectrum for record: %d', eqCompNum);
     currentFolderPath = [pwd];
     
 % Go to Sorted_Eq_Files folder to get file (folder location is hard-coded)
-    eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQs';
+    eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs';
     cd(eqSpectraFolderPath)
 
 % Simply call the function for all the time steps
@@ -92,7 +92,7 @@ disp('**** Finished period loop, starting to save and finish...')
     %plot(periodVector, SaAbs);
     
 % Go to Sorted_EQ Spectra folder to get file (folder location is hard-coded)
-    eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved';
+    eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQ_Spectra_Saved';
     cd(eqSpectraFolderPath)
     
 %     % Save all results

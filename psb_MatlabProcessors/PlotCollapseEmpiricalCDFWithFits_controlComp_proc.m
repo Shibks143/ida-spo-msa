@@ -23,6 +23,8 @@
 function PlotCollapseEmpiricalCDFWithFits_controlComp_proc(idaInputs)
 
 sigmaLnModeling =            idaInputs.sigmaLnModeling;
+sigmaLnDesignReq =           idaInputs.sigmaLnDesignReq;
+sigmaLnTestData =            idaInputs.sigmaLnTestData;
 analysisType =               idaInputs.analysisType;
 eqListForCollapseIDAs_Name = idaInputs.eqListForCollapseIDAs_Name;
 isConvertToSaKircher =       idaInputs.isConvertToSaKircher;
@@ -59,10 +61,8 @@ maxValueForPlot = 5.0;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%% Calculations
-% Go to the correct folder to open the file that was created by the
-% collapse IDA plotter.
+% Go to the correct folder to open the file that was created by the collapse IDA plotter.
 cd ..;
-
 cd Output
 
 analysisTypeFolder = sprintf('%s', analysisType);
@@ -70,7 +70,7 @@ cd(analysisTypeFolder);
 
 % Open the file that was created by the IDA processor - only load the
 % variables that I need
-%   NOTICE - if you are opening a file that has resutls from just single
+%   NOTICE - if you are opening a file that has results from just single
 %   components, you will need to load "collapseLevelForChosenComp" instead of
 %   "collapseLevelForAllControlComp".  Therefore this is now set up to plot
 %   the controlling component for two horizontal components.
@@ -88,8 +88,7 @@ load(fileName, 'collapseLevelForAllControlComp',...
 % Some calculations
 numEQs = length(collapseLevelForAllControlComp);
 
-% Sort the vector of collapse capacities so that it is monotonically
-% increasing
+% Sort the vector of collapse capacities so that it is monotonically increasing
 collapseLevelForAllControlComp_sorted = sort(collapseLevelForAllControlComp);
 
 % Created the cumm. prob values for each Sa,col
@@ -125,7 +124,8 @@ end
 % Compute the variance expanded for modeling uncertainty and do lognormal
 % plot of the expanded variance
 if(plotCDFWithAdditionalUncertainty == 1)
-    expandedSigmaLn = sqrt(stDevLnCollapseSaTOneControlComp ^ 2 + sigmaLnModeling ^ 2);
+    expandedSigmaLn = sqrt(stDevLnCollapseSaTOneControlComp^2 + sigmaLnDesignReq^2 + sigmaLnTestData^2 + sigmaLnModeling^2 );
+    
     % plot
     PlotLogNormalCDF(meanLnCollapseSaTOneControlComp, expandedSigmaLn, minValueForPlot, maxValueForPlot, markerTypeForLognormalExpandedVariance)
 end
@@ -134,13 +134,13 @@ end
 % Do final plot details
 if(plotNormalCDF == 1)
     if(plotCDFWithAdditionalUncertainty == 1)
-        legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
+        legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Lognormal CDF (RTR + MDL + TD + DR)', 'Location', 'Southeast');
     else
         legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Normal CDF (RTR Var.)', 'Location', 'Southeast');
     end
 else
     if(plotCDFWithAdditionalUncertainty == 1)
-        legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Lognormal CDF (RTR + Model.)', 'Location', 'Southeast');
+        legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Lognormal CDF (RTR + MDL + TD + DR)', 'Location', 'Southeast');
     else
         legend('Empirical CDF', 'Lognormal CDF (RTR Var.)', 'Location', 'Southeast');
     end
@@ -155,7 +155,7 @@ else
     temp = axisLabelForSaKircher;
 end
 xlabel(temp,'Interpreter','latex');
-ylabel('$\mathrm{IP}[\mathrm{collapse}]$', 'Interpreter', 'latex');
+ylabel('$\mathrm{Pr}[\mathrm{collapse}]$', 'Interpreter', 'latex');
 
 sks_figureFormat(formatMode)
 
@@ -169,12 +169,10 @@ else
 end
 
 % Go back to MatlabProcessors folder
-cd ..;
-cd ..;
-cd psb_MatlabProcessors;
+cd(fullfile('..', '..', 'psb_MatlabProcessors'));
 
 % Clear variables
-clear collapseLevelForAllControlComp meanCollapseSaTOneControlComp meanLnCollapseSaTOneControlComp stDevCollapseSaTOneControlComp stDevLnCollapseSaTOneControlComp
+% clear collapseLevelForAllControlComp meanCollapseSaTOneControlComp meanLnCollapseSaTOneControlComp stDevCollapseSaTOneControlComp stDevLnCollapseSaTOneControlComp
 
 
 

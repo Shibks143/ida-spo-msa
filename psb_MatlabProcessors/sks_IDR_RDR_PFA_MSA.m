@@ -10,13 +10,8 @@ function sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
 
 
 % Base directory setup
-baseDir = pwd;                 % MatlabProcessors folder
-
-cd(baseDir)
-cd ..\
-cd Output
-cd(analysisType)
-saveDir = pwd;                 % folder where plots will be saved
+baseDir = pwd;                                             % MatlabProcessors folder
+saveDir = fullfile(baseDir, '..', 'Output', analysisType); % folder where plots will be saved
 
 numEQ = length(eqNumberLIST);
 
@@ -59,31 +54,26 @@ for eqIndex = 1:numEQ
     storyDriftRatio_ResidualAbs_thisEQ = cell(numSaLevels,1);
     
     for saIndex = 1:numSaLevels
-        saFolderName = saFolders(saIndex).name;
-        saValue = str2double(erase(saFolderName,'Sa_'));
+        saFolder = saFolders(saIndex).name;
+        saValue = str2double(erase(saFolder,'Sa_'));
         saLevel_thisEQ(saIndex) = saValue;
 
-        reducedSenData = fullfile(eqFolder, saFolderName, 'DATA_reducedSensDataForThisSingleRun.mat');
+        reducedSenData = fullfile(eqFolder, saFolder, 'DATA_reducedSensDataForThisSingleRun.mat');
 
         if exist(reducedSenData,'file')
             edpData = load(reducedSenData, 'floorAccelToSave', 'storyDriftRatioToSave', 'roofDriftRatioToSave', 'maxDriftRatioForFullStr', 'buildingHeight', 'numStories');
 
             floorAccel_thisEQ{saIndex} = edpData.floorAccelToSave;
 
-            storyDriftRatio_thisEQ{saIndex} = ...
-                cellfun(@(x) x.AbsMax, edpData.storyDriftRatioToSave);
+            storyDriftRatio_thisEQ{saIndex} = cellfun(@(x) x.AbsMax, edpData.storyDriftRatioToSave);
 
-            storyDriftRatio_ResidualAbs_thisEQ{saIndex} = ...
-                cellfun(@(x) abs(x.Residual), edpData.storyDriftRatioToSave);
+            storyDriftRatio_ResidualAbs_thisEQ{saIndex} = cellfun(@(x) abs(x.Residual), edpData.storyDriftRatioToSave);
 
-            roofDriftRatio_thisEQ(saIndex) = ...
-                edpData.roofDriftRatioToSave.AbsMax;
+            roofDriftRatio_thisEQ(saIndex) = edpData.roofDriftRatioToSave.AbsMax;
 
-            roofDriftRatio_ResidualAbs_thisEQ(saIndex) = ...
-                abs(edpData.roofDriftRatioToSave.Residual);
+            roofDriftRatio_ResidualAbs_thisEQ(saIndex) = abs(edpData.roofDriftRatioToSave.Residual);
 
-            maxDriftRatioForFullStr_thisEQ(saIndex) = ...
-                edpData.maxDriftRatioForFullStr;
+            maxDriftRatioForFullStr_thisEQ(saIndex) = edpData.maxDriftRatioForFullStr;
 
 
 
@@ -171,7 +161,6 @@ saLevels = saLevel_all{1}(1:numSa);
 MSA_EdpData = struct();
 
 for eqIndex = 1:numEQ
-
     eqID = eqNumberLIST(eqIndex);
     fieldName = sprintf('EQ_%d', eqID);
 
@@ -183,24 +172,18 @@ for eqIndex = 1:numEQ
 end
 
 outputFile = fullfile(saveDir, sprintf('MSA_EDP_AllEQ_%s.mat', analysisType));
-
-save(outputFile, 'MSA_EdpData', 'IDR_allEQ', 'RDR_allEQ', 'RoofRDR_allEQ', ...
-    'PFA_allEQ', 'Drift_FullStr_allEQ', 'saLevels', 'eqNumberLIST');
-
-
+save(outputFile, 'MSA_EdpData', 'IDR_allEQ', 'RDR_allEQ', 'RoofRDR_allEQ', 'PFA_allEQ', 'Drift_FullStr_allEQ', 'saLevels', 'eqNumberLIST');
 fprintf('Saved ALL EQ MSA data to:\n%s\n', outputFile);
 
 
-%% FIGURE — Interstory Drift Profiles (per Sa level)
+%% FIGURE 1 — Interstory Drift Profiles (per Sa level)
 
 numSa   = numSaLevels_all(1);
 validSa = saLevel_all{1}(1:numSa);
-
 numStories = numStories_all(1);
 storyLevel = 1:(numStories+1);
 
 for saLevelIndex = 1:numSa
-
     figure
     hold on
 
@@ -225,7 +208,6 @@ for saLevelIndex = 1:numSa
         else
             plot(driftStep,heightStep,'Color',[0.7 0.7 0.7],'LineWidth',1.2);
         end
-
     end
 
     % ---- Percentiles across EQs ----
@@ -279,16 +261,14 @@ for saLevelIndex = 1:numSa
 end
 
 
-%% FIGURE — Residual Drift Profiles (per Sa level)
+%% FIGURE 2 — Residual Drift Profiles (per Sa level)
 
 numSa   = numSaLevels_all(1);
 validSa = saLevel_all{1}(1:numSa);
-
 numStories = numStories_all(1);
 storyLevel = 1:(numStories+1);
 
 for saLevelIndex = 1:numSa
-
     figure
     hold on
 
@@ -299,16 +279,13 @@ for saLevelIndex = 1:numSa
 
         residualProfile = 100 * storyDriftRatio_ResidualAbs_all{eqIndex}{saLevelIndex};
         residualProfile = residualProfile(:);   
-
         interStoryResidualDriftMatrix(:,eqIndex) = residualProfile;
 
         % ---- Step plot ----
         residualPlot = min(residualProfile,4);
         residualPlot = residualPlot(:);
-
         driftStep  = repelem(residualPlot,2);
         heightStep = reshape([storyLevel(1:end-1); storyLevel(2:end)],[],1);
-
         driftStep  = [driftStep; residualPlot(end)];
         heightStep = [heightStep; storyLevel(end)];
 
@@ -356,9 +333,7 @@ for saLevelIndex = 1:numSa
     xticks(0:0.5:2.5)
     title(sprintf('$S_a(T_1) = %.2f\\,g$',validSa(saLevelIndex)))
     grid off
-
     legend([hEQ hMedian hBand],{'RDR profiles','Median','$16$--$84$\% band'})
-
     exportName = fullfile(saveDir, sprintf('ResidualInterstoryDriftRatio_Sa(T1)_%.2f',validSa(saLevelIndex)));
     sks_figureFormat(formatMode);
     sks_figureExport(exportName);
@@ -386,7 +361,6 @@ for saLevelIndex = 1:numSa
 
         accelCell = floorAccel_all{eqIndex}{saLevelIndex};
         validCells = accelCell(~cellfun('isempty',accelCell));
-     
         pfaProfile = cellfun(@(x) x.absAbsMaxUnfiltered, validCells);
         pfaProfile = pfaProfile / 9810;
         pfaProfile = pfaProfile(:);
@@ -402,7 +376,6 @@ for saLevelIndex = 1:numSa
         else
             plot(pfaProfile,floors,'Color',[0.7 0.7 0.7],'LineWidth',1.2);
         end
-
     end
     
     % ---- Percentiles ----
@@ -432,9 +405,7 @@ for saLevelIndex = 1:numSa
     ylim([ymin - margin, ymax + margin])
     title(sprintf('$S_a(T_1) = %.2f\\,g$',validSa(saLevelIndex)))
     grid on
-
     legend([hEQ hMedian hBand], {'PFA profiles','Median','$16$--$84$\% band'})
-
     exportName = fullfile(saveDir, sprintf('PeakFloorAcceleration_Sa(T1)_%0.2f_g', validSa(saLevelIndex)));
     sks_figureFormat(formatMode);
     sks_figureExport(exportName);

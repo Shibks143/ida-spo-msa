@@ -9,7 +9,7 @@
 %
 % Author: Curt Haselton
 % Date Written: 6-28-06
-%
+% Modified by shivakumar KS at IIT Madras 
 % Functions and Procedures called: none
 %
 % Variable definitions:
@@ -18,14 +18,11 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-% function psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, ...
-% eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, ...
-% maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, ...
-% extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysis, eqTimeHistoryPreFormatted, openseesFileToUse)
 
 function psb_RunCollapseAnaMATLAB_NEWER_proc(idaInputs)
 
 eqDataFolder =                         idaInputs.eqDataFolder ;
+eqDataFolder = strrep(eqDataFolder, '\', '/');
 eqSpectraFolder =                      idaInputs.eqSpectraFolder ;
 dtForCollapseMATLAB =                  idaInputs.dtForCollapseMATLAB ;
 minStoryDriftRatioForCollapseMATLAB =  idaInputs.minStoryDriftRatioForCollapseMATLAB ;
@@ -112,15 +109,15 @@ for sensModelIndex = 1:length(sensModelLIST)
             sensDir = pwd;
 
             %	(4-30-16, PSB) implemented to debug for the cases when curtailed ground motions are used and some goof up occurs.
-            % numPointsFromLengthOfTH = size(load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
-            % numPointsFromFile = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('NumPointsFile_(%d).txt', eqNumber)));
+            % numPointsFromLengthOfTH = size(load(fullfile('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs', sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
+            % numPointsFromFile = load(fullfile('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs', sprintf('NumPointsFile_(%d).txt', eqNumber)));
             numPointsFromLengthOfTH = size(load(fullfile(eqDataFolder, sprintf('SortedEQFile_(%d).txt', eqNumber))), 1);
             numPointsFromFile = load(fullfile(eqDataFolder, sprintf('NumPointsFile_(%d).txt', eqNumber)));
 
             if (numPointsFromLengthOfTH ~= numPointsFromFile)
                 error('psbCode:chkForLengthOfGM', 'Length of SortedEQFile is not same as value in NumPointsFile of EQ ID = %d \n', eqNumber);
             end
-            % dtOfTimeHistory(indexForEQ) = load(fullfile('C:\Users\sks\OpenSeesProcessingFiles\EQs', sprintf('DtFile_(%d).txt',eqNumber)));
+            % dtOfTimeHistory(indexForEQ) = load(fullfile('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs', sprintf('DtFile_(%d).txt',eqNumber)));
             dtOfTimeHistory(indexForEQ) = load(fullfile(eqDataFolder, sprintf('DtFile_(%d).txt',eqNumber)));
 
             if (dtForCollapseMATLAB >= 1)
@@ -309,6 +306,8 @@ for sensModelIndex = 1:length(sensModelLIST)
                 fprintf(myFileStream, 'set %s %.2f\n', sensVariableName, sensVariableValue);
                 fprintf(myFileStream, 'set eqNumber %d\n', eqNumber);
                 fprintf(myFileStream, 'set eqFormatForCollapseList %s\n', eqFormatForCollapseList);
+                fprintf(myFileStream, 'global eqDataFolder\n');
+                fprintf(myFileStream, 'set eqDataFolder %s\n', eqDataFolder);
                 % This was updated on 6-29-06 to output a scale factor for the run as well as the Sa level; also add some other information to transfer.
                 fprintf(myFileStream, 'set currentSaLevel %.2f\n', currentSaLevel);
                 fprintf(myFileStream, 'puts "currentSaLevel is $currentSaLevel"\n');
@@ -338,15 +337,17 @@ for sensModelIndex = 1:length(sensModelLIST)
                 disp(pwd)
 
                 % !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
-                system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl') 
+                % system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl') 
 
-                % if strcmp(openseesFileToUse, 'default') % USE OpenSees_2.5.0_64bit_downloaded_11-13-16, when Shear Limit State material is not in use
-                %     !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
-                % elseif strcmp(openseesFileToUse, 'kNmmLimit') % USE OpenSees_64-kNmmMPa-PSB-11-01-16, when Shear LSM is in use in units of kN-mm
-                %     !OpenSees_64-kNmmMPa-PSB-11-01-16 psb_RunCollapseSensAnalysisMATLAB.tcl
-                % end
-
-
+                [status, cmdout] = system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl');
+                if status ~= 0
+                    fprintf('OpenSees execution failed for EQ %d (Sa = %.2f):\n%s\n', eqNumber, currentSaLevel, cmdout);
+                end
+                fprintf('\n========== OpenSees Status ==========\n');
+                fprintf('status = %d\n', status);
+                fprintf('cmdout =\n%s\n', cmdout);
+                fprintf('======================================\n');
+                
                 % Retrieve the results
                 %% RetrieveCollapseRunResults;
 
@@ -361,16 +362,19 @@ for sensModelIndex = 1:length(sensModelLIST)
                 sensDirForComingBack = pwd;
 
                 % Go into the output folder for this EQ run
-                cd ..;
-                cd ..;
-                cd ..;
-                disp(pwd)
-                cd Output;
+                % cd ..;
+                % cd ..;
+                % cd ..;
+                % disp(pwd)
+                % cd Output;
+                % cd(analysisFolderName)
 
-                cd(analysisFolderName)
+                cd(fullfile(sensDir, '..', '..', 'Output', analysisFolderName, sprintf('EQ_%d', eqNumber), sprintf('Sa_%.2f', currentSaLevel), 'RunInformation'));
+
+
                 % sprintf('Prakash \n')
-                eqFolder = sprintf('EQ_%d', eqNumber)
-                cd(eqFolder);
+                % eqFolder = sprintf('EQ_%d', eqNumber)
+                % cd(eqFolder);
 
                 % (11-23-15, PSB) replaced the adjustment for sig figs part by the simpler code below it.
 
@@ -399,15 +403,20 @@ for sensModelIndex = 1:length(sensModelLIST)
                 %             saFolder = sprintf('Sa_%.2f', currentSaLevel) % Changed to increase Ss due to convergence issued on 9-19-05
                 %         end
 
-                saFolder = sprintf('Sa_%.2f', currentSaLevel) % precision issue handled above while writing the VarDefinitionsFromMATLAB.tcl
+                % saFolder = sprintf('Sa_%.2f', currentSaLevel) % precision issue handled above while writing the VarDefinitionsFromMATLAB.tcl
                 % Now go into the folder
-                cd(saFolder)
+                % cd(saFolder)
 
                 % Now get into the RunInformation folder to get the needed output data
-                cd RunInformation;
+                % cd RunInformation;
 
 
                 % Now, load the needed data for this run
+                disp('Current directory before loading results:')
+                disp(pwd)
+
+                disp('Files in current directory:')
+                dir
                 isCollapsed = load('isCollapsedOUT.out');
                 isSingular = load('isSingularOUT.out');
                 isNonConv = load('isNonConvOUT.out');
@@ -424,6 +433,7 @@ for sensModelIndex = 1:length(sensModelLIST)
 
                 % Go back to starting directory (sens. dir.)
                 cd(sensDirForComingBack)
+
 
 
                 %%
@@ -688,6 +698,8 @@ for sensModelIndex = 1:length(sensModelLIST)
                 fprintf(myFileStream, 'set %s %.2f\n', sensVariableName, sensVariableValue);
                 fprintf(myFileStream, 'set eqNumber %d\n', eqNumber);
                 fprintf(myFileStream, 'set eqFormatForCollapseList %s\n', eqFormatForCollapseList);
+                fprintf(myFileStream, 'global eqDataFolder\n');
+                fprintf(myFileStream, 'set eqDataFolder %s\n', eqDataFolder);
                 % This was updated on 6-29-06 to output a scale factor for the run as well as the Sa level; also add some other information to transfer.
                 fprintf(myFileStream, 'set currentSaLevel %.2f\n', currentSaLevel);
                 fprintf(myFileStream, 'puts "currentSaLevel is $currentSaLevel"\n');

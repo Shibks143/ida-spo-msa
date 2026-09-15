@@ -8,38 +8,38 @@ function psb_SaveResultsForThisEQ(analysisFolderName, collapseRangeSize, collaps
     sensDir, sensModel, sensModelIndex, sensModelLIST, sensVariableIndex, sensVariableName, sensVariableNameLIST, sensVariableValue, ...
     sensVariableValueLIST, startStepSize, tolerance, toleranceAchieved, tolMetFlag)
 
-% Get to the folder for the EQ run...
-% Created the folder name that the data is in - this was tested and works correctly
-analysisFolderName = sprintf('(%s)_(%s)_(%.2f)_(%s)', sensModel, sensVariableName, sensVariableValue, elementUsedForColSensModelMATLAB);
-%disp(analysisFolderName)
-
-% Save current folder location to get back to it easily
-sensDir = pwd;
-disp(sensDir)
-
-% Go into the output folder for this EQ run
-cd ..;
-cd ..;
-%         cd ..;
-%         cd Output;
-
-try
-    cd Output;
-catch
+    % Get to the folder for the EQ run...
+    % Created the folder name that the data is in - this was tested and works correctly
+    analysisFolderName = sprintf('(%s)_(%s)_(%.2f)_(%s)', sensModel, sensVariableName, sensVariableValue, elementUsedForColSensModelMATLAB);
+    %disp(analysisFolderName)
+    
+    % Save current folder location to get back to it easily
+    sensDir = pwd;
+    disp(sensDir)
+    
+    % Go into the output folder for this EQ run
+    cd ..;
+    cd ..;
+    %         cd ..;
+    %         cd Output;
+    
     try
-        cd(fullfile('..', 'Output'));
+        cd Output;
     catch
-        cd(fullfile('..', '..', 'Output'));
+        try
+            cd(fullfile('..', 'Output'));
+        catch
+            cd(fullfile('..', '..', 'Output'));
+        end
     end
-end
+    
+    cd(analysisFolderName)
+    eqFolder = sprintf('EQ_%d', eqNumber);
+    cd(eqFolder);
 
-cd(analysisFolderName)
-eqFolder = sprintf('EQ_%d', eqNumber);
-cd(eqFolder);
-%         disp('datasaved???');
-
-% Save the results
-fileName = 'DATA_CollapseResultsForThisSingleEQ.mat';
+    
+    % Save the results
+    fileName = 'DATA_CollapseResultsForThisSingleEQ.mat';
 
 % Save all of the data
 save(fileName, 'analysisFolderName',  'collapseRangeSize',  'collapseSaLevel',  'currentOutputFolder',  'currentOutputFolderLIST',  ...

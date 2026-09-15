@@ -25,7 +25,7 @@ function[epsilon] = RetrieveEpsilonValueForAnEQ(eqCompNum, T, attenFuncNum, saTy
     currentFolderPath = [pwd];
     
 % Go to Sorted_Eq_Files folder to get file (folder location is hard-coded)
-    eqSpectraFolderPath = 'C:\Users\sks\OpenSeesProcessingFiles\Epsilon_Files_Saved';
+    eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Epsilon_Files_Saved';
     cd(eqSpectraFolderPath)
 
 % Open the epsilon file for this EQ

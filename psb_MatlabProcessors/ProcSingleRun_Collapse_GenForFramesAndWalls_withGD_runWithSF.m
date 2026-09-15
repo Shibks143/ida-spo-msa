@@ -304,7 +304,7 @@ numFloors = numStories + 1;
 % For the PFA calculations, we need to get the EQ TH vector so that we can add it with the relative accelerations to get absolute accelerations at each floor.
     % Go into the EQ folder to open the sorted EQ file
         startFolder = [pwd];
-        cd C:\Users\sks\OpenSeesProcessingFiles\EQs
+        cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs
             
     % Make the name of the sorted EQ file to read
         sortedInputEQFileName = sprintf('SortedEQFile_(%d).txt', eqNumber);

@@ -66,7 +66,8 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function [scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis)
+function [scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = ...
+    sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder)
 
 % IMPORTANT: This is the only processing file that has been being updated
 % for the archetype work (7-25-06, CBH)
@@ -172,7 +173,8 @@ cd(saFolder);
 % For the PFA calculations, we need to get the EQ TH vector so that we can add it with the relative accelerations to get absolute accelerations at each floor.
 % Go into the EQ folder to open the sorted EQ file
 startFolder = pwd;
-cd C:\Users\sks\OpenSeesProcessingFiles\EQs
+cd(eqDataFolder)
+% cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs
 
 % Make the name of the sorted EQ file to read, as well as dtFile and
 % numPoints file (later two added by CBH on 12-17-08 to make things
@@ -260,7 +262,7 @@ for nodeIndex = 1:length(nodeNumsAtEachFloorLIST)
     % Make a vector of the pseudoTime before removing time data (really doesn't need to be in the loop, but easier)
     pseudoTimeVector = nodeArray{nodeNum}.displTH(:, 1);
     % nodeArray{nodeNum}.displTH = nodeArray{nodeNum}.displTH(:, 2:4);    % removing time data, keep DOF 1,2,3
-    nodeArray{nodeNum}.displTH = nodeArray{nodeNum}.displTH(:, 2);      % removing time data, keep DOF 1
+    nodeArray{nodeNum}.displTH = nodeArray{nodeNum}.displTH(:, 2);        % removing time data, keep DOF 1
     nodeArray{nodeNum}.displMax = max(nodeArray{nodeNum}.displTH);
     nodeArray{nodeNum}.displMin = min(nodeArray{nodeNum}.displTH);
     nodeArray{nodeNum}.displAbsMax = max(abs(nodeArray{nodeNum}.displMax), abs(nodeArray{nodeNum}.displMin)); % faster
@@ -415,7 +417,7 @@ roofDriftRatioToSave.ResidualAbs = abs(roofDriftRatio.Residual);
 
 % Compute story drift ratios (note that the ground floor is floor 1)
 % This assumes that the displacement for drift is in dof 1 (x dof)
-maxDriftForFullFrame = 0;
+maxDriftForFullFrame = 0;        % Finally maxDriftForFullFrame = maxDriftRatioForFullStr, which is discussed later 
 
 numPointsToSkip           = round(secAtEndOfEQForResidual / dtForAnalysis);
 numPointsInExtraAnalysis  = round(extraSecondsToRunAnalysis / dtForAnalysis);
@@ -549,7 +551,7 @@ if(dataSavingOption == 2)
 
         % Filter the floor accelerations to remove strange numerical noise.  Use the Newmark scheme with T = 1/33 (Cornell) and no damping.
         % Note that the ComputeAllResponsesNewmark.m returns more information than I need (i.e. displ., vel., etc.), so I am storing those in junk variables!
-        %function[maxRelDispReponse, maxRelVelReponse, maxAbsAccelReponse, maxPseudoAccelReponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
+        %function[maxRelDispResponse, maxRelVelResponse, maxAbsAccelResponse, maxPseudoAccelResponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
         % Go back to the Matlab folder to do the processing
         tempFolder2 = pwd;
         cd ..;
@@ -596,7 +598,7 @@ end
 
 % Compute the maximum drift ratio for the full building
 % Loop through all stories and save the maximum
-maxDriftRatioForFullStr = 0;
+maxDriftRatioForFullStr = 0;                               % Finally maxDriftRatioForFullStr = maxDriftForFullFrame
 for i = 1:length(storyDriftRatioToSave)
     currentDriftRatio = storyDriftRatioToSave{i}.AbsMax;
     % Update maximum if needed

@@ -7,6 +7,18 @@ function sks_figureExport(exportName)
 
 fig = gcf;   % Current figure handle
 
+disp('----- sks_figureExport -----')
+disp(fig)
+
+    if isempty(fig)
+        error('gcf returned empty');
+    end
+    
+    if ~isgraphics(fig,'figure')
+        error('gcf is not a valid figure handle');
+    end
+
+
 % ---- Ensure folder exists (safe version) ----
 [folderPath,~,~] = fileparts(exportName);
 if ~isempty(folderPath) && ~exist(folderPath,'dir')

@@ -16,8 +16,13 @@ tStart= tic;
 baseFolder = pwd;
 
 % Automatically detect current root directory (works on both Windows and Linux HPC)
-rootDir = fileparts(mfilename('fullpath'));
+% rootDir = fileparts(mfilename('fullpath'));
  
+% Robust root directory detection: works for HPC batch runs AND local script runs
+rootDir = fileparts(mfilename('fullpath'));
+if isempty(rootDir)
+    rootDir = baseFolder;   % fallback: assumes you've cd'd into the project root
+end
 % Add code folders to MATLAB search path
 addpath(genpath(fullfile(rootDir, 'psb_MatlabProcessors')));
 addpath(genpath(fullfile(rootDir, 'psb_IntensityMeasures')));
@@ -59,33 +64,48 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'IDA';
+IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
 
-     eqListID = 'SetCS_30'; maxScalingTH = 4; 
-     % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
-     % eqListID = 'setC';  
-    % eqListID = 'setD' ;
-    % eqListID = 'setDNotC'; 
-    % eqListID = 'setG';
-    % eqListID = 'setTest';
+         % eqListID = 'SetCS_30'; maxScalingTH = 4; 
+         % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
+         eqListID = 'setC';  
+         % eqListID = 'setD' ;
+         % eqListID = 'setDNotC'; 
+         % eqListID = 'setG';
+         % eqListID = 'setTest';
+
+
+idaPlotType = 'PDF';     % IDA plot: 'NONE', 'IDA', or 'PDF'
+msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
+
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1        0              0               0];
+    analyzeProcessPlotIndex = [0        0        1           0        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         
-	extraSecondsToRunAnalysis = 0.00;   % (11-3-15, PSB) extra (5 or any) seconds added to the time history duration for extracting residual drift in the structure.
+	extraSecondsToRunAnalysis = 5.00;   % (11-3-15, PSB) extra (5 or any) seconds added to the time history duration for extracting residual drift in the structure.
                                         % can as well be kept zero if conventional collapse analysis is being performed. 
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.08;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
+
+    minStoryResidualDriftRatioMATLAB = 0.01;                        % Use either 0.5 or 1% for residual drift ratio
+    collapseResidualDriftThreshold = minStoryResidualDriftRatioMATLAB;
+    
+    midrLevels      = [0.01 0.02 0.04 0.06];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
+    midrLevelLabels = {'IO','LS','CP','Collapse'};
+    rdrLevels       = [0.002 0.005 0.01 0.02];                      % 0.2%, 0.5%, 1%, 2% (Max Interstory Residual Drift Ratio):Ref FEMA P-58, appendix C
+    pfaLevels       = [0.2 0.5 1.0 2.0];                            % g is the unit
+    pfaLevelLabels  = {'Slight','Moderate','Extensive','Complete'};
+
     dataSavingOption = 2;                                           % Decide what data files to save (1 - save all data; 2 - save 
                                                                     % reduced amount of data; 3 - save both of the above files)
     markerTypeLine = 'b';
@@ -117,7 +137,9 @@ IDA_or_MSA = 'IDA';
     elementUsedForColSensModelMATLAB = 'clough';                    % I do not think this is set up to vary
     sensVariableNameLIST    = {'AllVar'};                           % Do mean analysis
     sensVariableValueLIST   = 0.00;                                 % Do mean analysis
-    sigmaLnModeling = 0.50;                                         % This is used when making the collapse CDF plots
+    sigmaLnModeling  = 0.15;                                        % βMDL ∈ (0.10–0.50)This is used when making the collapse CDF plots
+    sigmaLnDesignReq = 0.15;                                        % βDR  ∈ (0.10–0.50)
+    sigmaLnTestData  = 0.20;                                        % βTD  ∈ (0.10–0.50)
                                                  
 % Define information used for collapse analyses
     saStartLevel = 0.11;        % BE SURE that this has two significant figs!!! b/c datafile for sa is set up for the same
@@ -126,9 +148,10 @@ IDA_or_MSA = 'IDA';
     maxNumRuns = 60;
     perturbationForNonConvSingular = 0.03;   
     
-% Sa list for stripe processing - this is the list of Sa levels to make stripe files for
+% Sa list for multiple stripe analysis (MSA) and processing - this is the list of Sa levels to make stripe files for
      
-    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.06 1.20 1.50 1.80 2.10];
+    % saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.06 1.20 1.50 1.80 2.10];
+    saLevelsForStripes = [0.10 0.50 1.00 2.00 3.00 4.00]; % for Testing
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this
@@ -197,10 +220,15 @@ IDA_or_MSA = 'IDA';
 
 
 
-isProcessMultipleCollapseRuns = true;   % or false
-isPlotCollapseIDAs = true;   % or false
-isConvertToSaKircher = false;   % or true (depending on need)
-isCollapsedForEachRun = false;   % or true (depending on logic)
+    isProcessMultipleCollapseRuns = true;   % or false
+    isPlotCollapseIDAs =            true;   % or false
+    isPlotCollapseIDAs_RDR =        true;   % or false
+    isPlotCollapseIDAs_PFA =        true;   % or false
+    isPlotCollapseMSAs =            true;   % or false
+    isPlotCollapseIDAsPDF =         true;   % or false
+    isConvertToSaKircher =          false;  % or true (depending on need)
+    isCollapsedForEachRun =         false;  % or true (depending on logic)
+ 
 
 
 switch eqListID
@@ -230,6 +258,7 @@ switch eqListID
         eqFormatForCollapseList = eqFormatForCollapseList_SetTest;          flagForEQFileFormat = flagForEQFileFormat_SetTest;
         eqNumberLIST_forProcessing = eqNumberLIST_forProcessing_SetTest;         
         eqListForCollapseIDAs_Name = eqListForCollapseIDAs_Name_SetTest;    eqNumberLIST_forCollapseIDAs = eqNumberLIST_forCollapseIDAs_SetTest;
+        eqListForCollapseMSAs_Name = eqListForCollapseMSAs_Name_SetTest;
 
     case 'SetCS_30'
         % Run site-specific conditional spectra matching 30 GMs
@@ -305,7 +334,17 @@ idaInputs.eqNumberLIST_forProcessing =          eqNumberLIST_forProcessing;
 idaInputs.isConvertToSaKircher =                isConvertToSaKircher;
 idaInputs.isCollapsedForEachRun =               isCollapsedForEachRun;
 idaInputs.sigmaLnModeling =                     sigmaLnModeling;
+idaInputs.sigmaLnDesignReq =                    sigmaLnDesignReq;
+idaInputs.sigmaLnTestData =                     sigmaLnTestData;
 idaInputs.maxNumRuns =                          maxNumRuns;
+idaInputs.idaPlotType =                         idaPlotType;
+
+% --- Added for IDA/MSA+PDF plotting ---
+idaInputs.midrLevels =                          midrLevels;
+idaInputs.midrLevelLabels =                     midrLevelLabels;
+idaInputs.rdrLevels =                           rdrLevels;
+idaInputs.pfaLevels =                           pfaLevels;
+idaInputs.pfaLevelLabels =                      pfaLevelLabels;
 
 msaInputs = idaInputs;
 
@@ -314,13 +353,19 @@ idaInputs.saStartLevel =                        saStartLevel;
 idaInputs.startStepSize =                       startStepSize;
 idaInputs.tolerance =                           tolerance; 
 idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
+idaInputs.isPlotCollapseIDAs_RDR =              isPlotCollapseIDAs_RDR;
+idaInputs.isPlotCollapseIDAs_PFA =              isPlotCollapseIDAs_PFA;
+idaInputs.isPlotCollapseIDAsPDF =               isPlotCollapseIDAsPDF;
 idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
 idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 
+
 % MSA-specific inputs
-% msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-% msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-% msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name; 
+msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name;
+msaInputs.isPlotCollapseMSAs =                  isPlotCollapseMSAs;
+msaInputs.msaPlotType =                         msaPlotType;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,13 +375,10 @@ idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 if analyzeProcessPlotIndex(1) == 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Run the analyses 
-
-% Go to folder
+%  Go to folder
     cd(fullfile('Models', 'psb_Sensitivity_Analysis'))
-    % cd Models
-    % cd psb_Sensitivity_Analysis
+
         % [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-%        psb_RunCollapseAnaMATLAB_NEWER_proc(dtForCollapseMATLAB, minStoryDriftRatioForCollapseMATLAB, elementUsedForColSensModelMATLAB, eqFormatForCollapseList, sensModelLIST, sensVariableNameLIST, sensVariableValueLIST, eqNumberLIST, saStartLevel, startStepSize, tolerance, maxNumRuns, perturbationForNonConvSingular, flagForEQFileFormat, periodUsedForScalingGroundMotions, dampingRatioUsedForSaDef, extraSecondsToRunAnalysis, timeTakenInMinsForEachAnalysisOld, eqTimeHistoryPreFormatted);
         sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
 end
     cd(baseFolder)
@@ -345,32 +387,61 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Process and plot for the collapse analyses
     % Go to Matlab Processor folder
-        cd psb_MatlabProcessors
+      cd psb_MatlabProcessors
 % Process analysis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if analyzeProcessPlotIndex(2) == 1
+        
         isProcessMultipleCollapseRuns = 1;
         isPlotCollapseIDAs = 0;
+        isPlotCollapseIDAs_RDR = 0;
+        isPlotCollapseIDAs_PFA = 0;
+        isPlotCollapseIDAsPDF = 0; 
         isPlotCollapseMSAs = 0;
-         msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
         isCollapsedForEachRun = 0;
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-            % ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
+
+        % --- propagate locally-reassigned flags into the structs before calling sks_* ---
+        idaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
+        idaInputs.isPlotCollapseIDAs            = isPlotCollapseIDAs;
+        idaInputs.isPlotCollapseIDAs_RDR        = isPlotCollapseIDAs_RDR;
+        idaInputs.isPlotCollapseIDAs_PFA        = isPlotCollapseIDAs_PFA;
+        idaInputs.isPlotCollapseIDAsPDF         = isPlotCollapseIDAsPDF;
+        idaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
+        idaInputs.isConvertToSaKircher          = isConvertToSaKircher;
+        msaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
+        msaInputs.isPlotCollapseMSAs            = isPlotCollapseMSAs;
+        msaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
+        msaInputs.isConvertToSaKircher          = isConvertToSaKircher;
+
         sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plot and save IDAs/MSAs
 if analyzeProcessPlotIndex(3) == 1
+
         isProcessMultipleCollapseRuns = 0;
         isPlotCollapseIDAs = 1;
+        isPlotCollapseIDAs_RDR = 1;
+        isPlotCollapseIDAs_PFA = 1;
+        isPlotCollapseIDAsPDF = 1;
         isPlotCollapseMSAs = 1;
-        idaInputs.isPlotCollapseIDAs =  isPlotCollapseIDAs;
-        msaInputs.isPlotCollapseMSAs =  isPlotCollapseMSAs;
         isCollapsedForEachRun = 0;
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
-%             ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-        % Prak_ProcessDynamicAnalyses_proc(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseIDAs, analysisTypeLIST, modelNameLIST, eqNumberLIST_forProcessing, eqListForCollapseIDAs_Name, eqNumberLIST_forCollapseIDAs, isConvertToSaKircher);
-        % sks_ProcessDynamicAnalyses_proc_MSA(collapseDriftThreshold, dataSavingOption, markerTypeLine, markerTypeDot, isPlotIndividualPoints, isProcessMultipleCollapseRuns, isPlotCollapseMSAs, analysisTypeLIST, modelNameLIST, eqNumberLIST,eqNumberLIST_forProcessing, eqNumberLIST_forStripes, saLevelsForStripes, isCollapsedForEachRun, isConvertToSaKircher, eqListForCollapseMSAs_Name);
+
+        % --- propagate locally-reassigned flags into the structs before calling sks_* ---
+        idaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
+        idaInputs.isPlotCollapseIDAs            = isPlotCollapseIDAs;
+        idaInputs.isPlotCollapseIDAs_RDR        = isPlotCollapseIDAs_RDR;
+        idaInputs.isPlotCollapseIDAs_PFA        = isPlotCollapseIDAs_PFA;
+        idaInputs.isPlotCollapseIDAsPDF         = isPlotCollapseIDAsPDF;
+        idaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
+        idaInputs.isConvertToSaKircher          = isConvertToSaKircher;
+        msaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
+        msaInputs.isPlotCollapseMSAs            = isPlotCollapseMSAs;
+        msaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
+        msaInputs.isConvertToSaKircher          = isConvertToSaKircher;
+        
         sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
         close;      close; % close figure 
 end
@@ -379,10 +450,9 @@ end
 % Collapse CDF plots
 if analyzeProcessPlotIndex(4) == 1
         isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-        saLevelForEachRun =0;
-        figNum = 104;
-        % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(sigmaLnModeling, analysisType, figNum, eqListForCollapseIDAs_Name, isConvertToSaKircher);
-        % sks_PlotCollapseEmpiricalCDFWithFits_controlComp_proc_MSA(analysisTypeLIST, analysisType, eqNumberLIST, figNum, isConvertToSaKircher)
+        idaInputs.isConvertToSaKircher = isConvertToSaKircher;
+        msaInputs.isConvertToSaKircher = isConvertToSaKircher;
+
         sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
 end
 
@@ -405,6 +475,21 @@ if analyzeProcessPlotIndex(6) == 1
 end
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IDR-RDR-PFA plots (added on 13-Mar-2026 by Shivakumar KS from IIT Madras)
+if analyzeProcessPlotIndex(7) == 1
+    sks_IDR_RDR_PFA(eqNumberLIST, analysisType)
+
+    % sks_plotRDRvsSa_MSA(msaInputs)
+    % sks_plotMIDRvsSa_MSA(msaInputs)
+
+    % Generate PACT demand spreadsheet
+    % outputFolder = fullfile(baseFolder,'Output');
+    % sks_InputToPACT(analysisType, outputFolder)
+
+    close all % close all figures  
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Process stripes and create stripe files. This makes a stripe file for
     % each Sa level and then makes one summary file for all stripes.
         % ProcessStripeStatisticsForCollapseRuns_proc(analysisType, eqNumberLIST_forStripes, eqListForCollapseIDAs_Name, saLevelsForStripes, isConvertToSaKircher, isConvertToSaComponent, dampingRatioUsedForSaDef);
@@ -416,23 +501,8 @@ end
     % Plot and save IDAs for CORDOVA INDEX. Collapse CDF plots
     % [alpha, periodRat] = psb_PlotCollapseIDAs_CordovaIndex(analysisType, eqNumberLIST_forCordovaIDA, eqListForCollapseIDAs_Cordova_Name, markerTypeLine, markerTypeDot, isPlotIndividualPoints, collapseDriftThreshold, T1, dampRatForCordova, optimizeCordovaParams, processAllComp, alphaDefault, periodRatDefault, doPlotSaveCAlpha);
     % psb_PlotCDF_Cordova(analysisType, eqListForCollapseIDAs_Cordova_Name, processAllComp, T1, dampRatForCordova, alpha, periodRat, doPlotSaveCDF);
-    % disp(['Using Control Components, optimized alpha = ' num2str(alpha) ', optimized periodRat = '  num2str(periodRat)]); 
+ 
     
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% IDR-RDR-PFA plots (added on 13-Mar-2026 by Shivakumar KS from IIT Madras)
-if analyzeProcessPlotIndex(7) == 1
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher.
-        sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
-        % sks_plotRDRvsSa_MSA(msaInputs)
-        % sks_plotMIDRvsSa_MSA(msaInputs)
-
-        % Generate PACT demand spreadsheet
-        outputFolder = fullfile(baseFolder,'Output');
-        sks_InputToPACT(analysisType, outputFolder)
-        
-        close all % close all figures  
-end
-
 %% If we reached here, save a file on desktop stating the same. Since, I am running two analyses back to back, I wouldn't be able to know if there 
 % was any error in running the first analyses
 
@@ -450,6 +520,7 @@ if ~exist(desktopDir, 'dir')
     desktopDir = baseFolder;   % fallback if no Desktop folder exists (common on Linux)
 end
 save(fullfile(desktopDir, fileName), 'tElapsed');
+
 % Go back to starting folder
 cd(baseFolder)
 toc  

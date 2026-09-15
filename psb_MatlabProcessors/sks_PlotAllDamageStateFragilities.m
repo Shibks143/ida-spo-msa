@@ -35,14 +35,6 @@ colors = [ ...
     0.00 0.00 0.00;   % Black (CP)
     1.00 0.00 0.00];  % Red (Collapse)
 
-% Custom colors (keep same everywhere)
-% colors = [ ...
-%     0.93 0.69 0.13;   % Yellow (IO)
-%     1.00 0.00 1.00;   % Magenta (LS)
-%     0.00 0.00 0.00;   % Black (CP)
-%     1.00 0.00 0.00];  % Red (Collapse)
-
-
 figure; 
 hold on;
 
@@ -53,7 +45,6 @@ for i = 1:length(theta)
 end
 
 xlabel('${im} \equiv Sa_{geoM}(0.71\,\mathrm{s})\,(\mathrm{g})$', 'Interpreter','latex');
-% xlabel('$Sa_{geoM}(T=0.71\,\mathrm{s})\,(\mathrm{g})$', 'Interpreter','latex');
 ylabel('$\Pr(DS \ge ds_i \mid IM = im)$', 'Interpreter','latex');
 
 % Legend with increased size 

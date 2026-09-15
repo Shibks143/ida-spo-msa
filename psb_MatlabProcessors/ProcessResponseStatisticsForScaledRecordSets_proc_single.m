@@ -986,7 +986,7 @@ cd ..;
         if(eqRecordFormat_Num == 1)
             % PEER-NGA       
             % Open .m file with EQ filenames and EQ component numbers
-            cd 'C:\Users\sks\OpenSeesProcessingFiles\EQs\A_PEERNGADatabase'
+            cd 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs\A_PEERNGADatabase'
             DefinePEERNGARecordNumbersAndFileNames; % load the data in this file
             loadedRecordNumbersAndFileNames = PEERNGARecordNumbersAndFileNames;
             cd(currentDir);
@@ -994,7 +994,7 @@ cd ..;
         elseif(eqRecordFormat_Num == 2)
             % PEER-NGA-Rotated
             % Open .m file with EQ filenames and EQ component numbers
-            cd 'C:\Users\sks\OpenSeesProcessingFiles\EQs\A_PEERNGADatabase_Rotated'
+            cd 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs\A_PEERNGADatabase_Rotated'
             DefinePEERNGARotatedRecordNumbersAndFileNames; % load the data in this file
             loadedRecordNumbersAndFileNames = PEERNGARotatedRecordNumbersAndFileNames;
             cd(currentDir);
@@ -1003,7 +1003,7 @@ cd ..;
             % Pre-formatted records (single columns of accelTH, with dt and
             % numPoints files also defined)
             % Open .m file with EQ filenames and EQ component numbers
-            cd 'C:\Users\sks\OpenSeesProcessingFiles\EQs\A_OtherEQSets'
+            cd 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs\A_OtherEQSets'
             DefineUserDefinedRecordNumbersAndFileNames; % load the data in this file
             loadedRecordNumbersAndFileNames = userDefinedRecordNumbersAndFileNames;
             cd(currentDir);

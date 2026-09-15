@@ -46,7 +46,7 @@ for eqIndex = 1:length(eqNumberLIST)
     
     % Go to Sorted_Eq_Files folder to get file
     startFolder = [pwd];
-    cd('C:\Users\sks\OpenSeesProcessingFiles\EQs');
+    cd('E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQs');
 
     % Create the file name and open the TH file (must be in the same folder)
     accelTHFile = sprintf('SortedEQFile_(%d).txt', currentEqNum);
