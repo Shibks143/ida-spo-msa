@@ -45,7 +45,7 @@ isConvertToSaKircher =           idaInputs.isConvertToSaKircher;
 eqNumberLIST =                   idaInputs.eqNumberLIST_forCollapseIDAs;
 formatMode =                     idaInputs.formatMode;
 dampRat =                        idaInputs.dampingRatioUsedForSaDef;
-
+lineColor =                      idaInputs.lineColor; 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,7 +57,7 @@ dampRat =                        idaInputs.dampingRatioUsedForSaDef;
 DefineSaKircherOverSaGeoMeanValues
 
 % Input what max drift value you want on X axis for the plot
-maxXOnAxis = 8; % in percent;
+maxXOnAxis = 12; % in percent;
 % Input limits for the Sa axis
 minYOnAxis = 0.0;
 maxYOnAxis = 6.0;      % Modify according to your analysis results
@@ -74,13 +74,11 @@ saValsAtTargetDriftControlComp = nan(length(eqNumberLIST), length(midrLevels));
 
 
 pdfIndex = 1;
-colors = [
-    0.93 0.69 0.13   % IO   - orange/gold
-    1.00 0.00 0.00   % LS   - red
-    0.00 0.00 0.00   % CP   - black
-    1.00 0.00 1.00   % Collapse - magenta
-    ];
-
+colors = [ ...
+    0.00 0.00 1.00;   % Blue      (e.g. IO)
+    1.00 0.00 1.00;   % Magenta   (e.g. LS)
+    0.00 0.00 0.00;   % Black     (e.g. CP)
+    1.00 0.00 0.00];  % Red       (e.g. Collapse)
 
 % %%%%%%% End of PDF code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -144,14 +142,14 @@ for eqInd = 1:(length(eqNumberLIST))
         % Convert to Sa,Kircher if needed
         if(isConvertToSaKircher == 0)
             % We want to use Sa,goeMean(T1), so do not do a conversion
-             plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);
+             plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine, 'Color', lineColor);
         else
             % We want to plot with Sa,Kircher(T=1s), so do conversion and
             % plot
             saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
             saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC1.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
-            plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
+            plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
             clear saGeoMeanAtOneSec saGeoMeanAtTOne
         end
         
@@ -162,11 +160,11 @@ for eqInd = 1:(length(eqNumberLIST))
                 % Convert to Sa,Kircher if needed
                 if(isConvertToSaKircher == 0)
                     % We want to use Sa,geoMean(T1), so do not do a conversion
-                    plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
+                    plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot, 'Color', lineColor);
 %                     pause(0.25)
                 else
                     % We want to plot with Sa,Kircher(T=1s)
-                    plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end 
         end
@@ -294,14 +292,14 @@ for eqInd = 1:(length(eqNumberLIST))
         % Convert to Sa,Kircher if needed
         if(isConvertToSaKircher == 0)
             % We want to use Sa,goeMean(T1), so do not do a conversion
-            plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
+            plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine, 'Color', lineColor);
         else
             % We want to plot with Sa,Kircher(T=1s), so do conversion and
             % plot
             saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
             saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC2.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
-            plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
+            plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
             clear saGeoMeanAtOneSec saGeoMeanAtTOne
         end
         
@@ -312,11 +310,11 @@ for eqInd = 1:(length(eqNumberLIST))
                 % Convert to Sa,Kircher if needed
                 if(isConvertToSaKircher == 0)
                     % We want to use Sa,goeMean(T1), so do not do a conversion
-                    plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
+                    plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot, 'Color', lineColor);
 %                         pause(0.5)
                 else
                     % We want to plot with Sa,Kircher(T=1s)
-                    plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end 
         end
@@ -405,11 +403,11 @@ for eqInd = 1:(length(eqNumberLIST))
             figure(figureNumControllingComp);
             if(isConvertToSaKircher == 0)
                 % We want to use Sa,geoMean(T1), so do not do a conversion
-                plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);
+                plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine, 'Color', lineColor);
 %             pause(1)
             else
                 % We want to plot with Sa,Kircher(T=1s)
-                plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
+                plot(maxDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
             end
             
             % Plot the points for each run, if told to
@@ -418,10 +416,10 @@ for eqInd = 1:(length(eqNumberLIST))
                     hold on
                     if(isConvertToSaKircher == 0)
                         % We want to use Sa,goeMean(T1), so do not do a conversion
-                        plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
+                        plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot, 'Color', lineColor);
                     else
                         % We want to plot with Sa,Kircher(T=1s)
-                        plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot);
+                        plot(maxDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                     end                    
                 end 
             end
@@ -442,10 +440,10 @@ for eqInd = 1:(length(eqNumberLIST))
             figure(figureNumControllingComp);
             if(isConvertToSaKircher == 0)
                 % We want to use Sa,geoMean(T1), so do not do a conversion
-                plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
+                plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine, 'Color', lineColor);
             else
                 % We want to plot with Sa,Kircher(T=1s)
-                plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
+                plot(maxDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
             end
             
             % Plot the points for each run, if told to
@@ -454,10 +452,10 @@ for eqInd = 1:(length(eqNumberLIST))
                     hold on
                     if(isConvertToSaKircher == 0)
                         % We want to use Sa,geoMean(T1), so do not do a conversion
-                        plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
+                        plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot, 'Color', lineColor);
                     else
                         % We want to plot with Sa,Kircher(T=1s)
-                        plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot);
+                        plot(maxDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                     end                    
                 end 
             end
@@ -545,10 +543,10 @@ end
     % Save results     
     if(isConvertToSaKircher == 0)
         % This is Sa,geoMean
-        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean.mat', eqListForCollapseIDAs_Name);
+        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean_MIDR_PDF.mat', eqListForCollapseIDAs_Name);
     else
         % This is Sa,ATC-63 (or Sa,Kircher)
-        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaATC63.mat', eqListForCollapseIDAs_Name);        
+        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaATC63_MIDR_PDF.mat', eqListForCollapseIDAs_Name);        
     end
 
         save(colFileName, 'analysisType', 'collapseLevelForAllComp', 'collapseLevelForAllControlComp', 'eqNumberLIST', 'meanCollapseSaTOneAllComp',...

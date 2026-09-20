@@ -16,6 +16,7 @@ isConvertToSaKircher =            idaInputs.isConvertToSaKircher;
 eqNumberLIST =                    idaInputs.eqNumberLIST_forCollapseIDAs;
 formatMode =                      idaInputs.formatMode;
 dampRat =                         idaInputs.dampingRatioUsedForSaDef;
+lineColor =                       idaInputs.lineColor; 
 
 % PFA is in g, NOT percent - so no *100 scaling anywhere below
 if(isfield(idaInputs, 'maxXOnAxis_PFA'))
@@ -107,12 +108,12 @@ for eqInd = 1:(length(eqNumberLIST))
 
     figure(figureNumAllComp);
     if(isConvertToSaKircher == 0)
-        plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);   %  PFA already in g
+        plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1, markerTypeLine, 'Color', lineColor);   %  PFA already in g
     else
         saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
         saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
         saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC1.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
-        plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
+        plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
         clear saGeoMeanAtOneSec saGeoMeanAtTOne
     end
 
@@ -120,9 +121,9 @@ for eqInd = 1:(length(eqNumberLIST))
         for i = 1:length(saLevelsForIDAPlotPROCLISTC1)
             hold on
             if(isConvertToSaKircher == 0)
-                plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
+                plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot, 'Color', lineColor);
             else
-                plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot);
+                plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
             end
         end
     end
@@ -198,12 +199,12 @@ for eqInd = 1:(length(eqNumberLIST))
 
     figure(figureNumAllComp);
     if(isConvertToSaKircher == 0)
-        plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
+        plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2, markerTypeLine, 'Color', lineColor);
     else
         saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
         saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
         saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC2.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
-        plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
+        plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
         clear saGeoMeanAtOneSec saGeoMeanAtTOne
     end
 
@@ -211,9 +212,9 @@ for eqInd = 1:(length(eqNumberLIST))
         for i = 1:length(saLevelsForIDAPlotPROCLISTC2)
             hold on
             if(isConvertToSaKircher == 0)
-                plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
+                plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot, 'Color', lineColor);
             else
-                plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot);
+                plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
             end
         end
     end
@@ -263,18 +264,18 @@ for eqInd = 1:(length(eqNumberLIST))
     if(collapseLevelCompTwo > collapseLevelCompOne)
         figure(figureNumControllingComp);
         if(isConvertToSaKircher == 0)
-            plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);
+            plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1, markerTypeLine, 'Color', lineColor);
         else
-            plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
+            plot(maxPFAForPlotPROCLISTC1, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
         end
 
         if(isPlotIndividualPoints == 1)
             for i = 1:length(saLevelsForIDAPlotPROCLISTC1)
                 hold on
                 if(isConvertToSaKircher == 0)
-                    plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
+                    plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot, 'Color', lineColor);
                 else
-                    plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxPFAForPlotPROCLISTC1(i), saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end
         end
@@ -286,18 +287,18 @@ for eqInd = 1:(length(eqNumberLIST))
     else
         figure(figureNumControllingComp);
         if(isConvertToSaKircher == 0)
-            plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
+            plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2, markerTypeLine, 'Color', lineColor);
         else
-            plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
+            plot(maxPFAForPlotPROCLISTC2, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
         end
 
         if(isPlotIndividualPoints == 1)
             for i = 1:length(saLevelsForIDAPlotPROCLISTC2)
                 hold on
                 if(isConvertToSaKircher == 0)
-                    plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
+                    plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot, 'Color', lineColor);
                 else
-                    plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxPFAForPlotPROCLISTC2(i), saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end
         end

@@ -2292,7 +2292,7 @@ psb_FigureFormatScript
 
 cd H:\PrakRuns\Output
    exportName = sprintf('CMS_UHS_AgainstGMPM_AS97');
-   hgsave(exportName); % .fig file for Matlab
+   savefig(exportName); % .fig file for Matlab
    print('-depsc', exportName); % .eps file for Linux (LaTeX)
    print('-dmeta', exportName); % .emf file for Windows (MSWORD)
 
@@ -2357,12 +2357,30 @@ end
 %    eqLIST = eqNumberLIST_forProcessing_SetC;
 % eqLIST = [880101];
 
-eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [70011  70012  70021  70022  70031  70032  70041  70042  70051  70052  70061  70062  70071  70072  70081  70082  70091  70092  70101  70102  70111  70112  70121  70122  70131  70132  70141  70142  70151  70152  70161  70162  70171  70172  70181  70182  70191  70192  70201  70202  70211  70212  70221  70222  70231  70232  70241  70242  70251  70252  70261  70262  70271  70272  70281  70282  70291  70292  70301  70302];
+eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [80011 80012 80021 80022 80031 80032 80041 80042 ...
+                                            80051 80052 80061 80062 80071 80072 80081 80082 ...
+                                            80091 80092 80101 80102 80111 80112 80121 80122 ...
+                                            80131 80132 80141 80142 80151 80152 80161 80162 ...
+                                            80171 80172 80181 80182 80191 80192 80201 80202 ...
+                                            80211 80212 80221 80222 80231 80232 80241 80242 ...
+                                            80251 80252 80261 80262 80271 80272 80281 80282 ...
+                                            80291 80292 80301 80302];
+
+
+% eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [70011 70012 70021 70022 70031 70032 70041 70042 ...
+%     70051 70052 70061 70062 70071 70072 70081 70082 ...
+%     70091 70092 70101 70102 70111 70112 70121 70122 ...
+%     70131 70132 70141 70142 70151 70152 70161 70162 ...
+%     70171 70172 70181 70182 70191 70192 70201 70202 ...
+%     70211 70212 70221 70222 70231 70232 70241 70242 ...
+%     70251 70252 70261 70262 70271 70272 70281 70282 ...
+%     70291 70292 70301 70302];
+
 eqLIST = eqNumLIST_forProcessing_SetGuw30_46053_Sca4;
     
-   doPlot = 1; % 1- Plot. 0- don't plot. Use 1, when processing smaller number of EQs
+doPlot = 0; % 1- Plot. 0- don't plot. Use 1, when processing smaller number of EQs
 
-cutOffFraction = 0.01; % 0.05 % this is the fraction of PGA, below which GM would be curtailed from tails (beginning and end)
+cutOffFraction = 0.05; % 0.05 % this is the fraction of PGA, below which GM would be curtailed from tails (beginning and end)
 minCurtailFraction = 0.05; % don't curtail the time history less than this fraction on either side.
                            % this is to avoid unnecessarily modifying time histories without much advantage.
   
@@ -2390,7 +2408,9 @@ for eqIndex = 1:totNumOfEQs
     timeArray = [];
     
     % cd C:\OpenSeesProcessingFiles\EQs\ORIGINAL_TIME_HISTORIES
-    cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\EQs    
+    % cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\EQs
+    cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories_CY14\OriginalUnscaledGMs\EQs
+
     eqNumber = eqLIST(eqIndex);
     eqNum(eqIndex) = eqNumber;
 
@@ -2438,7 +2458,7 @@ for eqIndex = 1:totNumOfEQs
         fprintf('Possible curtailment is too small on either sides. Hence, is not performed. \n');
 
         % cd H:\PrakRuns
-        cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\1pct_CurtailedGMs
+        cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories_CY14\curtailedUnscaledGMs
         save(sprintf('SortedEQFile_(%i).txt', eqNumber), 'GMTimeHistory', '-ascii');
         save(sprintf('NumPointsFile_(%i).txt', eqNumber), 'numPoints', '-ascii');
         disp(['Files saved as ', fullfile(pwd, sprintf('SortedEQFile_(%i).txt', eqNumber)), ' and ', sprintf('NumPointsFile_(%i).txt', eqNumber)]);
@@ -2494,7 +2514,7 @@ for eqIndex = 1:totNumOfEQs
     end
     
     % cd H:\PrakRuns
-    cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\1pct_CurtailedGMs
+    cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories_CY14\curtailedUnscaledGMs
     save(sprintf('SortedEQFile_(%i).txt', eqNumber), 'curtailedGMTimeHistory', '-ascii');
     save(sprintf('NumPointsFile_(%i).txt', eqNumber), 'curtailedNumPoints', '-ascii');
     disp(['Files saved as ', fullfile(pwd, sprintf('SortedEQFile_(%i).txt', eqNumber)), ' and ', sprintf('NumPointsFile_(%i).txt', eqNumber)]);
@@ -2522,7 +2542,7 @@ writetable(curtailmentTable, fileName);
 
 
 if (doPlot == 1)
-    cd C:\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories\1pct_CurtailedGMs
+    cd E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\Site-Specifc-Guw_Time_Histories_CY14\curtailedUnscaledGMs
     saveas(figure(51), 'OriginalGM_AllEQs.png');
     fileName = sprintf('%.0fpctCurtailedGM_AllEQs.png', cutOffFraction * 100);
     saveas(figure(52), fileName);

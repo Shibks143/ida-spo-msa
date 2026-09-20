@@ -41,7 +41,7 @@ isConvertToSaKircher =            idaInputs.isConvertToSaKircher;
 eqNumberLIST =                    idaInputs.eqNumberLIST_forCollapseIDAs;
 formatMode =                      idaInputs.formatMode;
 dampRat =                         idaInputs.dampingRatioUsedForSaDef;
-
+lineColor =                       idaInputs.lineColor; 
 % Optional RDR-specific inputs, with sensible defaults if not provided
 if(isfield(idaInputs, 'maxXOnAxis_RDR'))
     maxXOnAxis = idaInputs.maxXOnAxis_RDR;
@@ -77,12 +77,11 @@ else
     rdrLevelLabels = {'IO', 'LS', 'CP', 'Collapse'};
 end
 
-colors = [
-    0.93 0.69 0.13   % IO   - orange/gold
-    1.00 0.00 0.00   % LS   - red
-    0.00 0.00 0.00   % CP   - black
-    1.00 0.00 1.00   % Collapse - magenta
-    ];
+colors = [ ...
+    0.00 0.00 1.00;   % Blue      (e.g. IO)
+    1.00 0.00 1.00;   % Magenta   (e.g. LS)
+    0.00 0.00 0.00;   % Black     (e.g. CP)
+    1.00 0.00 0.00];  % Red       (e.g. Collapse)
 
 
 
@@ -151,12 +150,12 @@ for eqInd = 1:(length(eqNumberLIST))
         figure(figureNumAllComp);
 
         if(isConvertToSaKircher == 0)
-            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine, 'Color', lineColor);
         else
             saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
             saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC1.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
-            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
             clear saGeoMeanAtOneSec saGeoMeanAtTOne
         end
 
@@ -164,9 +163,9 @@ for eqInd = 1:(length(eqNumberLIST))
             for i = 1:length(saLevelsForIDAPlotPROCLISTC1)
                 hold on
                 if(isConvertToSaKircher == 0)
-                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot, 'Color', lineColor);
                 else
-                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end
         end
@@ -191,13 +190,14 @@ for eqInd = 1:(length(eqNumberLIST))
 
         collapseSaLevel = collapseLevelCompOne;
         collapseLevelForAllComp(eqCompInd) = collapseLevelCompOne;
+        maxResidualDriftAtCollapseForAllComp(eqCompInd) = maxResidualDriftRatioForPlotPROCLISTC1(index - 1);
+        indexAtCollapseC1 = index;
 
         % NEW - record the RESIDUAL drift value at the point just before collapse
         % (i.e. the last non-collapsed point processed, index-1) - this tells
         % you how much permanent damage had accumulated right before the
         % structure lost dynamic stability.
-        maxResidualDriftAtCollapseForAllComp(eqCompInd) = maxResidualDriftRatioForPlotPROCLISTC1(index - 1);
-        indexAtCollapseC1 = index;
+       
 
     % Save a file for this EQ component (RDR-specific)
         maxResidualDriftRatioForPlotPROCLIST = maxResidualDriftRatioForPlotPROCLISTC1;
@@ -262,12 +262,12 @@ for eqInd = 1:(length(eqNumberLIST))
 
         figure(figureNumAllComp);
         if(isConvertToSaKircher == 0)
-            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine, 'Color', lineColor);
         else
             saGeoMeanAtOneSec = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, 1.0, dampRat, eqSpectraFolder);
             saGeoMeanAtTOne = psb_RetrieveSaGeoMeanValueForAnEQ(eqNumber, periodUsedForScalingGroundMotions, dampRat, eqSpectraFolder);
             saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec = saLevelsForIDAPlotPROCLISTC2.* (saGeoMeanAtOneSec/saGeoMeanAtTOne) * saKircherAtOneSecOverSaGeoMeanAtOneSec{eqCompNumber};
-            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
             clear saGeoMeanAtOneSec saGeoMeanAtTOne
         end
 
@@ -275,9 +275,9 @@ for eqInd = 1:(length(eqNumberLIST))
             for i = 1:length(saLevelsForIDAPlotPROCLISTC2)
                 hold on
                 if(isConvertToSaKircher == 0)
-                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot, 'Color', lineColor);
                 else
-                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end
         end
@@ -344,18 +344,18 @@ for eqInd = 1:(length(eqNumberLIST))
 
         figure(figureNumControllingComp);
         if(isConvertToSaKircher == 0)
-            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1, markerTypeLine, 'Color', lineColor);
         else
-            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC1 * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
         end
 
         if(isPlotIndividualPoints == 1)
             for i = 1:length(saLevelsForIDAPlotPROCLISTC1)
                 hold on
                 if(isConvertToSaKircher == 0)
-                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1(i), markerTypeDot, 'Color', lineColor);
                 else
-                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC1(i) * 100, saLevelsForIDAPlotPROCLISTC1_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end
         end
@@ -372,18 +372,18 @@ for eqInd = 1:(length(eqNumberLIST))
 
         figure(figureNumControllingComp);
         if(isConvertToSaKircher == 0)
-            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2, markerTypeLine, 'Color', lineColor);
         else
-            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine);
+            plot(maxResidualDriftRatioForPlotPROCLISTC2 * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec, markerTypeLine, 'Color', lineColor);
         end
 
         if(isPlotIndividualPoints == 1)
             for i = 1:length(saLevelsForIDAPlotPROCLISTC2)
                 hold on
                 if(isConvertToSaKircher == 0)
-                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2(i), markerTypeDot, 'Color', lineColor);
                 else
-                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot);
+                    plot(maxResidualDriftRatioForPlotPROCLISTC2(i) * 100, saLevelsForIDAPlotPROCLISTC2_KircherAtOneSec(i), markerTypeDot, 'Color', lineColor);
                 end
             end
         end
@@ -537,7 +537,7 @@ stDevResidualDriftAtCollapseControlComp = std(maxResidualDriftAtCollapseForContr
         titleTemp = axisLabelForSaKircher;
     end
     ylabel(titleTemp, 'Interpreter', 'latex');
-    xlabel('$\mathrm{Max\ Residual\ Drift\ Ratio\ (\%)}$', 'Interpreter','latex');
+    xlabel('$\mathrm{Max\ Interstory\ Residual\ Drift\ Ratio\ (\%)}$', 'Interpreter','latex');
     xlim([0, maxXOnAxis])
     ylim([0, maxYOnAxis])
 
@@ -644,7 +644,7 @@ stDevResidualDriftAtCollapseControlComp = std(maxResidualDriftAtCollapseForContr
         titleTemp = axisLabelForSaKircher;
     end
     ylabel(titleTemp, 'Interpreter', 'latex');
-    xlabel('$\mathrm{Max\ Residual\ Drift\ Ratio\ (\%)}$', 'Interpreter','latex');
+    xlabel('$\mathrm{Max\ Interstory\ Residual\ Drift\ Ratio\ (\%)}$', 'Interpreter','latex');
     xlim([0, maxXOnAxis])
     ylim([0, maxYOnAxis])
 

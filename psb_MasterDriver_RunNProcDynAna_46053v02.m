@@ -66,9 +66,9 @@ end
     
 IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
 
-         % eqListID = 'SetCS_30'; maxScalingTH = 4; 
+         eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
-         eqListID = 'setC';  
+         % eqListID = 'setC';  
          % eqListID = 'setD' ;
          % eqListID = 'setDNotC'; 
          % eqListID = 'setG';
@@ -81,7 +81,7 @@ msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        1           0        0              0               0];
+    analyzeProcessPlotIndex = [1        1        1           0        0              0               0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,7 +92,7 @@ msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
                                         % can as well be kept zero if conventional collapse analysis is being performed. 
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.08;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.12;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -100,7 +100,7 @@ msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
     minStoryResidualDriftRatioMATLAB = 0.01;                        % Use either 0.5 or 1% for residual drift ratio
     collapseResidualDriftThreshold = minStoryResidualDriftRatioMATLAB;
     
-    midrLevels      = [0.01 0.02 0.04 0.06];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
+    midrLevels      = [0.01 0.02 0.04 0.12];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
     midrLevelLabels = {'IO','LS','CP','Collapse'};
     rdrLevels       = [0.002 0.005 0.01 0.02];                      % 0.2%, 0.5%, 1%, 2% (Max Interstory Residual Drift Ratio):Ref FEMA P-58, appendix C
     pfaLevels       = [0.2 0.5 1.0 2.0];                            % g is the unit
@@ -108,8 +108,10 @@ msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
 
     dataSavingOption = 2;                                           % Decide what data files to save (1 - save all data; 2 - save 
                                                                     % reduced amount of data; 3 - save both of the above files)
-    markerTypeLine = 'b';
-    markerTypeDot = 'bo';
+    
+    lineColor = [0.5 0.5 0.5];   % gray
+    markerTypeLine = '-';        % 'b'  earlier one
+    markerTypeDot = 'o';        % 'bo' earlier one
     isPlotIndividualPoints = 1;
     formatMode = 'powerpoint';
     % Change the variable called eqTimeHistoryPreFormatted in psb_DefineVariablesAtMeanValues.tcl (now included here in MATLAB itself)
@@ -200,10 +202,13 @@ msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
         flagForEQFileFormat_SetTest = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
    
     % Guw30_46053_Sca4 30 pairs of conditional spectra targeted Ground Motion for Guwahati
-    eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [70011  70012  70021  70022  70031  70032  70041  70042  70051  70052  70061  70062  70071  70072  70081  70082  70091  70092  70101  70102  70111  70112  70121  70122  70131  70132  70141  70142  70151  70152  70161  70162  70171  70172  70181  70182  70191  70192  70201  70202  70211  70212  70221  70222  70231  70232  70241  70242  70251  70252  70261  70262  70271  70272  70281  70282  70291  70292  70301  70302];
+    eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [80011 80012 80021 80022 80031 80032 80041 80042 80051 80052 80061 80062 80071 80072 80081 80082 80091 80092 80101 80102 80111 80112 80121 80122 80131 80132 80141 80142 80151 80152 80161 80162 80171 80172 80181 80182 80191 80192 80201 80202 80211 80212 80221 80222 80231 80232 80241 80242 80251 80252 80261 80262 80271 80272 80281 80282 80291 80292 80301 80302];
+    % eqNumLIST_forProcessing_SetGuw30_46053_Sca4 = [70011  70012  70021  70022  70031  70032  70041  70042  70051  70052  70061  70062  70071  70072  70081  70082  70091  70092  70101  70102  70111  70112  70121  70122  70131  70132  70141  70142  70151  70152  70161  70162  70171  70172  70181  70182  70191  70192  70201  70202  70211  70212  70221  70222  70231  70232  70241  70242  70251  70252  70261  70262  70271  70272  70281  70282  70291  70292  70301  70302];
     % eqListForCollapseIDAs_Name_Guw30_46053_Sca4 = 'GMSetGuw22_46053_Sca4';
     eqListForCollapseIDAs_Name_SetCS_30 = 'GMSetGuw22_46053_Sca4';
-    eqNumberLIST_forCollapseIDAs_Guw30_46053_Sca4 = [7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7011 7012 7013 7014 7015 7016 7017 7018 7019 7020 7021 7022 7023 7024 7025 7026 7027 7028 7029 7030];  
+   
+    eqNumberLIST_forCollapseIDAs_Guw30_46053_Sca4 = [8001 8002 8003 8004 8005 8006 8007 8008 8009 8010 8011 8012 8013 8014 8015 8016 8017 8018 8019 8020 8021 8022 8023 8024 8025 8026 8027 8028 8029 8030];
+    % eqNumberLIST_forCollapseIDAs_Guw30_46053_Sca4 = [7001 7002 7003 7004 7005 7006 7007 7008 7009 7010 7011 7012 7013 7014 7015 7016 7017 7018 7019 7020 7021 7022 7023 7024 7025 7026 7027 7028 7029 7030];  
     eqFormatForCollapseList_Guw30_46053_Sca4 = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
     flagForEQFileFormat_Guw30_46053_Sca4 = 2;                           % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
 
@@ -338,6 +343,7 @@ idaInputs.sigmaLnDesignReq =                    sigmaLnDesignReq;
 idaInputs.sigmaLnTestData =                     sigmaLnTestData;
 idaInputs.maxNumRuns =                          maxNumRuns;
 idaInputs.idaPlotType =                         idaPlotType;
+idaInputs.lineColor =                           lineColor;
 
 % --- Added for IDA/MSA+PDF plotting ---
 idaInputs.midrLevels =                          midrLevels;
@@ -361,11 +367,11 @@ idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 
 
 % MSA-specific inputs
-msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name;
-msaInputs.isPlotCollapseMSAs =                  isPlotCollapseMSAs;
-msaInputs.msaPlotType =                         msaPlotType;
+% msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+% msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+% msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name;
+% msaInputs.isPlotCollapseMSAs =                  isPlotCollapseMSAs;
+% msaInputs.msaPlotType =                         msaPlotType;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
