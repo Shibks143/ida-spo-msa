@@ -22,3 +22,7 @@ masterCopy.xlsx
 *.AT2
 *.DT2
 *.VT2
+
+SortedEQFile_(*).txt
+NumPointsFile_(*).txt
+DtFile_(*).txt
