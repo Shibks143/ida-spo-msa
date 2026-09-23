@@ -18,3 +18,7 @@ masterCopy.xlsx
 ~$*.xls
 ~$*.xlsx
 ~$*.xlsm
+
+*.AT2
+*.DT2
+*.VT2
