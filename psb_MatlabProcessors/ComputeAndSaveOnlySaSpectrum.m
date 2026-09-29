@@ -89,7 +89,7 @@ disp('**** Finished period loop, starting to save and finish...')
 
     
 % Plot the results
-    %plot(periodVector, SaAbs);
+    plot(periodVector, SaAbs);
     
 % Go to Sorted_EQ Spectra folder to get file (folder location is hard-coded)
     eqSpectraFolderPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\OpenSeesProcessingFiles\EQ_Spectra_Saved';

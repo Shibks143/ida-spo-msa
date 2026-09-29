@@ -33,7 +33,7 @@ clc; clear; close all; tic
 
 %% ████████████████████  BLOCK 1 — ONLY TWO SWITCHES  █████████████████████
 
-siteBlock = 'Guw_ASK14';                    % Guw_BCH16, Guw_CY14, Guw_ASK14   % <── SWITCH 1: site + GMM tag
+siteBlock = 'Guw_BCH16';                    % Guw_BCH16, Guw_CY14, Guw_ASK14   % <── SWITCH 1: site + GMM tag
 runMode   = 'scale_and_plot_original';     % <── SWITCH 2: see table above
 execMode  = 'compareOnly';                        % 'full'        → Blocks 1–11
                                            % 'compareOnly' → Blocks 1–7, then 11
@@ -649,37 +649,100 @@ for b11_figIdx = 1:b11_nFigs
         end
         ylabel('$a_g$ (g)', 'Interpreter','latex', 'FontSize',7);
 
+
+
         % ==================================================================
-        % PANEL 2 — Curtailed Unscaled (black, xline at curtail point)
+        % PANEL 2 — Curtailed Unscaled (on original time axis, both cut markers)
         % ==================================================================
         nexttile((b11_row-1)*b11_nColsComp + 2);
 
-        if b11_ok2
-            plot(b11_t2, b11_a2, 'k-', 'LineWidth', 0.55);  hold on;
+        if b11_ok2 && b11_ok1
+
+             % ── find start-cut offset via cross-correlation (vectorised) ───
+            nMatch     = min(200, length(b11_a2));
+            [xc, lags] = xcorr(b11_a1, b11_a2(1:nMatch));
+            
+            % keep only causal lags (curtailed cannot start before original)
+            validMask  = lags >= 0;
+            xc_valid   = xc(validMask);
+            lags_valid = lags(validMask);
+            
+            [~, iMax]  = max(abs(xc_valid));
+            startIdx   = lags_valid(iMax) + 1;
+            t_startCut = (startIdx - 1) * b11_dt1;
+            t_endCut   = t_startCut + b11_dur2;
+            
+            % ── sanity clamp — catch any remaining bad detections ──────────
+            t_startCut = max(0, min(t_startCut, b11_dur1 - b11_dur2));
+            t_endCut   = t_startCut + b11_dur2;
+            
+            fprintf('EQ %d | RSN %d : t_startCut=%.3fs  t_endCut=%.3fs  dur_orig=%.3fs  dur_curt=%.3fs\n', ...
+                    eqNumber, RSN, t_startCut, t_endCut, b11_dur1, b11_dur2);
+
+            % ── shift curtailed signal onto original time axis ─────────────
+            t_curt_onOrig = t_startCut + b11_t2;
+
+            % ── shade removed regions ──────────────────────────────────────
+            ylo = b11_yLim(1);  yhi = b11_yLim(2);
+
+            patch([0, t_startCut, t_startCut, 0], ...
+                [ylo, ylo, yhi, yhi], ...
+                [0.95 0.80 0.80], 'EdgeColor','none', ...
+                'FaceAlpha',0.40, 'HandleVisibility','off');   hold on;
+
+            patch([t_endCut, b11_dur1, b11_dur1, t_endCut], ...
+                [ylo, ylo, yhi, yhi], ...
+                [0.95 0.80 0.80], 'EdgeColor','none', ...
+                'FaceAlpha',0.40, 'HandleVisibility','off');
+
+            % ── plot curtailed signal ──────────────────────────────────────
+            plot(t_curt_onOrig, b11_a2, 'k-', 'LineWidth', 0.55);
             yline(0, 'k-', 'LineWidth', 0.4, 'HandleVisibility','off');
 
-            % Red dashed vertical at curtail point — only if shorter than original
-            if b11_ok1 && (b11_dur2 < b11_dur1)
-                xline(b11_dur2, 'r--', 'LineWidth', 0.8, 'HandleVisibility','off');
-            end
+            % ── red dashed xlines at both cut points ───────────────────────
+            xline(t_startCut, 'r--', 'LineWidth', 0.9, 'HandleVisibility','off');
+            xline(t_endCut,   'r--', 'LineWidth', 0.9, 'HandleVisibility','off');
 
+       
+          % ── annotate cut durations — fixed corners, below PGA text ────
+            text(0.02, 0.85, ...
+                sprintf('Left cut: %.1fs', t_startCut), ...
+                'Units','normalized', 'VerticalAlignment','top', ...
+                'HorizontalAlignment','left', ...
+                'FontSize',5.0, 'Color',[0.75 0 0]);
+            
+            text(0.98, 0.85, ...
+                sprintf('Right cut: %.1fs', b11_dur1 - t_endCut), ...
+                'Units','normalized', 'VerticalAlignment','top', ...
+                'HorizontalAlignment','right', ...
+                'FontSize',5.0, 'Color',[0.75 0 0]);
+
+            % ── PGA annotation ─────────────────────────────────────────────
             text(0.02, 0.97, ...
-                 sprintf('$\\mathrm{PGA}=%.2f\\mathrm{g}$', b11_pga2), ...
-                 'Units','normalized', 'VerticalAlignment','top', ...
-                 'FontSize',5.5, 'Color',[0 0 0], 'Interpreter','latex');
+                sprintf('$\\mathrm{PGA}=%.2f\\mathrm{g}$', b11_pga2), ...
+                'Units','normalized', 'VerticalAlignment','top', ...
+                'FontSize',5.5, 'Color',[0 0 0], 'Interpreter','latex');
 
-            % Match x-axis to panel 1 so trimming is immediately visible
-            if b11_ok1
-                xlim([0, b11_dur1]);
-            else
-                xlim([0, b11_dur2]);
-            end
+            xlim([0, b11_dur1]);
+
+        elseif b11_ok2
+            % ── fallback: original missing, just plot curtailed from 0 ─────
+            plot(b11_t2, b11_a2, 'k-', 'LineWidth', 0.55);  hold on;
+            yline(0, 'k-', 'LineWidth', 0.4, 'HandleVisibility','off');
+            text(0.02, 0.97, ...
+                sprintf('$\\mathrm{PGA}=%.2f\\mathrm{g}$', b11_pga2), ...
+                'Units','normalized', 'VerticalAlignment','top', ...
+                'FontSize',5.5, 'Color',[0 0 0], 'Interpreter','latex');
+            xlim([0, b11_dur2]);
+
         else
             text(0.5, 0.5, 'File missing', 'Units','normalized', ...
-                 'HorizontalAlignment','center', 'Color','r', 'FontSize',8);
+                'HorizontalAlignment','center', 'Color','r', 'FontSize',8);
         end
+
         ylim(b11_yLim);  grid on;
-        % add dummy swatch before legend call
+
+        % ── legend (unchanged from your original) ──────────────────────────
         hDummy2 = plot(nan, nan, 'k-', 'LineWidth', 0.8);
         hLg = legend(hDummy2, sprintf('%d | RSN %d', eqNumber, RSN), ...
             'Location','northeast', 'Box','on', 'FontSize',6);
@@ -687,11 +750,12 @@ for b11_figIdx = 1:b11_nFigs
 
         if b11_row == 1
             title(b11_colTitles{2}, 'FontSize',8.5, 'FontWeight','bold', ...
-                  'Interpreter','none', 'Color', b11_colColors{2});
+                'Interpreter','none', 'Color', b11_colColors{2});
         end
         if b11_row == b11_nRows
             xlabel('Time (s)', 'Interpreter','latex', 'FontSize',7);
         end
+
 
         % ==================================================================
         % PANEL 3 — Original Scaled (blue = unscaled ref, red = scaled)

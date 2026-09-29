@@ -269,7 +269,6 @@ for sensModelIndex = 1:length(sensModelLIST)
 
                 %      temp99 = sprintf('temp99 is %s', pwd);
                 %      disp(temp99);
-
                 %      disp(pwd)
                 % cd(sprintf('%s\\%s', sensDir, specificSensFolderForSeparateEqs))
                 cd(fullfile(sensDir, specificSensFolderForSeparateEqs))
@@ -318,6 +317,7 @@ for sensModelIndex = 1:length(sensModelLIST)
                 fprintf(myFileStream, 'set saGeoMeanScaled %.2f\n', saGeoMeanScaled);
                 fprintf(myFileStream, 'set extraSecondsToRunAnalysis %.2f\n', extraSecondsToRunAnalysis);
                 fprintf(myFileStream, 'set eqTimeHistoryPreFormatted %i\n', eqTimeHistoryPreFormatted);
+                fprintf(myFileStream, 'set analysisMode IDA\n');   % Added by Shivakumar KS on 24-Sep-2026
 
                 % Close the file
                 fclose(myFileStream);
@@ -337,8 +337,7 @@ for sensModelIndex = 1:length(sensModelLIST)
                 disp(pwd)
 
                 % !OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl
-                % system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl') 
-
+              
                 [status, cmdout] = system('OpenSees psb_RunCollapseSensAnalysisMATLAB.tcl');
                 if status ~= 0
                     fprintf('OpenSees execution failed for EQ %d (Sa = %.2f):\n%s\n', eqNumber, currentSaLevel, cmdout);
@@ -710,6 +709,7 @@ for sensModelIndex = 1:length(sensModelLIST)
                 fprintf(myFileStream, 'set saGeoMeanScaled %.2f\n', saGeoMeanScaled);
                 fprintf(myFileStream, 'set extraSecondsToRunAnalysis %.2f\n', extraSecondsToRunAnalysis);
                 fprintf(myFileStream, 'set eqTimeHistoryPreFormatted %i\n', eqTimeHistoryPreFormatted);
+                fprintf(myFileStream, 'set analysisMode IDA\n');   % Added by Shivakumar KS on 24-Sep-2026
 
                 % Close the file
                 fclose(myFileStream);
@@ -754,14 +754,11 @@ for sensModelIndex = 1:length(sensModelLIST)
                 sensDirForComingBack = pwd;
 
                 % Go into the output folder for this EQ run
-
-                cd ..;
-                cd ..;
-                cd ..;
-                disp(pwd)
-                cd Output;
-
-                cd(analysisFolderName)
+                % Navigate up three levels
+                cd(fullfile('..', '..', '..'));
+                disp(pwd);
+                cd(fullfile(pwd, 'Output', analysisFolderName));
+               
                 % sprintf('Prakash \n');
                 eqFolder = sprintf('EQ_%d', eqNumber)
                 cd(eqFolder);

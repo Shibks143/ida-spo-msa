@@ -117,7 +117,7 @@ g = 9810; % mm/sec^2
 cd ..;
 cd Output;
 % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
-analysisTypeFolder = sprintf('%s', analysisType)
+analysisTypeFolder = sprintf('%s', analysisType);
 cd(analysisTypeFolder);
 
 % Create Sa and EQ folder names for later use

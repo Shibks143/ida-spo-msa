@@ -243,9 +243,8 @@ cd(analysisTypeFolder);
 
 %%%%%%% Get node data, first get to node folder %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Node data
-cd(eqFolder);
-cd(saFolder);
-cd Nodes;
+cd(fullfile(eqFolder, saFolder, 'Nodes'));
+
 
 % Load node displacement TH data, and compute the max/min/absMax
 cd DisplTH;
@@ -656,11 +655,8 @@ end
 
 % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
 % Go to Output folder
-cd ..;
-cd ..;
-cd ..;
-% Make a WARNING file, go into folder first
-cd Conv_Warning_Files;
+cd(fullfile('..', '..', '..', 'Conv_Warning_Files')); % Make a WARNING file, go into folder first
+
 
 % Output a warnings if needed
 if(isConvForFullEQ == 0)
@@ -690,9 +686,7 @@ end
 %%%%%%%%%%%%%% End of Warnings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get back to the MatlabProcessors folder where we started
-cd ..;
-cd ..;
-cd psb_MatlabProcessors;
+cd(fullfile('..', '..', 'psb_MatlabProcessors'));
 
 disp('Processing Finished for this EQ.');
 

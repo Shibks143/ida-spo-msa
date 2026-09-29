@@ -180,7 +180,7 @@ end
     cd psb_MatlabProcessors;
 
 % Clear variables
-% clear collapseLevelForAllComp meanCollapseSaTOneAllComp meanLnCollapseSaTOneAllComp stDevCollapseSaTOneAllComp stDevLnCollapseSaTOneAllComp
+ clear collapseLevelForAllComp meanCollapseSaTOneAllComp meanLnCollapseSaTOneAllComp stDevCollapseSaTOneAllComp stDevLnCollapseSaTOneAllComp
 
 
 

@@ -172,7 +172,7 @@ end
 cd(fullfile('..', '..', 'psb_MatlabProcessors'));
 
 % Clear variables
-% clear collapseLevelForAllControlComp meanCollapseSaTOneControlComp meanLnCollapseSaTOneControlComp stDevCollapseSaTOneControlComp stDevLnCollapseSaTOneControlComp
+clear collapseLevelForAllControlComp meanCollapseSaTOneControlComp meanLnCollapseSaTOneControlComp stDevCollapseSaTOneControlComp stDevLnCollapseSaTOneControlComp
 
 
 

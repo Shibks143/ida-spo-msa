@@ -9,9 +9,9 @@
 % -------------------
 function sks_RunCollapseAnaMATLAB_MSA(msaInputs)
 
-eqDataFolder =                                  msaInputs.eqDataFolder ;
-eqDataFolder =                                  strrep(eqDataFolder, '\', '/');
-eqSpectraFolder =                               msaInputs.eqSpectraFolder ;
+eqDataFolder =                                   msaInputs.eqDataFolder ;
+eqDataFolder =                                   strrep(eqDataFolder, '\', '/');
+eqSpectraFolder =                                msaInputs.eqSpectraFolder ;
 sensModelLIST =                                  msaInputs.sensModelLIST;
 dtForCollapseMATLAB =                            msaInputs.dtForCollapseMATLAB;
 minStoryDriftRatioForCollapseMATLAB =            msaInputs.minStoryDriftRatioForCollapseMATLAB; 
@@ -235,6 +235,8 @@ sensModel
     fprintf(myFileStream, 'set saGeoMeanScaled %.2f\n', saGeoMeanScaled);
     fprintf(myFileStream, 'set extraSecondsToRunAnalysis %.2f\n', extraSecondsToRunAnalysis);
     fprintf(myFileStream, 'set eqTimeHistoryPreFormatted %i\n', eqTimeHistoryPreFormatted);
+    fprintf(myFileStream, 'set analysisMode MSA\n');   % Added by Shivakumar KS on 24-Sep-2026
+
     
 % Close the file
     fclose(myFileStream);

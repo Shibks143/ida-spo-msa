@@ -57,7 +57,7 @@
 
 		# Put whether or not to do a pushover analysis
 			set runPushover YES
-			#set runPushover NO
+			# set runPushover NO
 
 		# Maximum displacement for pushover (of control node)
  			set maxPushoverDisp 1500.0;  # added by shivakumar on June-18-2026
@@ -148,18 +148,49 @@
 	# All recorders
 	set defineRecorders YES
 	#set defineRecorders NO
-
+	
 	# Option to define limited recorders
+	# Automatically set based on analysisMode written by MATLAB or psb_RunMeanAnalysis.tcl
+	# analysisMode = Pushover  --> full recorders (set in psb_RunMeanAnalysis.tcl)
+	# analysisMode = IDA/MSA   --> limited recorders (set by MATLAB in psb_VarDefinitionsFromMATLAB.tcl)
+	if {![info exists analysisMode]} {
+		set analysisMode EQ;  # safe default - limited recorders
+	}
+
+	if {$analysisMode == "Pushover"} {
+		set onlyDefineLimitedRecForVariations 0;  # Full recorders for pushover
+		set defineJointRecorders 1
+		set defineHystHingeRecorders 1;
+	} else {
+		set onlyDefineLimitedRecForVariations 1;  # Limited recorders for IDA/MSA
+		set defineJointRecorders 0
+		set defineHystHingeRecorders 0;
+	}
+	puts "CHECK: analysisMode = $analysisMode"
+	puts "CHECK: onlyDefineLimitedRecForVariations = $onlyDefineLimitedRecForVariations"
+	puts "CHECK: defineJointRecorders = $defineJointRecorders"
+	puts "CHECK: defineHystHingeRecorders = $defineHystHingeRecorders"
+
+	# Option to define limited recorders, This is replaced by above block of code
 	#set onlyDefineLimitedRecForVariations 1;	# This reduces the number of recorders to be only what is needed for the EDP transfer to Caltech (to reduce the data created during the analysis).
-	set onlyDefineLimitedRecForVariations 0
+	# set onlyDefineLimitedRecForVariations 0
+	
+	# Option to define limited recorders, # Automatically set based on analysis type: # added by shivakumar K S on 24-sep-2026
+	#   0 = full recorders (Pushover)
+	#   1 = limited recorders (IDA/MSA - saves disk space)
+	# if {$runPushover == "YES"} {
+		# set onlyDefineLimitedRecForVariations 0;  # Full recorders for pushover
+	# } else {
+		# set onlyDefineLimitedRecForVariations 1;  # Limited recorders for IDA/MSA
+	# }
 
 	# Decide about joint recorders
-	set defineJointRecorders 1
-	#set defineJointRecorders 0
+	# set defineJointRecorders 1
+	# set defineJointRecorders 0
 
 	# Deiced whether you want recorders for the Hyst hinges (hinge numbers defined later)
- 	set defineHystHingeRecorders 1;	# These are also for the gravity frame, so use them!!!
-	#set defineHystHingeRecorders 0
+ 	# set defineHystHingeRecorders 1;	# These are also for the gravity frame, so use them!!!
+	# set defineHystHingeRecorders 0
 
 	# Set to record the nodes in the list if you would like
 	set recordNodesInList YES

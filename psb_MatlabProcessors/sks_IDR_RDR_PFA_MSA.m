@@ -30,7 +30,7 @@ numStories_all                    = zeros(numEQ,1);
 saLevel_all                       = cell(numEQ,1);
 numSaLevels_all                   = zeros(numEQ,1);
 
-%% Load reduced SA-level results for each EQ
+%% Load reduced Sa-level results for each EQ
 for eqIndex = 1:numEQ
     eqCompNumber = eqNumberLIST(eqIndex);
     eqFolder = fullfile(saveDir, sprintf('EQ_%d', eqCompNumber));
@@ -76,16 +76,7 @@ for eqIndex = 1:numEQ
             maxDriftRatioForFullStr_thisEQ(saIndex) = edpData.maxDriftRatioForFullStr;
 
 
-
-            % floorAccel_thisEQ{saIndex} = edpData.floorAccelToSave;
-            % storyDriftRatio_thisEQ{saIndex} = cellfun(@(x) x.AbsMax, edpData.storyDriftRatioToSave);
-            % storyDriftRatio_ResidualAbs_thisEQ{saIndex} = cellfun(@(x) abs(x.Residual), edpData.storyDriftRatioToSave);
-            % % storyDriftRatio_ResidualAbs_thisEQ{saIndex} = cellfun(@(x) x.ResidualAbs, edpData.storyDriftRatioToSave);
-            % roofDriftRatio_thisEQ(saIndex) = edpData.roofDriftRatioToSave.AbsMax;
-            % roofDriftRatio_ResidualAbs_thisEQ(saIndex) = edpData.roofDriftRatioToSave.ResidualAbs;
-            % maxDriftRatioForFullStr_thisEQ(saIndex) = edpData.maxDriftRatioForFullStr;
-
-            % Store building parameters (same for all SA levels)
+           % Store building parameters (same for all SA levels)
             if saIndex == 1
                 buildingHeight_all(eqIndex) = edpData.buildingHeight;
                 numStories_all(eqIndex)     = edpData.numStories;
@@ -96,12 +87,12 @@ for eqIndex = 1:numEQ
     end
 
     saLevel_all{eqIndex} = saLevel_thisEQ;
-    floorAccel_all{eqIndex} = floorAccel_thisEQ;
-    storyDriftRatio_all{eqIndex} = storyDriftRatio_thisEQ;
+    floorAccel_all{eqIndex} = floorAccel_thisEQ;  % used in plots
+    storyDriftRatio_all{eqIndex} = storyDriftRatio_thisEQ; % used in plots
     roofDriftRatio_all{eqIndex} = roofDriftRatio_thisEQ;
     roofDriftRatio_ResidualAbs_all{eqIndex} = roofDriftRatio_ResidualAbs_thisEQ;
     maxDriftRatioForFullStr_all{eqIndex} = maxDriftRatioForFullStr_thisEQ;
-    storyDriftRatio_ResidualAbs_all{eqIndex} = storyDriftRatio_ResidualAbs_thisEQ;
+    storyDriftRatio_ResidualAbs_all{eqIndex} = storyDriftRatio_ResidualAbs_thisEQ;  % used in plots
 end
 %% ============================================================
 % STORE ALL EQ DATA (NO REDUCTION) → 3D MATRICES

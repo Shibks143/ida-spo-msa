@@ -10,7 +10,12 @@
 # Modified by: Prakash S Badal of IIT Bombay
 # Date: 18 Mar 2016
 
-# ------------------------------------------------------------------------#
+
+# Set analysis mode for recorder control
+# Pushover uses full recorders (onlyDefineLimitedRecForVariations = 0)
+# For IDA/MSA, analysisMode is written by MATLAB into psb_VarDefinitionsFromMATLAB.tcl
+set analysisMode Pushover;    # Added by Shivakumar KS on 24-Sep-2026
+
 ########################################################################
 # Analysis...
 # Clear the memory

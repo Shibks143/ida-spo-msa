@@ -95,50 +95,55 @@ if {$findgroundDispl == 1.0} {
 }
 
 ############## ELEMENTS #########################################################################################
-
 # Record the element force responses, if I am not limiting the recorders.
+# Only needed for pushover - not required for IDA/MSA(if it is required then add for IDA/MSA), Added by Shivakumar KS on 24-Sep-2026
 if {$onlyDefineLimitedRecForVariations != 1} {
 
-	#puts "Check: Defining element recorders"
-
 	# Element force time histories - local coordinates
-		puts "Defining element local force recorders..."
-		cd $baseDir/Output/$analysisType/EQ_$eqNumber/Sa_$saTOneForRun/Elements/EleLocalTH
-		set currentDir [pwd]
-	
+	puts "Defining element local force recorders..."
+	cd $baseDir/Output/$analysisType/EQ_$eqNumber/Sa_$saTOneForRun/Elements/EleLocalTH
 
-		# Do recorders for all element types other than the generlaizesYieldSurface by Kaul and Deierlein
-		foreach eleNum $elementNumToRecordLIST {
-			# Removed 6-15-06 to save hard drive space
-	# recorder Element $eleNum   -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_THEleLocal_$eleNum.out  localForces
-	recorder Element -file THEleLocal_$eleNum.out -ele $eleNum localForces 
-	recorder Element -file THEleLocalWithTime_$eleNum.out -time -ele $eleNum localForces 
-
-# (9-19-2015) modified this command line as per new recorder command -PSB
-
+	# Do recorders for all element types other than the generalizedYieldSurface by Kaul and Deierlein
+	foreach eleNum $elementNumToRecordLIST {
+		# recorder Element $eleNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_THEleLocal_$eleNum.out localForces
+		recorder Element -file THEleLocal_$eleNum.out -ele $eleNum localForces
+		recorder Element -file THEleLocalWithTime_$eleNum.out -time -ele $eleNum localForces
+		# (9-19-2015) modified this command line as per new recorder command -PSB
 	}
 
-}
-
-# Element force time histories - global coordinates; it records only the columns at the base of the building (for base shear calcs.)
+	# Element force time histories - global coordinates
 	puts "Defining element global force recorders..."
 	cd $baseDir/Output/$analysisType/EQ_$eqNumber/Sa_$saTOneForRun/Elements/EleGlobalTH
 
-	# OLD - I took this out in place of the new recorder method for all stories (removed 9-12-05)
-#	# Do recorders for all element types other than the generlaizesYieldSurface by Kaul and Deierlein
-#	foreach eleNum $columnNumsAtBaseLIST {
-#		recorder Element $eleNum   -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_THEleGlobal_$eleNum.out  globalForces
-#	}
-
-	# Do global element force recorders for all columns of each floor (for global and story pushover calculations) (added 9-12-05)
 	foreach colNumForSingleStoryLIST $columnNumsAtEachStoryLIST {
 		foreach colNum $colNumForSingleStoryLIST {
-			# Define a single recorder
-			#recorder Element $colNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_THEleGlobal_$colNum.out  globalForces
-	recorder Element -file THEleGlobal_$colNum.out -ele $colNum globalForces 
-# (9-19-2015) modified this command line as per new recorder command -PSB
+			recorder Element -file THEleGlobal_$colNum.out -ele $colNum globalForces
 		}
 	}
+
+} else {
+	puts "NOTICE: Local and Global element force recorders NOT defined (IDA/MSA mode - limited recorders)"
+}
+
+# Element force time histories - global coordinates; it records only the columns at the base of the building (for base shear calcs.)
+	# puts "Defining element global force recorders..."
+	# cd $baseDir/Output/$analysisType/EQ_$eqNumber/Sa_$saTOneForRun/Elements/EleGlobalTH
+
+	# OLD - I took this out in place of the new recorder method for all stories (removed 9-12-05)
+	# Do recorders for all element types other than the generlaizesYieldSurface by Kaul and Deierlein
+	# foreach eleNum $columnNumsAtBaseLIST {
+		# recorder Element $eleNum   -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_THEleGlobal_$eleNum.out  globalForces
+	# }
+
+	# Do global element force recorders for all columns of each floor (for global and story pushover calculations) (added 9-12-05)
+	# foreach colNumForSingleStoryLIST $columnNumsAtEachStoryLIST {
+		# foreach colNum $colNumForSingleStoryLIST {
+			# Define a single recorder
+			# recorder Element $colNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_THEleGlobal_$colNum.out  globalForces
+	# recorder Element -file THEleGlobal_$colNum.out -ele $colNum globalForces 
+# (9-19-2015) modified this command line as per new recorder command -PSB
+		# }
+	# }
 
 
 
@@ -150,9 +155,9 @@ if {$defineJointRecorders == 1} {
 
 	foreach jointNum $jointNumToRecordLIST {
 		# See Appendix B of Altoontash thesis for reference
-	# recorder Element $jointNum -file Joint_ForceAndDef_$jointNum.out defoANDforce
-	recorder Element -file Joint_ForceAndDef_$jointNum.out -ele $jointNum defoANDforce 
-# (9-19-2015) modified this command line as per new recorder command -PSB
+		# recorder Element $jointNum -file Joint_ForceAndDef_$jointNum.out defoANDforce
+		recorder Element -file Joint_ForceAndDef_$jointNum.out -ele $jointNum defoANDforce 
+		# (9-19-2015) modified this command line as per new recorder command -PSB
 	}
 
 } else {
@@ -165,15 +170,15 @@ if {($defineHystHingeRecorders == 1)} {
 	puts "Defining hinge element recorders..."
 	cd $baseDir/Output/$analysisType/EQ_$eqNumber/Sa_$saTOneForRun/Elements/Hinges
 	foreach hingeEleNum $hingeElementsToRecordLIST {
-	#recorder Element $hingeEleNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_HingeForceTH_$hingeEleNum.out force
-	#recorder Element $hingeEleNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_HingeRotTH_$hingeEleNum.out deformatio
-	
-	# recorder Element $hingeEleNum -file HingeForceTH_$hingeEleNum.out force
-	# recorder Element $hingeEleNum -file HingeRotTH_$hingeEleNum.out deformation
+		#recorder Element $hingeEleNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_HingeForceTH_$hingeEleNum.out force
+		#recorder Element $hingeEleNum -file ($analysisType)_EQ_($eqNumber)_Sa_($saTOneForRun)_HingeRotTH_$hingeEleNum.out deformatio
+		
+		# recorder Element $hingeEleNum -file HingeForceTH_$hingeEleNum.out force
+		# recorder Element $hingeEleNum -file HingeRotTH_$hingeEleNum.out deformation
 
-	recorder Element -file HingeForceTH_$hingeEleNum.out -ele $hingeEleNum force 
-	recorder Element -file HingeRotTH_$hingeEleNum.out -ele $hingeEleNum deformation 
-# (9-19-2015) modified this command line as per new recorder command -PSB
+		recorder Element -file HingeForceTH_$hingeEleNum.out -ele $hingeEleNum force 
+		recorder Element -file HingeRotTH_$hingeEleNum.out -ele $hingeEleNum deformation 
+		# (9-19-2015) modified this command line as per new recorder command -PSB
 	}
 }
 

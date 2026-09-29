@@ -88,7 +88,7 @@ proc RunEQLoadingForCollapse {eqNumber saTOneForRun scaleFactorForRunFromMatlab 
 		set startDir [pwd]
 		cd ..
 		cd ..
-#		cd ..
+		# cd ..
 
 		# (11-21-15, PSB) extra cd .. for parallel computing
 			
