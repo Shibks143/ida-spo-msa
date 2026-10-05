@@ -653,7 +653,7 @@ for sensModelIndex = 1:length(sensModelLIST)
 
                 % This file runs a single EQ record
 
-                % Reinitialize the variables that may have been retireieved from the last analysis, with a dummay variable that will show up if there is a problem with
+                % Reinitialize the variables that may have been retrieved from the last analysis, with a dummay variable that will show up if there is a problem with
                 %   the variables being defined again.
                 isCollapsed                     = -1;
                 isSingular                      = -1;

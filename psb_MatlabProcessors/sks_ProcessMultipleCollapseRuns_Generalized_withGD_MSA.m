@@ -94,10 +94,16 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         eqFolderPath = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber));
         fileNameToLoad = fullfile(eqFolderPath, 'DATA_CollapseResultsForThisSingleEQ.mat');
 
-        if ~exist(fileNameToLoad, 'file')
-            fprintf('Missing: EQ_%d (%s)\n', eqNumber, analysisType);
+        % AFTER
+        if ~isfile(fileNameToLoad)
+            warning('sks:missingFile', 'Missing: EQ_%d (%s)', eqNumber, analysisType);
             continue;
         end
+        
+        % if ~exist(fileNameToLoad, 'file')
+        %     fprintf('Missing: EQ_%d (%s)\n', eqNumber, analysisType);
+        %     continue;
+        % end
 
         [saLevelForEachRun, maxDriftForEachRun, isCollapsedForEachRun, isSingularForEachRun, isNonConvForEachRun, ...
             numSaLevels, periodUsedForScalingGroundMotions, minStoryDriftRatioForCollapseMATLAB] = sks_loadDATAForEachEq_MSA(fileNameToLoad);
@@ -166,11 +172,21 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         isNonConvLIST             = nonconvegedAll;
 
         % Needed by plot axis labels and collapse drift xline
-        if ~exist('periodUsedForScalingGroundMotions','var') || isempty(periodUsedForScalingGroundMotions)
+        % if ~exist('periodUsedForScalingGroundMotions','var') || isempty(periodUsedForScalingGroundMotions)
+        %     periodUsedForScalingGroundMotions = NaN;
+        % end
+        % 
+        % if ~exist('minStoryDriftRatioForCollapseMATLAB','var') || isempty(minStoryDriftRatioForCollapseMATLAB)
+        %     minStoryDriftRatioForCollapseMATLAB = NaN;
+        % end
+
+
+        % AFTER
+        if isempty(periodUsedForScalingGroundMotions)
             periodUsedForScalingGroundMotions = NaN;
         end
 
-        if ~exist('minStoryDriftRatioForCollapseMATLAB','var') || isempty(minStoryDriftRatioForCollapseMATLAB)
+        if isempty(minStoryDriftRatioForCollapseMATLAB)
             minStoryDriftRatioForCollapseMATLAB = NaN;
         end
 
@@ -182,7 +198,9 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         sks_saveDATA_MSA(fileNameToSave, saLevelsForMSAPlotLIST, maxDriftRatioForPlotLIST, isCollapsedLIST, isSingularLIST, isNonConvLIST, ...
             periodUsedForScalingGroundMotions, minStoryDriftRatioForCollapseMATLAB, eqNumber, analysisType);
         
-        fprintf('Saved MSA plot data: EQ_%d (%s)\n', eqNumber, analysisType);
+        % AFTER
+        warning('sks:savedOK', 'Saved MSA plot data: EQ_%d (%s)', eqNumber, analysisType);
+        % fprintf('Saved MSA plot data: EQ_%d (%s)\n', eqNumber, analysisType);
 
     end
 end

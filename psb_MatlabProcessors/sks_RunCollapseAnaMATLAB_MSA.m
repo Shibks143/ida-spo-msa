@@ -115,10 +115,8 @@ disp(eqDataFolder)
         addressForSensDir = sprintf('%s\\%s',currentFolderTemp, specificSensFolderForSeparateEqs);
         copyfile('psb_RunCollapseSensAnalysisMATLAB.tcl', addressForSensDir);
     end
-                 
-        cd .. % back to the models folder
-        cd(sensModel) % now in the models folder
-
+         
+        cd(fullfile('..', sensModel)) % back to the models folder, and then % now in the models folder
 
     for eqNumberIndex = 1:length(eqNumberLIST)
         eqNumber = eqNumberLIST(eqNumberIndex);
@@ -261,9 +259,8 @@ sensModel
     eqFolder = sprintf('EQ_%d', eqNumber);
     cd(eqFolder);
     saFolder = sprintf('Sa_%.2f', currentSaLevel);
-    cd(saFolder);
-    cd RunInformation;
-    
+    cd(fullfile(saFolder, 'RunInformation'));
+   
 
 % Now, load the needed data for this run
    isCollapsed                               = load('isCollapsedOUT.out'); 

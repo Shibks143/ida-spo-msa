@@ -49,7 +49,10 @@ switch pshaVersion
         T1LIST = [0 0.1:0.1:0.5 1 1.50 2];
     case 'new'
         % new Aug 2026 data: 27 periods available, up to 5s
-        T1LIST = [0.01 0.1:0.1:0.5 1 1.50 2];
+        T1LIST = [0.01 0.05 0.1:0.1:1.0 1.2 1.50 2 2.5 3.0 5.0];
+        
+        % [0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.075, 0.09, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, ...
+            % 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 5.0];
         % T1LIST = [0.01 0.05 0.1 0.5 1 1.50 2 3 5];
     otherwise
         error('Unknown pshaVersion: %s', pshaVersion);
@@ -133,7 +136,7 @@ end
 
 
 %                 HazCur    Sa(Tcond)      UHS      ISResSpec   UHS_ISRes
-runHazardIndex =  [0          1            0          0            0  ];
+runHazardIndex =  [1          1            0          0            0  ];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

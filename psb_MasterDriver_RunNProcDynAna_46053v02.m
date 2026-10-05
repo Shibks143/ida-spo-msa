@@ -64,7 +64,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
+IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
 
          eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
@@ -72,16 +72,13 @@ IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
          % eqListID = 'setD' ;
          % eqListID = 'setDNotC'; 
          % eqListID = 'setG';
-         % eqListID = 'setTest';
+         eqListID = 'setTest';
 
-
-idaPlotType = 'PDF';     % IDA plot: 'NONE', 'IDA', or 'PDF'
-msaPlotType = 'NONE';    % MSA plot: 'NONE', 'MSA', or 'PDF'
 
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        0          0        0              0                  1];
+    analyzeProcessPlotIndex = [0        1        1          0        0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -342,7 +339,7 @@ idaInputs.sigmaLnModeling =                     sigmaLnModeling;
 idaInputs.sigmaLnDesignReq =                    sigmaLnDesignReq;
 idaInputs.sigmaLnTestData =                     sigmaLnTestData;
 idaInputs.maxNumRuns =                          maxNumRuns;
-idaInputs.idaPlotType =                         idaPlotType;
+% idaInputs.idaPlotType =                         idaPlotType;
 idaInputs.lineColor =                           lineColor;
 
 % --- Added for IDA/MSA+PDF plotting ---
@@ -367,10 +364,10 @@ idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 
 
 % MSA-specific inputs
-% msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
-% msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
-% msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name;
-% msaInputs.isPlotCollapseMSAs =                  isPlotCollapseMSAs;
+msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
+msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
+msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name;
+msaInputs.isPlotCollapseMSAs =                  isPlotCollapseMSAs;
 % msaInputs.msaPlotType =                         msaPlotType;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
