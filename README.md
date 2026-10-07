@@ -1,1 +1,1 @@
-will be uploaded information about IDA, MSA and SPOA procedures to run
+will be uploaded information about IDA, MSA and SPO procedures to run
