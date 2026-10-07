@@ -6,13 +6,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function sks_IDR_RDR_PFA_MSA(eqNumberLIST, analysisType)
+function sks_IDR_RDR_PFA_MSA(msaInputs)
 
-
+analysisType = msaInputs.analysisType;
 % Base directory setup
 baseDir = pwd;                                             % MatlabProcessors folder
 saveDir = fullfile(baseDir, '..', 'Output', analysisType); % folder where plots will be saved
 
+eqNumberLIST = msaInputs.eqNumberLIST;
 numEQ = length(eqNumberLIST);
 
 %% Plot settings 

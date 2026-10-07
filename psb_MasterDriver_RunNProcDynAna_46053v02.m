@@ -53,8 +53,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 0.71;   % Note 1) input the proper period for scaling the ground motions for the building you would 
-                                                % like to run (haselton used T1)
+    periodUsedForScalingGroundMotions = 0.65;   % Note 1) input the proper period for scaling the ground motions for the building you would 
+                                                % like to run (haselton
+                                                % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
                                                 % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
                                                 % plots to do not use this as input; they open the files that Opensees creates 
                                                 %(value will be same as this)
@@ -66,19 +67,19 @@ end
     
 IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
 
-         eqListID = 'SetCS_30'; maxScalingTH = 4; 
+         % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
-         % eqListID = 'setC';  
+         eqListID = 'setC';  
          % eqListID = 'setD' ;
          % eqListID = 'setDNotC'; 
          % eqListID = 'setG';
-         eqListID = 'setTest';
+         % eqListID = 'setTest';
 
 
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        1        1          0        0              0                  0];
+    analyzeProcessPlotIndex = [0        0        0           0       0              0                  1];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,7 +90,7 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
                                         % can as well be kept zero if conventional collapse analysis is being performed. 
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.12;                     % Value above which record is considered collapsed (used when 
+    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
                                                                     % IDA was run); increased from 0.12 on 7-26-06 for the purpose
                                                                     % of making the collapse mode plots better.
     collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
@@ -149,8 +150,8 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
     
 % Sa list for multiple stripe analysis (MSA) and processing - this is the list of Sa levels to make stripe files for
      
-    % saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.06 1.20 1.50 1.80 2.10];
-    saLevelsForStripes = [0.10 0.50 1.00 2.00 3.00 4.00]; % for Testing
+    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.06 1.20 1.50 1.80 2.10];
+    % saLevelsForStripes = [0.10 0.50 1.00 2.00 3.00 4.00]; % for Testing
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this
