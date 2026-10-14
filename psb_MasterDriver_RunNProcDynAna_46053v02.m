@@ -53,7 +53,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 0.65;   % Note 1) input the proper period for scaling the ground motions for the building you would 
+    periodUsedForScalingGroundMotions = 0.71;   % Note 1) input the proper period for scaling the ground motions for the building you would 
                                                 % like to run (haselton
                                                 % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
                                                 % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
@@ -79,7 +79,7 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        0           0       0              0                  1];
+    analyzeProcessPlotIndex = [0        0        1           0       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,8 +99,9 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
     collapseResidualDriftThreshold = minStoryResidualDriftRatioMATLAB;
     
     midrLevels      = [0.01 0.02 0.04 0.12];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
-    midrLevelLabels = {'IO','LS','CP','Collapse'};
+    midrLevelLabels = {'IO','LS','CP','Coll'};
     rdrLevels       = [0.002 0.005 0.01 0.02];                      % 0.2%, 0.5%, 1%, 2% (Max Interstory Residual Drift Ratio):Ref FEMA P-58, appendix C
+    rdrLevelLabels  = {'IO','LS','CP','Coll'};
     pfaLevels       = [0.2 0.5 1.0 2.0];                            % g is the unit
     pfaLevelLabels  = {'Slight','Moderate','Extensive','Complete'};
 
@@ -225,15 +226,19 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
 
     isProcessMultipleCollapseRuns = true;   % or false
     isPlotCollapseIDAs =            true;   % or false
+    isPlotCollapseIDAsPDF =         true;   % or false
     isPlotCollapseIDAs_RDR =        true;   % or false
     isPlotCollapseIDAs_PFA =        true;   % or false
     isPlotCollapseMSAs =            true;   % or false
-    isPlotCollapseIDAsPDF =         true;   % or false
+    isPlotCollapseMSAs_Sigma =      true;   % or false
+    isPlotCollapseMSAs_PDF =        true;   % or false
+    isPlotCollapseMSAs_RDR =        true;   % or false
+    isPlotCollapseMSAs_PFA =        true;   % or false
     isConvertToSaKircher =          false;  % or true (depending on need)
     isCollapsedForEachRun =         false;  % or true (depending on logic)
- 
 
 
+  
 switch eqListID
     case 'setC'
         eqNumberLIST = eqNumberLIST_forProcessing_SetC;                     eqNumberLIST_forStripes = eqNumberLIST_forProcessing_SetC;
@@ -347,6 +352,7 @@ idaInputs.lineColor =                           lineColor;
 idaInputs.midrLevels =                          midrLevels;
 idaInputs.midrLevelLabels =                     midrLevelLabels;
 idaInputs.rdrLevels =                           rdrLevels;
+idaInputs.rdrLevelLabels =                      rdrLevelLabels;
 idaInputs.pfaLevels =                           pfaLevels;
 idaInputs.pfaLevelLabels =                      pfaLevelLabels;
 
@@ -357,9 +363,9 @@ idaInputs.saStartLevel =                        saStartLevel;
 idaInputs.startStepSize =                       startStepSize;
 idaInputs.tolerance =                           tolerance; 
 idaInputs.isPlotCollapseIDAs =                  isPlotCollapseIDAs;
+idaInputs.isPlotCollapseIDAsPDF =               isPlotCollapseIDAsPDF;
 idaInputs.isPlotCollapseIDAs_RDR =              isPlotCollapseIDAs_RDR;
 idaInputs.isPlotCollapseIDAs_PFA =              isPlotCollapseIDAs_PFA;
-idaInputs.isPlotCollapseIDAsPDF =               isPlotCollapseIDAsPDF;
 idaInputs.eqListForCollapseIDAs_Name =          eqListForCollapseIDAs_Name;
 idaInputs.eqNumberLIST_forCollapseIDAs =        eqNumberLIST_forCollapseIDAs;
 
@@ -369,7 +375,10 @@ msaInputs.eqNumberLIST_forStripes =             eqNumberLIST_forStripes;
 msaInputs.saLevelsForStripes =                  saLevelsForStripes ;
 msaInputs.eqListForCollapseMSAs_Name =          eqListForCollapseMSAs_Name;
 msaInputs.isPlotCollapseMSAs =                  isPlotCollapseMSAs;
-% msaInputs.msaPlotType =                         msaPlotType;
+msaInputs.isPlotCollapseMSAs_Sigma =            isPlotCollapseMSAs_Sigma;
+msaInputs.isPlotCollapseMSAs_PDF =              isPlotCollapseMSAs_PDF;
+msaInputs.isPlotCollapseMSAs_RDR =              isPlotCollapseMSAs_RDR;
+msaInputs.isPlotCollapseMSAs_PFA =              isPlotCollapseMSAs_PFA;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -397,26 +406,34 @@ end
 if analyzeProcessPlotIndex(2) == 1
         
         isProcessMultipleCollapseRuns = 1;
-        isPlotCollapseIDAs = 0;
-        isPlotCollapseIDAs_RDR = 0;
-        isPlotCollapseIDAs_PFA = 0;
-        isPlotCollapseIDAsPDF = 0; 
-        isPlotCollapseMSAs = 0;
-        isCollapsedForEachRun = 0;
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
+        isPlotCollapseIDAs            = 0;
+        isPlotCollapseIDAsPDF         = 0;
+        isPlotCollapseIDAs_RDR        = 0;
+        isPlotCollapseIDAs_PFA        = 0;
+        isPlotCollapseMSAs            = 0;
+        isPlotCollapseMSAs_Sigma      = 0;
+        isPlotCollapseMSAs_PDF        = 0;
+        isPlotCollapseMSAs_RDR        = 0;
+        isPlotCollapseMSAs_PFA        = 0;
+        isCollapsedForEachRun         = 0;
+        isConvertToSaKircher          = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 
         % --- propagate locally-reassigned flags into the structs before calling sks_* ---
         idaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
         idaInputs.isPlotCollapseIDAs            = isPlotCollapseIDAs;
+        idaInputs.isPlotCollapseIDAsPDF         = isPlotCollapseIDAsPDF;
         idaInputs.isPlotCollapseIDAs_RDR        = isPlotCollapseIDAs_RDR;
         idaInputs.isPlotCollapseIDAs_PFA        = isPlotCollapseIDAs_PFA;
-        idaInputs.isPlotCollapseIDAsPDF         = isPlotCollapseIDAsPDF;
         idaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
         idaInputs.isConvertToSaKircher          = isConvertToSaKircher;
         msaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
         msaInputs.isPlotCollapseMSAs            = isPlotCollapseMSAs;
+        msaInputs.isPlotCollapseMSAs_PDF        = isPlotCollapseMSAs_PDF;  
+        msaInputs.isPlotCollapseMSAs_RDR        = isPlotCollapseMSAs_RDR;   
+        msaInputs.isPlotCollapseMSAs_PFA        = isPlotCollapseMSAs_PFA;   
         msaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
         msaInputs.isConvertToSaKircher          = isConvertToSaKircher;
+        msaInputs.isPlotCollapseMSAs_Sigma      = isPlotCollapseMSAs_Sigma;
 
         sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
 end
@@ -425,26 +442,34 @@ end
 if analyzeProcessPlotIndex(3) == 1
 
         isProcessMultipleCollapseRuns = 0;
-        isPlotCollapseIDAs = 1;
-        isPlotCollapseIDAs_RDR = 1;
-        isPlotCollapseIDAs_PFA = 1;
-        isPlotCollapseIDAsPDF = 1;
-        isPlotCollapseMSAs = 1;
-        isCollapsedForEachRun = 0;
-        isConvertToSaKircher = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
+        isPlotCollapseIDAs            = 1;
+         isPlotCollapseIDAsPDF        = 1;
+        isPlotCollapseIDAs_RDR        = 1;
+        isPlotCollapseIDAs_PFA        = 1;
+        isPlotCollapseMSAs            = 1;
+        isPlotCollapseMSAs_Sigma      = 1;
+        isPlotCollapseMSAs_PDF        = 1;
+        isPlotCollapseMSAs_RDR        = 1;
+        isPlotCollapseMSAs_PFA        = 1;
+        isCollapsedForEachRun         = 0;
+        isConvertToSaKircher          = 0;   % We can use this to instead plot Sa,Kircher; this only changes the plotting not the processing.
 
         % --- propagate locally-reassigned flags into the structs before calling sks_* ---
         idaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
         idaInputs.isPlotCollapseIDAs            = isPlotCollapseIDAs;
+        idaInputs.isPlotCollapseIDAsPDF         = isPlotCollapseIDAsPDF;
         idaInputs.isPlotCollapseIDAs_RDR        = isPlotCollapseIDAs_RDR;
         idaInputs.isPlotCollapseIDAs_PFA        = isPlotCollapseIDAs_PFA;
-        idaInputs.isPlotCollapseIDAsPDF         = isPlotCollapseIDAsPDF;
         idaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
         idaInputs.isConvertToSaKircher          = isConvertToSaKircher;
         msaInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
         msaInputs.isPlotCollapseMSAs            = isPlotCollapseMSAs;
+        msaInputs.isPlotCollapseMSAs_PDF        = isPlotCollapseMSAs_PDF;   
+        msaInputs.isPlotCollapseMSAs_RDR        = isPlotCollapseMSAs_RDR;   
+        msaInputs.isPlotCollapseMSAs_PFA        = isPlotCollapseMSAs_PFA;   
         msaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
         msaInputs.isConvertToSaKircher          = isConvertToSaKircher;
+        msaInputs.isPlotCollapseMSAs_Sigma      = isPlotCollapseMSAs_Sigma;
         
         sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
         close;      close; % close figure 

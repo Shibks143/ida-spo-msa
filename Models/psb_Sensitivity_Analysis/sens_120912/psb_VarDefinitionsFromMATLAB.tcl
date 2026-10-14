@@ -14,10 +14,10 @@ global eqDataFolder
 set eqDataFolder E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs
 set currentSaLevel 2.10
 puts "currentSaLevel is $currentSaLevel"
-set scaleFactorForRunFromMatlab 5.557222
-set periodUsedForScalingGroundMotionsFromMatlab 0.6500
+set scaleFactorForRunFromMatlab 5.404376
+set periodUsedForScalingGroundMotionsFromMatlab 0.7100
 set dampingRatioUsedForSaDefFromMatlab 0.0500
-set saCompScaled 1.40
+set saCompScaled 1.48
 set saGeoMeanScaled 2.10
 set extraSecondsToRunAnalysis 5.00
 set eqTimeHistoryPreFormatted 1

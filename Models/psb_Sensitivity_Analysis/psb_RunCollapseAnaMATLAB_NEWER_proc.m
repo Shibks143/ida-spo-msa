@@ -266,7 +266,6 @@ for sensModelIndex = 1:length(sensModelLIST)
                 % (11-21-15, PSB) added
                 specificSensFolderForSeparateEqs = sprintf('sens_%d',eqNumber);
                 %     Prak_mkdir_if_not_exist(specificFolderForSeparateEqs); % matlab throws error if directory already exists, hence the function
-
                 %      temp99 = sprintf('temp99 is %s', pwd);
                 %      disp(temp99);
                 %      disp(pwd)

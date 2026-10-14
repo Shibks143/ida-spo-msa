@@ -1,4 +1,6 @@
-% 
-% 
-function sks_clearVarsForProcessing(saLevelsForMSAPlotLIST, maxDriftRatioForPlotLIST, saLevelsRunForCollapseAnalysis)
-clear saLevelsForMSAPlotLIST maxDriftRatioForPlotLIST saLevelsRunForCollapseAnalysis
+function sks_clearVarsForProcessing_MSA(saLevelsForMSAPlotLIST, maxDriftRatioForPlotLIST, maxResidualDriftRatioForPlotLIST, maxPFAForPlotLIST, ...
+    collapseSaLevel, scaleFactorOnCompAtCollapse, isCollapsedLIST, isSingularLIST, isNonConvLIST, allResultsForThisEQ)
+
+clear saLevelsForMSAPlotLIST maxDriftRatioForPlotLIST maxResidualDriftRatioForPlotLIST maxPFAForPlotLIST collapseSaLevel scaleFactorOnCompAtCollapse isCollapsedLIST isSingularLIST isNonConvLIST allResultsForThisEQ
+
+end

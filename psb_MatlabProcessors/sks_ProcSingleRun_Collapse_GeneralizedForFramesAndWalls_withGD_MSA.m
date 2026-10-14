@@ -66,8 +66,9 @@
 % Units: Whatever OpenSees is using - just be consistent!
 %
 % -------------------
-function [scaleFactorForRun, maxDriftRatioForFullStr, isNonConv, isSingular, isCollapsed] = ...
-    sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder)
+function [scaleFactorForRun, maxDriftRatioForFullStr, maxResidualDriftRatioForFullStr, maxPFAForFullStr, isNonConv, isSingular, isCollapsed] = sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, modelName, ...
+currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder)
+
 
 % IMPORTANT: This is the only processing file that has been being updated
 % for the archetype work (7-25-06, CBH)
@@ -95,8 +96,7 @@ g = 9810;
 secAtEndOfEQForResidual = 3.0; % have patience, this param is used far below of this code (PSB)
 
 % First change the directory to get into the correct folder for processing
-cd ..;
-cd Output;
+cd(fullfile('..', 'Output'));
 
 
 % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
@@ -160,9 +160,7 @@ cd(saFolder);
     %    eqFullLength = load('eqFullLengthOUT.out');
     maxTolUsed = load('maxTolUsedOUT.out');
     
-    cd ..;
-    cd ..;
-    cd ..;
+    cd(fullfile('..', '..', '..'));
     
     % Note that floors are numbered starting with one for the ground floor
     numStories = length(nodeNumsAtEachFloorLIST) - 1;
@@ -234,10 +232,8 @@ end
 
 % Go back to original folder (for EQ's)
 %cd ..;
-cd ..;
-cd ..;
-cd Output;
-cd(analysisTypeFolder);
+cd(fullfile('..', '..', 'Output', analysisTypeFolder));
+
 %%%%%%%%%%%%%%%%%%
 
 
@@ -554,11 +550,7 @@ if(dataSavingOption == 2)
         %function[maxRelDispResponse, maxRelVelResponse, maxAbsAccelResponse, maxPseudoAccelResponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
         % Go back to the Matlab folder to do the processing
         tempFolder2 = pwd;
-        cd ..;
-        cd ..;
-        cd ..;
-        cd ..;
-        cd psb_MatlabProcessors;
+        cd(fullfile('..', '..', '..', '..', 'psb_MatlabProcessors'));
 
         % Process
         % [junk1, junk2, maxFilteredFloorAccel, junk3] = ComputeAllResponsesNewmark((floorAccel{floorNum}.absTH / g), pseudoTimeVector, dtForAnalysis, period, dampRatio);
@@ -609,6 +601,32 @@ end
 
 %%%%%%%%% End of Computation of  Max Drift Ratio for the Full Building %%%%
 
+%%%%%%%%% Compute Max RESIDUAL Drift Ratio for the Full Building %%%%%%%%%%
+% storyDriftRatioToSave{storyNum}.ResidualAbs already computed in story loop above
+maxResidualDriftRatioForFullStr = 0;
+for i = 1:length(storyDriftRatioToSave)
+    currentResidualDriftRatio = storyDriftRatioToSave{i}.ResidualAbs;
+    if currentResidualDriftRatio > maxResidualDriftRatioForFullStr
+        maxResidualDriftRatioForFullStr = currentResidualDriftRatio;
+    end
+end
+%%%%%%%%% End of Max RESIDUAL Drift Ratio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%% Compute Max PFA for the Full Building %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% floorAccelToSave{floorNum}.absAbsMaxUnfiltered already computed above
+if dataSavingOption == 2
+    maxPFAForFullStr = 0;
+    for i = 1:length(floorAccelToSave)
+        currentPFA = floorAccelToSave{i}.absAbsMaxUnfiltered;
+        if currentPFA > maxPFAForFullStr
+            maxPFAForFullStr = currentPFA;
+        end
+    end
+else
+    maxPFAForFullStr = NaN;   
+end
+%%%%%%%%% End of Max PFA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % Save all of this data into the folder for the proper EQ, under the correct Sa level (we are already in the right folder)
 % Only save the information that is needed so that it will be more "bug resistant".
@@ -616,9 +634,8 @@ end
 if(dataSavingOption == 2)
     fileName = 'DATA_reducedSensDataForThisSingleRun.mat';
 
-    save(fileName, 'eqNumber', 'scaleFactorForRun', 'currentSaLevel', 'PGA', 'saCompScaled', 'saGeoMeanScaled','floorAccelToSave', 'storyDriftRatioToSave', ...
-        'roofDriftRatioToSave', 'maxDriftForFullFrame', 'maxDriftRatioForFullStr', 'absMaxDisplOfFloor', 'buildingHeight', 'numStories', 'maxConvergedTime', 'eqTimeLength', 'isConvForFullEQ', ...
-        'maxTolUsed', 'periodUsedForScalingGroundMotionsFromMatlab');
+    save(fileName, 'eqNumber', 'scaleFactorForRun', 'currentSaLevel', 'PGA', 'saCompScaled', 'saGeoMeanScaled','floorAccelToSave', 'storyDriftRatioToSave', 'roofDriftRatioToSave', 'maxDriftForFullFrame', ...
+    'maxDriftRatioForFullStr', 'maxResidualDriftRatioForFullStr', 'maxPFAForFullStr', 'absMaxDisplOfFloor', 'buildingHeight', 'numStories', 'maxConvergedTime', 'eqTimeLength', 'isConvForFullEQ', 'maxTolUsed', 'periodUsedForScalingGroundMotionsFromMatlab');
 
 end
 
@@ -627,11 +644,7 @@ end
 
 % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
 % Go to Output folder
-cd ..;
-cd ..;
-cd ..;
-% Make a WARNING file, go into folder first
-cd Conv_Warning_Files;
+cd(fullfile('..','..','..','Conv_Warning_Files')); % Make a WARNING file, go into folder first
 
 % Output a warnings if needed
 if(isConvForFullEQ == 0)
@@ -661,9 +674,6 @@ end
 %%%%%%%%%%%%%% End of Warnings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get back to the MatlabProcessors folder where we started
-cd ..;
-cd ..;
-cd psb_MatlabProcessors;
-
+cd(fullfile('..','..','psb_MatlabProcessors'));
 disp('Processing Finished for this EQ.');
 

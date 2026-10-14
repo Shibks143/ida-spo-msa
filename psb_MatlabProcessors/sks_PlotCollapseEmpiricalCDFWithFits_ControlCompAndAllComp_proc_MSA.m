@@ -20,9 +20,10 @@
 % % -------------------
 function sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(msaInputs)
 
-analysisTypeLIST     = msaInputs.analysisTypeLIST;
-eqNumberLIST         = msaInputs.eqNumberLIST;
-isConvertToSaKircher = msaInputs.isConvertToSaKircher;
+analysisTypeLIST           = msaInputs.analysisTypeLIST;
+eqNumberLIST               = msaInputs.eqNumberLIST;
+isConvertToSaKircher       = msaInputs.isConvertToSaKircher;
+eqListForCollapseMSAs_Name = msaInputs.eqListForCollapseMSAs_Name;
 
 
 startDir = pwd;
@@ -69,30 +70,44 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
         % --- Load component 1 ---
         eqFolder1 = sprintf('EQ_%d', eqComp1);
-        load(fullfile(fixedOutputDirectory, analysisTypeFolder, eqFolder1, ...
-            'DATA_CollapseResultsForThisSingleEQ.mat'), ...
-            'saLevelForEachRun', 'isCollapsedForEachRun', ...
-            'periodUsedForScalingGroundMotions', 'dampingRatioUsedForSaDef');
+        load(fullfile(fixedOutputDirectory, analysisTypeFolder, eqFolder1, 'DATA_CollapseResultsForThisSingleEQ.mat'), ...
+            'saLevelForEachRun', 'isCollapsedForEachRun', 'isSingularForEachRun', 'isNonConvForEachRun', 'numSaLevels', 'periodUsedForScalingGroundMotions');
 
-        saStripe_comp1  = saLevelForEachRun(:);
-        isCollapse_comp1 = isCollapsedForEachRun(:);
-
+        % Component 1 — numSaLevels cap matches analysis file exactly
+        maxNumRuns1      = min(numSaLevels, length(saLevelForEachRun));
+        saStripe_comp1   = saLevelForEachRun(1:maxNumRuns1);
+        isCollapse_comp1 = isCollapsedForEachRun(1:maxNumRuns1);
+        isSingular_comp1 = isSingularForEachRun(1:maxNumRuns1);  
+        isNonConv_comp1  = isNonConvForEachRun(1:maxNumRuns1); 
+        
+     
         % --- Load component 2 ---
         eqFolder2 = sprintf('EQ_%d', eqComp2);
-        load(fullfile(fixedOutputDirectory, analysisTypeFolder, eqFolder2, ...
-            'DATA_CollapseResultsForThisSingleEQ.mat'), ...
-            'saLevelForEachRun', 'isCollapsedForEachRun', ...
-            'periodUsedForScalingGroundMotions', 'dampingRatioUsedForSaDef');
+        load(fullfile(fixedOutputDirectory, analysisTypeFolder, eqFolder2, 'DATA_CollapseResultsForThisSingleEQ.mat'), ...
+        'saLevelForEachRun', 'isCollapsedForEachRun', 'isSingularForEachRun', 'isNonConvForEachRun', 'numSaLevels', 'periodUsedForScalingGroundMotions');
 
-        saStripe_comp2  = saLevelForEachRun(:);
-        isCollapse_comp2 = isCollapsedForEachRun(:);
+        % Component 2 — same cap
+        maxNumRuns2      = min(numSaLevels, length(saLevelForEachRun));
+        saStripe_comp2   = saLevelForEachRun(1:maxNumRuns2);
+        isCollapse_comp2 = isCollapsedForEachRun(1:maxNumRuns2);
+        isSingular_comp2 = isSingularForEachRun(1:maxNumRuns2); 
+        isNonConv_comp2  = isNonConvForEachRun(1:maxNumRuns2); 
+        
 
-        % Remove padding zeros
+        % Remove padding zeros — all variables together
         valid1 = (saStripe_comp1 > 0);
         valid2 = (saStripe_comp2 > 0);
 
-        saStripe_comp1 = saStripe_comp1(valid1);  isCollapse_comp1 = isCollapse_comp1(valid1);
-        saStripe_comp2 = saStripe_comp2(valid2);  isCollapse_comp2 = isCollapse_comp2(valid2);
+        saStripe_comp1   = saStripe_comp1(valid1);
+        isCollapse_comp1 = isCollapse_comp1(valid1);
+        isSingular_comp1 = isSingular_comp1(valid1);  
+        isNonConv_comp1  = isNonConv_comp1(valid1);    
+
+        saStripe_comp2   = saStripe_comp2(valid2);
+        isCollapse_comp2 = isCollapse_comp2(valid2);
+        isSingular_comp2 = isSingular_comp2(valid2);   
+        isNonConv_comp2  = isNonConv_comp2(valid2);    
+
 
         % ===== Correct CONTROL COMP logic for MSA =====
         % Both components correspond to the same stripe levels.
@@ -101,35 +116,46 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         if length(saStripe_comp1) ~= length(saStripe_comp2) || any(abs(saStripe_comp1 - saStripe_comp2) > 1e-6)
             error('Stripe mismatch between EQ_%d and EQ_%d', eqComp1, eqComp2);
         end
-        
-        % if length(saStripe_comp1) ~= length(saStripe_comp2)
-        %     error('Stripe length mismatch between EQ_%d and EQ_%d', eqComp1, eqComp2);
-        % end
+       
+        % Combined filter — matches sks_plot_ControlComp_MSA exactly
+        % A stripe excluded if either component has bad run at that stripe
+        validRun_combined = ~( (isCollapse_comp1==0 & (isSingular_comp1|isNonConv_comp1)) | ...
+            (isCollapse_comp2==0 & (isSingular_comp2|isNonConv_comp2)) );
 
-        saStripe_control   = saStripe_comp1;     % stripe Sa values
-        isCollapse_control = max(isCollapse_comp1, isCollapse_comp2); % OR collapse across components
+        saStripe_control   = saStripe_comp1(validRun_combined);
+        isCollapse_control = max(isCollapse_comp1(validRun_combined), ...
+            isCollapse_comp2(validRun_combined));
 
-
-        % --- Initialize stripe list once (from first pair) ---
+        % Initialize from raw unfiltered stripe Sa — before validRun_combined
         if ~isStripeListInitialized
-            saStripeList = saStripe_control(:);
-            nPairsPerStripe = zeros(length(saStripeList),1);
-            nColComp1_perStripe = zeros(length(saStripeList),1);
-            nColComp2_perStripe = zeros(length(saStripeList),1);
-            nColControl_perStripe = zeros(length(saStripeList),1);
+            saStripeList          = saStripe_comp1(:);   % raw — all stripes
+            nPairsPerStripe       = zeros(length(saStripeList), 1);
+            nColComp1_perStripe   = zeros(length(saStripeList), 1);
+            nColComp2_perStripe   = zeros(length(saStripeList), 1);
+            nColControl_perStripe = zeros(length(saStripeList), 1);
             isStripeListInitialized = true;
         end
 
-        % --- Accumulate stripe-wise collapse counts ---
-        for k = 1:length(saStripe_control)
-            nPairsPerStripe(k) = nPairsPerStripe(k) + 1;
-            nColComp1_perStripe(k) = nColComp1_perStripe(k) + isCollapse_comp1(k);
-            nColComp2_perStripe(k) = nColComp2_perStripe(k) + isCollapse_comp2(k);
-            nColControl_perStripe(k) = nColControl_perStripe(k) + isCollapse_control(k);
+        % Accumulate by matching Sa value — handles filtered and unfiltered correctly
+        for k = 1:length(saStripeList)
+            currentSa = saStripeList(k);
+            idx1 = find(abs(saStripe_comp1  - currentSa) < 1e-6, 1);
+            idx2 = find(abs(saStripe_comp2  - currentSa) < 1e-6, 1);
+            idxC = find(abs(saStripe_control - currentSa) < 1e-6, 1);
+
+            if ~isempty(idx1) && ~isempty(idx2)
+                nPairsPerStripe(k)     = nPairsPerStripe(k) + 1;
+                nColComp1_perStripe(k) = nColComp1_perStripe(k) + isCollapse_comp1(idx1);
+                nColComp2_perStripe(k) = nColComp2_perStripe(k) + isCollapse_comp2(idx2);
+            end
+
+            if ~isempty(idxC)
+                nColControl_perStripe(k) = nColControl_perStripe(k) + isCollapse_control(idxC);
+            end
         end
 
-        allSa_control       = [allSa_control; saStripe_control(:)];
-        allCollapse_control = [allCollapse_control; isCollapse_control(:)];
+        allSa_control       = [allSa_control;       saStripe_control(:)];
+        allCollapse_control = [allCollapse_control;  isCollapse_control(:)];
 
     end
     fprintf('\n================ CONTROL COMP STRIPE SUMMARY ================\n');
@@ -160,8 +186,10 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         exportName = 'CollapseCDF_ControlComp_SaATC63';
     end
 
-    sks_plotMSAFragilityFromRuns(allSa_control, allCollapse_control, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher);
 
+   % Capture MLE outputs
+   [theta_controlComp, beta_controlComp] = sks_plotMSAFragilityFromRuns(allSa_control, allCollapse_control, minValueForPlot, maxValueForPlot, ...
+    exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher);
 
     % ============================================================
     % ========== 2) ALL COMPONENTS (all EQ folders) ==============
@@ -173,15 +201,31 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         eqNumber = eqNumberLIST(eqNum);
         eqFolder = sprintf('EQ_%d', eqNumber);
 
-        load(fullfile(fixedOutputDirectory, analysisTypeFolder, eqFolder, 'DATA_CollapseResultsForThisSingleEQ.mat'), 'saLevelForEachRun', 'isCollapsedForEachRun', ...
-            'periodUsedForScalingGroundMotions', 'dampingRatioUsedForSaDef');
+        load(fullfile(fixedOutputDirectory, analysisTypeFolder, eqFolder, 'DATA_CollapseResultsForThisSingleEQ.mat'), ...
+        'saLevelForEachRun', 'isCollapsedForEachRun', 'isSingularForEachRun', 'isNonConvForEachRun', 'numSaLevels', 'periodUsedForScalingGroundMotions');
 
-        saStripe_allComp = saLevelForEachRun(:);
-        isCollapse_allComp = isCollapsedForEachRun(:);
-
+   
+        maxNumRuns         = min(numSaLevels, length(saLevelForEachRun));
+        saStripe_allComp   = saLevelForEachRun(1:maxNumRuns);
+        isCollapse_allComp = isCollapsedForEachRun(1:maxNumRuns);
+        isSingular_allComp = isSingularForEachRun(1:maxNumRuns);   
+        isNonConv_allComp  = isNonConvForEachRun(1:maxNumRuns);    
+        
+  
         valid = (saStripe_allComp > 0);
-        saStripe_allComp = saStripe_allComp(valid);
+        saStripe_allComp   = saStripe_allComp(valid);
         isCollapse_allComp = isCollapse_allComp(valid);
+        isSingular_allComp = isSingular_allComp(valid);   
+        isNonConv_allComp  = isNonConv_allComp(valid);    
+
+
+        % After padding zero removal, before appending
+        % Filter singular/non-conv non-collapse runs
+        % Matches sks_plot_AllComp_MSA filter exactly
+        validRun = ~(isCollapse_allComp == 0 & (isSingular_allComp | isNonConv_allComp));
+
+        saStripe_allComp   = saStripe_allComp(validRun);
+        isCollapse_allComp = isCollapse_allComp(validRun);
 
         allSa_all       = [allSa_all; saStripe_allComp(:)];
         allCollapse_all = [allCollapse_all; isCollapse_allComp(:)];
@@ -208,9 +252,35 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         exportName = 'CollapseCDF_AllComp_SaATC63';
     end
 
-    sks_plotMSAFragilityFromRuns(allSa_all, allCollapse_all, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher);
+  
+    % Capture MLE outputs
+    [theta_allComp, beta_allComp] = sks_plotMSAFragilityFromRuns(allSa_all, allCollapse_all, minValueForPlot, maxValueForPlot, ...
+        exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher);
 
-end
+    % ============================================================
+    % After both helper calls, still inside analysisTypeNum loop
+    % ============================================================
+    saveDir = fullfile(fixedOutputDirectory, analysisTypeFolder);
+
+    if isConvertToSaKircher == 0
+        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean.mat', eqListForCollapseMSAs_Name);
+    else
+        colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaATC63.mat',  eqListForCollapseMSAs_Name);
+    end
+
+    collapseStatsFile = fullfile(saveDir, colFileName);
+
+    % Load raw collapse Sa vectors
+    load(collapseStatsFile, 'collapseLevelForAllComp', 'collapseLevelForAllControlComp');
+
+    % Save complete file with correct MLE statistics
+    save(collapseStatsFile, 'analysisType', 'eqNumberLIST', 'periodUsedForScalingGroundMotions', 'collapseLevelForAllComp', ...
+        'collapseLevelForAllControlComp', 'theta_allComp', 'beta_allComp', 'theta_controlComp', 'beta_controlComp');
+
+    fprintf('Saved complete collapse stats with MLE: %s\n', collapseStatsFile);
+
+
+end % END analysisTypeNum loop — save block is inside this loop
 
 cd(startDir);
 fprintf('\nDone.\n');
@@ -222,7 +292,8 @@ end
 % ==========================================================
 % Helper function (must be below main function in same file)
 % ==========================================================
-function sks_plotMSAFragilityFromRuns(allSa, allCollapse, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher)
+% two outputs added
+function [theta_hat, beta_hat] = sks_plotMSAFragilityFromRuns(allSa, allCollapse, minValueForPlot, maxValueForPlot, exportName, fixedOutputDirectory, analysisTypeFolder, periodUsedForScalingGroundMotions, isConvertToSaKircher)
 
 % Round to avoid float mismatch
 tol = 1e-4;
@@ -297,14 +368,15 @@ box on; grid on;
 
 % Axis label
 if(isConvertToSaKircher == 0)
-    temp = sprintf('$Sa_{geoM}(T=%.2f\\,\\mathrm{s})\\,(\\mathrm{g})$', periodUsedForScalingGroundMotions);
+    temp = sprintf('$\\mathrm{Sa_{geoM}(T=%.2f\\,s)\\,(g)}$', periodUsedForScalingGroundMotions);
 else
     DefineSaKircherOverSaGeoMeanValues
     temp = axisLabelForSaKircher;
 end
 
 xlabel(temp, 'Interpreter','latex');
-ylabel('$\mathrm{Pr}[collapse]$', 'Interpreter','latex');
+ylabel('$\mathrm{Pr[collapse]}$', 'Interpreter','latex');
+
 
 % === Apply formatting + export ===
 sks_figureFormat('powerpoint');

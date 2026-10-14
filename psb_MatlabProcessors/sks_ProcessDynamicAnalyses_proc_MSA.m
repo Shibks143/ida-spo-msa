@@ -14,7 +14,6 @@ markerTypeLine =                msaInputs.markerTypeLine;
 markerTypeDot =                 msaInputs.markerTypeDot;
 isPlotIndividualPoints =        msaInputs.isPlotIndividualPoints;
 isProcessMultipleCollapseRuns = msaInputs.isProcessMultipleCollapseRuns;
-isPlotCollapseMSAs =            msaInputs.isPlotCollapseMSAs;
 analysisTypeLIST =              msaInputs.analysisTypeLIST;
 analysisType   =                msaInputs.analysisType;
 modelNameLIST =                 msaInputs.modelNameLIST;
@@ -22,7 +21,13 @@ eqNumberLIST =                  msaInputs.eqNumberLIST;
 saLevelsForStripes =            msaInputs.saLevelsForStripes;
 isCollapsedForEachRun =         msaInputs.isCollapsedForEachRun;
 isConvertToSaKircher =          msaInputs.isConvertToSaKircher;
-extraSecondsToRunAnalysis    =  msaInputs.extraSecondsToRunAnalysis;
+extraSecondsToRunAnalysis =     msaInputs.extraSecondsToRunAnalysis;
+
+isPlotCollapseMSAs =            msaInputs.isPlotCollapseMSAs;
+isPlotCollapseMSAs_Sigma =      msaInputs.isPlotCollapseMSAs_Sigma;
+isPlotCollapseMSAs_PDF =        msaInputs.isPlotCollapseMSAs_PDF;
+isPlotCollapseMSAs_RDR =        msaInputs.isPlotCollapseMSAs_RDR;
+isPlotCollapseMSAs_PFA =        msaInputs.isPlotCollapseMSAs_PFA;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do processing
@@ -34,35 +39,18 @@ extraSecondsToRunAnalysis    =  msaInputs.extraSecondsToRunAnalysis;
 
     end
     
+
     % Plot MSAs - both horizontal components
-    if (isPlotCollapseMSAs ==1)
+    % Plot MSAs, MSAs_Sigma, MIDR_PDF, RDR_PDF, PFA_PDF
+    if isPlotCollapseMSAs == 1 || isPlotCollapseMSAs_Sigma == 1 || isPlotCollapseMSAs_PDF  == 1 || isPlotCollapseMSAs_RDR   == 1 || isPlotCollapseMSAs_PFA  == 1
         sks_PlotCollapse_MSA(msaInputs);
         disp('Plot Collapse MSAs - DONE')
     end
-    
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+      
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 

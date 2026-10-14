@@ -20,8 +20,8 @@ function psb_SaveResultsForThisEQ(analysisFolderName, collapseRangeSize, collaps
     % Go into the output folder for this EQ run
     cd ..;
     cd ..;
-    %         cd ..;
-    %         cd Output;
+    %   cd ..;
+    %   cd Output;
     
     try
         cd Output;

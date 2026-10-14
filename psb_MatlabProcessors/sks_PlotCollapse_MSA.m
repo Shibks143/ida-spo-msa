@@ -31,24 +31,60 @@ analysisTypeLIST =           msaInputs.analysisTypeLIST;
 eqNumberLIST =               msaInputs.eqNumberLIST;
 markerTypeLine =             msaInputs.markerTypeLine;
 markerTypeDot =              msaInputs.markerTypeDot;
-isPlotIndividualPoints =     msaInputs.isPlotCollapseMSAs;
+isPlotIndividualPoints =     msaInputs.isPlotIndividualPoints;
 eqNumberLIST_forStripes =    msaInputs.eqNumberLIST_forStripes;
 saLevelsForStripes =         msaInputs.saLevelsForStripes;
 isCollapsedForEachRun =      msaInputs.isCollapsedForEachRun;
 collapseDriftThreshold =     msaInputs.collapseDriftThreshold;
 isConvertToSaKircher =       msaInputs.isConvertToSaKircher;
 
+% Unpack all 4 flags
+isPlotCollapseMSAs =        msaInputs.isPlotCollapseMSAs;
+isPlotCollapseMSAs_Sigma =  msaInputs.isPlotCollapseMSAs_Sigma;
+isPlotCollapseMSAs_PDF =    msaInputs.isPlotCollapseMSAs_PDF;   
+isPlotCollapseMSAs_RDR =    msaInputs.isPlotCollapseMSAs_RDR;
+isPlotCollapseMSAs_PFA =    msaInputs.isPlotCollapseMSAs_PFA;
 
-% Loop and do for all types of analysis
 for analysisTypeIndex = 1:length(analysisTypeLIST)
     msaInputs.analysisType = analysisTypeLIST{analysisTypeIndex};
 
-    % Call the function to do the collapse MSAs for a single analysisType
-    sks_PlotCollapse_singleAnaType_MSA(msaInputs);
-    % sks_PlotCollapse_singleAnaType_MSA_RDR(msaInputs);
+    % MIDR scatter — matches IDA plotType = 'MIDR'
+    if isPlotCollapseMSAs == 1
+        % PlotCollapse_singleAnaType_MSA(msaInputs); % conventional original file  
+        msaInputs.plotType = 'MIDR';
+        sks_PlotCollapse_singleAnaType_MSA(msaInputs);
+        disp('Plot Collapse MSAs (MIDR) - DONE')
+         % sks_PlotCollapse_singleAnaType_MSA_RDR(msaInputs);
+    end
+
+    % MIDR_Sigma — 16th/84th percentile response 
+    if isPlotCollapseMSAs_Sigma == 1
+        msaInputs.plotType = 'MIDR_Sigma';
+        sks_PlotCollapse_singleAnaType_MSA(msaInputs);
+        disp('Plot Collapse MSAs (MIDR_Sigma) - DONE')
+    end
+
+    % MIDR + PDF overlay — matches IDA plotType = 'MIDR_PDF'
+    if isPlotCollapseMSAs_PDF == 1
+        msaInputs.plotType = 'MIDR_PDF';
+        sks_PlotCollapse_singleAnaType_MSA(msaInputs);
+        disp('Plot Collapse MSAs (MIDR + PDF) - DONE')
+    end
+
+    % RDR scatter — matches IDA plotType = 'RDR_PDF'
+    if isPlotCollapseMSAs_RDR == 1
+        msaInputs.plotType = 'RDR_PDF';
+        sks_PlotCollapse_singleAnaType_MSA(msaInputs);
+        disp('Plot Collapse MSAs (RDR_PDF) - DONE')
+    end
+
+    % PFA scatter — matches IDA plotType = 'PFA_PDF'
+    if isPlotCollapseMSAs_PFA == 1
+        msaInputs.plotType = 'PFA_PDF';
+        sks_PlotCollapse_singleAnaType_MSA(msaInputs);
+        disp('Plot Collapse MSAs (PFA_PDF) - DONE')
+    end
 
 end
 
-
-
-
+end

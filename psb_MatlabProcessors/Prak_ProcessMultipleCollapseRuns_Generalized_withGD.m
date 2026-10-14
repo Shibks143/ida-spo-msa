@@ -38,9 +38,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     cd Output
     fixedOutputDirectory = pwd;
 
-
-    % par
-    
+ 
     parfor eqNumNum = 1:length(eqNumberLIST)
            eqNumber = eqNumberLIST(eqNumNum);
 
