@@ -4,7 +4,7 @@ close all
 formatMode = 'powerpoint';
 
 %% Load file
-dataPath = 'E:\OpenSees_PracticeExamples\ida-spo-msa\HazardAnalysis\shiva-hazard-files.mat';
+dataPath = 'E:\StaticDynamicAnalysis\ida-spo-msa\HazardAnalysis\shiva-hazard-files.mat';
 S = load(dataPath);
 
 % ---- Read the hazard table ----
