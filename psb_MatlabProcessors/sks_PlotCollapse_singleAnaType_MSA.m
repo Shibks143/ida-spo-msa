@@ -116,7 +116,8 @@ figure; hold on;
 % Initialise global arrays
 allSaLevelsForMSAPlot = [];
 allEdpForMSAPlot      = [];
-collapseSaLevels      = [];
+collapseSaLevels        = [];   % scatter plot red dots — drift threshold based
+collapseSaLevelsForSave = [];   % Collapse CDF .mat — genuine OpenSees collapses only
 
 periodUsedForScalingGroundMotions   = NaN;
 minStoryDriftRatioForCollapseMATLAB = NaN;
@@ -210,11 +211,43 @@ for eqInd = 1:length(eqNumberLIST)
     end
 
     % Separate non-collapse and collapse
-    saLevelsForMSAPlot_nonCollapse = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 0);
-    edpForPlot_nonCollapse         = edpForPlot(isCollapsedPROCLIST == 0);
-    saLevelsForMSAPlot_Collapse    = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1);
+    % saLevelsForMSAPlot_nonCollapse = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 0);
+    % edpForPlot_nonCollapse         = edpForPlot(isCollapsedPROCLIST == 0);
+    % saLevelsForMSAPlot_Collapse    = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1);
+
+    if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
+        % Blue dots — non-collapse AND drift < collapseDriftThreshold
+        saLevelsForMSAPlot_nonCollapse = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 0 & ...
+            edpForPlot < msaInputs.collapseDriftThreshold * 100);
+        edpForPlot_nonCollapse         = edpForPlot(isCollapsedPROCLIST == 0 & ...
+            edpForPlot < msaInputs.collapseDriftThreshold * 100);
+        % Red dots and collapseSaLevels — genuine OpenSees collapses only:
+        % Red dots — drift >= collapseDriftThreshold OR genuine OpenSees collapse:
+        saLevelsForMSAPlot_Collapse    = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1 | edpForPlot >= msaInputs.collapseDriftThreshold * 100);
+        % For saving to .mat — genuine OpenSees collapses only:
+        saLevelsForMSAPlot_CollapseForSave = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1);
+    else
+        saLevelsForMSAPlot_nonCollapse = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 0);
+        edpForPlot_nonCollapse         = edpForPlot(isCollapsedPROCLIST == 0);
+        saLevelsForMSAPlot_Collapse    = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1);
+        saLevelsForMSAPlot_CollapseForSave = []; 
+    end
+    
+    % Separate non-collapse and collapse
+    % if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
+    %     % Use drift threshold for plot boundary — blue dots stay below collapseDriftThreshold even when analysis runs to 12%
+    %     saLevelsForMSAPlot_nonCollapse = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 0 & edpForPlot < msaInputs.collapseDriftThreshold * 100);
+    %     edpForPlot_nonCollapse         = edpForPlot(isCollapsedPROCLIST == 0 & edpForPlot < msaInputs.collapseDriftThreshold * 100);
+    %     saLevelsForMSAPlot_Collapse    = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1 | edpForPlot >= msaInputs.collapseDriftThreshold * 100);
+    % else
+    %     % RDR_PDF / PFA_PDF — use OpenSees flag only, no drift threshold
+    %     saLevelsForMSAPlot_nonCollapse = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 0);
+    %     edpForPlot_nonCollapse         = edpForPlot(isCollapsedPROCLIST == 0);
+    %     saLevelsForMSAPlot_Collapse    = saLevelsForMSAPlotPROCLIST(isCollapsedPROCLIST == 1);
+    % end
 
     collapseSaLevels      = [collapseSaLevels;      saLevelsForMSAPlot_Collapse(:)];
+    collapseSaLevelsForSave = [collapseSaLevelsForSave; saLevelsForMSAPlot_CollapseForSave(:)]; 
     allEdpForMSAPlot      = [allEdpForMSAPlot;      edpForPlot_nonCollapse(:)];
     allSaLevelsForMSAPlot = [allSaLevelsForMSAPlot; saLevelsForMSAPlot_nonCollapse(:)];
 
@@ -252,7 +285,8 @@ if strcmp(plotType, 'MIDR_Sigma')
 
     % Draw patch FIRST — underneath all scatter dots and lines
     % Cap 84th pct at collapse threshold so patch does not overlap collapse dots
-    collapseDriftThresholdForPatch = minStoryDriftRatioForCollapseMATLAB * 100;
+    % collapseDriftThresholdForPatch = minStoryDriftRatioForCollapseMATLAB * 100;
+    collapseDriftThresholdForPatch = msaInputs.collapseDriftThreshold * 100;
     pct84_plot_clipped = min(pct84_plot, collapseDriftThresholdForPatch * 0.98);
 
     xFill = [pct16_plot(:)', fliplr(pct84_plot_clipped(:)')];
@@ -309,7 +343,8 @@ ylim([0, max(allSaForAxis) * 1.1]);
 uniqueCollapseSaVals = unique(collapseSaLevels);
 
 if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
-    collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB * 100;
+    collapseDriftThreshold = msaInputs.collapseDriftThreshold * 100;
+    % collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB * 100;
     dx = 0.02 * collapseDriftThreshold;
 
     if ~isempty(collapseSaLevels)
@@ -575,7 +610,8 @@ sks_figureExport(exportName);
 % ======================================
 % RETURN STATS
 % ======================================
-allCompStats.collapseLevelForAllComp           = collapseSaLevels;
+% allCompStats.collapseLevelForAllComp           = collapseSaLevels;
+allCompStats.collapseLevelForAllComp = collapseSaLevelsForSave; 
 allCompStats.periodUsedForScalingGroundMotions = periodUsedForScalingGroundMotions;
 
 end  % end sks_plot_AllComp_MSA
@@ -596,6 +632,7 @@ figure; hold on;
 allSaLevelsForMSAPlot_control = [];
 allEdpForMSAPlot_control      = [];
 collapseSaLevels_control      = [];
+collapseSaLevelsForSave_control = [];
 
 periodUsedForScalingGroundMotions   = NaN;
 minStoryDriftRatioForCollapseMATLAB = NaN;
@@ -753,18 +790,51 @@ for eqNum = 1:2:length(eqNumberLIST)
     end
 
     % Separate collapse vs non-collapse
-    saLevelsForMSAPlot_nonCollapse_control = ...
-        saLevelsForMSAPlot_control(isCollapsedControl == 0);
-    edpForPlot_nonCollapse_control = maxEdpControl(isCollapsedControl == 0);
-    saLevelsForMSAPlot_Collapse_control = ...
-        saLevelsForMSAPlot_control(isCollapsedControl == 1);
+    % saLevelsForMSAPlot_nonCollapse_control = ...
+    %     saLevelsForMSAPlot_control(isCollapsedControl == 0);
+    % edpForPlot_nonCollapse_control = maxEdpControl(isCollapsedControl == 0);
+    % saLevelsForMSAPlot_Collapse_control = ...
+    %     saLevelsForMSAPlot_control(isCollapsedControl == 1);
 
-    collapseSaLevels_control      = [collapseSaLevels_control; ...
-        saLevelsForMSAPlot_Collapse_control(:)];
-    allEdpForMSAPlot_control      = [allEdpForMSAPlot_control; ...
-        edpForPlot_nonCollapse_control(:)];
-    allSaLevelsForMSAPlot_control = [allSaLevelsForMSAPlot_control; ...
-        saLevelsForMSAPlot_nonCollapse_control(:)];
+
+    if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
+        % Blue dots — non-collapse AND drift < collapseDriftThreshold
+        saLevelsForMSAPlot_nonCollapse_control = ...
+            saLevelsForMSAPlot_control(isCollapsedControl == 0 & ...
+            maxEdpControl < msaInputs.collapseDriftThreshold * 100);
+        edpForPlot_nonCollapse_control = maxEdpControl(isCollapsedControl == 0 & ...
+            maxEdpControl < msaInputs.collapseDriftThreshold * 100);
+        % Red dots and collapseSaLevels — genuine OpenSees collapses only:
+        % Red dots — drift >= collapseDriftThreshold OR genuine OpenSees collapse:
+       saLevelsForMSAPlot_Collapse_control = saLevelsForMSAPlot_control(isCollapsedControl == 1 | maxEdpControl >= msaInputs.collapseDriftThreshold * 100);
+       % For saving to .mat — genuine OpenSees collapses only:
+       saLevelsForMSAPlot_CollapseForSave_control = saLevelsForMSAPlot_control(isCollapsedControl == 1);
+    else
+        saLevelsForMSAPlot_nonCollapse_control = ...
+            saLevelsForMSAPlot_control(isCollapsedControl == 0);
+        edpForPlot_nonCollapse_control = maxEdpControl(isCollapsedControl == 0);
+        saLevelsForMSAPlot_Collapse_control = ...
+            saLevelsForMSAPlot_control(isCollapsedControl == 1);
+        saLevelsForMSAPlot_CollapseForSave_control = [];
+    end
+
+    % Separate collapse vs non-collapse
+    % if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
+    %     % Use drift threshold for plot boundary
+    %     saLevelsForMSAPlot_nonCollapse_control = saLevelsForMSAPlot_control(isCollapsedControl == 0 & maxEdpControl < msaInputs.collapseDriftThreshold * 100);
+    %     edpForPlot_nonCollapse_control = maxEdpControl(isCollapsedControl == 0 & maxEdpControl < msaInputs.collapseDriftThreshold * 100);
+    %     saLevelsForMSAPlot_Collapse_control = saLevelsForMSAPlot_control(isCollapsedControl == 1 | maxEdpControl >= msaInputs.collapseDriftThreshold * 100);
+    % else
+    %     % RDR_PDF / PFA_PDF — use OpenSees flag only
+    %     saLevelsForMSAPlot_nonCollapse_control = saLevelsForMSAPlot_control(isCollapsedControl == 0);
+    %     edpForPlot_nonCollapse_control = maxEdpControl(isCollapsedControl == 0);
+    %     saLevelsForMSAPlot_Collapse_control = saLevelsForMSAPlot_control(isCollapsedControl == 1);
+    % end
+
+    collapseSaLevels_control      = [collapseSaLevels_control; saLevelsForMSAPlot_Collapse_control(:)];
+    collapseSaLevelsForSave_control = [collapseSaLevelsForSave_control; saLevelsForMSAPlot_CollapseForSave_control(:)];
+    allEdpForMSAPlot_control      = [allEdpForMSAPlot_control; edpForPlot_nonCollapse_control(:)];
+    allSaLevelsForMSAPlot_control = [allSaLevelsForMSAPlot_control; saLevelsForMSAPlot_nonCollapse_control(:)];
 
 end  % end for eqNum pairs
 
@@ -799,7 +869,8 @@ if strcmp(plotType, 'MIDR_Sigma')
     saPlot_ctrl     = uniqueSaStripes_ctrl(validIdx_ctrl);
 
     % Draw patch FIRST — underneath scatter dots
-    collapseDriftThresholdForPatch = minStoryDriftRatioForCollapseMATLAB * 100;
+    % collapseDriftThresholdForPatch = minStoryDriftRatioForCollapseMATLAB * 100;
+    collapseDriftThresholdForPatch = msaInputs.collapseDriftThreshold * 100;
     pct84_plot_ctrl_clipped = min(pct84_plot_ctrl, collapseDriftThresholdForPatch * 0.98);
 
     xFill = [pct16_plot_ctrl(:)', fliplr(pct84_plot_ctrl_clipped(:)')];
@@ -856,7 +927,8 @@ ylim([0, max(allSaForAxis_control) * 1.1]);
 uniqueCollapseSaVals_control = unique(collapseSaLevels_control);
 
 if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
-    collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB * 100;
+    collapseDriftThreshold = msaInputs.collapseDriftThreshold * 100;
+    % collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB * 100;
     dx = 0.02 * collapseDriftThreshold;
 
     if ~isempty(collapseSaLevels_control)
@@ -1123,7 +1195,8 @@ sks_figureExport(exportName);
 % ======================================
 % RETURN STATS
 % ======================================
-controlCompStats.collapseLevelForAllControlComp    = collapseSaLevels_control;
+% controlCompStats.collapseLevelForAllControlComp    = collapseSaLevels_control;
+controlCompStats.collapseLevelForAllControlComp    = collapseSaLevelsForSave_control;
 controlCompStats.periodUsedForScalingGroundMotions = periodUsedForScalingGroundMotions;
 
 end  % end sks_plot_ControlComp_MSA

@@ -9,7 +9,7 @@ cd(baseFolder)
 %%% >>> START OF INPUT BLOCK HERE <<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pshaVersion = 'new';  % 'old' -> 20200111_v4, 'new' -> 20260818_v4
 
-locName = 'Guwahati'; % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
+locName = 'Delhi'; % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
 switch locName      
     case 'Chennai'
         latLon = [13.05  80.27]; earthquakeZone = 'III';
@@ -49,11 +49,10 @@ switch pshaVersion
         T1LIST = [0 0.1:0.1:0.5 1 1.50 2];
     case 'new'
         % new Aug 2026 data: 27 periods available, up to 5s
-        T1LIST = [0.01 0.05 0.1:0.1:1.0 1.2 1.50 2 2.5 3.0 5.0];
+        T1LIST = [0.01 0.2 0.5 1.0 1.50 2.0 3.0 5.0];
         
         % [0.01, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.075, 0.09, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.75, 0.8, 0.9, ...
             % 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 5.0];
-        % T1LIST = [0.01 0.05 0.1 0.5 1 1.50 2 3 5];
     otherwise
         error('Unknown pshaVersion: %s', pshaVersion);
 end
@@ -204,8 +203,15 @@ if runHazardIndex(2) == 1
         Tr = returnPeriods_SaTcond(i);
         targetAFE = 1/Tr;
         targetSa_LIST(i) = exp(interp1(log(afeSorted), log(imValSorted), log(targetAFE)));
-        fprintf('Return period %5d yr -> Sa(%.2fs) = %.4f g\n', Tr, Tcond, targetSa_LIST(i));
     end
+
+    fprintf('\nTarget Sa(%.2fs) at %s:\n', Tcond, locName);
+    fprintf('%-25s', 'Return Period (Years)');
+    fprintf('%8d', returnPeriods_SaTcond);
+    fprintf('\n');
+    fprintf('%-25s', sprintf('Sa(%.2fs) (g)', Tcond));
+    fprintf('%8.2f', targetSa_LIST);
+    fprintf('\n');
 end
 
 

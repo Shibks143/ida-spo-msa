@@ -79,7 +79,7 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        1           0       0              0                  0];
+    analyzeProcessPlotIndex = [0        0        0           1       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,20 +90,20 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
                                         % can as well be kept zero if conventional collapse analysis is being performed. 
                                                 
     dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.04;                     % Value above which record is considered collapsed (used when 
-                                                                    % IDA was run); increased from 0.12 on 7-26-06 for the purpose
-                                                                    % of making the collapse mode plots better.
-    collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % Just another naming used by a different processor 
+    minStoryDriftRatioForCollapseMATLAB = 0.12;             % Value above which record is considered collapsed (used when 
+                                                                             % IDA was run); increased from 0.12 on 7-26-06 for the purpose
+                                                                             % of making the collapse mode plots better.
+    collapseDriftThreshold = 0.04;                                           % Just another naming used by a different processor 
 
     minStoryResidualDriftRatioMATLAB = 0.01;                        % Use either 0.5 or 1% for residual drift ratio
-    collapseResidualDriftThreshold = minStoryResidualDriftRatioMATLAB;
     
-    midrLevels      = [0.01 0.02 0.04 0.12];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
+    
+    midrLevels      = [0.01 0.02 0.04 0.08];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
     midrLevelLabels = {'IO','LS','CP','Coll'};
     rdrLevels       = [0.002 0.005 0.01 0.02];                      % 0.2%, 0.5%, 1%, 2% (Max Interstory Residual Drift Ratio):Ref FEMA P-58, appendix C
-    rdrLevelLabels  = {'IO','LS','CP','Coll'};
+    rdrLevelLabels  = {'DS1','DS2','DS3','DS4'};
     pfaLevels       = [0.2 0.5 1.0 2.0];                            % g is the unit
-    pfaLevelLabels  = {'Slight','Moderate','Extensive','Complete'};
+    pfaLevelLabels  = {'DS1','DS2','DS3','DS4'};
 
     dataSavingOption = 2;                                           % Decide what data files to save (1 - save all data; 2 - save 
                                                                     % reduced amount of data; 3 - save both of the above files)
@@ -151,8 +151,8 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
     
 % Sa list for multiple stripe analysis (MSA) and processing - this is the list of Sa levels to make stripe files for
      
-    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.06 1.20 1.50 1.80 2.10];
-    % saLevelsForStripes = [0.10 0.50 1.00 2.00 3.00 4.00]; % for Testing
+    saLevelsForStripes = [0.13 0.17 0.24 0.35 0.40 0.53 0.70 0.89 1.06 1.20 1.50 1.80 2.10]; % as per old PSHA, used for IIT Roorkee conf paper
+    % saLevelsForStripes = [0.21 0.37 0.49 0.66 0.97 1.10 1.50 2.02	2.66]; % for Guwahati, new PSHA
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define the GM sets - - Brian/Jason - you do not need to change this

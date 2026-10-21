@@ -10,7 +10,13 @@ for j = 1:nT
     hLine(j) = plot(imValDisc_LIST{j}, afeDisc_LIST{j}, hazardInputs.plotStyle{j}, 'LineWidth', hazardInputs.lineW(j));
     % Store T value for data cursor
     hLine(j).UserData = T1LIST(j);
-    hLine(j).DisplayName = sprintf('T = %.2f s', T1LIST(j));
+    if T1LIST(j) <= 0.01
+        hLine(j).DisplayName = 'PGA';
+    else
+        hLine(j).DisplayName = sprintf('T = %.2f s', T1LIST(j));
+    end
+    
+    % hLine(j).DisplayName = sprintf('T = %.2f s', T1LIST(j));
 end
 
 xlabel('$\mathrm{im}\,(\mathrm{g})$');
@@ -70,6 +76,12 @@ pos = event.Position;
 if isempty(T1val)
     txt = {sprintf('im = %.4g g', pos(1)), sprintf('H(im) = %.4g', pos(2))};
 else
-    txt = {sprintf('T = %.2f s', T1val), sprintf('im = %.4g g', pos(1)), sprintf('H(im) = %.4g', pos(2))};
+    if T1val <= 0.01
+        Tlabel = 'PGA';
+    else
+        Tlabel = sprintf('T = %.2f s', T1val);
+    end
+    txt = {Tlabel, sprintf('im = %.4g g', pos(1)), sprintf('H(im) = %.4g', pos(2))};
+    % txt = {sprintf('T = %.2f s', T1val), sprintf('im = %.4g g', pos(1)), sprintf('H(im) = %.4g', pos(2))};
 end
 end

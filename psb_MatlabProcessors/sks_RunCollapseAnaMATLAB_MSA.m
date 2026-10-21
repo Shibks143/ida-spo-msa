@@ -210,7 +210,8 @@ sensModel
 
     dtForCollapseMATLAB1 = dtForCollapseLIST(eqNumberIndex);
     fprintf(myFileStream, 'set dtForCollapseMATLAB %.6f\n', dtForCollapseMATLAB1);
-    fprintf(myFileStream, 'set minStoryDriftRatioForCollapseMATLAB %.3f\n', minStoryDriftRatioForCollapseMATLAB);
+    % fprintf(myFileStream, 'set minStoryDriftRatioForCollapseMATLAB %.3f\n', minStoryDriftRatioForCollapseMATLAB);
+    fprintf(myFileStream, 'set minStoryDriftRatioForCollapseMATLAB {%s}\n', sprintf('%.3f ', minStoryDriftRatioForCollapseMATLAB));
     fprintf(myFileStream, 'set elementUsedForColSensModelMATLAB %s\n', elementUsedForColSensModelMATLAB);
     fprintf(myFileStream, 'set sensModel %s\n', sensModel);
     fprintf(myFileStream, 'set sensVariableName %s\n', sensVariableName);
