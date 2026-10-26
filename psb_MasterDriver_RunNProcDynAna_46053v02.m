@@ -53,7 +53,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 0.71;   % Note 1) input the proper period for scaling the ground motions for the building you would 
+    periodUsedForScalingGroundMotions = 1.36;   % Note 1) input the proper period for scaling the ground motions for the building you would 
                                                 % like to run (haselton
                                                 % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
                                                 % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
@@ -65,7 +65,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
+IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
 
          % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
@@ -79,7 +79,7 @@ IDA_or_MSA = 'MSA';    % 'IDA' or 'MSA'
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        0           1       0              0                  0];
+    analyzeProcessPlotIndex = [1        1        1           1       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

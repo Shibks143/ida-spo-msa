@@ -1,14 +1,5 @@
-function [fragParamMuALL_mat, fragParamBetaALL_mat, fragParamImMinALL_mat, ...
-          fragParamMuCtrl_mat, fragParamBetaCtrl_mat, fragParamImMinCtrl_mat] = ...
-          extractFragilityForMIDR_v1(bldgIdLIST, outpFolderLIST, storyDriftLIST, eqLIST_LIST, eqLISTName, T1LIST, fileNameToSaveFragData)
-%%
-% bldgIdLIST = [1610];
-% outpFolderLIST = {'C:\ResilAnaOS_psb\Output\(ID1610_v.01_FF)_(AllVar)_(0.00)_(clough)';};
-% storyDriftLIST = [0.00, 0.04, 0.02, 0.01]; %, 0.533, 0.08]; % (values in fraction). 0.00 indicates sidesway collapse (dynamic instability)
-% eqLIST_LIST = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
-% eqLISTName = 'GMSetC';
-% T1LIST = [1.68];
-% fileNameToSaveFragData = 'frag_1610_v01_FF';
+function [fragParamMuALL_mat, fragParamBetaALL_mat, fragParamImMinALL_mat, fragParamMuCtrl_mat, fragParamBetaCtrl_mat, fragParamImMinCtrl_mat] = ...
+          extractFragilityForMIDR_v1(bldgIdLIST, outpFolderLIST, storyDriftLIST, eqLIST, eqLISTName, T1LIST, fileNameToSaveFragData)
 
 %% Calculations start
 baseFolder = pwd;
@@ -22,16 +13,16 @@ for storyDriftIndex = 1:length(storyDriftLIST)
         if mod(j-1, 5) == 0; fprintf('For (%i/%i) drift ratio value, executing (%i/%i) building...\n', storyDriftIndex, length(storyDriftLIST), j, length(outpFolderLIST)); end
         
         currBldgID = bldgIdLIST(1, j);
-        
-        eqNumberLIST = eqLIST_LIST; % eqNumberLIST = eqLIST_LIST(floor((j+1)/2), :);
-
-%         matFileToLoad = sprintf('DATA_collapse_CollapseSaAndStats_GMSetMum20_%i_SaGeoMean.mat', floor(bldgIdLIST(j)/10));
+        eqNumberLIST = eqLIST; 
         matFileToLoad = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean.mat', eqLISTName);
 
         [T_old, saT_oldAllComp] = prak_util_extractFragDataPoints_v02(outpFolderLIST{j}, eqNumberLIST, currentStoryDrift, matFileToLoad);
 
 %% 2b. depending on the intensity measure type, find ratio of scaling from old IM value to new value for each earthquake (NOT NEEDED in case of PGA)
 % (6-28-19, PSB) extract fragility with PGA as Intensity Measure
+        saT_newAllComp = zeros(1, length(eqNumberLIST));   % preallocate (one value per GM component)
+        IM_newAllComp  = zeros(1, length(eqNumberLIST));
+
         for eqIndex = 1:length(eqNumberLIST)
             eqNumber = eqNumberLIST(eqIndex);
             T_new = T1LIST(j);
@@ -81,56 +72,28 @@ for storyDriftIndex = 1:length(storyDriftLIST)
         fragParamImMinCtrl_mat(j, storyDriftIndex) = minColLevelSaCtrl(j);
         fragParamImMaxCtrl_mat(j, storyDriftIndex) = maxColLevelSaCtrl(j);
         
-%         if storyDriftIndex == 1 && j == 1 % add building ID and time P only once
-%             dataTable = table(bldgIdLIST');
-%             dataTable.Properties.VariableNames{1} = 'bldg_ID';
-%         end
     end
-	%               fragParamMu = exp(meanLnCollapseSaTOneCtrlComp)';
-	%               fragParamBetaRTR = stDevLnCollapseSaTOneCtrlComp';
 
 	  fragParamMu_ALL = exp(meanLnCollapseSaTOneAllComp);
 	  fragParamBetaRTR_ALL = stDevLnCollapseSaTOneAllComp;		
-%       dataTable(:, 8*storyDriftIndex-6:8*storyDriftIndex-5) = table(fragParamMu_ALL', fragParamBetaRTR_ALL');
-%       dataTable(:, 8*storyDriftIndex-4:8*storyDriftIndex-3) = table(minColLevelSaAll', maxColLevelSaAll');
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-6} = sprintf('mu_%i_ALL', round(currentStoryDrift*100));
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-5} = sprintf('betaRTR_%i_ALL', round(currentStoryDrift*100));
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-4} = sprintf('minSa_%i_ALL', round(currentStoryDrift*100));
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-3} = sprintf('maxSa_%i_ALL', round(currentStoryDrift*100));
 
       fragParamMu_CTRL = exp(meanLnCollapseSaTOneCtrlComp);
 	  fragParamBetaRTR_CTRL = stDevLnCollapseSaTOneCtrlComp;		
-%       dataTable(:, 8*storyDriftIndex-2:8*storyDriftIndex-1) = table(fragParamMu_CTRL', fragParamBetaRTR_CTRL');
-%       dataTable(:, 8*storyDriftIndex-0:8*storyDriftIndex+1) = table(minColLevelSaCtrl', maxColLevelSaCtrl');
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-2} = sprintf('mu_%i_CTRL', round(currentStoryDrift*100));
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-1} = sprintf('betaRTR_%i_CTRL', round(currentStoryDrift*100));
-%       dataTable.Properties.VariableNames{8*storyDriftIndex-0} = sprintf('minSa_%i_CTRL', round(currentStoryDrift*100));
-%       dataTable.Properties.VariableNames{8*storyDriftIndex+1} = sprintf('maxSa_%i_CTRL', round(currentStoryDrift*100));
 
-      %       format long
 end
-    
 %         disp(dataTable); 
-        save(fileNameToSaveFragData, 'indFragDataAllComp', 'indFragDataCtrlComp', 'T1LIST', 'bldgIdLIST', 'eqNumberLIST', 'storyDriftLIST', ...
-            'fragParamMuALL_mat', 'fragParamBetaALL_mat', 'fragParamImMinALL_mat', 'fragParamImMaxALL_mat', ...
-            'fragParamMuCtrl_mat', 'fragParamBetaCtrl_mat', 'fragParamImMinCtrl_mat', 'fragParamImMaxCtrl_mat');
+        save(fileNameToSaveFragData, 'indFragDataAllComp', 'indFragDataCtrlComp', 'T1LIST', 'bldgIdLIST', 'eqNumberLIST', 'storyDriftLIST', 'fragParamMuALL_mat', 'fragParamBetaALL_mat', ...
+            'fragParamImMinALL_mat', 'fragParamImMaxALL_mat', 'fragParamMuCtrl_mat', 'fragParamBetaCtrl_mat', 'fragParamImMinCtrl_mat', 'fragParamImMaxCtrl_mat');
         fprintf('Data file saved as: %s.mat\n', fullfile(pwd, fileNameToSaveFragData));
 end
 
 function [T_old, saT_old_AllComp] = prak_util_extractFragDataPoints_v02(analysisTypeFolder, eqNumberLIST, newStoryDrift, matFileToLoad)
 baseFolder = pwd;
-% % BuildingID = '2207v07';
-% analysisTypeFolder = 'J:\Output\(ID2207_R5_7Story_v.07)_(AllVar)_(0.00)_(clough)';
-% eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
-% eqNumberLIST = eqNumberLIST_forProcessing_SetC;
-% % eqListForCollapseIDAs_Name = 'GMSetC'; 
-% newStoryDrift = 0.04;
 
 cd(analysisTypeFolder)
 saT_old_AllComp = zeros(1, length(eqNumberLIST));
 
 if abs(newStoryDrift - 0.00)<1e-5 % sidesway collapse
-%     load DATA_collapse_CollapseSaAndStats_GMSetC_SaGeoMean collapseLevelForAllComp periodUsedForScalingGroundMotions
     load(matFileToLoad, 'collapseLevelForAllComp', 'periodUsedForScalingGroundMotions');
     saT_old_AllComp = collapseLevelForAllComp ;
     T_old = periodUsedForScalingGroundMotions;
@@ -166,22 +129,25 @@ end
 
 function saRatNewToOld = prak_util_ratioOfSaTnewToSaTold(eqNumber, T_old, T_new, dampRat)
 %% (6-28-19, PSB) T_new = 0.00 will throw the ratio for PGA. Added this piece below on 6-28-19
-
 baseFolder = pwd;
+% GM spectra and time histories: ...\ida-spo-msa\OpenSeesProcessingFiles 
+procFilesFolder = fullfile(fileparts(mfilename('fullpath')), '..', '..', 'OpenSeesProcessingFiles');
+spectraFolder   = fullfile(procFilesFolder, 'EQ_Spectra_Saved');
+eqTHFolder      = fullfile(procFilesFolder, 'EQs');
+
 switch nargin 
     case 3
         dampRat = 0.05;
 end
 
 % We expect, T_old and T_new to be rounded to two decimal places, if not then let's do it now.
-
 T_old = round(T_old *100)/100;
 T_new = round(T_new *100)/100;
 
 
 %% (6-28-19, PSB) Modifying to include ratio to PGA when T_new is entered as 0.00
 if abs(T_new) < 0.001 % essentially, zero
-    cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+    cd(spectraFolder)
     respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
     
@@ -191,14 +157,14 @@ if abs(T_new) < 0.001 % essentially, zero
     SaT_old = SaAbs(timePIndexOld, dampRatIndex);    
     
 % % find the PGA value (essentially, SaT_new)
-    cd C:\OpenSeesProcessingFiles\EQs
+    cd(eqTHFolder)
     timeHistoryFile = sprintf('SortedEQFile_(%i).txt', eqNumber);
     accnArray = load(timeHistoryFile);
     SaT_new = max(abs(min(accnArray)), abs(max(accnArray)));
     saRatNewToOld = SaT_new/SaT_old;
 
 else
-    cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+    cd(spectraFolder)
     respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
     
@@ -210,7 +176,6 @@ else
 % find the new SaValue
     timePIndexNew = find(abs(periodVector - T_new) < 1e-4);
     SaT_new = SaAbs(timePIndexNew, dampRatIndex);
-   
     saRatNewToOld = SaT_new/SaT_old;
 end
 

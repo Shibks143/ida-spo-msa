@@ -1,8 +1,8 @@
 # This file was created by the MATLAB function (WriteVariablesToFileForOpensees.m), for a single collapse
 #     run, so that Opensees can read the file and define the needed variables
 
-set dtForCollapseMATLAB 0.010000
-set minStoryDriftRatioForCollapseMATLAB {0.120 }
+set dtForCollapseMATLAB 0.0100
+set minStoryDriftRatioForCollapseMATLAB 0.120
 set elementUsedForColSensModelMATLAB clough
 set sensModel ID46053_R5_5Story_v.02
 set sensVariableName AllVar
@@ -12,13 +12,13 @@ set eqNumber 121111
 set eqFormatForCollapseList PEER-NGA_geoMean
 global eqDataFolder
 set eqDataFolder E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs
-set currentSaLevel 2.10
+set currentSaLevel 1.78
 puts "currentSaLevel is $currentSaLevel"
-set scaleFactorForRunFromMatlab 3.384123
-set periodUsedForScalingGroundMotionsFromMatlab 0.7100
+set scaleFactorForRunFromMatlab 6.5912
+set periodUsedForScalingGroundMotionsFromMatlab 1.3600
 set dampingRatioUsedForSaDefFromMatlab 0.0500
-set saCompScaled 2.71
-set saGeoMeanScaled 2.10
+set saCompScaled 1.26
+set saGeoMeanScaled 1.78
 set extraSecondsToRunAnalysis 5.00
 set eqTimeHistoryPreFormatted 1
-set analysisMode MSA
+set analysisMode IDA
