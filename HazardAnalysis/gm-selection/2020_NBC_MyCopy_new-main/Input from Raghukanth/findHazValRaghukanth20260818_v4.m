@@ -11,6 +11,7 @@ locationLIST = hazardInputs.locationLISTforPlot;
 
 numPtsOnInpHaz = size(imValLIST, 2); % number of points on input hazard
 timePLIST = periodList;
+if T1Curr == 0; T1Curr = 0.01; end % PGA (T = 0) is taken as Sa(0.01 s); hazard_20260818.mat has no T = 0 data
 
 % timePLIST = [0, 0.1, 0.2, 0.5, 0.9, 1.0, 1.2, 2.0, 5.0];
 

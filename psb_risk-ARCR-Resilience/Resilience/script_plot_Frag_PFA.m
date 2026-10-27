@@ -6,9 +6,10 @@ outputRoot   = fullfile(baseFolder, '..', '..', 'Output');
 modelNameLIST = {'ID46053_R5_5Story_v.02'};
 
 PFA_threshold_Frag = [1.17, 1.58, 1.82]; %, 1.5, 2.6, 1.5, 2.25, 1.1, 2.4, 1.2, 2.4]; % g
-Sa_MCE = 0.27;              % MCE Sa(T1 = 1.36 s) for 46053 (same estimate as the master script); normalizes the fragility plot; need to work on this later 24-oct-2026
+Sa_MCE = 0.80;              % MCE Sa(T1 = 1.36 s) for 46053 (same estimate as the master script); normalizes the fragility plot; need to work on this later 24-oct-2026
 figDir = fullfile(baseFolder, 'figures_resCombined_M7.3_R30_R2_RESUnc');
-plotStyle = {'r-', 'b-', 'g-', 'c-', 'm-'};
+colors = [0.00 0.00 1.00; 1.00 0.00 1.00; 0.00 0.00 0.00; 1.00 0.00 0.00; 0.50 0.50 0.50];   % LS 1-5 (or model 1-5): blue, magenta, black, red, gray
+plotStyle = {'-', '-', '-', '-', '-'};          % line style only; colour from colors(LS or model, :)
 saveIDA = 1; saveFrag = 1;
 
 %% (1/6) extract Data
@@ -81,14 +82,14 @@ for k = 1:size(modelNameLIST, 1)
         Sa_PFA_AllData{k}{eqId} = [Sa, MaxPFA];
 
         %     figure;
-        h(k) = plot([0; MaxPFA], [0; Sa], plotStyle{k}); hold on; grid on;
+        h(k) = plot([0; MaxPFA], [0; Sa], plotStyle{k}, 'Color', colors(k, :)); hold on; grid on;
     end
 
     xlim([0 5]); ylim([0 5]);
     str1 = '$PFA_{max}$ (g)'; str2 = sprintf('$Sa_{geoM}(T_1=%.2f)$ (g)', periodList(k));
 
     xlabel(str1, 'Interpreter', 'latex'); ylabel(str2, 'Interpreter', 'latex');
-    sks_figureFormat('paper');
+    sks_figureFormat('powerpoint');
 
     exportName = sprintf('IDA_PFA_%s', strrep(modelNameLIST{k}, '.', '_'));
     if saveIDA == 1
@@ -107,7 +108,8 @@ for k = 1:size(modelNameLIST, 1) % for each building
     for PFA_th_Index = 1:size(PFA_threshold_Frag, 2) % for each threshold
         PFA_th = PFA_threshold_Frag(1, PFA_th_Index);
         for eqId = 1:size(eqNumberLIST, 2) % iterate through all eqs to calculate frag
-            Sa = Sa_PFA_AllData{k}{eqId}(:, 1); MaxPFA = Sa_PFA_AllData{k}{eqId}(:, 2);
+            Sa = Sa_PFA_AllData{k}{eqId}(:, 1); 
+            MaxPFA = Sa_PFA_AllData{k}{eqId}(:, 2);
             % interpolate for possibly non-monotonic data
             ix = find(MaxPFA >= PFA_th, 1); % or <=
             if isempty(ix)
@@ -171,8 +173,9 @@ for k = 1:size(modelNameLIST, 1) % for each building
         if Sa_thLIST{k}(1, gmIndex * 2) < Sa_thLIST{k}(1, gmIndex * 2 - 1)
             ctrlEqId = gmIndex * 2;
         end
-        Sa_ctrl = Sa_PFA_AllData{k}{ctrlEqId}(:, 1); MaxPFA_ctrl = Sa_PFA_AllData{k}{ctrlEqId}(:, 2);
-        plot([0; MaxPFA_ctrl], [0; Sa_ctrl], plotStyle{k}); hold on; grid on;
+        Sa_ctrl = Sa_PFA_AllData{k}{ctrlEqId}(:, 1); 
+        MaxPFA_ctrl = Sa_PFA_AllData{k}{ctrlEqId}(:, 2);
+        plot([0; MaxPFA_ctrl], [0; Sa_ctrl], plotStyle{k}, 'Color', colors(k, :)); hold on; grid on;
     end
 
     xlim([0 4]); ylim([0 4.0]);
@@ -192,11 +195,14 @@ minValue = 0; maxValue = 3;
 figure(301);
 for LS = 1:3 %
     h1(LS) = PlotLogNormalCDF_current(log(T.("mu_Ctrl (g)")(LS)/Sa_MCE), T.betaRTR_Ctrl(LS), minValue, maxValue, plotStyle{LS}); hold on; grid on;
+    h1(LS).Color = colors(LS, :);
     xticks(1:5); % yticks(0:0.2:1);
 end
 
 xlim([minValue, maxValue]);
-str1 = '$Sa(T_1)/Sa_{MCE}$'; str2 = '$F[LS_i|IM]$'; xlabel(str1, 'Interpreter', 'latex');
+str1 = '$Sa(T_1)/Sa_{MCE}$'; 
+str2 = '$F[LS_i|IM]$'; 
+xlabel(str1, 'Interpreter', 'latex');
 ylabel(str2, 'Interpreter', 'latex');
 
 legTxt = {'$LS_1$', '$LS_2$', '$LS_3$'};
@@ -217,17 +223,19 @@ nexttile(1);
 h6 = gobjects(1, 3);
 for LS = 1:3
     h6(LS) = PlotLogNormalCDF_current(log(T.("mu_Ctrl (g)")(LS)/Sa_MCE), T.betaRTR_Ctrl(LS), minValue, maxValue, plotStyle{LS}); hold on; grid on;
+    h6(LS).Color = colors(LS, :);
 end
 xticks(1:5); xlim([minValue, maxValue]);
-xlabel('$Sa(T_1)/Sa_{MCE}$', 'Interpreter', 'latex'); ylabel('$F[LS_i|IM]$', 'Interpreter', 'latex');
+xlabel('$Sa(T_1)/Sa_{MCE}$', 'Interpreter', 'latex'); 
+ylabel('$F[LS_i|IM]$', 'Interpreter', 'latex');
 
 legTxt = {'$LS_1 \qquad$', '$LS_2 \qquad$', '$LS_3\,\,$'};
 legh = legend(h6, legTxt, 'Orientation', 'Horizontal', 'Interpreter', 'latex');
-sks_figureFormat('paper');
+sks_figureFormat('powerpoint');
 legh.Layout.Tile = 'north';                             % after formatting: sks_figureFormat moves legends to northeast
 legh.Orientation = 'horizontal'; legh.NumColumns = 3;
 
 if saveFrag == 1
-    sks_figureExport(fullfile(figDir, 'Frag_Nonstructural'));   % .fig, .eps, .tiff, .emf
+    sks_figureExport(fullfile(figDir, 'Frag_Nonstructural'));  
 end
 cd(baseFolder)

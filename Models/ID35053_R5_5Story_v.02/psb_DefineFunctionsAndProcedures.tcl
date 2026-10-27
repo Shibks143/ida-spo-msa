@@ -64,6 +64,9 @@ proc RunEQLoadingForCollapse {eqNumber saTOneForRun scaleFactorForRunFromMatlab 
 	upvar minPeakFloorAccelerationAtEachFloorAtEachRun minPeakFloorAccelerationAtEachFloorAtEachRunR
 	upvar absPeakFloorAccelerationAtEachFloorAtEachRun absPeakFloorAccelerationAtEachFloorAtEachRunR
 	
+	# Make eqDataFolder (set by psb_VarDefinitionsFromMATLAB.tcl at global scope) visible inside this proc
+	global eqDataFolder
+	
 	
 	# ----------------------------------------------------------
 	# Clear arrays from previous run (IMPORTANT)
@@ -85,7 +88,7 @@ proc RunEQLoadingForCollapse {eqNumber saTOneForRun scaleFactorForRunFromMatlab 
 		set startDir [pwd]
 		cd ..
 		cd ..
-#		cd ..
+		# cd ..
 
 		# (11-21-15, PSB) extra cd .. for parallel computing
 			
@@ -155,23 +158,41 @@ source psb_DefineEarthquakeRecordInformation.tcl
     }
 
 	# (4-30-16, PSB) added this additional parameter to be able to use revised ground motion time histories when curtailment is done manually
+	set seriesTag 9101
 if {$eqTimeHistoryPreFormatted == 1} {
 	
-	set dtFile [open "C:/Users/sks/OpenSeesProcessingFiles/EQs/DtFile_($eqNumber).txt" r]
-	set dt [read $dtFile]
+	# set dtFile [open " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/DtFile_($eqNumber).txt" r]
+		set dtFile [open "$eqDataFolder/DtFile_($eqNumber).txt" r]
+	set dt [string trim [read $dtFile]]
 	close $dtFile
 
-	set numPtFile [open "C:/Users/sks/OpenSeesProcessingFiles/EQs/NumPointsFile_($eqNumber).txt" r]
-	set numPoints [read $numPtFile]
+	# set numPtFile [open " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/NumPointsFile_($eqNumber).txt" r]
+	set numPtFile [open "$eqDataFolder/NumPointsFile_($eqNumber).txt" r]
+	set numPoints [string trim [read $numPtFile]]
 	close $numPtFile
 
-	set Series "Path -filePath C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+	# set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+	timeSeries Path $seriesTag -filePath $eqDataFolder/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]
 
-} else {	
+} else {
+	
+	# set dtFile [open "$eqDataFolder/DtFile_($eqNumber).txt" r]
+	# set dt [read $dtFile]
+	# close $dtFile
+
+	# set numPtFile [open " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/NumPointsFile_($eqNumber).txt" r]
+	# set numPtFile [open "$eqDataFolder/NumPointsFile_($eqNumber).txt" r]
+	# set numPoints [read $numPtFile]
+	# close $numPtFile
+
+	# set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+	# set Series "Path -filePath $eqDataFolder/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+
+
 # Depending on what type of record format is being used, then do different things to set up the record to run...
 	if {$eqFormatForCollapseList == "Formatted_singleComp" || $eqFormatForCollapseList == "Formatted_geoMean" || $eqFormatForCollapseList == "Formatted_codeScaling"} {
 		# Run formatted record
-		set Series "Path -filePath C:/Users/sks/OpenSeesProcessingFiles/EQs/$eqFileName($eqNumber) -dt $dtForEQ($eqNumber) -factor [expr $scaleFactorForRunFromMatlab * $g]"
+		set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/$eqFileName($eqNumber) -dt $dtForEQ($eqNumber) -factor [expr $scaleFactorForRunFromMatlab * $g]"
 		set numPoints 	[expr $numPointsForEQ($eqNumber)]
 		set dt		[expr $dtForEQ($eqNumber)]
 	} elseif {$eqFormatForCollapseList == "PEER_singleComp" || $eqFormatForCollapseList == "PEER_geoMean" || $eqFormatForCollapseList == "PEER-NGA_singleComp" || $eqFormatForCollapseList == "PEER-NGA_geoMean" || $eqFormatForCollapseList == "PEER-NGA_Rotated_singleComp" || $eqFormatForCollapseList == "PEER-NGA_Rotated_geoMean" || $eqFormatForCollapseList == "PEER_codeScaling" || $eqFormatForCollapseList == "PEER-NGA_codeScaling" || $eqFormatForCollapseList == "PEER-NGA_Rotated_codeScaling"} {
@@ -181,8 +202,10 @@ if {$eqTimeHistoryPreFormatted == 1} {
 
 			set dt 		0.0;	# This will be changed by ReadSMDFile2 (pass-by-reference)
 			set numPoints	0;	# This will be changed by ReadSMDFile2 (pass-by-reference)
-			set eqFileNameForProc "C:/Users/sks/OpenSeesProcessingFiles/EQs/$eqFileName($eqNumber)"
-			set outputFileNameForProc "C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt"
+			# set eqFileNameForProc " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/$eqFileName($eqNumber)"
+			set eqFileNameForProc "$eqDataFolder/$eqFileName($eqNumber)"
+			# set outputFileNameForProc " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt"
+			set outputFileNameForProc "$eqDataFolder/SortedEQFile_($eqNumber).txt"
 			
 			# Call the procedure to do the "pre-processing"; depends on file format
 			if { $eqFormatForCollapseList == "PEER_singleComp" || $eqFormatForCollapseList == "PEER_geoMean" || $eqFormatForCollapseList == "PEER_codeScaling" } {
@@ -199,12 +222,20 @@ if {$eqTimeHistoryPreFormatted == 1} {
 				# ERROR - stop analysis
 				error "Stopping analysis"
 			}
+			
+			#			puts "dt is $dt \n numPoints is $numPoints"
+		###########
+		# set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+		timeSeries Path $seriesTag -filePath $eqDataFolder/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]
+
+	} else {
 
 #			puts "dt is $dt \n numPoints is $numPoints"
 		###########
-		set Series "Path -filePath C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+		# set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+		# set Series "Path -filePath $eqDataFolder/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
 
-	} else {
+
 		puts "ERROR: The EQ record format is not defined correctly!"
 		# ERROR - stop analysis
 		error "Stopping analysis"
@@ -216,7 +247,14 @@ if {$eqTimeHistoryPreFormatted == 1} {
 
 # Define the loading patern for the EQ
 	#                           tag  dir  accel    series
-	pattern UniformExcitation  $tag   1  -accel   $Series
+	pattern UniformExcitation  $tag   1  -accel   $seriesTag
+	
+# Set the tag number for the EQ pattern
+	# set tag 101
+
+# Define the loading patern for the EQ
+	#                           tag  dir  accel    series
+	# pattern UniformExcitation  $tag   1  -accel   $Series
 
 # Initial variables before starting dynamic analysis
 	set ok 0
@@ -824,19 +862,19 @@ proc RunEQLoadingForCollapse_withScaleFactor {eqNumber eqFileName scaleFactorFor
 		# We need to read the dt and numPoints files that have been pre-saved in the EQ folder.
 
 			# Load dt from the file
-			set fileID [open C:/Users/sks/OpenSeesProcessingFiles/EQs/DtFile_($eqNumber).txt r]
+			set fileID [open  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/DtFile_($eqNumber).txt r]
 			gets $fileID dt
 			puts "dt is $dt"
 			close $fileID
 
 			# Load numPoints from the file (note: I do not think this is actually used in the analysis procedure, but I am not positive)
-			set fileID [open C:/Users/sks/OpenSeesProcessingFiles/EQs/NumPointsFile_($eqNumber).txt r]
+			set fileID [open  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/NumPointsFile_($eqNumber).txt r]
 			gets $fileID numPoints 
 			puts "numPoints is $numPoints"
 			close $fileID
 
 		# Define the serie using the pre-saved SortedEQFile
-		set Series "Path -filePath C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+		set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
 
 	} elseif {$eqFormatForCollapseList == "PEER-NGA_singleComp" || $eqFormatForCollapseList == "PEER-NGA_Rotated_singleComp" } {
 		# Run PEER formatted record
@@ -852,8 +890,8 @@ proc RunEQLoadingForCollapse_withScaleFactor {eqNumber eqFileName scaleFactorFor
 				# The EQ file name is now passed into this procedure (the name comes from Matlab, is written
 				#	to a TCL script, read, then is passed this procedure .  The EQ Information file is 
 				#	no longer used.
-				set eqFileNameForProc "C:/Users/sks/OpenSeesProcessingFiles/EQs/A_PEERNGADatabase/$eqFileName"
-				set outputFileNameForProc "C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt"
+				set eqFileNameForProc " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/A_PEERNGADatabase/$eqFileName"
+				set outputFileNameForProc " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt"
 
 				# Call the file that processes the records in the new PEER-NGA format
 				ReadSMDFile_PEER-NGA-Format $eqFileNameForProc $outputFileNameForProc $dt $numPoints
@@ -861,8 +899,8 @@ proc RunEQLoadingForCollapse_withScaleFactor {eqNumber eqFileName scaleFactorFor
 				# The EQ file name is now passed into this procedure (the name comes from Matlab, is written
 				#	to a TCL script, read, then is passed this procedure .  The EQ Information file is 
 				#	no longer used.
-				set eqFileNameForProc "C:/Users/sks/OpenSeesProcessingFiles/EQs/A_PEERNGADatabase_Rotated/$eqFileName"
-				set outputFileNameForProc "C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt"
+				set eqFileNameForProc " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/A_PEERNGADatabase_Rotated/$eqFileName"
+				set outputFileNameForProc " E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt"
 
 				# Call the file that processes the records in the new PEER-NGA format
 				ReadSMDFile_PEER-NGA-Rotated-Format $eqFileNameForProc $outputFileNameForProc $dt $numPoints
@@ -877,7 +915,7 @@ proc RunEQLoadingForCollapse_withScaleFactor {eqNumber eqFileName scaleFactorFor
 
 		###########
 
-		set Series "Path -filePath C:/Users/sks/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
+		set Series "Path -filePath  E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs/SortedEQFile_($eqNumber).txt -dt $dt -factor [expr $scaleFactorForRunFromMatlab * $g]"
 	} else {
 		puts "eqFormatForCollapseList is $eqFormatForCollapseList"
 		puts "ERROR: The EQ record format is not defined correctly!"

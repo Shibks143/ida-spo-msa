@@ -100,6 +100,7 @@ afeLISTLIST = [afe_PGA_LIST, afe_Sa0p015_LIST, afe_Sa0p02_LIST, afe_Sa0p03_LIST,
 
 %% plot PGA hazard curve
 if doPlot == 1
+    imTypeForPlot = 'PGA'; % not passed in hazardInputs; PGA = Sa(0.01 s) here
     lineColors = repmat({'r','b','m','k','c',[.5 .6 .7],'g'}, [1 4]); % Cell array of 28 colors.
     lineStyles = repmat({'-','--', '-.', ':', '-','--', '-.', ':', '-','--', '-.', ':'}, [1 4]);
     markers = repmat({'o'}, [1 28]);

@@ -4,7 +4,7 @@
 set dtForCollapseMATLAB 0.0050
 set minStoryDriftRatioForCollapseMATLAB 0.120
 set elementUsedForColSensModelMATLAB clough
-set sensModel ID46053_R5_5Story_v.02
+set sensModel ID35053_R5_5Story_v.02
 set sensVariableName AllVar
 set sensVariableValue 0.00
 set AllVar 0.00
@@ -12,13 +12,13 @@ set eqNumber 121222
 set eqFormatForCollapseList PEER-NGA_geoMean
 global eqDataFolder
 set eqDataFolder E:/StaticDynamicAnalysis/ida-spo-msa/OpenSeesProcessingFiles/EQs
-set currentSaLevel 2.02
+set currentSaLevel 1.06
 puts "currentSaLevel is $currentSaLevel"
-set scaleFactorForRunFromMatlab 8.0745
-set periodUsedForScalingGroundMotionsFromMatlab 1.3600
+set scaleFactorForRunFromMatlab 5.5557
+set periodUsedForScalingGroundMotionsFromMatlab 1.5600
 set dampingRatioUsedForSaDefFromMatlab 0.0500
-set saCompScaled 1.84
-set saGeoMeanScaled 2.02
+set saCompScaled 1.08
+set saGeoMeanScaled 1.06
 set extraSecondsToRunAnalysis 5.00
 set eqTimeHistoryPreFormatted 1
 set analysisMode IDA

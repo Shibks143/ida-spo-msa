@@ -9,7 +9,7 @@ cd(baseFolder)
 %%% >>> START OF INPUT BLOCK HERE <<< %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 pshaVersion = 'new';  % 'old' -> 20200111_v4, 'new' -> 20260818_v4
 
-locName = 'Delhi'; % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
+locName = 'Guwahati'; % input depending on the site (lat, lon) (Table 5.4 of NDMA, 2011 report)
 switch locName      
     case 'Chennai'
         latLon = [13.05  80.27]; earthquakeZone = 'III';
@@ -37,7 +37,7 @@ switch locName2
         error('Unknown locName2: %s', locName2);
 end
 
-Tcond = 0.71; % conditioning period for return-period-based Sa extraction
+Tcond = 1.56; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
 returnPeriods_UHS     = returnPeriods_SaTcond;
 % returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 

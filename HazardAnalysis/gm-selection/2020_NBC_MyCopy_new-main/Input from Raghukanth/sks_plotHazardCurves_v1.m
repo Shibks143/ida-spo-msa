@@ -19,7 +19,8 @@ for j = 1:nT
     % hLine(j).DisplayName = sprintf('T = %.2f s', T1LIST(j));
 end
 
-xlabel('$\mathrm{im}\,(\mathrm{g})$');
+xlabel('$\mathrm{im} \equiv S_a(T)\,(\mathrm{g})$', 'Interpreter', 'latex');
+% xlabel('$\mathrm{im}\,(\mathrm{g})$');
 ylabel('$\mathrm{H}(\mathrm{im})$');
 xlim([1e-2 5]);
 ylim([1e-5 1e+0]);

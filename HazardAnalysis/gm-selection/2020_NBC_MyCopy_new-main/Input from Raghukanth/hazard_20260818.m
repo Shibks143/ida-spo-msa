@@ -66,7 +66,7 @@ if isfile(fileName)
 else
     save(fileName, '-struct', 'S'); % first location — create the file
 end
-fprintf('Saved %s into %s\n', varName, fileName);
+    fprintf('Saved %s into %s\n', varName, fileName);
 end
 
 
