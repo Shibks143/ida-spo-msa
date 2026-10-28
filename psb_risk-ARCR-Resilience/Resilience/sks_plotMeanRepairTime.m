@@ -16,37 +16,38 @@ for i = 1:numel(buildingIDLIST)
         'Sa_realizations', 'meanRepairTime', 'repairTimeAllData', 'stdev_log', 'Sa_MCE');
 
     figure(601);
-    h2(i) = plot(Sa_realizations/Sa_MCE, meanRepairTime, plotStyle{1}, 'Color', colors(i, :), 'LineWidth', 1.5); grid on; hold on;
+    h2(i) = plot(Sa_realizations/Sa_MCE, meanRepairTime, plotStyle{1}, 'Color', colors(i, :), 'LineWidth', 2.0); grid on; hold on;
     if plotMeanWithBound == 1   % used for single building in the reviewer report
-        hBound = plot(Sa_realizations/Sa_MCE, quantile(repairTimeAllData, 0.16, 1), plotStyle{2}, 'Color', colors(i, :), 'LineWidth', 1.5);
-        plot(Sa_realizations/Sa_MCE, quantile(repairTimeAllData, 0.84, 1), plotStyle{2}, 'Color', colors(i, :), 'LineWidth', 1.5);
+        hBound = plot(Sa_realizations/Sa_MCE, quantile(repairTimeAllData, 0.16, 1), plotStyle{2}, 'Color', colors(i, :), 'LineWidth', 2.0);
+        plot(Sa_realizations/Sa_MCE, quantile(repairTimeAllData, 0.84, 1), plotStyle{2}, 'Color', colors(i, :), 'LineWidth', 2.0);
     end
 
     figure(602);
-    h1(i) = plot(Sa_realizations(2:end)/Sa_MCE, stdev_log(2:end), plotStyle{1}, 'Color', colors(i, :), 'LineWidth', 1.5); grid on; hold on;
+    h1(i) = plot(Sa_realizations(2:end)/Sa_MCE, stdev_log(2:end), plotStyle{1}, 'Color', colors(i, :), 'LineWidth', 2.0); grid on; hold on;
 end
 
 figure(601)
 fprintf('Pay attention to the normalization factors (i.e. Sa_MCE) for different buildings.\n');
 xlabel('$Sa(T_1)/Sa_{MCE}$', 'Interpreter', 'latex');
 if plotMeanWithBound == 1
-    hlegend = legend([h2(end), hBound], {'Mean', '$\pm 1\sigma$'}, 'Location', 'NorthWest');
+    hlegend = legend([h2(end), hBound], {'Mean', '$\pm 1\sigma$'}, 'Location', 'SouthEast');
     ylabel('Repair Time (days)'); set(gca, 'YScale', 'log'); 
     ylim([10 500]); xlim([0 2.5]);
     exportName = sprintf('meanRepairTimeWithBound_%s', figNameSuff);
 else
-    hlegend = legend(h2, strrep(buildingIDLIST, '_', '\_'), 'Location', 'NorthWest');   % one entry per building
+    hlegend = legend(h2, strrep(buildingIDLIST, '_', '\_'), 'Location', 'SouthEast');   % one entry per building
     ylabel('Mean Repair Time (days)'); 
     ylim([0 400]); xlim([0 2.5]);
     exportName = sprintf('meanRepairTime_%s', figNameSuff);
 end
 sks_figureFormat('powerpoint');
-hlegend.Location = 'northwest';                     % sks_figureFormat moves legends to northeast
+hlegend.Location = 'SouthEast';                     % sks_figureFormat moves legends to northeast
 sks_figureExport(fullfile(baseFolder, 'figures_repTimeVsSa_R1_betaTOT', exportName));   
 
 figure(602);
-xlabel('$Sa(T_1)/Sa_{MCE}$', 'Interpreter', 'latex'); ylabel('$\beta_{\ln,\ \mathrm{Repair\ Time}}$', 'Interpreter', 'latex');
-legend(h1, strrep(buildingIDLIST, '_', '\_'), 'Location', 'NorthEast');   % one entry per building
+xlabel('$Sa(T_1)/Sa_{MCE}$', 'Interpreter', 'latex'); 
+ylabel('$\beta_{\ln,\ \mathrm{Repair\ Time}}$', 'Interpreter', 'latex');
+legend(h1, strrep(buildingIDLIST, '_', '\_'), 'Location', 'SouthEast');   % one entry per building
 xlim([0.001 2.5]); ylim([0 0.5]);
 sks_figureFormat('powerpoint');
 

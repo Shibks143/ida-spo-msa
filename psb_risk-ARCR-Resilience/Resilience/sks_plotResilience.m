@@ -34,7 +34,7 @@ end
     end
 
     if legOn == 1
-        h1(6) = plot(4, 1, 'k-', 'LineWidth', 1.5); h1(7) = plot(4, 1, 'k--', 'LineWidth', 1.5); % dummy plots outside the range
+        h1(6) = plot(4, 1, 'k-', 'LineWidth', 1.5); h1(7) = plot(4, 1, 'k--', 'LineWidth', 2.0); % dummy plots outside the range
         hlegend = legend(h1, {'$LS_1$', '$LS_2$', '$LS_3$', '$LS_4$', '$LS_5$'}, 'Location', 'NorthEast');
     end
 
@@ -84,7 +84,7 @@ cd(baseFolder);
     figure(200 + i);       % one figure per building
     h2 = gobjects(1, 5);   % DS1-DS5
     for LS = 1:5 %
-        h2(LS) = plot(timeArray, meanHousingCapacityMatrix(LS+1, :), plotStyle{LS}, 'Color', colors(LS, :), 'LineWidth', 1.5); hold on; grid on;
+        h2(LS) = plot(timeArray, meanHousingCapacityMatrix(LS+1, :), plotStyle{LS}, 'Color', colors(LS, :), 'LineWidth', 2.0); hold on; grid on;
     end
 
     if legOn == 1
@@ -105,15 +105,15 @@ cd(baseFolder);
 figure(400 + i)       % one figure per building
     lineStyleList = {'-', '--', '-.'}; % solid for every building (colour is limit state specific: colors(LS, :))
     for LS = 1:5
-        plot(timeArray, meanHousingCapacityMatrix(LS+1, :), lineStyleList{1}, 'Color', colors(LS, :), 'LineWidth', 1.5); hold on; grid on;
+        plot(timeArray, meanHousingCapacityMatrix(LS+1, :), lineStyleList{1}, 'Color', colors(LS, :), 'LineWidth', 2.0); hold on; grid on;
     end
 
     if LS == 5
-        h2(1) = plot(-1, 0, lineStyleList{1}, 'Color', colors(1, :), 'LineWidth', 1.5);        h2(2) = plot(-1, 0, lineStyleList{1}, 'Color', colors(2, :), 'LineWidth', 1.5);
-        h2(3) = plot(-1, 0, lineStyleList{1}, 'Color', colors(3, :), 'LineWidth', 1.5);        h2(4) = plot(-1, 0, lineStyleList{1}, 'Color', colors(4, :), 'LineWidth', 1.5);
-        h2(5) = plot(-1, 0, lineStyleList{1}, 'Color', colors(5, :), 'LineWidth', 1.5);
-        h2(6) = plot(-1, 0, ['k' lineStyleList{1}], 'LineWidth', 1.5);
-        h2(7) = plot(-1, 0, ['k' lineStyleList{2}], 'LineWidth', 1.5);        h2(8) = plot(-1, 0, ['k' lineStyleList{3}], 'LineWidth', 1.5);
+        h2(1) = plot(-1, 0, lineStyleList{1}, 'Color', colors(1, :), 'LineWidth', 2.0);        h2(2) = plot(-1, 0, lineStyleList{1}, 'Color', colors(2, :), 'LineWidth', 2.0);
+        h2(3) = plot(-1, 0, lineStyleList{1}, 'Color', colors(3, :), 'LineWidth', 2.0);        h2(4) = plot(-1, 0, lineStyleList{1}, 'Color', colors(4, :), 'LineWidth', 2.0);
+        h2(5) = plot(-1, 0, lineStyleList{1}, 'Color', colors(5, :), 'LineWidth', 2.0);
+        h2(6) = plot(-1, 0, ['k' lineStyleList{1}], 'LineWidth', 2.0);
+        h2(7) = plot(-1, 0, ['k' lineStyleList{2}], 'LineWidth', 2.0);        h2(8) = plot(-1, 0, ['k' lineStyleList{3}], 'LineWidth', 1.5);
 
 %         legh = legend(h2, {'LS_1 ', 'LS_2 ', 'LS_3 ', 'LS_4 ', 'LS_5', '3-Story', '6-Story', '9-Story'}, 'Location', 'North', 'Interpreter', 'tex');
 %         legh = legend(h2(1:5), {'LS_1 ', 'LS_2 ', 'LS_3 ', 'LS_4 ', 'LS_5'}, 'Location', 'North', 'Interpreter', 'tex');
@@ -141,7 +141,7 @@ figure(400 + i)       % one figure per building
     plotStyleRec = {'-'};                        % solid for every building; colour from colors(building, :)
 
     % arrays to plot the pre-earthquake occupancy
-    h3(6) = plot(timeArray, meanExpectedHousingFunction, plotStyleRec{1}, 'Color', colors(i, :), 'LineWidth', 1.5); hold on; grid on;
+    h3(6) = plot(timeArray, meanExpectedHousingFunction, plotStyleRec{1}, 'Color', colors(i, :), 'LineWidth', 2.0); hold on; grid on;
     
     A = [-100 0 0]; B = [1 1 meanExpectedHousingFunction(1, 1)]; 
     h3(7) = plot(A, B, 'k-', 'LineWidth', 1.5); 
@@ -150,7 +150,8 @@ figure(400 + i)       % one figure per building
     
     if i == size(buildingIDLIST, 1) % add dummy legends in the last plot
     % dummy plots outside the range
-        for k = 1:size(buildingIDLIST, 1); h3(k) = plot(2000, 1, plotStyleRec{1}, 'Color', colors(k, :), 'LineWidth', 1.5); end   % one dummy per building
+        for k = 1:size(buildingIDLIST, 1) 
+            h3(k) = plot(2000, 1, plotStyleRec{1}, 'Color', colors(k, :), 'LineWidth', 2.0); end   % one dummy per building
 %         hlegend = legend(h3(1:5), {'3-Story', '6-Story', '9-Story', 'FF', 'NF'}, 'Location', 'SouthEast');
         hlegend = legend(h3(1:size(buildingIDLIST, 1)), strrep(buildingIDLIST', '_', '\_'), 'Location', 'SouthEast');   % legend by building ID
 % hlegend = legend(h3(1:3), {'3-Story', '6-Story', '9-Story'}, 'Location', 'SouthEast');
@@ -175,7 +176,7 @@ figure(400 + i)       % one figure per building
     plotStyleRec = {'-'};                        % solid for every building; colour from colors(building, :)
 
     figure(302);
-    h4(i) = plot(timeArray, sigmaHouse, plotStyleRec{1}, 'Color', colors(i, :), 'LineWidth', 1.5); hold on; grid on;
+    h4(i) = plot(timeArray, sigmaHouse, plotStyleRec{1}, 'Color', colors(i, :), 'LineWidth', 2.0); hold on; grid on;
 
     set(gca, 'XTick', 0:50:200); xlim([0 200]); ylim([0 0.5]);
     
@@ -234,7 +235,7 @@ if i == size(buildingIDLIST, 1)
     yt = get(gca, 'YTick'); set(gca, 'YTick', yt, 'YTickLabel', yt/N1);    % counts -> fraction of simulations
 
     xlabel('$Sa(T_1)/Sa_{MCE}$'); ylabel('Fraction of Simulations');
-    legend(strrep(buildingIDLIST, '_', '\_'));                      % building IDs (escape '_' for LaTeX)
+    legend(strrep(buildingIDLIST, '_', '\_'));                             % building IDs (escape '_' for LaTeX)
     sks_figureFormat('powerpoint');
 
     cd(baseFolder);  cd(dirForFigures);
@@ -259,7 +260,7 @@ sigmaLnRTR = sqrt(sigmaLn.^2 - beta_MDL_DR_TD^2);       % master adds beta_MDL_D
     end
 
     if legOn == 1
-        h5(6) = plot(4, 1, 'k-', 'LineWidth', 1.5); h5(7) = plot(4, 1, 'k--', 'LineWidth', 1.5); % dummy plots outside the range
+        h5(6) = plot(4, 1, 'k-', 'LineWidth', 1.5); h5(7) = plot(4, 1, 'k--', 'LineWidth', 2.0); % dummy plots outside the range
         hlegend = legend(h5, {'$LS_1$', '$LS_2$', '$LS_3$', '$LS_4$', '$LS_5$'}, 'Location', 'NorthEast');
     end
 
