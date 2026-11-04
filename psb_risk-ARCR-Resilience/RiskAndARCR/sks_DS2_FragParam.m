@@ -43,8 +43,7 @@ for i = 1%:2:numBldgs
     
 %% 2. extract maximum rotation from output file from each scaled levels of the applied time history
     for eqIndex = 1:numEqs
-%         fprintf('Processing EQ- %i/%i EQ...\n', eqIndex, numEqs);
-        clc; fprintf('Processing building- %i/%i, EQ- %i/%i ...\n', i, numBldgs, eqIndex, numEqs);
+        fprintf('Processing building- %i/%i, EQ- %i/%i ...\n', i, numBldgs, eqIndex, numEqs);
         eqNumber = eqNumberLIST(i, eqIndex);
         eqFolder = sprintf('EQ_%d', eqNumber);
         cd(analysisTypeFolder); cd(eqFolder);

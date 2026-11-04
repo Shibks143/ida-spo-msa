@@ -5,6 +5,7 @@ tic;
 %% Start of input
 baseFolder =                PHRInputs.baseFolder;
 BldgIdAndZoneLIST =         PHRInputs.BldgIdAndZoneLIST;
+BldgIdLIST =                PHRInputs.BldgIdLIST;
 T1LIST =                    PHRInputs.T1LIST;
 dsToPlotFragParam =         PHRInputs.dsToPlotFragParam;
 dsLegForPlot =              PHRInputs.dsLegForPlot;
@@ -17,11 +18,11 @@ saveMedianDispersionBound = PHRInputs.saveMedianDispersionBound;
 formatMode =                PHRInputs.formatMode;
 
 
-cd DATA_files
-load('DATA_fragility_Dayala_2433v02');
-cd ..
+fragDataFile = fullfile(baseFolder, 'DATA_files', sprintf('DATA_fragility_Dayala_%s.mat', BldgIdLIST{1}));   % same name as saved by sks_FragilityDataGen_PHR
+load(fragDataFile, 'fragAllData');
+
 bldgIdLIST = {};
-outFolder = fullfile(baseFolder, 'Output_Risk');
+outFolder = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures');
 
 % for plotting fragility params with bound
 UBPercentile = 0.84; LBPercentile = 1 - UBPercentile ;
@@ -151,5 +152,3 @@ disp(T);
 cd(baseFolder)
 toc
  %% fragility is added on 12-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
- sks_fragilityCurvesBasedOnMIDRDamageStates(muCtrlEff, betaRTRCtrlMin, dsLegForPlot)

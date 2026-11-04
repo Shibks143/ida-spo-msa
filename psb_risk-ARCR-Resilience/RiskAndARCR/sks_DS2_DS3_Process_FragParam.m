@@ -62,7 +62,7 @@ if executePrintAndSaveStep == 1
         cd(analysisTypeFolder);
         
         for j = 1:size(LimitStateValLIST, 2)
-            clc; fprintf('Processing building- %i/%i, chi- %i/%i...\n', i, size(bldgIDLIST, 2), j, size(LimitStateValLIST, 2));
+            fprintf('Processing building- %i/%i, chi- %i/%i...\n', i, size(bldgIDLIST, 2), j, size(LimitStateValLIST, 2));
             LimitStateVal = LimitStateValLIST(1, j);
             
             %% 2.2.1. using theta_U as normalizing parameter

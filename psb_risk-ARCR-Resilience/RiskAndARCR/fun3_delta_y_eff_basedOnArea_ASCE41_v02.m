@@ -268,7 +268,6 @@ if doPlot == 1
     plot([delta_y_eff, delta_y_eff], [0, pointB(1, 2)], 'k--', 'LineWidth', 1);
     plot([0, delta_y_eff], [pointB(1, 2), pointB(1, 2)], 'k--', 'LineWidth', 1);
     legend([h1, h2], 'Actual SPO Curve', 'Idealized Curve', 'Location','SouthEast');
-    % legh = legend([h1, h2], 'Actual SPO Curve', 'Idealized Curve', 'Location', 'SouthEast');
     sks_figureFormat(formatMode)
     xUppLim = (ceil(max(defoVec)*100)) / 100; % round up to hundred's place
     yUppLim = (ceil(max(BS)/200)) * 200; % round up to second decimal place
@@ -276,17 +275,13 @@ if doPlot == 1
     
     xlabel('Roof Drift','Interpreter','latex');
     ylabel('$V_B$ (kN)','Interpreter','latex');
-   
-
-    % hx = xlabel('Roof Drift'); hy = ylabel('\it{V_B} (kN)');
-    % psb_FigureFormatScript_paper
     set(gca,'fontname','times')
     
     text(delta_y_eff, 0, '\Delta_y ', 'FontSize', 14, 'HorizontalAlignment', 'right', 'verticalAlignment', 'bottom')
     text(0, pointB(1, 2), ' \it{V_y}', 'FontSize', 14, 'HorizontalAlignment', 'left', 'verticalAlignment', 'bottom')
     
     cd(baseFolder)
-    cd Output_Risk
+    cd(fullfile(fileparts(mfilename('fullpath')), 'Output_Risk')) 
 
     exportName = sprintf('pushoverIdealizedASCE41_%s', BuildingID);
     sks_figureExport(exportName)

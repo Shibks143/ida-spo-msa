@@ -6,7 +6,7 @@ GMSetC =               PHRInputs.GMsuiteName;
 eqLIST =               PHRInputs.eqNumberLIST;
 latLon =               PHRInputs.latLonLIST;
 zoneOfLoc =            PHRInputs.zoneOfLocLIST{1};
-Ta =                   PHRInputs.Ta;
+% Ta =                   PHRInputs.Ta;
 locName =              PHRInputs.locName;
 BldgId =               PHRInputs.BldgIdLIST;
 consqModel =           PHRInputs.consqModel;
@@ -24,14 +24,20 @@ baseFolder =           PHRInputs.baseFolder;
 % end of inputs
 
 %%  Assign precise BldgID, eqLIST, Ta
+% switch IdToAnalyze
+%     case '2433v02'
+%         GMsuiteName = GMSetC;
+% end
 switch IdToAnalyze
-    case '2433v02'
+    case {'2433v02', '46053v02', '35053v02'}
         GMsuiteName = GMSetC;
 end
 
-if T1forIM == 99
-    T1forIM = Ta;
-end
+
+
+% if T1forIM == 99
+%     T1forIM = Ta;
+% end
 
 %% fixed inputs (do NOT carry these as function arguments)
 doPlotHaz = 1;
@@ -46,17 +52,22 @@ matchMCEWithPSHA2475 = 0; % when these both are zero, we use unscaled code-ideal
 
 %% 0. calculations begin
 %% 1a. Import Hazard
-cd(fullfile(baseFolder, 'Input from Raghukanth'))
-% 1a.1 extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
+cd(fullfile(baseFolder, '..', '..', 'HazardAnalysis', 'gm-selection', '2020_NBC_MyCopy_new-main', 'Input from Raghukanth'));
+% 1a.1 extract hazard curve data (10-point-curve) from Raghukanth's file (received on Aug 18, 2026)
 hazardInputs = struct('latLon', latLon, 'doPlot', doPlotHaz, 'plotType', plotType, 'locationLISTforPlot', {locationLISTforPlot});
-[imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20260818_v2(hazardInputs, T1forIM);
+[imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20260818_v4(hazardInputs, T1forIM);
 % 1a.2 discretize hazard curve
 if T1forIM == 0; imNameForPlot = 'PGA (g)';
 else
     imNameForPlot = sprintf('Sa(%.2f) (g)', T1forIM);
 end
 
-[imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20260818_v2(fitModel, imValLIST, afe_Sa_T1_LIST, N, 1, plotType, imNameForPlot, locName);
+hazardInputs.fitModel = fitModel;  
+hazardInputs.N = N;  
+hazardInputs.imTypeForPlot = imNameForPlot;  
+hazardInputs.legendName = locName;
+
+[imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20200111_v2(hazardInputs, imValLIST, afe_Sa_T1_LIST);
 
 if saveFigures == 1
     strForIM = strrep(sprintf('Sa_%.2f', T1forIM), '.', 'p');
@@ -192,11 +203,12 @@ betaTD_DS4 = 0.20; % Good rating of test data (Sec 9.2.3 of FEMA P695)
 betaTOT_DS4 = sqrt(betaRTR_DS4^2 + betaMDL^2 + betaDR^2 + betaTD_DS4^2);
 
 %% 1c. plot and save fragility
+colors = [0.00 0.00 1.00; 1.00 0.00 1.00; 0.00 0.00 0.00; 1.00 0.00 0.00];   % DS1 blue, DS2 magenta, DS3 black, DS4 red
 figure; imDescForFrag = 0:0.01:5;
-plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS1), betaTOT_DS1), '--', 'Color', [0.00 0.00 1.00], 'LineWidth', 1.5); hold on; grid on;
-plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS2), betaTOT_DS2), '-.', 'Color', [1.00 0.00 1.00], 'LineWidth', 1.5);
-plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS3), betaTOT_DS3), ':', 'Color', [0.00 0.00 0.00], 'LineWidth', 1.5);
-plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS4), betaTOT_DS4), '-', 'Color', [1.00 0.00 0.00], 'LineWidth', 1.5);
+plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS1), betaTOT_DS1), '-', 'Color', colors(1, :), 'LineWidth', 2.0); hold on; grid on;
+plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS2), betaTOT_DS2), '-', 'Color', colors(2, :), 'LineWidth', 2.0);
+plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS3), betaTOT_DS3), '-', 'Color', colors(3, :), 'LineWidth', 2.0);
+plot(imDescForFrag, normcdf(log(imDescForFrag), log(mu_DS4), betaTOT_DS4), '-', 'Color', colors(4, :), 'LineWidth', 2.0);
 
 legend('DS1', 'DS2', 'DS3', 'DS4');
 if T1forIM == 0
@@ -273,11 +285,11 @@ end
 
 %% 2c. plot and save vulnerability
 figure;
-plot(imDescForRCR, dv_RCR, '-', 'Color', [0.50 0.50 0.50], 'LineWidth', 1.5); hold on; grid on;
-plot(imDescForRCR, DS1_contr_LIST, '--', 'Color', [0.00 0.00 1.00], 'LineWidth', 1.5);
-plot(imDescForRCR, DS2_contr_LIST, '-.', 'Color', [1.00 0.00 1.00], 'LineWidth', 1.5);
-plot(imDescForRCR, DS3_contr_LIST, ':', 'Color', [0.00 0.00 0.00], 'LineWidth', 1.5);
-plot(imDescForRCR, DS4_contr_LIST, '-', 'Color', [1.00 0.00 0.00], 'LineWidth', 1.5);
+plot(imDescForRCR, dv_RCR, '-', 'Color', [0.50 0.50 0.50], 'LineWidth', 2.0); hold on; grid on;
+plot(imDescForRCR, DS1_contr_LIST, '--', 'Color', colors(1, :), 'LineWidth', 2.0);
+plot(imDescForRCR, DS2_contr_LIST, '-.', 'Color', colors(2, :), 'LineWidth', 2.0);
+plot(imDescForRCR, DS3_contr_LIST, ':',  'Color', colors(3, :), 'LineWidth', 2.0);
+plot(imDescForRCR, DS4_contr_LIST, '--',  'Color', colors(4, :), 'LineWidth', 2.0);
 
 legend('Total', 'DS1 contribution', 'DS2 contribution', 'DS3 contribution', 'DS4 contribution', 'Location', 'NorthWest');
 if T1forIM == 0 
@@ -337,7 +349,8 @@ lambda_RCR_integrand2(isnan(lambda_RCR_integrand2)) = 0; % converting the NaN va
 
 lambda_RCR1_in_pc = trapz(imDescForRCR, lambda_RCR_integrand1)*1e4;
 lambda_RCR2_in_pc = trapz(imDescForRCR, lambda_RCR_integrand2)*1e4;
-% fprintf('lambda_RCR using two expressions are %g and %g.\n', lambda_RCR1, lambda_RCR2);
+fprintf('lambda_RCR using two expressions are %g and %g (x1e-4 per year).\n', lambda_RCR1_in_pc, lambda_RCR2_in_pc);
+
 
 figure
 plot(imDescForRCR, lambda_RCR_integrand2, 'k-', 'LineWidth', 1.5); hold on; grid on; box on;
@@ -359,8 +372,8 @@ if saveFigures == 1
 end
 
 MultObjTable = [MultObjTable, table(lambda_RCR2_in_pc)];
-MultObjTable.Properties.VariableNames{end} = 'lambda_RCR_in_pc';
-
+% MultObjTable.Properties.VariableNames{end} = 'lambda_RCR_in_pc';
+MultObjTable.Properties.VariableNames{end} = 'lambda_RCR (x10^-4 /yr)';
 
 %% Following piece is functional. It calculates deaggregation of lambda and contribution of each DS for different Levels of hazard.
 % But I am commenting these out for I don't need them in Multi-obj RTSD framework paper

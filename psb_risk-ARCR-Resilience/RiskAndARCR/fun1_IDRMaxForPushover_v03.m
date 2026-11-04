@@ -9,40 +9,21 @@ baseFolder = pwd;
 % roof drift ratio corresponding to the performance limit of 4% or 2% of Max IDR
 % perfLimit = 0.02; 
 
-% old code for fetching folder location
-% cd H:\Arch_ResponseReductionFactorCalculation
-% [analysisTypeFolder, designR] = returnBuildingInfo(BuildingID);
-
-% new updated code for fetching folder location
-% cd H:\DamageIndex\Automated
-
 [~, analysisTypeFolder, designR, ~] = returnModelFolderInfo(BuildingID);
+
 cd(baseFolder)
-
-
-
-% switch BuildingID
-% 
-%     case '2206v01'
-% analysisTypeFolder = 'I:\PrakRuns_I\Output\(ID2206_R3_7Story_v.01_SlabNotConsidered)_(AllVar)_(0.00)_(clough)';
-% %         saMedianCol = 0.328; betaRTR = 0.336; % record-to-record
-%         designR = 3;
-% end
-
 cd(analysisTypeFolder)
+cd(fullfile('EQ_9991', 'Sa_0.00', 'RunInformation'));
 
-cd EQ_9991\Sa_0.00\RunInformation
 floorHeightLIST = load('floorHeightLISTOUT.out');
 numFloors = length(floorHeightLIST) - 1;
-
 individualFloorHt = zeros(1, numFloors);
 
 for floorIndex = 2:numFloors+1
     individualFloorHt(floorIndex - 1) = floorHeightLIST(floorIndex) - floorHeightLIST(floorIndex - 1);
 end
     
-cd ..\Nodes\DisplTH
-
+cd(fullfile('..', 'Nodes', 'DisplTH'));
 % store displacements of each floor in a matrix
 for floorIndex = 2:numFloors+1
     currentNodeNum = 300 + floorIndex;
@@ -85,8 +66,7 @@ defoVec = plotArrayAndBaseShearArray(:, 1);
 
 
     ix = find(defoVec >= roofDR_PL, 1);
-    V_perfLimit = interp1([defoVec(ix-1), defoVec(ix)], ...
-                             [BS(ix-1), BS(ix)], roofDR_PL, 'pchip');
+    V_perfLimit = interp1([defoVec(ix-1), defoVec(ix)], [BS(ix-1), BS(ix)], roofDR_PL, 'pchip');
 
 cd(baseFolder)
 

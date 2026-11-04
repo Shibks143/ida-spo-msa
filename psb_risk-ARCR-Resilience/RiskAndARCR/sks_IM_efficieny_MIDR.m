@@ -17,14 +17,12 @@ intensityMeasureType =   MIDRInputs.intensityMeasureType;
 T1LIST =                 MIDRInputs.T1LIST;
 isSinglePeriodAnalysis = MIDRInputs.isSinglePeriodAnalysis;
 BldgId =                 MIDRInputs.BldgId;
-
+colors =                 MIDRInputs.colors;                  
 
 
 cd DATA_files
-fileName = sprintf('DATA_fragility_%s_%s_%s.mat', damageMeasure,intensityMeasureType,BldgId);
+fileName = sprintf('DATA_fragility_%s_SaTj_%s.mat', damageMeasure, BldgId);
 load(fileName,'fragAllData');
-
-%load(sprintf('DATA_fragility_%s_%s.mat', damageMeasure,intensityMeasureType));
 
 cd ..
 bldgIdLIST = {};
@@ -82,16 +80,14 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
     end
 
     %% everything below is basically just for plotting
-    % ---- Plot styling ----
     lineStyleList = {'-', '--', '-.', ':'};             % line style by plot order
-    colors = [0.00 0.00 1.00; 1.00 0.00 1.00; 0.00 0.00 0.00; 1.00 0.00 0.00; 0.50 0.50 0.50];   % DS1-DS4 by severity: blue, magenta, black, red; 5th: gray
-
+   
     if doPlotFragMedian == 1 && ~isSinglePeriodAnalysis
         figure(i); hold on; grid on
         for k = 1:size(dsToPlotFragParam, 2)
             styleID = mod(k-1, length(lineStyleList)) + 1;
-            cRow = ceil(find(strcmp(dsToPlotFragParam{k}, {'IO','DS1','LS','DS2','CP','DS3','DynInst','DS4'}), 1) / 2);   % colour by severity (MIDR or PHR names)
-            if isempty(cRow); cRow = mod(k-1, size(colors, 1)) + 1; end                                       % other names (e.g. midr_xpc): plot order
+            cRow = ceil(find(strcmp(dsToPlotFragParam{k}, {'IO','DS1','LS','DS2','CP','DS3','DynInst','DS4'}), 1) / 2);   % color by severity (MIDR or PHR names)
+            if isempty(cRow); cRow = mod(k-1, size(colors, 1)) + 1; end                                                   % other names (e.g. midr_xpc): plot order
             plot(timePLIST, muCtrl(:, k), lineStyleList{styleID}, 'Color', colors(cRow, :), 'LineWidth', 1.5);
         end
         legend(dsToPlotFragParam);
@@ -99,7 +95,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         ylabel('$\mu_{ds,Sa(T_j)}$ (g)');
         sks_figureFormat('powerpoint')
         if saveMedianDispersionBound(1) == 1
-            exportName = sprintf('IM_efficiency_figures/F6%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
+            exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('F6%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr));
             sks_figureExport(exportName)
         end
     end
@@ -127,7 +123,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         sks_figureFormat('powerpoint')
 
         if saveMedianDispersionBound(2) == 1
-            exportName = sprintf('IM_efficiency_figures/F6%s_IMefficiency_betaRTRSaTi_%i_%s_v1',96+i, i, bldgIdCurr);
+            exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('F6%s_IMefficiency_betaRTRSaTi_%i_%s_v1', 96+i, i, bldgIdCurr));
             sks_figureExport(exportName)
         end
     end
@@ -155,7 +151,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
             title(['Damage State = ', currDs]);
             sks_figureFormat('powerpoint')
             if saveMedianDispersionBound(3) == 1
-                exportName = sprintf('IM_efficiency_figures/F6%s_IMefficiency_muSaTj%s_%i_%s_v1', 96+i, currDs, i, bldgIdCurr);
+                exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('F6%s_IMefficiency_muSaTj%s_%i_%s_v1', 96+i, currDs, i, bldgIdCurr));
                 sks_figureExport(exportName)
             end
         end
@@ -175,7 +171,7 @@ cd(baseFolder)
 toc
 %% fragility is added on 12-Apr-2026 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Final fragility curves only for single-period analysis
-if isSinglePeriodAnalysis
-    sks_fragilityCurvesBasedOnMIDRDamageStates(muCtrlEff, betaRTRCtrlMin, dsToPlotFragParam, damageMeasure, intensityMeasureType, baseFolder)
-end
+% % Final fragility curves only for single-period analysis
+% if isSinglePeriodAnalysis
+%     sks_fragilityCurvesBasedOnMIDRDS(muCtrlEff, betaRTRCtrlMin, dsToPlotFragParam, damageMeasure, intensityMeasureType, baseFolder)
+% end

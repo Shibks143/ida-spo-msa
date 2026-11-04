@@ -8,7 +8,8 @@ GMsuiteName =        PHRInputs.GMsuiteName;
 eqLIST =             PHRInputs.eqNumberLIST;
 imTypeLIST =         PHRInputs.imTypeLIST; 
 latLon =             PHRInputs.latLonLIST; 
-zoneOfLoc =          PHRInputs.zoneOfLocLIST;    
+zoneOfLoc =          PHRInputs.zoneOfLocLIST;
+locName =            PHRInputs.locName;
 baseFolder =         PHRInputs.baseFolder;
 
 
@@ -22,20 +23,15 @@ fragDataFileName = sprintf('DATA_fragility_Dayala_%s', BldgIdLIST{1});
 %%% end of inputs
 
 count = 0;
-totalNumRuns = size(BldgIdLIST, 2)*size(timePLIST, 2)*size(dsLIST, 2);
-%% A. script begins
-for i = 1:size(BldgIdLIST, 2) % for each building
-    bldgIdShort = BldgIdLIST{1, i};
-    switch bldgIdShort
-        case '2433v02'
-            bldgIdCurr = '2433v02';
-            GMsuiteName = 'GMSetC';
-            latLon = [26.17   91.77]; % Guwahati (Table 5.4 of NDMA, 2011 report)
-            locName = 'Guwahati';
-            zoneOfLoc = 'V';
-            Ta = 0.71;
+totalNumRuns = numel(BldgIdLIST)*size(timePLIST, 2)*size(dsLIST, 2);
+% totalNumRuns = size(BldgIdLIST, 2)*size(timePLIST, 2)*size(dsLIST, 2);
 
-    end
+
+%% A. script begins
+for i = 1:numel(BldgIdLIST) % for each building
+% for i = 1:size(BldgIdLIST, 2) % for each building
+     bldgIdCurr = BldgIdLIST{i};   % building ID from the driver
+  
 % variable name for storing building ID, this cannot begin with a numeral
     bldgIdVar = ['ID' bldgIdCurr];
 

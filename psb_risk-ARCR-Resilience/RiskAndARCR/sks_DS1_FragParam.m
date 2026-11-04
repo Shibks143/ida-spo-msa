@@ -64,7 +64,7 @@ end
 disp(T);
 clearvars -except bldgIDLIST eqNumberLIST deltaYieldBasis T baseFolder
 
-cd('Output_Risk')
+cd(fullfile(fileparts(mfilename('fullpath')), 'Output_Risk'))
 fileNameToSave = 'DS1_fragDataCS22_SaTa';
 save(fileNameToSave, 'bldgIDLIST', 'eqNumberLIST', 'deltaYieldBasis', 'T');
 fprintf('Data file saved in: %s\n', pwd);

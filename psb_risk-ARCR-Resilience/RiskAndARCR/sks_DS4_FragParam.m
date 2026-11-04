@@ -1,7 +1,5 @@
 function sks_DS4_FragParam(PHRInputs)
 
-tic
-
 eqLIST_LIST =    PHRInputs.eqNumberLIST;
 GMsuiteName =    PHRInputs.GMsuiteName;
 analysisType =   PHRInputs.analysisType;
@@ -13,9 +11,9 @@ baseFolder = pwd;
 switch whatToDo
     case '21g.extractFragility_SaTa_MultiRTSDPaper_CS' % IM = same as 21f; with SaTa as IM
 
-        outpFolderLIST = {fullfile(baseFolder, 'Output', analysisType) };
-        % GMsuiteNameLIST = {'GMSetGuw22_2221_Sca2', 'GMSetGuw22_2223_Sca2'};
-  
+        outpFolderLIST = {fullfile(baseFolder, '..', '..', 'Output', analysisType) };   % ida-spo-msa\Output
+        
+        
         for storyDriftIndex = 1:length(storyDriftLIST)
             currentStoryDrift = storyDriftLIST(storyDriftIndex);
 
@@ -106,16 +104,13 @@ switch whatToDo
         end
         disp(T);
         clearvars -except T baseFolder indFragDataAllComp indFragDataCtrlComp bldgIdLIST eqNumberLIST storyDriftLIST
+        
 
-        cd psb-risk-module
-        cd('Output_Risk')
-        fileNameToSave = 'DS4_fragDataCS22_SaTa';
-        save(fileNameToSave, 'indFragDataAllComp', 'indFragDataCtrlComp', 'T', 'bldgIdLIST', 'eqNumberLIST', 'storyDriftLIST');
-        fprintf('Data file saved in: %s\n', pwd);
+        save(fullfile(fileparts(mfilename('fullpath')), 'Output_Risk', 'DS4_fragDataCS22_SaTa.mat'), 'indFragDataAllComp', 'indFragDataCtrlComp', 'T', 'bldgIdLIST', 'eqNumberLIST', 'storyDriftLIST');
+        fprintf('Data file saved in: %s\n', fullfile(fileparts(mfilename('fullpath')), 'Output_Risk'));
 end
 
 cd(baseFolder);
-toc
 
     function [T_old, saT_old_AllComp] = prak_util_extractFragDataPoints_v02(analysisTypeFolder, eqNumberLIST, newStoryDrift, matFileToLoad)
         baseFolder = pwd;
@@ -174,7 +169,7 @@ toc
 
         %% (6-28-19, PSB) Modifying to include ratio to PGA when T_new is entered as 0.00
         if abs(T_new) < 0.001 % essentially, zero
-            cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+            cd(fullfile(fileparts(mfilename('fullpath')), '..', '..', 'OpenSeesProcessingFiles', 'EQ_Spectra_Saved'))   % ida-spo-msa\OpenSeesProcessingFiles
             respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
             load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
 
@@ -184,15 +179,14 @@ toc
             SaT_old = SaAbs(timePIndexOld, dampRatIndex);
 
             % % find the PGA value (essentially, SaT_new)
-            cd C:\OpenSeesProcessingFiles\EQs
+            cd(fullfile(fileparts(mfilename('fullpath')), '..', '..', 'OpenSeesProcessingFiles', 'EQs'))   % ida-spo-msa\OpenSeesProcessingFiles
             timeHistoryFile = sprintf('SortedEQFile_(%i).txt', eqNumber);
             accnArray = load(timeHistoryFile);
             SaT_new = max(abs(min(accnArray)), abs(max(accnArray)));
             saRatNewToOld = SaT_new/SaT_old;
 
         else
-            cd C:\Users\sks\OpenSeesProcessingFiles\EQ_Spectra_Saved
-            % cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+            cd(fullfile(fileparts(mfilename('fullpath')), '..', '..', 'OpenSeesProcessingFiles', 'EQ_Spectra_Saved'))   % ida-spo-msa\OpenSeesProcessingFiles
             respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
             load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
 

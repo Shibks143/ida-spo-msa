@@ -10,9 +10,7 @@ fitModelLIST =         PHRInputs.fitModelLIST;
 
 fitModel = fitModelLIST{1,2};
 if numel(T1LIST) ~= numel(bldgIDLIST)
-    error(['Number of Ti values for Intensity measure, SaTi (= %i) ', ...
-        'does not match number of buildings (= %i).'], ...
-        numel(T1LIST), numel(bldgIDLIST));
+    error(['Number of Ti values for Intensity measure, SaTi (= %i) ', 'does not match number of buildings (= %i).'], numel(T1LIST), numel(bldgIDLIST));
 end
 
 
@@ -35,12 +33,12 @@ imOrAfeBound = 1; % 1*ones(1, 4); % no bound (=0); bound over IM (= 1); bound ov
 % upperBoundLIST = [5, 5, 2.70, 1.91, 1.31, 3.23, 2.41, 1.70]; % SaTa_Max for Ta = {0.37, 0.61, 0.91} in zone- {IV, V}.
 
 % SaTogm- (unb, lb, and lub) unbounded, lower-bounded, lower-and-upper bounded
-lowerBoundLIST = [0.01, 99, 99*ones(1, 6)]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis,% boundRangeInp = [99, 5.0]; % lower and upper bound; 
-upperBoundLIST = [5, 5, 0.77, 0.71, 0.62, 1.16, 1.23, 1.21]; % SaTogm_Max for Togm = {1.44, 1.56, 1.87} in zone-IV; Togm = {1.15, 1.57, 1.64} in zone-V;
+% lowerBoundLIST = [0.01, 99, 99*ones(1, 6)]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis,% boundRangeInp = [99, 5.0]; % lower and upper bound; 
+% upperBoundLIST = [5, 5, 0.77, 0.71, 0.62, 1.16, 1.23, 1.21]; % SaTogm_Max for Togm = {1.44, 1.56, 1.87} in zone-IV; Togm = {1.15, 1.57, 1.64} in zone-V;
 
 % (unb and lb cases)
-% lowerBoundLIST = [0.01, 99]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
-% upperBoundLIST = [5, 5]; 
+lowerBoundLIST = [0.01, 99]; % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
+upperBoundLIST = [5, 5]; 
 
 % (lub for zone-IV)
 % lowerBoundLIST = 99*ones(1, 3); % 99, to indicate that lowerBound is taken as the minimum im Value from fragility analysis
@@ -86,8 +84,9 @@ if size(lowerBoundLIST, 2) == size(upperBoundLIST, 2)
 end
 disp(tableWithAllInfo)
 boundRangeTiled = kron([lowerBoundLIST', upperBoundLIST'], ones(size(bldgIDLIST'))); % boundRangeTiled = repmat(boundRange, size(bldgIDLIST'));
-tableBrief = [tableBrief; table(tableWithAllInfo.BuildingID, tableWithAllInfo.IM, boundRangeTiled, tableWithAllInfo.H_475, tableWithAllInfo.H_2475, tableWithAllInfo.lambda_RCR_in_pc, tableWithAllInfo.lambda_DS4, tableWithAllInfo.lambda_DS1)];
-tableBrief.Properties.VariableNames = {'BldgID', 'IM', 'im_bound', 'H475', 'H2475', 'EAL_in_pc', 'lambda_coll', 'lambda_IO'};
+% tableBrief = [tableBrief; table(tableWithAllInfo.BuildingID, tableWithAllInfo.IM, boundRangeTiled, tableWithAllInfo.H_475, tableWithAllInfo.H_2475, tableWithAllInfo.lambda_RCR_in_pc, tableWithAllInfo.lambda_DS4, tableWithAllInfo.lambda_DS1)];
+tableBrief = [tableBrief; table(tableWithAllInfo.BuildingID, tableWithAllInfo.IM, boundRangeTiled, tableWithAllInfo.H_475, tableWithAllInfo.H_2475, tableWithAllInfo.('lambda_RCR (x10^-4 /yr)'), tableWithAllInfo.lambda_DS4, tableWithAllInfo.lambda_DS1)];
+tableBrief.Properties.VariableNames = {'BldgID', 'IM', 'im_bound', 'H475', 'H2475', 'EAL (x10^-4 /yr)', 'lambda_coll', 'lambda_IO'}; % EAL as ratio of replacement cost: Example: 4.734 -> 4.734e-4 per year (0.047 %/yr)
 disp(tableBrief)
 
 toc

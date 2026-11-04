@@ -1,6 +1,6 @@
 function [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBetaRTR_CTRL, imMin] = extractFragilityForDS_DayalaEtAl_v1(BldgId, GMsuiteName, eqLIST, damageState, T_new)
 %% inputs
-clc; tic
+tic 
 % damageState = 'DS4'; % DS1 Damage Limitation (Slight Damage) Operationability
 %                      % DS2 Significant Damage (Moderate Damage). Most critical column exceeds 75% of the ultimate rotation.
 %                          % DS2_normalizedByThetaU (based on chi) 

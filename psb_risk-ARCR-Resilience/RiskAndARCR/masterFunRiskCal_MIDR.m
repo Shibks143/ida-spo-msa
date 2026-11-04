@@ -61,7 +61,7 @@ if size(zoneOfLocLIST, 1) ~= size(latLonLIST, 1)
 end
     
 %  1a. inputs for extracting  hazard 
-doPlot = 1; 
+doPlot = 0; 
 plotType = 'loglog'; %'semilog'; 'loglog, 'linear'
 imTypeForPlot = imType; 
 locationLISTforPlot = {locName}; % also selects the site in hazard_20260818.mat
@@ -137,8 +137,8 @@ for locID = 1:size(latLonLIST, 1)
         % written, MIDR_input structure would need to be passed to this
         % function.
 
-        inputDir = fullfile(baseFolder,'Input from Raghukanth');
-        % 1a. extract hazard curve data (10-point-curve) from Raghukanth's file (received on Jan 11, 2020)
+        inputDir = fullfile(baseFolder, '..', '..', 'HazardAnalysis', 'gm-selection', '2020_NBC_MyCopy_new-main', 'Input from Raghukanth');
+        % 1a. extract hazard curve data (10-point-curve) from Raghukanth's file (received on Aug 18, 2026)
         switch imType
             case 'PGA'
                 T1_im = 0; % T1 for the im 
@@ -152,10 +152,11 @@ for locID = 1:size(latLonLIST, 1)
         end
         cd(inputDir)
         hazardInputs = struct('latLon', latLonCurr, 'doPlot', doPlot, 'plotType', plotType, 'locationLISTforPlot', {locationLISTforPlot});
-        [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20260818_v2(hazardInputs, T1_im);
+        [imValLIST, afe_Sa_T1_LIST] = findHazValRaghukanth20260818_v4(hazardInputs, T1_im);
 
         %  1b. discretize each hazard curve individually
-        [imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20260818_v2(fitModel, imValLIST, afe_Sa_T1_LIST, N, doPlot, plotType, imTypeForPlot, legendName);
+        hazardInputs.fitModel = fitModel;  hazardInputs.N = N;  hazardInputs.imTypeForPlot = imTypeForPlot;  hazardInputs.legendName = legendName;
+        [imValDisc, afeDisc, ~] = returnHazCurveRaghukanth20200111_v2(hazardInputs, imValLIST, afe_Sa_T1_LIST);
         cd(baseFolder)
       
         

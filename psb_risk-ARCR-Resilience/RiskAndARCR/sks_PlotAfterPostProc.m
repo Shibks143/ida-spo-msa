@@ -21,7 +21,7 @@ eqNumberLIST = eqNumberLIST1(1, :);
 for k = 1:size(LimitStateValLIST, 2)
     LimitStateVal = LimitStateValLIST(1, k);
     for i = 1:size(bldgIDLIST, 2)
-        clc; fprintf('Processing chi- %i/%i, building- %i/%i...\n', k, size(LimitStateValLIST, 2), i, size(bldgIDLIST, 2));
+        fprintf('Processing chi- %i/%i, building- %i/%i...\n', k, size(LimitStateValLIST, 2), i, size(bldgIDLIST, 2));
         bldgID_curr = bldgIDLIST{1, i}; % current building ID
 
 

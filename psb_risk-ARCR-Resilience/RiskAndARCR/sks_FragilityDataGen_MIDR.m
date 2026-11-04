@@ -33,10 +33,11 @@ saveDir = fullfile(baseFolder,'DATA_files');
 if ~exist(saveDir,'dir')
     mkdir(saveDir);
 end
-fragDataFileName = sprintf('DATA_fragility_%s_%s_%s', ...
-    damageMeasure, intensityMeasureType, BldgId);
-
-% fragDataFileName = sprintf('DATA_fragility_%s_%s', damageMeasure, intensityMeasureType);
+if isSinglePeriodAnalysis
+    fragDataFileName = sprintf('DATA_fragility_%s_%s_%s', damageMeasure, intensityMeasureType, BldgId);   % single period: Sa(T1), Sa(Ta), Sa(Togm) or PGA
+else
+    fragDataFileName = sprintf('DATA_fragility_%s_SaTj_%s', damageMeasure, BldgId);                       % multi-period: Sa(Tj) for all Tj in timePLIST
+end
 
 count = 0;
 totalNumRuns = size(BldgIdAndZoneLIST, 1)*size(timePLIST, 2)*size(dsLIST, 2);
