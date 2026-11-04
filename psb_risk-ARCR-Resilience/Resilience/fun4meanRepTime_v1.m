@@ -126,4 +126,4 @@ for j = 1:length(IMvalList)
     meanRepairTime(j) = ProbLS * meanRepTime;
     repairTimeAllData(:, j) = ProbLS * repTime;
 end
-x = 1;
+

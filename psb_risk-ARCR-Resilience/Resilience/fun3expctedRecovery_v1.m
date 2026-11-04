@@ -1,15 +1,5 @@
 function [timeArray, expectedHousingFunction, meanExpectedHousingFunction, meanHousingCapacityMatrix] = fun3expctedRecovery_v1(meanSa, sigmaLn, IMvalList, numStories)
 
-% buildingID = '1610v01';
-% switch buildingID
-%     case '1610v01'
-%         meanSa = [0.11, 0.22, 0.33, 0.38, 0.52];
-%         sigmaLn = [0.37, 0.43, 0.49, 0.48, 0.54];
-% end
-% plotStyle = {'r-', 'b--', 'g-.', 'k:', 'm-', 'y--'};
-
-% minValue = 0; maxValue = 0.8;
-
 % [~, meanHousingCapacityMatrix_LS0] = fun2housingCapacity_v1(0, 0);
 [~, meanHousingCapacityMatrix_LS0] = fun2housingCapacity_v1(0, numStories); % assigned to the matrix later on.
 meanHousingCapacityMatrix = zeros(6, length(meanHousingCapacityMatrix_LS0)); % 6 recovery paths. Fig. 5 (Burton et al., 2015).
@@ -43,7 +33,7 @@ for j = 1:length(IMvalList)
     
     i = 1:5; PoE(i) = logncdf(IMval, log(meanSa(i)), sigmaLn(i));
     
-    % probability that the bldg is in he ith Limit state for a given IMval
+    % probability that the bldg is in the ith Limit state for a given IMval
     ProbLS(1) = 1 - PoE(1);
     ProbLS(2) = PoE(1) - PoE(2); ProbLS(3) = PoE(2) - PoE(3);
     ProbLS(4) = PoE(3) - PoE(4); ProbLS(5) = PoE(4) - PoE(5);

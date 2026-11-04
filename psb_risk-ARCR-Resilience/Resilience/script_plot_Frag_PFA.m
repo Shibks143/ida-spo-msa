@@ -7,7 +7,8 @@ modelNameLIST = {'ID46053_R5_5Story_v.02'};
 
 PFA_threshold_Frag = [1.17, 1.58, 1.82]; %, 1.5, 2.6, 1.5, 2.25, 1.1, 2.4, 1.2, 2.4]; % g
 Sa_MCE = 0.80;              % MCE Sa(T1 = 1.36 s) for 46053 (same estimate as the master script); normalizes the fragility plot; need to work on this later 24-oct-2026
-figDir = fullfile(baseFolder, 'figures_resCombined_M7.3_R30_R2_RESUnc');
+figDir = fullfile(baseFolder, 'Output_Res', 'figures_PFA');   % PFA (nonstructural) fragility outputs
+% figDir = fullfile(baseFolder, 'figures_resCombined_M7.3_R30_R2_RESUnc');
 colors = [0.00 0.00 1.00; 1.00 0.00 1.00; 0.00 0.00 0.00; 1.00 0.00 0.00; 0.50 0.50 0.50];   % LS 1-5 (or model 1-5): blue, magenta, black, red, gray
 plotStyle = {'-', '-', '-', '-', '-'};          % line style only; colour from colors(LS or model, :)
 saveIDA = 1; saveFrag = 1;
