@@ -1,16 +1,51 @@
+#Ignore the following folders/files
+#Prepared by Shivakumar K S, updated on 04-11-2026
+
+
+# Models generated folders
+Models/ID46053_R5_5Story_v.02/model_*/
+Models/ID35053_R5_5Story_v.02/model_*/
+Models/ID2433_R5_5Story_v.02/model_*/
+Models/psb_Sensitivity_Analysis/sens_*/
+Models/VBA_MODEL_FILES/
+Models/others
+
+# Output generated folders
 Output/
-Output-main/
+Output_main/
 _superseded/
 DesignModels/
+
+# Ground motions (EQs & Spectrasaved)
 OpenSeesProcessingFiles/
 
+
 # Hazard analysis generated folders
+HazardAnalysis/_additionalNotes/
+HazardAnalysis/_superseded/
 HazardAnalysis/CS_Selection/
 HazardAnalysis/GM_Comparative/
 HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Database/KiK_NET_meta_data_surface.mat
 HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Database/NGA_W2_meta_data.mat
+HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Input from Raghukanth/_superseded/
+HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Input from Raghukanth/DATA_files/
+HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Input from Raghukanth/hazardCurves/
 
-ResilienceModule/
+
+# psb_risk-ARCR-Resilience generated folders
+psb_risk-ARCR-Resilience/Resilience/_superseded/
+psb_risk-ARCR-Resilience/Resilience/Output_Res/
+psb_risk-ARCR-Resilience/Resilience/DATA_files/
+psb_risk-ARCR-Resilience/RiskAndARCR/_additionalCodes/
+psb_risk-ARCR-Resilience/RiskAndARCR/_superseded/
+psb_risk-ARCR-Resilience/RiskAndARCR/conferencePaper/
+psb_risk-ARCR-Resilience/RiskAndARCR/DATA_files/
+psb_risk-ARCR-Resilience/RiskAndARCR/FIGURES_revB_C/
+psb_risk-ARCR-Resilience/RiskAndARCR/Output_Risk/
+psb_risk-ARCR-Resilience/RiskAndARCR/*.mat
+
+
+resilienceModule/
 randomPractice/
 masterCopy.xlsx
 
