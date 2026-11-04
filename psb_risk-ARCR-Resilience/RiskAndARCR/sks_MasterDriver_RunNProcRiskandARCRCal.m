@@ -27,7 +27,7 @@ BldgIdLIST = BldgIdAndZoneLIST(:,1);
 % BldgId = regexp(BldgIdLIST{1}, '^\d+', 'match', 'once');
 BldgId = BldgIdLIST{1};
 
-MIDR_or_PHR = 'MIDR'; %'MIDR'; 'PHR'; % later on, maybe extended to include DI-based limits
+MIDR_or_PHR = 'MIDR'; %'MIDR'; 'PHR';     % later on, maybe extended to include DI-based limits
 
 eqListID = 'setC';
 % eqListID = 'setD' ;
@@ -45,7 +45,7 @@ switch eqListID
     case 'setC'
         % ATC-63 Ground Motion Set C (Far-Field)SetTest
         eqNumberLIST = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
-        eqFormatForCollapseList_SetC = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
+        eqFormatForCollapseList_SetC = 'PEER-NGA_geoMean';      % This is the type of these records, and this is saying to scale them by Sa,geoMean
         flagForEQFileFormat_SetC = 2;                           % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
         MIDRInputs.GMsuiteName = 'GMSetC';
 
@@ -67,12 +67,12 @@ switch eqListID
         % ATC-63 Ground Motion Set G (Near-Field)
         eqNumberLIST = [8201811	8201812	8201821	8201822	8202921	8202922	8207231	8207232	8208021	8208022	8208211	8208212	8208281	8208282	8208791	8208792	8210631	8210632	8210861	8210862	8211651	8211652	8215031	8215032	8215291	8215292	8216051	8216052	8201261	8201262	8201601	8201602	8201651	8201652	8204951	8204952	8204961	8204962	8207411	8207412	8207531	8207532	8208251	8208252	8210041	8210042	8210481	8210482	8211761	8211762	8215041	8215042	8215171	8215172	8221141	8221142];
         eqFormatForCollapseList_SetG = 'PEER-NGA_Rotated_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
-        flagForEQFileFormat_SetG = 2;                           % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
+        flagForEQFileFormat_SetG = 2;                               % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
         MIDRInputs.GMsuiteName = 'GMSetG';
 
     case 'setTest'
         % Test GM set
-        eqNumberLIST =  [120121, 120122,	121221, 121222]; % replaced last 2 GMs by EQs of shorter duration
+        eqNumberLIST =  [120121, 120122,	121221, 121222];   % replaced last 2 GMs by EQs of shorter duration
         eqFormatForCollapseList_SetTest = 'PEER-NGA_geoMean';  % This is the type of these records, and this is saying to scale them by Sa,geoMean
         flagForEQFileFormat_SetTest = 2;                       % 1 for scaling to Sa,component and 2 for scaling to Sa,geoMean
         MIDRInputs.GMsuiteName = 'GMSetTest';
@@ -102,28 +102,28 @@ latLonLIST = [ % input depending on the site (lat, lon)
     %     27.10   92.10; % an arbitrary grid point near Arunachal border
     ];
 locName = 'Guwahati';
-zoneOfLocLIST = {'V'}; % {'VI_proposed';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST
-imScaleFac = 1; % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
+zoneOfLocLIST = {'V'};     % {'VI_proposed';}; % {'III'; 'IV'; 'V'; 'VI'}; % size of this input must match with the size of the latLonLIST
+imScaleFac = 1;            % this is an optional variable; used for paramteric study to see the impact of hazard variation on risk
 impFacLIST = 0;
 
 
 %% Hazard-Specific Inputs
 fitModelLIST =  {'2param', '3param'}; %{'3param'};  Basically, k0*a^(-k) OR k0*exp[-k2*ln^2(a) - k1*ln(a)] the hazard fitting parameter
 % fitModel = fitModelLIST{2};
-NLIST = 21; % [11, 21, 51]; % number of points between consecutive imValLIST values
-codeIdealizedHazData = 0; % 1, the program uses code-idealized hazard using two-parameter model based on DBE and MCE values (% 0 = PSHA hazard, 1 = code-idealized)
+NLIST = 21; % [11, 21, 51];           % number of points between consecutive imValLIST values
+codeIdealizedHazData = 0;             % 1, the program uses code-idealized hazard using two-parameter model based on DBE and MCE values (% 0 = PSHA hazard, 1 = code-idealized)
 
 
 %% Building-Specific Inputs
-timePLIST = [0,0.04:0.01:5]; % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
-T1LIST = [1.56]'; % (eigenvalue analysis) geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
-TaLIST = [0.71]; % (approximate period as per code)
-TogmLIST =  [1.48]'; % (obtained from IM_efficiency) (optimization across timePLIST) and to be passed on to seismic risk calculation
-isSinglePeriodAnalysis = true ; %false; %true;
+timePLIST = [0,0.04:0.01:5];      % skipping 0.01, 0.02, and 0.03 because several response spectra has Inf for these periods
+T1LIST = [1.56]';                 % (eigenvalue analysis) geoM_Topt2 (<= 2sec), % Select list of period T1 for Intensity measure, Sa(T1), corresponding to each building
+TaLIST = [0.71];                  % (approximate period as per code)
+TogmLIST =  [1.48]';              % (obtained from IM_efficiency) (optimization across timePLIST) and to be passed on to seismic risk calculation
+isSinglePeriodAnalysis = true ;   %false; %true;
 
 
 %  %Intensity Measure Selection;
-intensityMeasureType = 'SaT1'; % Options:'PGA', 'SaTa', 'SaT1', 'SaTogm'
+intensityMeasureType = 'SaT1';   % Options:'PGA', 'SaTa', 'SaT1', 'SaTogm'
 switch intensityMeasureType
     case 'PGA'
         imTypeLIST = {'PGA'};
@@ -172,7 +172,7 @@ end
 deltaYieldBasisFlag = 'ASCE41'; % options: 'ASCE41', 'FEMAP695'
 switch deltaYieldBasisFlag
     case 'ASCE41'
-        deltaYieldBasis = 'deltaYieldBasedOnASCE41'; % idealizing trilinear pushover curve as per ASCE 41-13 section 7.4.3.2.4 which in turn refers to FEMA 440 section 4.3
+        deltaYieldBasis = 'deltaYieldBasedOnASCE41';   % idealizing trilinear pushover curve as per ASCE 41-13 section 7.4.3.2.4 which in turn refers to FEMA 440 section 4.3
     case 'FEMAP695'
         deltaYieldBasis = 'deltaYieldBasedOnFEMAP695'; % delta Yield Effective as per FEMA P 695 Figure 6-5
     otherwise
@@ -183,17 +183,17 @@ end
 chi_LimitStateDS2 = 0.75; % for DS2, limit over chi, the ratio of max rotation to ultimate rotation capacity, chi = rotation Ratio = thetaM/thetaU
 
 % PHR DS2-DS3 Inputs
-% LimitStateValLIST = [0.75, 0.60, 0.50, 0.40]; % for DS2, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap)
-% LimitStateValLIST = [1.0]; % for DS3, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap)
+% LimitStateValLIST = [0.75, 0.60, 0.50, 0.40];    % for DS2, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap)
+% LimitStateValLIST = [1.0];                       % for DS3, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap)
 LimitStateValLIST = [1.0, 0.75, 0.60, 0.50, 0.40]; % DS2-DS3, limit over chi (thetaM / thetaU), or xi (thetaM / thetaCap)
-executeProcessingStep = 1; % set this to 1, if we are interested in processing the analysis data for finding out chi, xi, etc.
-executePrintAndSaveStep = 1; % set this to 1, if we are interested in printing the fragility results
-executeHistogramStep = 1; % set this to 1, if we are interested in histogram for distribution of critical column ID
-% chi_LimitState = 0.75; % merely to decide the controlling component
+executeProcessingStep = 1;                         % set this to 1, if we are interested in processing the analysis data for finding out chi, xi, etc.
+executePrintAndSaveStep = 1;                       % set this to 1, if we are interested in printing the fragility results
+executeHistogramStep = 1;                          % set this to 1, if we are interested in histogram for distribution of critical column ID
+% chi_LimitState = 0.75;                           % merely to decide the controlling component
 
 
 % PHR DS4 Inputs
-storyDriftLIST= [0.00, 0.04, 0.02, 0.01]; % (values in fraction). 0.00 indicates sidesway collapse (dynamic instability)
+storyDriftLIST= [0.00, 0.04, 0.02, 0.01];         % (values in fraction). 0.00 indicates sidesway collapse (dynamic instability)
 
 %IM efficiency PHR %%%%%%%%%%%
 dsToPlotFragParam = {'DS4', 'DS3_normalizedByThetaCap', 'DS2a_0p50_normalizedByThetaCap', 'DS1'};
