@@ -1,7 +1,7 @@
 clear;
 tic
 baseFolder = pwd;
-cd ..\..\..\..\psb_MatlabProcessors
+cd(fullfile('..', '..', '..', '..', 'psb_MatlabProcessors'));
 addpath(pwd)
 cd(baseFolder)
 
@@ -236,9 +236,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if runHazardIndex(5) == 1
-    hazardInputs.locNames = {locName, locName2};                % NEW: two locations
+    hazardInputs.locNames = {locName, locName2};                 % NEW: two locations
     hazardInputs.latLons = {latLon, latLon2};                    % NEW: latLon per location, matching locNames order
-    hazardInputs.returnPeriods_UHS = 475;  %[475, 2475];     % NEW: restrict UHS to these two Tr
+    hazardInputs.returnPeriods_UHS = 475;  %[475, 2475];         % NEW: restrict UHS to these two Tr
     [periodsForUHS, UHS_Sa_ALL, UHS_Table_ALL, T_H, Sa_IS_LIST] = sks_UHS_ISResponse_combined_v1(hazardInputs);
 end
 

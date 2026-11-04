@@ -278,7 +278,18 @@ for sensModelIndex = 1:length(sensModelLIST)
                 %     cd(specificSensFolderForSeparateEqs)
                 % end
 
-                myFileStream = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+                [myFileStream, fopenMsg] = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+
+                % myFileStream = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+
+                nTry = 0;
+                while myFileStream < 0 && nTry < 20                                            % file briefly locked (indexer / antivirus): wait and retry, up to 10 s
+                    pause(0.5);  nTry = nTry + 1;
+                    [myFileStream, fopenMsg] = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+                end
+                if myFileStream < 0 
+                    error('fopen failed in %s: %s', pwd, fopenMsg); 
+                end
 
                 % Make all of the strings to write to the file
                 fprintf(myFileStream, '# This file was created by the MATLAB function (WriteVariablesToFileForOpensees.m), for a single collapse\n');
@@ -668,8 +679,20 @@ for sensModelIndex = 1:length(sensModelLIST)
                 cd(specificSensFolderForSeparateEqs)
                 disp(pwd)
 
-                myFileStream = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+                [myFileStream, fopenMsg] = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+               
+                % myFileStream = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
 
+                nTry = 0;
+                while myFileStream < 0 && nTry < 20                                            % file briefly locked (indexer / antivirus): wait and retry, up to 10 s
+                    pause(0.5);  nTry = nTry + 1;
+                    [myFileStream, fopenMsg] = fopen('psb_VarDefinitionsFromMATLAB.tcl', 'w'); % 'w' discards the existing content and starts writing (doesn't append), which is what we want (10-29-15, PSB)
+                end
+                if myFileStream < 0 
+                    error('fopen failed in %s: %s', pwd, fopenMsg); 
+                end
+
+               
                 % Make all of the strings to write to the file
                 fprintf(myFileStream, '# This file was created by the MATLAB function (WriteVariablesToFileForOpensees.m), for a single collapse\n');
                 fprintf(myFileStream, '#     run, so that Opensees can read the file and define the needed variables\n');

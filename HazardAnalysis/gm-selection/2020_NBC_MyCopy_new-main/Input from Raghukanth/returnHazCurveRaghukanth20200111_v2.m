@@ -20,19 +20,19 @@ plotType      = hazardInputs.plotType;
 imTypeForPlot = hazardInputs.imTypeForPlot;
 legendName    = hazardInputs.legendName;
 
-narginchk(3, 8)
-switch nargin
-    case 3
-        N = 21; doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'im'; legendName = {};
-    case 4
-        doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'im'; legendName = {};
-    case 5
-        plotType = 'semilog'; imTypeForPlot = 'im'; legendName = {};
-    case 6
-        imTypeForPlot = 'im'; legendName = {};
-    case 7
-        legendName = {};
-end
+% % narginchk(3, 8)
+% % switch nargin
+% %     case 3
+% %         N = 21; doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'im'; legendName = {};
+% %     case 4
+% %         doPlot = 0; plotType = 'semilog'; imTypeForPlot = 'im'; legendName = {};
+% %     case 5
+% %         plotType = 'semilog'; imTypeForPlot = 'im'; legendName = {};
+% %     case 6
+% %         imTypeForPlot = 'im'; legendName = {};
+% %     case 7
+% %         legendName = {};
+% % end
    
 %% Step 1 (fit a set of piecewise curves)
 % For two-parameter model k0*a^(-k), find all (k0, k) for (n-1) intervals 

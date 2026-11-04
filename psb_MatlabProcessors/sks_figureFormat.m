@@ -112,75 +112,16 @@ end
 %     set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','southeast');
 % end
 
-hleg = findobj(fig,'Type','Legend');
+% -------- Legend Formatting -----------------------
+hleg = findobj(fig, 'Type', 'Legend');
 if ~isempty(hleg)
-    numEntries = numel(hleg.String);
-    numCols = 1 + (numEntries > 10);   % 2 cols if more than 10 entries
-    set(hleg, 'FontSize', legendTextFontSize, ...
-        'Interpreter', 'latex', ...
-        'Box', 'on', ...
-        'LineWidth', 0.5, ...
-        'Location', 'northeast', ...
-        'NumColumns', numCols);
+    for iLeg = 1:numel(hleg)
+        leg = hleg(iLeg);
+        numEntries = numel(leg.String);
+        numCols = 1 + (numEntries > 10);   % 2 cols if more than 10 entries
+        set(leg, 'FontSize', legendTextFontSize, 'Interpreter', 'latex', 'Box', 'on', 'LineWidth', 0.5, 'Location', 'northeast', 'NumColumns', numCols);
+    end
 end
-
-
-
-
-
-
-
-% 
-% % -------- Get Handles -----------------------------
-% fig = gcf;
-% ax  = gca;
-% 
-% % -------- Axes Base Formatting --------------------
-% set(ax,'FontName','Times New Roman','FontSize',axisNumberFontSize,'LineWidth',axisLineWidth,'TickDir','in','TickLength',[0.005 0.005],'Box','on');
-% grid(ax,'on')
-% ax.GridAlpha = 0.1;        % 0.2 can be used 
-% ax.GridLineWidth = 0.25;   % 0.5 by default but for thinner grid lines, it is 0.25
-% 
-% 
-% % This is only for loglog plots----------------------
-% % grid(ax,'minor')
-% % ax.MinorGridAlpha = 0.10;
-% % ax.XMinorTick = 'on';
-% % ax.YMinorTick = 'on';
-% % ax.XMinorGrid = 'on';
-% % ax.YMinorGrid = 'on';
-% % end of this is only for loglog plots, otherwise use below off condition--------------
-% 
-% ax.XMinorTick = 'off';
-% ax.YMinorTick = 'off';
-% ax.XMinorGrid = 'off';
-% ax.YMinorGrid = 'off';
-% 
-% % -------- X Label ---------------------------------
-% if isgraphics(ax.XLabel)
-%     set(ax.XLabel,'FontSize',xAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
-% end
-% 
-% % -------- Y Label ---------------------------------
-% if isgraphics(ax.YLabel)
-%     set(ax.YLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
-% end
-% 
-% % -------- Z Label --------------------------------- c
-% if isgraphics(ax.ZLabel)
-%     set(ax.ZLabel,'FontSize',yAxisLabelFontSize,'FontWeight','normal','Interpreter','latex');
-% end
-% 
-% % -------- Title -----------------------------------
-% if isgraphics(ax.Title)
-%     set(ax.Title,'FontSize',titleFontSize,'Interpreter','latex');
-% end
-% 
-% % -------- Legend ----------------------------------
-% hleg = findobj(fig,'Type','Legend');
-% if ~isempty(hleg)
-%     set(hleg,'FontSize',legendTextFontSize,'Interpreter','latex','Box','on','LineWidth',0.5,'Location','northeast');
-% end
 
 
 % -------- All text() objects ----------------------

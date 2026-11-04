@@ -8,12 +8,10 @@ function sks_figureExport(exportName)
 fig = gcf;   % Current figure handle
 
 disp('----- sks_figureExport -----')
-disp(fig)
-
+% disp(fig)
     if isempty(fig)
         error('gcf returned empty');
     end
-    
     if ~isgraphics(fig,'figure')
         error('gcf is not a valid figure handle');
     end
@@ -35,7 +33,8 @@ set(fig,'PaperPositionMode','auto');
 savefig(fig, [exportName '.fig']);
 
 % ---- EPS (Journal-quality vector) ----
-print(fig, [exportName '.eps'], '-depsc2', '-painters');
+exportgraphics(fig, [exportName '.eps'], 'ContentType', 'vector');
+% print(fig, [exportName '.eps'], '-depsc2', '-painters');
 
 % ---- PDF (Journal-quality vector) ----
 % print(fig, [exportName '.pdf'], '-dpdf', '-painters');

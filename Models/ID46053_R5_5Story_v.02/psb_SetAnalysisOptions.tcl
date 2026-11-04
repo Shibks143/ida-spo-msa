@@ -163,8 +163,8 @@
 		set defineHystHingeRecorders 1;
 	} else {
 		set onlyDefineLimitedRecForVariations 1;  # Limited recorders for IDA/MSA
-		set defineJointRecorders 0
-		set defineHystHingeRecorders 0;
+		set defineJointRecorders 1;               # needed for PHR DS2/DS3 (column joint rotations)
+		set defineHystHingeRecorders 1;           # needed for PHR DS2/DS3 (base column hinges)
 	}
 	puts "CHECK: analysisMode = $analysisMode"
 	puts "CHECK: onlyDefineLimitedRecForVariations = $onlyDefineLimitedRecForVariations"

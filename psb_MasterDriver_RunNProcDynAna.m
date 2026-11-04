@@ -41,10 +41,10 @@ end
     analysisTypeLIST = {'(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
 % analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
     % analysisTypeLIST = {'(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
-    analysisType = analysisTypeLIST{1};         % Just renaming variable and changing variable format for some of the processors
+    analysisType = analysisTypeLIST{1};                                     % Just renaming variable and changing variable format for some of the processors
      modelNameLIST = {'ID35053_R5_5Story_v.02'};
     % modelNameLIST = {'ID46053_R5_5Story_v.02'};
-    sensModelLIST = modelNameLIST;              % Just another variable name for a different processor
+    sensModelLIST = modelNameLIST;              
 
     bldgID = 35053;
     % bldgID =46053;
@@ -56,12 +56,12 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 1.56;   % Note 1) input the proper period for scaling the ground motions for the building you would 
-                                                % like to run (haselton
-                                                % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
-                                                % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
-                                                % plots to do not use this as input; they open the files that Opensees creates 
-                                                %(value will be same as this)
+    periodUsedForScalingGroundMotions = 1.56;                               % Note 1) input the proper period for scaling the ground motions for the building you would 
+                                                                            % like to run (haselton
+                                                                            % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
+                                                                            % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
+                                                                            % plots to do not use this as input; they open the files that Opensees creates 
+                                                                            %(value will be same as this)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,61 +89,68 @@ IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                         
-	extraSecondsToRunAnalysis = 5.00;   % (11-3-15, PSB) extra (5 or any) seconds added to the time history duration for extracting residual drift in the structure.
-                                        % can as well be kept zero if conventional collapse analysis is being performed. 
+	extraSecondsToRunAnalysis = 5.00;                                       % (11-3-15, PSB) extra (5 or any) seconds added to the time history duration for extracting residual drift in the structure.
+                                                                            % can as well be kept zero if conventional collapse analysis is being performed. 
                                                 
-    dampingRatioUsedForSaDef = 0.05;    % This is always 5%.  This is sent to Opensees and used for the analysis.
-    minStoryDriftRatioForCollapseMATLAB = 0.12;             % Value above which record is considered collapsed (used when 
-                                                                             % IDA was run); increased from 0.12 on 7-26-06 for the purpose
-                                                                             % of making the collapse mode plots better.
-    collapseDriftThreshold = 0.04;                                           % Just another naming used by a different processor 
+    dampingRatioUsedForSaDef = 0.05;                                        % This is always 5%.  This is sent to Opensees and used for the analysis.
 
-    minStoryResidualDriftRatioMATLAB = 0.01;                        % Use either 0.5 or 1% for residual drift ratio
-    
-    
-    midrLevels      = [0.01 0.02 0.04 0.08];                        % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
-    midrLevelLabels = {'IO','LS','CP','Coll'};
-    rdrLevels       = [0.002 0.005 0.01 0.02];                      % 0.2%, 0.5%, 1%, 2% (Max Interstory Residual Drift Ratio):Ref FEMA P-58, appendix C
-    rdrLevelLabels  = {'DS1','DS2','DS3','DS4'};
-    pfaLevels       = [0.2 0.5 1.0 2.0];                            % g is the unit
-    pfaLevelLabels  = {'DS1','DS2','DS3','DS4'};
+   
+    minStoryDriftRatioForCollapseMATLAB = 0.12;                             % OpenSees (IDA and MSA): Value above which record is considered collapsed (isCollapsed = 1) and stopped above this drift. 
+                                                                            % increased from 0.12 on 7-26-06 for the purpose of making the collapse mode plots better.
+    switch IDA_or_MSA
+        case 'IDA'
+            collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % IDA: collapse Sa = midpoint of Sa levels around this drift; % Just another naming used by a different processor
+        case 'MSA'
+            collapseDriftThreshold = 0.04;                                  % MSA: plot only - separation line / red-blue split at 4%;
+    end                                                                     % saved collapses and MLE collapse fragility use the OpenSees flag (12%)
 
-    dataSavingOption = 2;                                           % Decide what data files to save (1 - save all data; 2 - save 
-                                                                    % reduced amount of data; 3 - save both of the above files)
+
+    minStoryResidualDriftRatioMATLAB = 0.01;                                % Use either 0.5 or 1% for residual drift ratio
+            
+            
+    midrLevels      = [0.01 0.02 0.04 0.08];                                % IO, LS, CP, Collapse (Max Interstory Drift Ratio)
+    midrLevelLabels = {'IO','LS','CP','Coll'};      
+    rdrLevels       = [0.002 0.005 0.01 0.02];                              % 0.2%, 0.5%, 1%, 2% (Max Interstory Residual Drift Ratio):Ref FEMA P-58, appendix C
+    rdrLevelLabels  = {'DS1','DS2','DS3','DS4'};        
+    pfaLevels       = [0.2 0.5 1.0 2.0];                                    % g is the unit
+    pfaLevelLabels  = {'DS1','DS2','DS3','DS4'};        
+        
+    dataSavingOption = 2;                                                   % Decide what data files to save (1 - save all data; 2 - save 
+                                                                            % reduced amount of data; 3 - save both of the above files)
     
-    lineColor = [0.5 0.5 0.5];   % gray
-    markerTypeLine = '-';        % 'b'  earlier one
-    markerTypeDot = 'o';         % 'bo' earlier one
+    lineColor = [0.5 0.5 0.5];      % gray
+    markerTypeLine = '-';           % 'b'  earlier one
+    markerTypeDot = 'o';            % 'bo' earlier one
     isPlotIndividualPoints = 1;
     formatMode = 'powerpoint';
     % Change the variable called eqTimeHistoryPreFormatted in psb_DefineVariablesAtMeanValues.tcl (now included here in MATLAB itself)
     eqTimeHistoryPreFormatted = 1; 
-                   % 1- GM TH are manually curtailed and we do not want opensees to format the ground motion.
-                   % 0- GM TH to be formatted by opensees in RunEQLoadingForCollapse procedure of psb_DefineFunctionsAndProcedures.tcl  
-                   %
-                   % NOTE- 1) When eqTimeHistoryPreFormatted is 1, it implies that the user has already 
-                   % sorted and curtailed the GM and these curtailed Ground Motion values are saved in  C:\OpenSeesProcessingFiles\EQs.
-                   % 
-                   % NOTE- 2) If new GM time history is to be included, 
-                   %   a) run the analysis with a value of 0 first, i.e. let opensees create the DtFile, SortedEQFile and NumPointsFile,
-                   %   b) use curtailGroundMotionBasedOnPGA module of prak_util_MULTIPLE_OPTIONS.m to curtail GM.
-                   %      This saves the revised SortedEQFile and NumPointsFile in C:\OpenSeesProcessingFiles\EQs,
-                   %   c) finally, run the analysis with a value of 1 i.e. with curtailed GM.
+                                    % 1- GM TH are manually curtailed and we do not want opensees to format the ground motion.
+                                    % 0- GM TH to be formatted by opensees in RunEQLoadingForCollapse procedure of psb_DefineFunctionsAndProcedures.tcl  
+                                    %
+                                    % NOTE- 1) When eqTimeHistoryPreFormatted is 1, it implies that the user has already 
+                                    % sorted and curtailed the GM and these curtailed Ground Motion values are saved in  C:\OpenSeesProcessingFiles\EQs.
+                                    % 
+                                    % NOTE- 2) If new GM time history is to be included, 
+                                    %   a) run the analysis with a value of 0 first, i.e. let opensees create the DtFile, SortedEQFile and NumPointsFile,
+                                    %   b) use curtailGroundMotionBasedOnPGA module of prak_util_MULTIPLE_OPTIONS.m to curtail GM.
+                                    %      This saves the revised SortedEQFile and NumPointsFile in C:\OpenSeesProcessingFiles\EQs,
+                                    %   c) finally, run the analysis with a value of 1 i.e. with curtailed GM.
                                    
-    dtForCollapseMATLAB = 2; % NOTE- 1) A value more than or equal to 1 implies that 
-                             % ActualDtForCollapseMATLAB = dtForTimeHistory / (theNumberGivenHere i.e. dtForCollapseMATLAB)
-                             % for ex- if dt for TH no 1, 2 and 3 are 0.01, 0.02 and 0.005 seconds then
-                             % dtForCollapseMATLAB will be 0.005 0.01 0.0025 respectively
-                             % NOTE- 2) A value less than 1 for dtForCollapseMATLAB implies it to be equal for all the EQ records
-                             % and dt used is whatever is given here. 
+    dtForCollapseMATLAB = 2;        % NOTE- 1) A value more than or equal to 1 implies that 
+                                    % ActualDtForCollapseMATLAB = dtForTimeHistory / (theNumberGivenHere i.e. dtForCollapseMATLAB)
+                                    % for ex- if dt for TH no 1, 2 and 3 are 0.01, 0.02 and 0.005 seconds then
+                                    % dtForCollapseMATLAB will be 0.005 0.01 0.0025 respectively
+                                    % NOTE- 2) A value less than 1 for dtForCollapseMATLAB implies it to be equal for all the EQ records
+                                    % and dt used is whatever is given here. 
                              
         
-    elementUsedForColSensModelMATLAB = 'clough';             % I do not think this is set up to vary
-    sensVariableNameLIST    = {'AllVar'};                    % Do mean analysis
-    sensVariableValueLIST   = 0.00;                          % Do mean analysis
-    sigmaLnModeling  = 0.15;                                 % βMDL ∈ (0.10–0.50)This is used when making the collapse CDF plots
-    sigmaLnDesignReq = 0.15;                                 % βDR  ∈ (0.10–0.50)
-    sigmaLnTestData  = 0.20;                                 % βTD  ∈ (0.10–0.50)
+    elementUsedForColSensModelMATLAB = 'clough';                            % I do not think this is set up to vary
+    sensVariableNameLIST    = {'AllVar'};                                   % Do mean analysis
+    sensVariableValueLIST   = 0.00;                                         % Do mean analysis
+    sigmaLnModeling  = 0.15;                                                % βMDL ∈ (0.10–0.50)This is used when making the collapse CDF plots
+    sigmaLnDesignReq = 0.15;                                                % βDR  ∈ (0.10–0.50)
+    sigmaLnTestData  = 0.20;                                                % βTD  ∈ (0.10–0.50)
                                          
 % Define information used for collapse analyses
     saStartLevel = 0.11;        % BE SURE that this has two significant figs!!! b/c datafile for sa is set up for the same
