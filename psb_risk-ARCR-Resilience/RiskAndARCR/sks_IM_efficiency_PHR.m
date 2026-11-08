@@ -84,7 +84,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         sks_figureFormat(formatMode)
         if saveMedianDispersionBound(1) == 1
             cd(outFolder)
-            exportName = sprintf('F7%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
+            exportName = sprintf('IMefficiency_muSaTi_%i_%s_v1', i, bldgIdCurr);        
             sks_figureExport(exportName)
             cd(baseFolder)
         end
@@ -108,7 +108,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         sks_figureFormat(formatMode)
         if saveMedianDispersionBound(2) == 1
             cd(outFolder)
-            exportName = sprintf('F7%s_IMefficiency_betaRTRSaTi_%i_%s_v1', 96+i, i, bldgIdCurr);
+            exportName = sprintf('IMefficiency_betaRTRSaTi_%i_%s_v1', i, bldgIdCurr);
             sks_figureExport(exportName)
             cd(baseFolder)            
         end
@@ -138,7 +138,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         sks_figureFormat(formatMode)
         if saveMedianDispersionBound(3) == 1
             cd(outFolder)
-            exportName = sprintf('F7%s_IMefficiency_muSaTi%s_%i_%s_v1', 96+i, dsToPlotBound{1, 1}, i, bldgIdCurr);
+            exportName = sprintf('IMefficiency_muSaTi%s_%i_%s_v1', dsToPlotBound{1, 1}, i, bldgIdCurr);
             sks_figureExport(exportName)
             cd(baseFolder)            
         end

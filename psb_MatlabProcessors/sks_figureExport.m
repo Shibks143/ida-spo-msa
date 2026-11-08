@@ -50,7 +50,7 @@ exportgraphics(fig, [exportName '.tiff'], 'Resolution', 600);
 % print(fig, [exportName '.tiff'], '-dtiff', '-r600');
 
 % ---- EMF (Word/PowerPoint vector) ----
-print(fig, [exportName '.emf'], '-dmeta');
+if ispc, print(fig, [exportName '.emf'], '-dmeta'); end   % EMF is Windows-only
 
 % ---- Close figure to free memory ----
 % close(fig);

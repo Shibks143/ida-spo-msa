@@ -3,9 +3,7 @@
 
 
 # Models generated folders
-Models/ID46053_R5_5Story_v.02/model_*/
-Models/ID35053_R5_5Story_v.02/model_*/
-Models/ID2433_R5_5Story_v.02/model_*/
+Models/ID*/model_*/
 Models/psb_Sensitivity_Analysis/sens_*/
 Models/VBA_MODEL_FILES/
 Models/others

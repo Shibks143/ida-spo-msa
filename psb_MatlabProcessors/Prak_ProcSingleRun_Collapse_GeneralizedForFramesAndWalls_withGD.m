@@ -203,7 +203,7 @@ filePrefix = sprintf('');
                                                                         
         usedNormDisplIncr = load('usedNormDisplIncrOUT.out');
         nodeNumsAtEachFloorLIST = load('nodeNumsAtEachFloorLISTOUT.out'); 
-        floorHeightsLIST = load('floorHeightListOUT.out');
+        floorHeightsLIST = load('floorHeightLISTOUT.out');
         
         % Added 6-29-06
         buildingHeight = max(floorHeightsLIST);
@@ -220,7 +220,7 @@ filePrefix = sprintf('');
 %         % This was hard-coded, b/c there was a problem with the PFA from the nodes that were originally used.
 %         nodeNumsAtEachFloorLIST = [-1, 12, 32, 52, 72];
 %         
-% %         floorHeightsLIST = load('floorHeightListOUT.out');
+% %         floorHeightsLIST = load('floorHeightLISTOUT.out');
 %         floorHeightsLIST = [0, 124.0, 286.0, 447.0, 603.0]; 
 %         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
         

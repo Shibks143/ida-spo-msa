@@ -159,7 +159,7 @@ filePrefix = sprintf('(%s)_EQ_(%.0f)_Sa_(%.2f)_', analysisType, eqNumber, saTOne
                                                                         
         usedNormDisplIncr = load('usedNormDisplIncrOUT.out');
         nodeNumsAtEachFloorLIST = load('nodeNumsAtEachFloorLISTOUT.out'); 
-        floorHeightsLIST = load('floorHeightListOUT.out');
+        floorHeightsLIST = load('floorHeightLISTOUT.out');
 
         
         
@@ -173,7 +173,7 @@ filePrefix = sprintf('(%s)_EQ_(%.0f)_Sa_(%.2f)_', analysisType, eqNumber, saTOne
 %         % This was hard-coded, b/c there was a problem with the PFA from the nodes that were originally used.
 %         nodeNumsAtEachFloorLIST = [-1, 12, 32, 52, 72];
 %         
-% %         floorHeightsLIST = load('floorHeightListOUT.out');
+% %         floorHeightsLIST = load('floorHeightLISTOUT.out');
 %         floorHeightsLIST = [0, 124.0, 286.0, 447.0, 603.0]; 
 %         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
         
