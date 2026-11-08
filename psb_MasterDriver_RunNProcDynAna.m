@@ -38,16 +38,16 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define building information - change this for the building being used
    
-    analysisTypeLIST = {'(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
-% analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
+    % analysisTypeLIST = {'(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
+analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
     % analysisTypeLIST = {'(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
     analysisType = analysisTypeLIST{1};                                     % Just renaming variable and changing variable format for some of the processors
-     modelNameLIST = {'ID35053_R5_5Story_v.02'};
-    % modelNameLIST = {'ID46053_R5_5Story_v.02'};
+     % modelNameLIST = {'ID35053_R5_5Story_v.02'};
+    modelNameLIST = {'ID46053_R5_5Story_v.02'};
     sensModelLIST = modelNameLIST;              
 
-    bldgID = 35053;
-    % bldgID =46053;
+    % bldgID = 35053;
+    bldgID =46053;
     % bldgID = 2433;      % WARNING - When sensitivity analyses are run, this defines the PHR capacities of the original archetype 
                         % and not of the modified sensitivity model (this will not affect collapse capacities in any way, but will 
                         % affect the colors on the collapse mode plots, but more importantly affect the PADI or DDI values computed
@@ -56,7 +56,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 1.56;                               % Note 1) input the proper period for scaling the ground motions for the building you would 
+    periodUsedForScalingGroundMotions = 1.36;                               % Note 1) input the proper period for scaling the ground motions for the building you would 
                                                                             % like to run (haselton
                                                                             % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
                                                                             % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
@@ -72,17 +72,17 @@ IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
 
          % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
-         eqListID = 'setC';  
+         % eqListID = 'setC';  
          % eqListID = 'setD' ;
          % eqListID = 'setDNotC'; 
          % eqListID = 'setG';
-         % eqListID = 'setTest';
+         eqListID = 'setTest';
 
 
 
 
 %                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        1        1           1       0              0                  0];
+    analyzeProcessPlotIndex = [0        0        1           1       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

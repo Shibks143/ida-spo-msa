@@ -66,7 +66,7 @@ figure;
 loglog(imValDisc, afeDisc, 'b-', 'LineWidth', 2); grid on; hold on;     % fitted curve
 loglog(imValLIST, afe_Sa_T1_LIST(1, :), 'ko', 'LineWidth', 1.25);      % Raghukanth data points
 xlabel(imStringForPlot);  ylabel('Annual Frequency of Exceedance');
-sks_figureFormat('report');
+sks_figureFormat('powerpoint');
 
 if saveFigures == 1
     cd(baseFolder);  cd(dirForFigures);
@@ -111,7 +111,7 @@ fileNameToSaveFragData = sprintf('frag_%s_%s', BldgId, GMsuiteName);
     legend('DS1', 'DS2', 'DS3', 'DS4');
     xlabel(imStringForPlot); ylabel('$P_{ds}$');
     xlim([0 2.0]); ylim([0 1]);
-    sks_figureFormat('report');
+    sks_figureFormat('powerpoint');
 
     if saveFigures == 1
         cd(baseFolder);  cd(dirForFigures);
@@ -239,7 +239,7 @@ fileNameToSaveFragData = sprintf('frag_%s_%s', BldgId, GMsuiteName);
     end
     ylabel('Mean RCR Integrand');
     xlim([0 1]); % ylim([0 1]);
-    sks_figureFormat('report');
+    sks_figureFormat('powerpoint');
 
     if saveFigures == 1
         cd(baseFolder);  cd(dirForFigures);

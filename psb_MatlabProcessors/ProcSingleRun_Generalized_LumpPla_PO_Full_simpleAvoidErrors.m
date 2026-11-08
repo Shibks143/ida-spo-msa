@@ -162,7 +162,7 @@ end
         usedNormDisplIncr = load('usedNormDisplIncrOUT.out');
         nodeNumsAtEachFloorLIST = load('nodeNumsAtEachFloorLISTOUT.out'); 
         floorHeightsLIST = load('floorHeightLISTOUT.out');
-        % floorHeightsLIST = load('floorHeightListOUT.out');
+        % floorHeightsLIST = load('floorHeightLISTOUT.out');
         buildingHeight = max(floorHeightsLIST);
 
         

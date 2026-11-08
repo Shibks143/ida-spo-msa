@@ -141,7 +141,7 @@ cd(saFolder);
     
     usedNormDisplIncr = load('usedNormDisplIncrOUT.out');
     nodeNumsAtEachFloorLIST = load('nodeNumsAtEachFloorLISTOUT.out');
-    floorHeightsLIST = load('floorHeightListOUT.out');
+    floorHeightsLIST = load('floorHeightLISTOUT.out');
     
     % Added 6-29-06
     buildingHeight = max(floorHeightsLIST);

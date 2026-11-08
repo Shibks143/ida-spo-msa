@@ -95,7 +95,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         ylabel('$\mu_{ds,Sa(T_j)}$ (g)');
         sks_figureFormat('powerpoint')
         if saveMedianDispersionBound(1) == 1
-            exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('F6%s_IMefficiency_muSaTi_%i_%s_v1', 96+i, i, bldgIdCurr));
+            exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('IMefficiency_muSaTi_%i_%s_v1', i, bldgIdCurr));
             sks_figureExport(exportName)
         end
     end
@@ -123,7 +123,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
         sks_figureFormat('powerpoint')
 
         if saveMedianDispersionBound(2) == 1
-            exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('F6%s_IMefficiency_betaRTRSaTi_%i_%s_v1', 96+i, i, bldgIdCurr));
+            exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('IMefficiency_betaRTRSaTi_%i_%s_v1', i, bldgIdCurr));
             sks_figureExport(exportName)
         end
     end
@@ -151,7 +151,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
             title(['Damage State = ', currDs]);
             sks_figureFormat('powerpoint')
             if saveMedianDispersionBound(3) == 1
-                exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('F6%s_IMefficiency_muSaTj%s_%i_%s_v1', 96+i, currDs, i, bldgIdCurr));
+                exportName = fullfile(baseFolder, 'Output_Risk', 'IM_efficiency_figures', sprintf('IMefficiency_muSaTj%s_%i_%s_v1', currDs, i, bldgIdCurr));
                 sks_figureExport(exportName)
             end
         end
