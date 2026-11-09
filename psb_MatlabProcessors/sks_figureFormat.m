@@ -119,7 +119,7 @@ if ~isempty(hleg)
         leg = hleg(iLeg);
         numEntries = numel(leg.String);
         numCols = 1 + (numEntries > 10);   % 2 cols if more than 10 entries
-        set(leg, 'FontSize', legendTextFontSize, 'Interpreter', 'latex', 'Box', 'on', 'LineWidth', 0.5, 'Location', 'northeast', 'NumColumns', numCols);
+        set(leg, 'FontSize', legendTextFontSize, 'Interpreter', 'latex', 'Box', 'on', 'LineWidth', 0.5, 'Location', 'southeast', 'NumColumns', numCols);
     end
 end
 

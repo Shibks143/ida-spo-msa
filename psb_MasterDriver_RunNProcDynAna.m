@@ -72,17 +72,17 @@ IDA_or_MSA_or_CLOUD = 'CLOUD';    % 'IDA', 'MSA' or 'CLOUD'
 
          % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
-         % eqListID = 'setC';  
+         eqListID = 'setC';  
          % eqListID = 'setD' ;
          % eqListID = 'setDNotC'; 
          % eqListID = 'setG';
-         eqListID = 'setTest';
+         % eqListID = 'setTest';
 
 
 
 
 %                           analyze  process   IDA/MSA/CLOUD    CDF   defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [1        0            0           0       0              0                  0];
+    analyzeProcessPlotIndex = [0        0            1           1       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

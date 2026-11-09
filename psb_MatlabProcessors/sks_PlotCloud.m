@@ -79,6 +79,8 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                                 1.00 0.00 0.00];  % red     - level 4 (Coll / DS4)
         limitStateColors     = limitStateColorOrder(mod((1:numberOfLimitStates) - 1, size(limitStateColorOrder, 1)) + 1, :);
         isRegressionFitted  = isfinite(demandFit.b);
+        isLimitStateShownOnScatter = ~strcmp(limitStateLabels, 'Coll');   % Coll level is not drawn on the scatter (MIDR); DS4 of RDR/PFA stays
+        shownLimitStateLevels      = reshape(limitStateLevels(isLimitStateShownOnScatter), [], 1);
 
         % ---------------- Cloud scatter: EDP (x) vs Sa (y), log-log ----------------
         figure; hold on; box on; grid on;
@@ -90,14 +92,25 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         legendEntries{end+1} = sprintf('no-collapse (n = %d)', demandFit.numberOfPoints); %#ok<AGROW>
 
         if collapseFit.numberOfCollapseCases > 0
-            collapseMarkerDemand = 1.5 * max([limitStateLevels(:); demandFit.demandOfPoints(:)]);   % drawn to the right of all levels
+            collapseMarkerDemand = 1.5 * max([shownLimitStateLevels; demandFit.demandOfPoints(:)]);   % drawn to the right of all shown levels
             legendHandles(end+1) = plot(collapseMarkerDemand * demandPlotFactor * ones(size(collapseFit.saOfCollapseCases)), ...
                 collapseFit.saOfCollapseCases, 'rx', 'LineWidth', 1.5, 'MarkerSize', 8); %#ok<AGROW>
             legendEntries{end+1} = sprintf('collapse (n = %d)', collapseFit.numberOfCollapseCases); %#ok<AGROW>
         end
 
+        % Sa range: the records, the collapse cases and every limit-state median (where the fit crosses each level), with some margin
+        saValuesToShow = demandFit.saOfPoints(:);
+        if collapseFit.numberOfCollapseCases > 0
+            saValuesToShow = [saValuesToShow; collapseFit.saOfCollapseCases(:)];
+        end
         if isRegressionFitted
-            saForFittedLine     = logspace(log10(0.8 * min(demandFit.saOfPoints)), log10(1.25 * max(demandFit.saOfPoints)), 100);
+            mediansOfShownLimitStates = reshape(demandFit.medianSaNoCollapse(isLimitStateShownOnScatter), [], 1);
+            saValuesToShow = [saValuesToShow; mediansOfShownLimitStates(isfinite(mediansOfShownLimitStates))];
+        end
+        yAxisLimits = [0.7 * min(saValuesToShow), 1.3 * max(saValuesToShow)];
+
+        if isRegressionFitted
+            saForFittedLine     = logspace(log10(yAxisLimits(1)), log10(yAxisLimits(2)), 100);   % fit and +-1 beta lines span the full Sa axis
             demandForFittedLine = demandFit.a * saForFittedLine.^demandFit.b;
             legendHandles(end+1) = plot(demandForFittedLine * demandPlotFactor, saForFittedLine, 'k-', 'LineWidth', 1.5); %#ok<AGROW>
             legendEntries{end+1} = sprintf('$\\ln(\\mathrm{EDP}) = %.2f + %.2f \\ln(\\mathrm{Sa})$, $R^2$ = %.2f', ...
@@ -107,29 +120,29 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
             legendEntries{end+1} = sprintf('$\\pm 1\\beta$ ($\\beta$ = %.2f)', demandFit.betaEdpGivenSa); %#ok<AGROW>
         end
 
-        for limitStateIndex = 1:numberOfLimitStates
+        for limitStateIndex = reshape(find(isLimitStateShownOnScatter), 1, [])
             xline(limitStateLevels(limitStateIndex) * demandPlotFactor, ':', limitStateLabels{limitStateIndex}, ...
-                'Color', limitStateColors(limitStateIndex, :), 'LineWidth', 1.2, ...
+                'Color', limitStateColors(limitStateIndex, :), 'LineWidth', 2.0, ...
                 'LabelOrientation', 'horizontal', 'LabelVerticalAlignment', 'bottom');
         end
 
-        % x range: always show every limit-state level (and the collapse markers) with some margin
-        demandValuesToShow = [limitStateLevels(:); demandFit.demandOfPoints(:)];
+        % x range: always show every drawn limit-state level (and the collapse markers) with some margin
+        demandValuesToShow = [shownLimitStateLevels; demandFit.demandOfPoints(:)];
         if collapseFit.numberOfCollapseCases > 0
             demandValuesToShow = [demandValuesToShow; collapseMarkerDemand];
         end
         xAxisLimits = [0.7 * min(demandValuesToShow), 1.3 * max(demandValuesToShow)] * demandPlotFactor;
         xlim(xAxisLimits);
 
-        % x ticks as plain numbers: the limit-state levels plus the powers of 10 inside the range (e.g. MIDR 1 2 4 8, PFA 0.2 0.5 1 2)
+        % x ticks as plain numbers: the drawn limit-state levels plus the powers of 10 inside the range (e.g. MIDR 1 2 4, PFA 0.2 0.5 1 2)
         powersOfTenInRange = 10.^(floor(log10(xAxisLimits(1))):ceil(log10(xAxisLimits(2))));
-        xTickValues        = unique([limitStateLevels(:) * demandPlotFactor; powersOfTenInRange(:)]);
+        xTickValues        = unique([shownLimitStateLevels * demandPlotFactor; powersOfTenInRange(:)]);
         xTickValues        = xTickValues(xTickValues >= xAxisLimits(1) & xTickValues <= xAxisLimits(2));
         xticks(xTickValues);
         xticklabels(arrayfun(@(tickValue) sprintf('%g', tickValue), xTickValues, 'UniformOutput', false));
 
         % y ticks (Sa) as plain numbers on a 1-2-5 sequence inside the y range (e.g. 0.1 0.2 0.5 1)
-        yAxisLimits      = ylim;
+        ylim(yAxisLimits);
         decadesInYRange  = 10.^(floor(log10(yAxisLimits(1))):ceil(log10(yAxisLimits(2))));
         yTickValues      = reshape([1; 2; 5] * decadesInYRange, [], 1);
         yTickValues      = yTickValues(yTickValues >= yAxisLimits(1) & yTickValues <= yAxisLimits(2));
@@ -140,9 +153,10 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
         xlabel(demandAxisLabels{demandIndex}, 'Interpreter', 'latex');
         ylabel(saAxisLabelForResponse, 'Interpreter', 'latex');
-        legend(legendHandles, legendEntries, 'Location', 'southeast');
+        scatterLegend = legend(legendHandles, legendEntries);
 
         sks_figureFormat(formatMode);
+        scatterLegend.Location = 'northwest';   % after sks_figureFormat (it sets southeast): top-left is empty, bottom-right holds the limit-state labels
         sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CollapseCLOUD_%s_SaGeoMean%s', componentCase, responseFigureSuffixList{demandIndex})));
         close(gcf);
 
@@ -158,18 +172,18 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                 'Color', limitStateColors(limitStateIndex, :), 'LineWidth', 1.8); %#ok<AGROW>
             legendEntries{end+1} = sprintf('%s: median %.2f g, $\\beta$ = %.2f', limitStateLabels{limitStateIndex}, ...
                 demandFit.medianSaNoCollapse(limitStateIndex), demandFit.betaRecordToRecord(limitStateIndex)); %#ok<AGROW>
-            plot(saGridForPlot, demandFit.fragilityCurveWithTotalBeta(:, limitStateIndex), '--', ...
-                'Color', limitStateColors(limitStateIndex, :), 'LineWidth', 1.0);
+            % plot(saGridForPlot, demandFit.fragilityCurveWithTotalBeta(:, limitStateIndex), '--', ...
+                % 'Color', limitStateColors(limitStateIndex, :), 'LineWidth', 1.0);
         end
         if collapseFit.isFitted
             legendHandles(end+1) = plot(saGridForPlot, collapseFit.probabilityOfCollapse, '-.', 'Color', [0.5 0.5 0.5], 'LineWidth', 1.5); %#ok<AGROW>   % grey: distinct from CP (black) and Coll (red)
             legendEntries{end+1} = sprintf('$\\mathrm{Pr}[\\mathrm{collapse}]$, logistic: median %.2f g', collapseFit.medianSaCollapse); %#ok<AGROW>
         end
-        % line-style key, worded as in the IDA/MSA CDF plots
-        legendHandles(end+1) = plot(nan, nan, 'k-',  'LineWidth', 1.8); %#ok<AGROW>
-        legendEntries{end+1} = '(RTR Var.)'; %#ok<AGROW>
-        legendHandles(end+1) = plot(nan, nan, 'k--', 'LineWidth', 1.0); %#ok<AGROW>
-        legendEntries{end+1} = '(RTR + MDL + TD + DR)'; %#ok<AGROW>
+        % % line-style key, worded as in the IDA/MSA CDF plots
+        % legendHandles(end+1) = plot(nan, nan, 'k-',  'LineWidth', 2.0); %#ok<AGROW>
+        % legendEntries{end+1} = '(RTR Var.)'; %#ok<AGROW>
+        % legendHandles(end+1) = plot(nan, nan, 'k--', 'LineWidth', 1.0); %#ok<AGROW>
+        % legendEntries{end+1} = '(RTR + MDL + TD + DR)'; %#ok<AGROW>
 
         ylim([0 1]);
         xlabel(imAxisLabelForFragility, 'Interpreter', 'latex');
