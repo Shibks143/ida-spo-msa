@@ -68,7 +68,7 @@ analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
+IDA_or_MSA_or_CLOUD = 'CLOUD';    % 'IDA', 'MSA' or 'CLOUD'
 
          % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
@@ -81,8 +81,8 @@ IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
 
 
 
-%                           analyze  process   IDA/MSA      CDF    defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0        1           1       0              0                  0];
+%                           analyze  process   IDA/MSA/CLOUD    CDF   defoAtCol    defoJustBefCol     IDR/RDR/PFA   
+    analyzeProcessPlotIndex = [1        0            0           0       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -97,12 +97,14 @@ IDA_or_MSA = 'IDA';    % 'IDA' or 'MSA'
    
     minStoryDriftRatioForCollapseMATLAB = 0.12;                             % OpenSees (IDA and MSA): Value above which record is considered collapsed (isCollapsed = 1) and stopped above this drift. 
                                                                             % increased from 0.12 on 7-26-06 for the purpose of making the collapse mode plots better.
-    switch IDA_or_MSA
+    switch IDA_or_MSA_or_CLOUD
         case 'IDA'
             collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % IDA: collapse Sa = midpoint of Sa levels around this drift; % Just another naming used by a different processor
         case 'MSA'
             collapseDriftThreshold = 0.04;                                  % MSA: plot only - separation line / red-blue split at 4%;
-    end                                                                     % saved collapses and MLE collapse fragility use the OpenSees flag (12%)
+        case 'CLOUD'
+            collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % CLOUD: runs above 12% (or non-converged) are treated as collapse
+    end                                                                    % saved collapses and MLE collapse fragility use the OpenSees flag (12%)
 
 
     minStoryResidualDriftRatioMATLAB = 0.01;                                % Use either 0.5 or 1% for residual drift ratio
@@ -366,7 +368,17 @@ idaInputs.rdrLevelLabels =                      rdrLevelLabels;
 idaInputs.pfaLevels =                           pfaLevels;
 idaInputs.pfaLevelLabels =                      pfaLevelLabels;
 
-msaInputs = idaInputs;
+msaInputs =   idaInputs;
+cloudInputs = idaInputs;                                                % CLOUD starts from the same common inputs (same analysisType / Output folder)
+
+% CLOUD-specific inputs
+cloudInputs.eqNumberLIST_forCloud = eqNumberLIST;                           % records run once, unscaled (scale factor = 1)
+cloudInputs.eqListForCloud_Name   = [eqListForCollapseIDAs_Name '_Cloud'];  % e.g. 'GMSetTest_Cloud' (used in output file names)
+cloudInputs.imType                = 'geoMean';                              % IM = Sa_geoMean(T1), same as IDA/MSA
+cloudInputs.collapseModel         = 'logistic';                             % P(C|Sa) by logistic regression
+cloudInputs.nBootstrap            = 0;                                      % 0 = off (bootstrap bands added later)
+cloudInputs.saGridForPlot         = 0.01:0.01:3.0;                          % Sa range for fragility curves
+cloudInputs.minPointsAboveLS      = 5;                                      % warn if fewer points above a limit state
 
 % IDA-specific inputs
 idaInputs.saStartLevel =                        saStartLevel;
@@ -402,7 +414,7 @@ if analyzeProcessPlotIndex(1) == 1
     cd(fullfile('Models', 'psb_Sensitivity_Analysis'))
 
         % [eqNumberLIST, timeTakenInMinsForEachAnalysisOld] = psb_RecoverInterruptedAnalysis(eqNumberLIST, analysisType); 
-        sks_RunIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
+        sks_RunIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloudInputs);
 end
     cd(baseFolder)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -444,8 +456,9 @@ if analyzeProcessPlotIndex(2) == 1
         msaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
         msaInputs.isConvertToSaKircher          = isConvertToSaKircher;
         msaInputs.isPlotCollapseMSAs_Sigma      = isPlotCollapseMSAs_Sigma;
+        cloudInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
 
-        sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
+        sks_ProcessIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloudInputs);
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plot and save IDAs/MSAs
@@ -480,9 +493,10 @@ if analyzeProcessPlotIndex(3) == 1
         msaInputs.isCollapsedForEachRun         = isCollapsedForEachRun;
         msaInputs.isConvertToSaKircher          = isConvertToSaKircher;
         msaInputs.isPlotCollapseMSAs_Sigma      = isPlotCollapseMSAs_Sigma;
-        
-        sks_ProcessIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
-        close;      close; % close figure 
+        cloudInputs.isProcessMultipleCollapseRuns = isProcessMultipleCollapseRuns;
+
+        sks_ProcessIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloudInputs);
+        close;      close; % close figure
 end
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -492,7 +506,7 @@ if analyzeProcessPlotIndex(4) == 1
         idaInputs.isConvertToSaKircher = isConvertToSaKircher;
         msaInputs.isConvertToSaKircher = isConvertToSaKircher;
 
-        sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs);
+        sks_CDFIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloudInputs);
        
 end
 
@@ -517,7 +531,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % IDR-RDR-PFA plots (added on 13-Mar-2026 by Shivakumar KS from IIT Madras)
 if analyzeProcessPlotIndex(7) == 1
-    sks_IDR_RDR_PFA(IDA_or_MSA, idaInputs, msaInputs)
+    sks_IDR_RDR_PFA_IdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloudInputs)
 
     % sks_plotRDRvsSa_MSA(msaInputs)
     % sks_plotMIDRvsSa_MSA(msaInputs)

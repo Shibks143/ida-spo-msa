@@ -1,6 +1,6 @@
-function sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs)
+function sks_CDFIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloudInputs)
 
-    if strcmp(IDA_or_MSA, 'IDA')
+    if strcmp(IDA_or_MSA_or_CLOUD, 'IDA')
         % figure(1); clf;
         % PlotCollapseEmpiricalCDFWithFits_controlComp_proc(idaInputs);  % at building level - Original
         % figure(2); clf;
@@ -9,7 +9,7 @@ function sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs)
         sks_PlotCollapseCDF(idaInputs);   % Added by Shivakumar KS on 25-Sep-2026 - unified CDF function
         disp('CDF plots - DONE')
     
-    elseif strcmp(IDA_or_MSA, 'MSA')
+    elseif strcmp(IDA_or_MSA_or_CLOUD, 'MSA')
        
         % sks_PlotCollapseEmpiricalCDFWithFits_ControlCompAndAllComp_proc_MSA(msaInputs);   % at building level - Original
        
@@ -19,6 +19,14 @@ function sks_CDFIdaOrMsa(IDA_or_MSA, idaInputs, msaInputs)
         % Step2: fragility CDF plots: reads both saved .mat files, plots Collapse + MIDR + RDR + PFA CDFs for ControlComp and AllComp
         sks_PlotCollapseCDF_MSA(msaInputs);
 
+    elseif strcmp(IDA_or_MSA_or_CLOUD, 'CLOUD')
+
+        % Step1: cloud fit: ln(EDP) = ln(a) + b*ln(Sa) on non-collapse runs + logistic P(C|Sa); saves DATA_CloudFragility_<name>.mat (Phase 2)
+        sks_FitCloudFragility(cloudInputs);
+
+        % Step2: cloud scatter + fragility curves for MIDR, RDR, PFA (Phase 2)
+        sks_PlotCloud(cloudInputs);
+        disp('CLOUD fragility plots - DONE')
 
     end
 
