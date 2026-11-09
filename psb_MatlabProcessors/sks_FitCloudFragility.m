@@ -14,8 +14,8 @@
 %                       betaTotal = sqrt(betaRecordToRecord^2 + sigmaLnModeling^2 + sigmaLnDesignReq^2 + sigmaLnTestData^2)
 %   (fragilityCurveWithTotalBeta uses the same formula with the EDP dispersion increased by the additional sigmas)
 %
-% Reads : Output/<analysisType>/EQ_<n>/DATA_collapseCLOUDPlotDataForThisEQ.mat   (written by sks_ProcessCloudRuns.m)
-% Writes: Output/<analysisType>/DATA_FragilityParams_SaGeoMean_<setName>.mat     (same name as IDA/MSA; struct
+% Reads : Output/<analysisType>/CLOUD/EQ_<n>/DATA_collapseCLOUDPlotDataForThisEQ.mat   (written by sks_ProcessCloudRuns.m)
+% Writes: Output/<analysisType>/CLOUD/DATA_FragilityParams_SaGeoMean_<setName>.mat     (same name as IDA/MSA; struct
 %         cloudFragility.ControlComp / .AllComp, each with .MIDR, .RDR, .PFA and .collapseFit, plus the tables
 %         cloudDataControlComp and cloudDataAllComp)
 %
@@ -55,7 +55,7 @@ fixedOutputDirectory = fullfile(startDir, '..', 'Output');
 
 for analysisTypeNum = 1:length(analysisTypeLIST)
     analysisType           = analysisTypeLIST{analysisTypeNum};
-    analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType);
+    analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType, 'CLOUD');
     % AllComp and ControlComp tables from the per-EQ processed files (as sks_ProcessFragilityParams_MSA.m does for MSA)
     [cloudDataAllComp, cloudDataControlComp] = sks_BuildCloudComponentCaseTables(eqNumberLIST, analysisTypeFolderPath, imType);
     cloudDataForCaseList = {cloudDataControlComp, cloudDataAllComp};

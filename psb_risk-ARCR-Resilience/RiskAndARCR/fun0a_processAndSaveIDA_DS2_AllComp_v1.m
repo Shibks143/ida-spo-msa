@@ -58,7 +58,7 @@ for eqIndex = 1:numEqs
     %         clc; fprintf('Processing building- %i/%i, EQ- %i/%i ...\n', i, numBldgs, eqIndex, numEqs);
     eqNumber = eqLIST(eqIndex);
     eqFolder = sprintf('EQ_%d', eqNumber);
-    cd(analysisTypeFolder); cd(eqFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA')); cd(eqFolder);
     
     % this list containts 100 in saLevels for non-conv cases,
     load('DATA_collapseIDAPlotDataForThisEQ.mat', 'saLevelsForIDAPlotLIST');
@@ -108,7 +108,7 @@ for eqIndex = 1:numEqs
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     %% save and plot EQ-specific processed results (IDA, i.e., critical column damage versus Sa(Ta)
-    cd(analysisTypeFolder); cd(eqFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA')); cd(eqFolder);
     %     save('DATA_criticalColDamage_IDA_ForThisEQ.mat', 'chiMax', 'saT1LIST', 'criticalColID');
     %     thisEqDataFileName = sprintf('DATA_criticalColDamRat_%s_IDA_ForThisEQ.mat', strrep(num2str(round(LimitStateVal, 2), '%.2f'), '.', 'p'));
     thisEqDataFileName = sprintf('DATA_criticalColDamRat_IDA_ForThisEQ.mat');
@@ -130,7 +130,7 @@ end
 % steps 1.2 to 1.7 are now moved to fun0b_; same for 2.2 to 2.7
 
 % 1.5a (ALL) save ALL component IDAs in analysis directory (chi, normalized by thetaU)
-    cd(analysisTypeFolder)
+    cd(fullfile(analysisTypeFolder, 'IDA'))   % IDA results folder
 %     figure(100 + i);
     figure(100+figUniqueSeedForParfor); 
     xlabel('$\chi$'); ylabel('$Sa(T_a)$');
@@ -142,7 +142,7 @@ end
     sks_figureExport(exportName);   % .fig, .eps, .tiff, .emf
     
 % 2.5a (ALL) save ALL component IDAs in analysis directory (xi, normalized by thetaCap)
-    cd(analysisTypeFolder)
+    cd(fullfile(analysisTypeFolder, 'IDA'))   % IDA results folder
 %     figure(300 + i);
     figure(300+figUniqueSeedForParfor); 
     xlabel('$\xi$'); ylabel('$Sa(T_a)$');

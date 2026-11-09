@@ -23,7 +23,7 @@ while true
     cd ..
 end
 
-cd(fullfile('..', 'Output', analysisFolderName));
+cd(fullfile('..', 'Output', analysisFolderName, 'MSA'));
 eqFolder = sprintf('EQ_%d',eqNumber);
 cd(eqFolder)
 

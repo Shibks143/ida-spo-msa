@@ -51,7 +51,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
         % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
         analysisTypeFolder = sprintf('%s', analysisType);
-        cd(analysisTypeFolder);
+        cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
         % EQ folder name
         eqFolder = sprintf('EQ_%.0f', eqNumber);
@@ -71,7 +71,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         toleranceUsedInCollapseAlgo = tolerance;    % Rename
 
         % Get back to initial folder
-        cd(fullfile('..', '..', '..', 'psb_MatlabProcessors'));
+        cd(fullfile(fixedOutputDirectory, '..', 'psb_MatlabProcessors'));
 
 
         % Do processing for this EQ, for all the Sa levels that were run for the collapse analysis (actually only those that are below the collapse point)
@@ -277,7 +277,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
      
         % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
         analysisTypeFolder = sprintf('%s', analysisType);
-        cd(analysisTypeFolder);
+        cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
         % EQ folder name
         eqFolder = sprintf('EQ_%.0f', eqNumber);
@@ -304,7 +304,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         Prak_clearVarsForProcessing(saLevelsForIDAPlotLIST, maxDriftRatioForPlotLIST, maxResidualDriftRatioForPlotLIST, maxPFAForPlotLIST, collapseSaLevel, saLevelsRunForCollapseAnalysis)
 
         % Back to starting folder
-        cd(fullfile('..', '..', '..', 'psb_MatlabProcessors'));
+        cd(fullfile(fixedOutputDirectory, '..', 'psb_MatlabProcessors'));
 
     end
 

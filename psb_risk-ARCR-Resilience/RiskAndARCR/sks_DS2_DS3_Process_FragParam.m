@@ -59,7 +59,7 @@ if executePrintAndSaveStep == 1
 
         cd(baseFolder)
         [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID_curr);
-        cd(analysisTypeFolder);
+        cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder
         
         for j = 1:size(LimitStateValLIST, 2)
             fprintf('Processing building- %i/%i, chi- %i/%i...\n', i, size(bldgIDLIST, 2), j, size(LimitStateValLIST, 2));

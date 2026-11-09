@@ -16,6 +16,7 @@
 % Unified by: Shivakumar KS on 25-Sep-2026
 % -------------------
 function[void] = sks_PlotCollapseIDAs_singleAnaType(idaInputs)
+matlabProcessorsFolder = pwd;   % started in psb_MatlabProcessors; used to come back from Output\<building>\IDA\
 
 eqSpectraFolder =                idaInputs.eqSpectraFolder;
 analysisType =                   idaInputs.analysisType;
@@ -126,7 +127,7 @@ for eqInd = 1:(length(eqNumberLIST))
     cd(fullfile('..','Output'));
 
     analysisTypeFolder = sprintf('%s', analysisType);
-    cd(analysisTypeFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
     eqFolder = sprintf('EQ_%.0f', eqCompNumber);
     cd(eqFolder)
 
@@ -249,7 +250,7 @@ for eqInd = 1:(length(eqNumberLIST))
     end
 
     clear maxDriftRatioForPlotLIST saLevelsForIDAPlotLIST maxResidualDriftRatioForPlotLIST maxPFAForPlotLIST
-    cd(fullfile('..', '..', '..', 'psb_MatlabProcessors'));
+    cd(matlabProcessorsFolder);
     eqCompInd = eqCompInd + 1;
 
     % Added by Shivakumar KS on 25-Sep-2026 - PDF data collection after cd back, component 1
@@ -301,7 +302,7 @@ for eqInd = 1:(length(eqNumberLIST))
     cd(fullfile('..','Output'));
   
     analysisTypeFolder = sprintf('%s', analysisType);
-    cd(analysisTypeFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
     eqFolder = sprintf('EQ_%.0f', eqCompNumber);
     cd(eqFolder)
 
@@ -418,7 +419,7 @@ for eqInd = 1:(length(eqNumberLIST))
     end
 
     clear maxDriftRatioForPlotLIST saLevelsForIDAPlotLIST maxResidualDriftRatioForPlotLIST maxPFAForPlotLIST
-    cd(fullfile('..', '..', '..', 'psb_MatlabProcessors'));
+    cd(matlabProcessorsFolder);
     eqCompInd = eqCompInd + 1;
 
     % Added by Shivakumar KS on 25-Sep-2026 - PDF data collection after cd back, component 2
@@ -657,7 +658,7 @@ end
 % Added by Shivakumar KS on 25-Sep-2026
 cd(fullfile('..', 'Output'));
 analysisTypeFolder = sprintf('%s', analysisType);
-cd(analysisTypeFolder);
+cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
 if isConvertToSaKircher == 0
     colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean.mat', eqListForCollapseIDAs_Name);
@@ -960,7 +961,7 @@ end
 sks_figureExport(exportName)
 hold off
 
-cd(fullfile('..', '..', 'psb_MatlabProcessors'));
+cd(matlabProcessorsFolder);
 
 %% Added by Shivakumar KS on 25-Sep-2026 - Fragility function block
 % Only for MIDR_PDF, RDR_PDF, PFA_PDF - not for plain MIDR
@@ -968,7 +969,7 @@ if strcmp(plotType, 'MIDR_PDF') || strcmp(plotType, 'RDR_PDF') || strcmp(plotTyp
 
     cd(fullfile('..', 'Output'));
     analysisTypeFolder = sprintf('%s', analysisType);
-    cd(analysisTypeFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
     if strcmp(plotType, 'MIDR_PDF')
         numLimitStates = length(midrLevels);
@@ -1044,7 +1045,7 @@ if strcmp(plotType, 'MIDR_PDF') || strcmp(plotType, 'RDR_PDF') || strcmp(plotTyp
             'pfaMeanLnSaValsAllComp', 'pfaStDevLnSaValsAllComp', 'pfaSaValsAll', '-append');
     end
 
-    cd(fullfile('..', '..', 'psb_MatlabProcessors'));
+    cd(matlabProcessorsFolder);
 end
 
 end

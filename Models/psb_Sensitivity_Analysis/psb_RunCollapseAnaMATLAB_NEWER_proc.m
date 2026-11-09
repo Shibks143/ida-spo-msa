@@ -378,7 +378,7 @@ for sensModelIndex = 1:length(sensModelLIST)
                 % cd Output;
                 % cd(analysisFolderName)
 
-                cd(fullfile(sensDir, '..', '..', 'Output', analysisFolderName, sprintf('EQ_%d', eqNumber), sprintf('Sa_%.2f', currentSaLevel), 'RunInformation'));
+                cd(fullfile(sensDir, '..', '..', 'Output', analysisFolderName, 'IDA', sprintf('EQ_%d', eqNumber), sprintf('Sa_%.2f', currentSaLevel), 'RunInformation'));
 
 
                 % sprintf('Prakash \n')
@@ -779,7 +779,7 @@ for sensModelIndex = 1:length(sensModelLIST)
                 % Navigate up three levels
                 cd(fullfile('..', '..', '..'));
                 disp(pwd);
-                cd(fullfile(pwd, 'Output', analysisFolderName));
+                cd(fullfile(pwd, 'Output', analysisFolderName, 'IDA'));
                
                 % sprintf('Prakash \n');
                 eqFolder = sprintf('EQ_%d', eqNumber)

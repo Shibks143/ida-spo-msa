@@ -15,7 +15,7 @@ eqFolder = sprintf('EQ_%d', eqNumber);
 %     pause
 % end 
 SaFolder = sprintf('Sa_%3.2f', saT1Val);
-cd(fullfile(analysisTypeFolder, eqFolder, SaFolder, 'Elements'));
+cd(fullfile(analysisTypeFolder, 'IDA', eqFolder, SaFolder, 'Elements'));
 
 
 if endISpringID == 0

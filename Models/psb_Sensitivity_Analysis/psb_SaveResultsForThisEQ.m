@@ -33,7 +33,7 @@ function psb_SaveResultsForThisEQ(analysisFolderName, collapseRangeSize, collaps
         end
     end
     
-    cd(analysisFolderName)
+    cd(fullfile(analysisFolderName, 'IDA'))
     eqFolder = sprintf('EQ_%d', eqNumber);
     cd(eqFolder);
 

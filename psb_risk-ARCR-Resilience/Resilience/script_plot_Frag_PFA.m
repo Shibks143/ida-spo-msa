@@ -16,7 +16,7 @@ saveIDA = 1; saveFrag = 1;
 %% (1/6) extract Data
 for k = 1:size(modelNameLIST, 1)
     fprintf('Reading %i/%i...\n', k, size(modelNameLIST, 1));
-    analysisDir = sprintf('(%s)_(AllVar)_(0.00)_(clough)', modelNameLIST{k});
+    analysisDir = fullfile(sprintf('(%s)_(AllVar)_(0.00)_(clough)', modelNameLIST{k}), 'IDA');   % IDA results folder
 
     % search for all EQ directories
     eqIndex = 0; nMissingRuns = 0;

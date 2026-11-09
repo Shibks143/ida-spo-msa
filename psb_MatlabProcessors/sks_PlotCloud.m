@@ -9,8 +9,8 @@
 %   CollapseCDF_<ControlComp|AllComp>_SaGeoMean_CLOUD_<MIDR|RDR|PFA>   (like CollapseCDF_<comp>_SaGeoMean_MSA_<...>):
 %       Pr[LS >= ls_i | IM = im] for each limit state (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
 %
-% Reads : Output/<analysisType>/DATA_FragilityParams_SaGeoMean_<setName>.mat (written by sks_FitCloudFragility.m)
-% Writes: figures in Output/<analysisType>/ via sks_figureFormat + sks_figureExport (same as the MSA CDF plots)
+% Reads : Output/<analysisType>/CLOUD/DATA_FragilityParams_SaGeoMean_<setName>.mat (written by sks_FitCloudFragility.m)
+% Writes: figures in Output/<analysisType>/CLOUD/ via sks_figureFormat + sks_figureExport (same as the MSA CDF plots)
 %
 % All figure text is LaTeX, because sks_figureFormat sets 'Interpreter' = 'latex' for labels and legends.
 % Must be called from psb_MatlabProcessors.
@@ -35,7 +35,7 @@ fixedOutputDirectory = fullfile(startDir, '..', 'Output');
 
 for analysisTypeNum = 1:length(analysisTypeLIST)
     analysisType           = analysisTypeLIST{analysisTypeNum};
-    analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType);
+    analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType, 'CLOUD');
     fileNameToLoad         = fullfile(analysisTypeFolderPath, sprintf('DATA_FragilityParams_SaGeoMean_%s.mat', eqListForCloud_Name));
     if ~isfile(fileNameToLoad)
         error('sksCode:cloudFragility', 'CLOUD: %s not found; run the CLOUD fit (flag 4) first.', fileNameToLoad);

@@ -83,7 +83,7 @@ function[] = psb_DrawFrameWithMaxPHForEQ_withSaveOption(buildingInfo, bldgID, an
     cd ..;
     cd ..;
     cd Output;
-    cd(analysisType);
+    cd(fullfile(analysisType, 'IDA'));
     eqFolder = sprintf('EQ_%d', eqNum);
     saFolder = sprintf('Sa_%.2f', saLevel);
     cd(eqFolder);
@@ -142,7 +142,7 @@ if isfile('hingeAroundJointToRecordMVLISTOUT.out') == 1
     colHingeWithShear = load('hingeAroundJointToRecordMVLISTOUT.out');
     hingesWithFlexure = load('hingeAroundJointToRecordMLISTOUT.out');
     cd ..\..\.. % now we are in the analysis directory
-    cd(eqFolder);
+    cd(fullfile('IDA', eqFolder));   % record folders are in Output\<building>\IDA (EQ_9991 pushover above stays at building level)
     cd(saFolder);
     cd Elements\DamageIndex
     for currentFloorNum = 2:maxFloorNum

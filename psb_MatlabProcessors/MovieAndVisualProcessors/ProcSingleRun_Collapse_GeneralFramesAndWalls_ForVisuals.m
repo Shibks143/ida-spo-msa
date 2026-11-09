@@ -121,7 +121,7 @@ cd ..;
 cd Output;
 % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
 analysisTypeFolder = sprintf('%s', analysisType)
-cd(analysisTypeFolder);
+cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
 % Create Sa and EQ folder names for later use
 saFolder = sprintf('Sa_%.2f', saTOneForRun);
@@ -301,10 +301,7 @@ numFloors = numStories + 1;
         end
         
     % Go back to original folder (for EQ's)
-        cd ..;
-        cd ..;
-        cd Output;
-        cd(analysisTypeFolder);
+        cd(fullfile(startFolder, '..', '..', 'Output', analysisTypeFolder, 'IDA'));
     %%%%%%%%%%%%%%%%%%  
 
 
@@ -656,11 +653,7 @@ for floorNum = 2:numFloors
         %function[maxRelDispReponse, maxRelVelReponse, maxAbsAccelReponse, maxPsuedoAccelReponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
             % Go back to the Matlab folder to do the processing
             tempFolder2 = [pwd];
-            cd ..;
-            cd ..;
-            cd ..;
-            cd ..;
-            cd psb_MatlabProcessors;
+            cd(fullfile(startFolder, '..'));   % psb_MatlabProcessors
             
             % Process
 %             [junk1, junk2, maxFilteredFloorAccel, junk3] = ComputeAllResponsesNewmark((floorAccel{floorNum}.absTH / g), psuedoTimeVector, dtForAnalysis, period, dampRatio);
@@ -1001,11 +994,8 @@ save(fileName, 'floorAccelToSave', 'storyDriftRatioToSave', 'maxConvergedTime', 
 
  % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
     % Go to Output folder
-        cd ..;
-        cd ..;
-        cd ..;
     % Make a WARNING file, go into fodler first
-        cd Conv_Warning_Files;
+        cd(fullfile(startFolder, '..', '..', 'Output', 'Conv_Warning_Files'));
     
     % Output a warnings if needed
         if(isCurrentAnalysisConv == 0)

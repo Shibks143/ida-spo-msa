@@ -23,7 +23,7 @@ numEqs = size(eqLIST, 2);
     floorHtLIST = load('floorHeightLISTOUT.out');
     bldgHt = floorHtLIST(end); 
     numLevels = size(floorHtLIST, 1); % = numFloors + 1
-    cd ..; % back to analysis output Folder
+    cd(fullfile('..', 'IDA')); % IDA results folder (MatlabInformation above is at building level)
 
 %% 1. extract maximum roof displacement from output file from each scaled levels of the applied time history
 for eqIndex = 1:numEqs

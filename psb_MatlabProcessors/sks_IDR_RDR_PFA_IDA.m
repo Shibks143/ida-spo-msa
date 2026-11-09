@@ -84,7 +84,7 @@ doSave = 1;
 
 %% ── Directory setup (identical pattern to MSA) ────────────────────────────
 baseDir = pwd;
-saveDir = fullfile(baseDir, '..', 'Output', analysisType);
+saveDir = fullfile(baseDir, '..', 'Output', analysisType, 'IDA');
 figDir  = fullfile(saveDir, 'Figures_IDA');
 if ~exist(figDir, 'dir'), mkdir(figDir); end
 
