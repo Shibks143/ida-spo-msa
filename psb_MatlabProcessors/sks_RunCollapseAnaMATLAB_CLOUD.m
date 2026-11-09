@@ -4,9 +4,9 @@
 % at its own Sa(T1). Based on sks_RunCollapseAnaMATLAB_MSA.m, with the stripe loop
 % replaced by a single run per record.
 %
-% Output (same folder layout as MSA):
-%   Output/<analysisType>/EQ_<eqNumber>/Sa_<own Sa, 2 decimals>/...   (OpenSees results)
-%   Output/<analysisType>/EQ_<eqNumber>/DATA_CollapseResultsForThisSingleEQ.mat  (same name as IDA/MSA; variable cloudRun)
+% Output (same folder layout as MSA, in the CLOUD subfolder of the building folder):
+%   Output/<analysisType>/CLOUD/EQ_<eqNumber>/Sa_<own Sa, 2 decimals>/...   (OpenSees results)
+%   Output/<analysisType>/CLOUD/EQ_<eqNumber>/DATA_CollapseResultsForThisSingleEQ.mat  (same name as IDA/MSA; variable cloudRun)
 %
 % Author: Shivakumar K S, IIT Madras (based on the IDA/MSA runners of C. Haselton and P. S. Badal)
 % Date:   09-Nov-2026
@@ -75,7 +75,7 @@ for sensModelIndex = 1:length(sensModelLIST)
             psb_mkdir_if_not_exist(specificModelFolderForSeparateEqs);
             copyfile(fullfile(modelDir, '*.tcl'), specificModelFolderForSeparateEqs);
         end
-        analysisFolderPath = fullfile(sensDir, '..', '..', 'Output', analysisFolderName);
+        analysisFolderPath = fullfile(sensDir, '..', '..', 'Output', analysisFolderName, 'CLOUD');   % same subfolder as OpenSees (analysisMode = CLOUD)
 
         % --- One unscaled run per record ---
         parfor eqNumberIndex = 1:numberOfRecords

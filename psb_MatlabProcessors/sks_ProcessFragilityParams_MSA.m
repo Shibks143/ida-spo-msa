@@ -94,7 +94,7 @@ for analysisTypeIdx = 1:length(analysisTypeLIST)
     periodUsedForScalingGroundMotions = NaN;
 
     for eqComponentIdx = 1:length(eqNumberLIST)
-        eqComponentFolder = fullfile(fixedOutputDirectory, analysisTypeFolder, ...
+        eqComponentFolder = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', ...
             sprintf('EQ_%d', eqNumberLIST(eqComponentIdx)));
 
         [saLevelsThisEQ, isCollapsedThisEQ, isSingularThisEQ, isNonConvThisEQ, ...
@@ -143,9 +143,9 @@ for analysisTypeIdx = 1:length(analysisTypeLIST)
     allPFA_ControlComp      = [];
 
     for eqPairStartIdx = 1:2:length(eqNumberLIST)
-        eqComponent1Folder = fullfile(fixedOutputDirectory, analysisTypeFolder, ...
+        eqComponent1Folder = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', ...
             sprintf('EQ_%d', eqNumberLIST(eqPairStartIdx)));
-        eqComponent2Folder = fullfile(fixedOutputDirectory, analysisTypeFolder, ...
+        eqComponent2Folder = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', ...
             sprintf('EQ_%d', eqNumberLIST(eqPairStartIdx + 1)));
 
         [saLevelsComponent1, isCollapsedComponent1, isSingularComponent1, ...
@@ -400,7 +400,7 @@ for analysisTypeIdx = 1:length(analysisTypeLIST)
     % Save .mat — unpack struct to named variables first so workspace
     % variable names in the .mat are clean and descriptive
     % =====================================================================
-    saveDir = fullfile(fixedOutputDirectory, analysisTypeFolder);
+    saveDir = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA');
     if isConvertToSaKircher == 0
         fragFileName = sprintf('DATA_FragilityParams_SaGeoMean_%s.mat', ...
                                eqListForCollapseMSAs_Name);

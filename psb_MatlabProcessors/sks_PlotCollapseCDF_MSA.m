@@ -110,8 +110,8 @@ for cdfIdx = 1:length(cdfTypeList)
                                             eqListForCollapseMSAs_Name);
         end
 
-        collapseStatsFilePath = fullfile(fixedOutputDirectory, analysisTypeFolder, collapseStatsFileName);
-        fragParamsFilePath    = fullfile(fixedOutputDirectory, analysisTypeFolder, fragParamsFileName);
+        collapseStatsFilePath = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', collapseStatsFileName);
+        fragParamsFilePath    = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', fragParamsFileName);
 
         % Period is always needed for axis label
         collapseStatsData = load(collapseStatsFilePath, 'periodUsedForScalingGroundMotions');
@@ -263,7 +263,7 @@ for cdfIdx = 1:length(cdfTypeList)
                 else
                     exportName = sprintf('CollapseCDF_%s_SaATC63', componentCaseLabel);
                 end
-                sks_figureExport(fullfile(fixedOutputDirectory, analysisTypeFolder, exportName))
+                sks_figureExport(fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', exportName))
                 hold off 
 
             end   % figIdx loop
@@ -468,7 +468,7 @@ for cdfIdx = 1:length(cdfTypeList)
                     exportName = sprintf('CollapseCDF_%s_SaATC63_MSA_%s', ...
                         componentCaseLabel, exportSuffix);
                 end
-                sks_figureExport(fullfile(fixedOutputDirectory, analysisTypeFolder, exportName))
+                sks_figureExport(fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA', exportName))
                 hold off
 
             end   % figIdx loop

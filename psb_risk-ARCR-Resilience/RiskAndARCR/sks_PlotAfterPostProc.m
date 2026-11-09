@@ -26,7 +26,7 @@ for k = 1:size(LimitStateValLIST, 2)
 
 
         [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID_curr);
-        cd(analysisTypeFolder);
+        cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder
 
         eqNumberLIST_curr = eqNumberLIST(i, :); % EQ list for current building ID
         for j = 1:size(eqNumberLIST_curr, 2)
@@ -35,7 +35,7 @@ for k = 1:size(LimitStateValLIST, 2)
             % chi_LimitState = chi_LimitStateLIST(1, j);
             % extract EQ-specific IDA and plot it
 
-            fullEqPath = fullfile(analysisTypeFolder, eqFolder);
+            fullEqPath = fullfile(analysisTypeFolder, 'IDA', eqFolder);
             cd(fullEqPath);
 
             % cd(eqFolder);
@@ -187,7 +187,7 @@ end
 %% Histogram for failure mechanism
 for i = 1:size(bldgIDLIST, 2)
     [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgIDLIST{i});
-    cd(analysisTypeFolder)
+    cd(fullfile(analysisTypeFolder, 'IDA'))   % IDA results folder
     for j = 1:size(eqNumberLIST, 2)
         eqNumber = eqNumberLIST(i, j);
         eqFolder = sprintf('EQ_%d', eqNumber);

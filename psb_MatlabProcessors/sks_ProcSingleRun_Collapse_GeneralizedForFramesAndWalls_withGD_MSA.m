@@ -67,7 +67,7 @@
 %
 % -------------------
 function [scaleFactorForRun, maxDriftRatioForFullStr, maxResidualDriftRatioForFullStr, maxPFAForFullStr, isNonConv, isSingular, isCollapsed] = sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, modelName, ...
-currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder)
+currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder, IDA_or_MSA_or_CLOUD)
 
 
 % IMPORTANT: This is the only processing file that has been being updated
@@ -96,12 +96,13 @@ g = 9810;
 secAtEndOfEQForResidual = 3.0; % have patience, this param is used far below of this code (PSB)
 
 % First change the directory to get into the correct folder for processing
+matlabProcessorsFolder = pwd;   % this function starts in psb_MatlabProcessors; the folder moves below use it, so they work for Output\<building>\ and Output\<building>\<IDA|MSA|CLOUD>\
 cd(fullfile('..', 'Output'));
 
 
 % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
 analysisTypeFolder = sprintf('%s', analysisType);
-cd(analysisTypeFolder);
+cd(fullfile(analysisTypeFolder, IDA_or_MSA_or_CLOUD));   % results folder Output\<building>\MSA or \CLOUD (this processor is shared by MSA and CLOUD)
 
 % Create Sa and EQ folder names for later use
 saFolder = sprintf('Sa_%.2f', currentSaLevel);
@@ -232,7 +233,7 @@ end
 
 % Go back to original folder (for EQ's)
 %cd ..;
-cd(fullfile('..', '..', 'Output', analysisTypeFolder));
+cd(startFolder);   % the analysis folder (saved above), at any depth
 
 %%%%%%%%%%%%%%%%%%
 
@@ -550,7 +551,7 @@ if(dataSavingOption == 2)
         %function[maxRelDispResponse, maxRelVelResponse, maxAbsAccelResponse, maxPseudoAccelResponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
         % Go back to the Matlab folder to do the processing
         tempFolder2 = pwd;
-        cd(fullfile('..', '..', '..', '..', 'psb_MatlabProcessors'));
+        cd(matlabProcessorsFolder);
 
         % Process
         % [junk1, junk2, maxFilteredFloorAccel, junk3] = ComputeAllResponsesNewmark((floorAccel{floorNum}.absTH / g), pseudoTimeVector, dtForAnalysis, period, dampRatio);
@@ -644,7 +645,7 @@ end
 
 % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
 % Go to Output folder
-cd(fullfile('..','..','..','Conv_Warning_Files')); % Make a WARNING file, go into folder first
+cd(fullfile(matlabProcessorsFolder, '..', 'Output', 'Conv_Warning_Files')); % Make a WARNING file, go into folder first
 
 % Output a warnings if needed
 if(isConvForFullEQ == 0)
@@ -674,6 +675,6 @@ end
 %%%%%%%%%%%%%% End of Warnings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get back to the MatlabProcessors folder where we started
-cd(fullfile('..','..','psb_MatlabProcessors'));
+cd(matlabProcessorsFolder);
 disp('Processing Finished for this EQ.');
 

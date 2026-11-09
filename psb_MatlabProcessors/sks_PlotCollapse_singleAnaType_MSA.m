@@ -73,7 +73,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
     % Save stats file — only for MIDR
     if strcmp(plotType, 'MIDR')
-        saveDir = fullfile(fixedOutputDirectory, analysisTypeFolder);
+        saveDir = fullfile(fixedOutputDirectory, analysisTypeFolder, 'MSA');   % MSA results folder
         if isConvertToSaKircher == 0
             colFileName = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean.mat', ...
                 eqListForCollapseMSAs_Name);
@@ -110,7 +110,7 @@ function allCompStats = sks_plot_AllComp_MSA(...
     isConvertToSaKircher, formatMode, plotType, msaInputs)
 
 baseDir = fixedOutputDirectory;
-saveDir = fullfile(baseDir, analysisTypeFolder);
+saveDir = fullfile(baseDir, analysisTypeFolder, 'MSA');
 figure; hold on;
 
 % Initialise global arrays
@@ -129,7 +129,7 @@ tol = 1e-6;
 % ======================================
 for eqInd = 1:length(eqNumberLIST)
     eqCompNumber = eqNumberLIST(eqInd);
-    eqFolder     = fullfile(baseDir, analysisTypeFolder, sprintf('EQ_%d', eqCompNumber));
+    eqFolder     = fullfile(baseDir, analysisTypeFolder, 'MSA', sprintf('EQ_%d', eqCompNumber));
     loadFile     = fullfile(eqFolder, 'DATA_CollapseResultsForThisSingleEQ.mat');
 
     if strcmp(plotType, 'MIDR') || strcmp(plotType, 'MIDR_Sigma') || strcmp(plotType, 'MIDR_PDF')
@@ -625,7 +625,7 @@ function controlCompStats = sks_plot_ControlComp_MSA(...
     isConvertToSaKircher, formatMode, plotType, msaInputs)
 
 baseDir = fixedOutputDirectory;
-saveDir = fullfile(baseDir, analysisTypeFolder);
+saveDir = fullfile(baseDir, analysisTypeFolder, 'MSA');
 figure; hold on;
 
 % Initialise global arrays — control component versions
@@ -645,8 +645,8 @@ tol = 1e-6;
 for eqNum = 1:2:length(eqNumberLIST)
     eqComp1   = eqNumberLIST(eqNum);
     eqComp2   = eqNumberLIST(eqNum+1);
-    eqFolder1 = fullfile(baseDir, analysisTypeFolder, sprintf('EQ_%d', eqComp1));
-    eqFolder2 = fullfile(baseDir, analysisTypeFolder, sprintf('EQ_%d', eqComp2));
+    eqFolder1 = fullfile(baseDir, analysisTypeFolder, 'MSA', sprintf('EQ_%d', eqComp1));
+    eqFolder2 = fullfile(baseDir, analysisTypeFolder, 'MSA', sprintf('EQ_%d', eqComp2));
     loadFile1 = fullfile(eqFolder1, 'DATA_CollapseResultsForThisSingleEQ.mat');
     loadFile2 = fullfile(eqFolder2, 'DATA_CollapseResultsForThisSingleEQ.mat');
 

@@ -11,6 +11,7 @@
 % Unified by: Shivakumar KS, IIT Madras on 25-Sep-2026
 % -------------------
 function sks_PlotCollapseCDF(idaInputs)
+matlabProcessorsFolder = pwd;   % started in psb_MatlabProcessors; used to come back from Output\<building>\IDA\
 
 cdfTypeList = {'Collapse', 'MIDR', 'RDR', 'PFA'};
 
@@ -43,7 +44,7 @@ for cdfIdx = 1:length(cdfTypeList)
     % Navigate to Output folder
     cd(fullfile('..', 'Output'))
     analysisTypeFolder = sprintf('%s', analysisType);
-    cd(analysisTypeFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
     % File names
     if isConvertToSaKircher == 0
@@ -303,7 +304,7 @@ for cdfIdx = 1:length(cdfTypeList)
 end   % end cdfType block
 
 % Return to MatlabProcessors folder
-cd(fullfile('..', '..', 'psb_MatlabProcessors'));
+cd(matlabProcessorsFolder);
 
 fprintf('CDF plots (%s) - DONE\n', cdfType);
 

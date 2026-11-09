@@ -256,7 +256,7 @@ sensModel
     
 % Go into the output folder for this EQ run
     cd(fullfile(sensDir, '..', '..', 'Output'))
-    cd(analysisFolderName);
+    cd(fullfile(analysisFolderName, 'MSA'));
     eqFolder = sprintf('EQ_%d', eqNumber);
     cd(eqFolder);
     saFolder = sprintf('Sa_%.2f', currentSaLevel);

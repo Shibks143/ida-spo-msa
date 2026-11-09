@@ -86,7 +86,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
 
             end
             
-            [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBetaRTR_CTRL, imMin] = extractFragilityForDifferentIM_v2(analysisTypeFolder, MIDR_ds, eqLIST, T_new, GMsuiteName);
+            [fragParamMu_ALL, fragParamBetaRTR_ALL, fragParamMu_CTRL, fragParamBetaRTR_CTRL, imMin] = extractFragilityForDifferentIM_v2(fullfile(analysisTypeFolder, 'IDA'), MIDR_ds, eqLIST, T_new, GMsuiteName);
 
             %% parfor doesn't allow writing to a structure here, hence I have the assigning out of parfor now, read detailed notes above.
             % fragility components using all components of earthquakes
@@ -107,7 +107,7 @@ for i = 1:size(BldgIdAndZoneLIST, 1) % for each building
             %             imMinVar = sprintf('imMin_%s_%ip%ipcMIDR', imType, floor(MIDR_ds*100), int8(mod(MIDR_ds*1000, 10)));
             
             fragAllData.(bldgIdVar).imMin(j, k) = imMin;
-            fragAllData.(bldgIdVar).analysisFolder = analysisTypeFolder;
+            fragAllData.(bldgIdVar).analysisFolder = fullfile(analysisTypeFolder, 'IDA');   % IDA results folder the fragility comes from
             fragAllData.(bldgIdVar).eqLIST = eqLIST;
             count = count + 1; fracDone = count/totalNumRuns; waitbar(fracDone);
 

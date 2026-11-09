@@ -106,7 +106,7 @@ maxOnDemandCapacityRatioToPlot = 3.0;   % Limit the demand/capacity ratio to 3, 
             cd ..;
             cd ..;
             cd Output
-            cd(analysisType)
+            cd(fullfile(analysisType, 'IDA'))
             %cd Figures_CollapseFailureModePlots
         
             % Loop and save figures

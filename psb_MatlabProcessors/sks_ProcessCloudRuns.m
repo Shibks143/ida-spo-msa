@@ -6,8 +6,8 @@
 % (ControlComp/AllComp tables are built from these per-EQ files in sks_FitCloudFragility.m, as in
 %  sks_ProcessFragilityParams_MSA.m for MSA.)
 %
-% Reads : Output/<analysisType>/EQ_<n>/DATA_CollapseResultsForThisSingleEQ.mat     (variable cloudRun, from the cloud runner)
-% Writes: Output/<analysisType>/EQ_<n>/DATA_collapseCLOUDPlotDataForThisEQ.mat     (same name as MSA's ..._MSAPlotDataForThisEQ.mat)
+% Reads : Output/<analysisType>/CLOUD/EQ_<n>/DATA_CollapseResultsForThisSingleEQ.mat     (variable cloudRun, from the cloud runner)
+% Writes: Output/<analysisType>/CLOUD/EQ_<n>/DATA_collapseCLOUDPlotDataForThisEQ.mat     (same name as MSA's ..._MSAPlotDataForThisEQ.mat)
 %
 % Must be called from psb_MatlabProcessors (the driver cd's there before processing).
 % Author: Shivakumar K S, IIT Madras
@@ -46,7 +46,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
     parfor eqNumberIndex = 1:numberOfRecords
         eqNumber       = eqNumberLIST(eqNumberIndex);
-        fileNameToLoad = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber), 'DATA_CollapseResultsForThisSingleEQ.mat');
+        fileNameToLoad = fullfile(fixedOutputDirectory, analysisType, 'CLOUD', sprintf('EQ_%d', eqNumber), 'DATA_CollapseResultsForThisSingleEQ.mat');
         if ~isfile(fileNameToLoad)
             warning('sks:cloudMissing', 'CLOUD: missing %s (run the cloud analysis first)', fileNameToLoad);
             continue;
@@ -76,7 +76,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         % Existing single-run processor, for the Sa_%.2f folder of this record's own Sa
         [~, maxDriftRatioForFullStr, maxResidualDriftRatioForFullStr, maxPFAForFullStr] = ...
             sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA( ...
-                analysisType, modelName, cloudRun.saOwn, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder);
+                analysisType, modelName, cloudRun.saOwn, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder, 'CLOUD');
 
         maxDriftRatioForCloudLIST(eqNumberIndex)         = maxDriftRatioForFullStr;
         maxResidualDriftRatioForCloudLIST(eqNumberIndex) = maxResidualDriftRatioForFullStr;
@@ -92,7 +92,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     numberOfSavedFiles = 0;
     for eqNumberIndex = 1:numberOfRecords
         eqNumber     = eqNumberLIST(eqNumberIndex);
-        eqFolderPath = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber));
+        eqFolderPath = fullfile(fixedOutputDirectory, analysisType, 'CLOUD', sprintf('EQ_%d', eqNumber));
         if ~isfolder(eqFolderPath)
             continue;
         end

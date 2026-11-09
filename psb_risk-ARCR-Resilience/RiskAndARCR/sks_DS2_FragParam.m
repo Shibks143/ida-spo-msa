@@ -46,7 +46,7 @@ for i = 1%:2:numBldgs
         fprintf('Processing building- %i/%i, EQ- %i/%i ...\n', i, numBldgs, eqIndex, numEqs);
         eqNumber = eqNumberLIST(i, eqIndex);
         eqFolder = sprintf('EQ_%d', eqNumber);
-        cd(analysisTypeFolder); cd(eqFolder);
+        cd(fullfile(analysisTypeFolder, 'IDA')); cd(eqFolder);
         
 % this list contains 100 in saLevels for non-conv cases, 
         load('DATA_collapseIDAPlotDataForThisEQ.mat', 'saLevelsForIDAPlotLIST');
@@ -81,7 +81,7 @@ for i = 1%:2:numBldgs
 
         end
 %% save and plot EQ-specific processed results (IDA, i.e., critical column damage versus Sa(Ta)
-    cd(analysisTypeFolder); cd(eqFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA')); cd(eqFolder);
     save('DATA_criticalColDamage_IDA_ForThisEQ.mat', 'chiMax', 'saT1LIST', 'criticalColID');
     
 % calculate ALL components
@@ -127,7 +127,7 @@ for i = 1%:2:numBldgs
     
 %% save ALL and CTRL component IDAs in analysis directory
 % -------- ALL Components --------
-    cd(analysisTypeFolder)
+    cd(fullfile(analysisTypeFolder, 'IDA'))   % IDA results folder
     figure(100+i);
     sks_figureFormat(formatMode)
     xlabel('$\chi$')

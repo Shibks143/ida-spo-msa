@@ -95,13 +95,14 @@ g = 9810;
 secAtEndOfEQForResidual = 3.0; % have patience, this param is used far below of this code (PSB)
 
 % First change the directory to get into the correct folder for processing
+matlabProcessorsFolder = pwd;   % this function starts in psb_MatlabProcessors; the folder moves below use it, so they work for Output\<building>\ and Output\<building>\<IDA|MSA|CLOUD>\
 cd ..;
 cd Output;
 
 
 % Convert the folder name to string b/c the cell data type won't work to open folders (just converting type)
 analysisTypeFolder = sprintf('%s', analysisType);
-cd(analysisTypeFolder);
+cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
 
 % Create Sa and EQ folder names for later use
 saFolder = sprintf('Sa_%.2f', saTOneForRun);
@@ -234,10 +235,7 @@ end
 
 % Go back to original folder (for EQ's)
 %cd ..;
-cd ..;
-cd ..;
-cd Output;
-cd(analysisTypeFolder);
+cd(startFolder);   % the analysis folder (saved above), at any depth
 %%%%%%%%%%%%%%%%%%
 
 
@@ -553,7 +551,7 @@ if(dataSavingOption == 2)
         %function[maxRelDispResponse, maxRelVelResponse, maxAbsAccelResponse, maxPseudoAccelResponse] = ComputeAllResponsesNewmark(accelTH, timeVector, dT, period, dampRatio)
         % Go back to the Matlab folder to do the processing
         tempFolder2 = pwd;
-        cd(fullfile('..', '..', '..', '..', 'psb_MatlabProcessors'));
+        cd(matlabProcessorsFolder);
     
 
         % Process
@@ -655,7 +653,7 @@ end
 
 % Output warnings if there is a problem with convergence or with the tolerance - put this in the output folder
 % Go to Output folder
-cd(fullfile('..', '..', '..', 'Conv_Warning_Files')); % Make a WARNING file, go into folder first
+cd(fullfile(matlabProcessorsFolder, '..', 'Output', 'Conv_Warning_Files')); % Make a WARNING file, go into folder first
 
 
 % Output a warnings if needed
@@ -686,7 +684,7 @@ end
 %%%%%%%%%%%%%% End of Warnings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Get back to the MatlabProcessors folder where we started
-cd(fullfile('..', '..', 'psb_MatlabProcessors'));
+cd(matlabProcessorsFolder);
 
 disp('Processing Finished for this EQ.');
 

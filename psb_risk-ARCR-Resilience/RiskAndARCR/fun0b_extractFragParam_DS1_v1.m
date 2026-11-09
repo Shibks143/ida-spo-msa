@@ -33,7 +33,7 @@ numEqs = size(eqLIST, 2);
 % cd ..\..\..\DamageIndex\Automated\
 
 [~, analysisTypeFolder, ~, ~] = returnModelFolderInfo(bldgID);
-cd(analysisTypeFolder); 
+cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder
 
 for eqIndex = 1:numEqs
     eqNumber = eqLIST(eqIndex); eqFolder = sprintf('EQ_%d', eqNumber);

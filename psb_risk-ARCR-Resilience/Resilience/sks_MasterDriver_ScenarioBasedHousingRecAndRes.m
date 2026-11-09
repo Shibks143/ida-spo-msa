@@ -116,13 +116,13 @@ for i = 1:size(buildingIDLIST, 1)
     %% Building-specific inputs (only what cannot be read from the IDA/MSA output)
     switch buildingID
         case '46053v02'
-            analysisType = '(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+            analysisType = fullfile('(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)', 'IDA');   % IDA results folder
             outputRoot   = fullfile(baseFolder, '..', '..', 'Output');      % ida-spo-msa\Output
             numStories = 5; 
             Sa_MCE = 0.80;                                                  % from PSHA hazard
 
         case '35053v02'
-            analysisType = '(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)';
+            analysisType = fullfile('(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)', 'IDA');   % IDA results folder
             outputRoot   = fullfile(baseFolder, '..', '..', 'Output');      % ida-spo-msa\Output
             numStories = 5; 
             Sa_MCE = 0.68;

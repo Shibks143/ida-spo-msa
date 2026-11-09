@@ -31,7 +31,7 @@ numEqs = size(eqLIST, 2);
 for eqIndex = 1:numEqs
     eqNumber = eqLIST(eqIndex);
     eqFolder = sprintf('EQ_%d', eqNumber);
-    cd(analysisTypeFolder); cd(eqFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA')); cd(eqFolder);
     
     thisEqDataFileName = sprintf('DATA_criticalColDamRat_IDA_ForThisEQ.mat');
     load(thisEqDataFileName, 'saT1LIST', 'chiMax', 'criticalColID', 'xiMax', 'criticalColID_xi'); % saT1LIST remains largly unused. So far!

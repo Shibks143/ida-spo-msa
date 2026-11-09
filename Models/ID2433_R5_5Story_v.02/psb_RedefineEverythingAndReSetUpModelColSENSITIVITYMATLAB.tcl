@@ -57,6 +57,9 @@ puts "Analysis options are re-set"
 		#NOTE: This becomes the output folder name and is included in the 
 		# output file name
 
+	# Dynamic-analysis results go to Output/<analysisType>/<analysisMode>, where analysisMode (IDA, MSA or CLOUD) is written by MATLAB
+	set analysisType $analysisType/$analysisMode
+
 #####
 
 # Back to the model folder

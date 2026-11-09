@@ -31,7 +31,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     parfor eqIndex = 1:length(eqNumberLIST)
         eqNumber = eqNumberLIST(eqIndex);
 
-        eqFolderPath   = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber));
+        eqFolderPath   = fullfile(fixedOutputDirectory, analysisType, 'MSA', sprintf('EQ_%d', eqNumber));
         fileNameToLoad = fullfile(eqFolderPath, 'DATA_CollapseResultsForThisSingleEQ.mat');
 
         if ~isfile(fileNameToLoad)
@@ -87,7 +87,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                 % Sa_%.2f folder navigation inside sks_ProcSingleRun matches
                 % analysis file's saFolder = sprintf('Sa_%.2f', currentSaLevel)
                 [scaleFactorForRun, maxDriftRatioForFullStr, maxResidualDriftRatioForFullStr, maxPFAForFullStr, isNonConv, isSingular, isCollapsed] = ...
-                    sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, modelName, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder);
+                    sks_ProcSingleRun_Collapse_GeneralizedForFramesAndWalls_withGD_MSA(analysisType, modelName, currentSaLevel, eqNumber, dataSavingOption, extraSecondsToRunAnalysis, eqDataFolder, 'MSA');
 
                 % Compute unscaled Sa — matches IDA's unscaledSaLevelOfRecord line
                 unscaledSaLevelOfRecord_SaIsBasedOnScalingMethodUsed = currentSaLevel / scaleFactorForRun;

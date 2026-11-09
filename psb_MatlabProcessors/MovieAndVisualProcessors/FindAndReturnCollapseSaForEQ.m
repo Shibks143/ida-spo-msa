@@ -30,7 +30,7 @@ disp('Finding and returning collapse points...')
     cd ..;
     cd Output;
     analysisTypeFolder = sprintf('%s', analysisType)
-    cd(analysisTypeFolder);
+    cd(fullfile(analysisTypeFolder, 'IDA'));   % IDA results folder Output\<building>\IDA
     eqFolder = sprintf('EQ_%.0f', eqNumber);
     cd(eqFolder);
 

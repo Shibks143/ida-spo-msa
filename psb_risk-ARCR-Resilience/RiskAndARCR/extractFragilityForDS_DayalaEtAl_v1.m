@@ -18,6 +18,7 @@ baseFolder = pwd;
 %% extract period used for analysis (we cannot always assume it to be Ta)
 
 [~, outpFolder, ~, ~] = returnModelFolderInfo(BldgId);
+outpFolder = fullfile(outpFolder, 'IDA');   % IDA results folder
 cd(baseFolder)
 
 matFileToLoad = sprintf('DATA_collapse_CollapseSaAndStats_%s_SaGeoMean', GMsuiteName);
