@@ -8,7 +8,7 @@ function sks_ProcessIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, c
         if cloudInputs.isProcessMultipleCollapseRuns == 1
             sks_ProcessCloudRuns(cloudInputs);                  % flag 2: collect Sa, MIDR, RDR, PFA, collapse flags
         else
-            disp('CLOUD: cloud scatter plots come in Phase 2'); % flag 3: placeholder for sks_PlotCloud
+            disp('CLOUD: scatter and fragility plots are made in the CDF step (flag 4)');
         end
     end
 
