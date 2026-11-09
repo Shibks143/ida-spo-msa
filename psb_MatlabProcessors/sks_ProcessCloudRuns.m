@@ -1,13 +1,13 @@
 % -------------------
 % Procedure: sks_ProcessCloudRuns.m
-% Cloud analysis processing: for each record (one unscaled run, see sks_RunCollapseAnaMATLAB_CLOUD.m)
+% Cloud analysis processing: for each record component (one unscaled run, see sks_RunCollapseAnaMATLAB_CLOUD.m)
 % computes the maximum interstory drift ratio, residual drift ratio and peak floor acceleration with the
-% existing single-run processor, and collects everything in one table.
+% existing single-run processor, and saves them per EQ, like the MSA processing does.
+% (ControlComp/AllComp tables are built from these per-EQ files in sks_FitCloudFragility.m, as in
+%  sks_ProcessFragilityParams_MSA.m for MSA.)
 %
-% Reads : Output/<analysisType>/EQ_<n>/DATA_CloudRunForThisEQ.mat (written by the cloud runner)
-% Writes: Output/<analysisType>/DATA_CloudData_<setName>.mat     (table cloudData, one row per record component)
-%         Output/<analysisType>/CloudData_<setName>.csv          (same table, for Excel)
-%         Output/<analysisType>/CloudData_<setName>_Sa_MIDR.txt  (2 columns Sa, MIDR of non-collapse runs; Robust Fragility Tool format)
+% Reads : Output/<analysisType>/EQ_<n>/DATA_CollapseResultsForThisSingleEQ.mat     (variable cloudRun, from the cloud runner)
+% Writes: Output/<analysisType>/EQ_<n>/DATA_collapseCLOUDPlotDataForThisEQ.mat     (same name as MSA's ..._MSAPlotDataForThisEQ.mat)
 %
 % Must be called from psb_MatlabProcessors (the driver cd's there before processing).
 % Author: Shivakumar K S, IIT Madras
@@ -15,15 +15,13 @@
 % -------------------
 function sks_ProcessCloudRuns(cloudInputs)
 
-analysisTypeLIST                  = cloudInputs.analysisTypeLIST;
-modelNameLIST                     = cloudInputs.modelNameLIST;
-eqNumberLIST                      = cloudInputs.eqNumberLIST_forCloud;
-dataSavingOption                  = cloudInputs.dataSavingOption;
-extraSecondsToRunAnalysis         = cloudInputs.extraSecondsToRunAnalysis;
-eqDataFolder                      = cloudInputs.eqDataFolder;
-eqListForCloud_Name               = cloudInputs.eqListForCloud_Name;
-imType                            = cloudInputs.imType;
-periodUsedForScalingGroundMotions = cloudInputs.periodUsedForScalingGroundMotions;
+analysisTypeLIST          = cloudInputs.analysisTypeLIST;
+modelNameLIST             = cloudInputs.modelNameLIST;
+eqNumberLIST              = cloudInputs.eqNumberLIST_forCloud;
+dataSavingOption          = cloudInputs.dataSavingOption;
+extraSecondsToRunAnalysis = cloudInputs.extraSecondsToRunAnalysis;
+eqDataFolder              = cloudInputs.eqDataFolder;
+eqListForCloud_Name       = cloudInputs.eqListForCloud_Name;
 
 startDir             = pwd;
 fixedOutputDirectory = fullfile(startDir, '..', 'Output');
@@ -48,13 +46,17 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
 
     parfor eqNumberIndex = 1:numberOfRecords
         eqNumber       = eqNumberLIST(eqNumberIndex);
-        fileNameToLoad = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber), 'DATA_CloudRunForThisEQ.mat');
+        fileNameToLoad = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber), 'DATA_CollapseResultsForThisSingleEQ.mat');
         if ~isfile(fileNameToLoad)
-            warning('sks:cloudMissing', 'CLOUD: missing %s (run the analysis first)', fileNameToLoad);
+            warning('sks:cloudMissing', 'CLOUD: missing %s (run the cloud analysis first)', fileNameToLoad);
             continue;
         end
-        loadedCloudRunData = load(fileNameToLoad, 'cloudRun');
-        cloudRun           = loadedCloudRunData.cloudRun;
+        loadedResultsForThisEQ = load(fileNameToLoad);
+        if ~isfield(loadedResultsForThisEQ, 'cloudRun')
+            warning('sks:cloudNotCloudResult', 'CLOUD: %s holds IDA/MSA results, not a cloud run; run the cloud analysis (flag 1) for EQ %d.', fileNameToLoad, eqNumber);
+            continue;
+        end
+        cloudRun = loadedResultsForThisEQ.cloudRun;
 
         saLevelForCloudLIST(eqNumberIndex) = cloudRun.saOwn;
         saCompForCloudLIST(eqNumberIndex)  = cloudRun.saCompOwn;
@@ -86,32 +88,43 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     % Collapse case = collapsed, non-converged or singular (cloud definition)
     isCollapseCaseLIST = double(isCollapsedLIST == 1 | isNonConvLIST == 1 | isSingularLIST == 1);
 
-    cloudData = table(eqNumberLIST(:), floor(eqNumberLIST(:)/10), saLevelForCloudLIST, saCompForCloudLIST, ...
-        maxDriftRatioForCloudLIST, maxResidualDriftRatioForCloudLIST, maxPFAForCloudLIST, ...
-        isCollapsedLIST, isNonConvLIST, isSingularLIST, isCollapseCaseLIST, isRunErrorLIST, isProcessedLIST, ...
-        'VariableNames', {'eqNumber', 'eqNumberForGeoMean', 'saOwn', 'saCompOwn', ...
-                          'maxDriftRatioForFullStr', 'maxResidualDriftRatioForFullStr', 'maxPFAForFullStr', ...
-                          'isCollapsed', 'isNonConv', 'isSingular', 'isCollapseCase', 'isRunError', 'isProcessed'});
-
-    % Save
-    analysisTypeFolderPath    = fullfile(fixedOutputDirectory, analysisType);
-    isNonCollapseAndProcessed = cloudData.isCollapseCase == 0 & cloudData.isProcessed == 1;
-
-    fileNameToSave = fullfile(analysisTypeFolderPath, sprintf('DATA_CloudData_%s.mat', eqListForCloud_Name));
-    save(fileNameToSave, 'cloudData', 'analysisType', 'eqListForCloud_Name', 'imType', 'periodUsedForScalingGroundMotions');
-    writetable(cloudData, fullfile(analysisTypeFolderPath, sprintf('CloudData_%s.csv', eqListForCloud_Name)));
-    writematrix([cloudData.saOwn(isNonCollapseAndProcessed) cloudData.maxDriftRatioForFullStr(isNonCollapseAndProcessed)], ...
-        fullfile(analysisTypeFolderPath, sprintf('CloudData_%s_Sa_MIDR.txt', eqListForCloud_Name)), 'Delimiter', 'tab');
+    % ---------------- Save per EQ (like DATA_collapseMSAPlotDataForThisEQ.mat) ----------------
+    numberOfSavedFiles = 0;
+    for eqNumberIndex = 1:numberOfRecords
+        eqNumber     = eqNumberLIST(eqNumberIndex);
+        eqFolderPath = fullfile(fixedOutputDirectory, analysisType, sprintf('EQ_%d', eqNumber));
+        if ~isfolder(eqFolderPath)
+            continue;
+        end
+        cloudPlotDataForThisEQ = struct( ...
+            'eqNumber',                        eqNumber, ...
+            'eqNumberForGeoMean',              floor(eqNumber / 10), ...
+            'saOwn',                           saLevelForCloudLIST(eqNumberIndex), ...
+            'saCompOwn',                       saCompForCloudLIST(eqNumberIndex), ...
+            'maxDriftRatioForFullStr',         maxDriftRatioForCloudLIST(eqNumberIndex), ...
+            'maxResidualDriftRatioForFullStr', maxResidualDriftRatioForCloudLIST(eqNumberIndex), ...
+            'maxPFAForFullStr',                maxPFAForCloudLIST(eqNumberIndex), ...
+            'isCollapsed',                     isCollapsedLIST(eqNumberIndex), ...
+            'isNonConv',                       isNonConvLIST(eqNumberIndex), ...
+            'isSingular',                      isSingularLIST(eqNumberIndex), ...
+            'isCollapseCase',                  isCollapseCaseLIST(eqNumberIndex), ...
+            'isRunError',                      isRunErrorLIST(eqNumberIndex), ...
+            'isProcessed',                     isProcessedLIST(eqNumberIndex), ...
+            'analysisType',                    analysisType);
+        fileNameToSave = fullfile(eqFolderPath, 'DATA_collapseCLOUDPlotDataForThisEQ.mat');
+        save(fileNameToSave, '-struct', 'cloudPlotDataForThisEQ');
+        numberOfSavedFiles = numberOfSavedFiles + 1;
+    end
 
     % Summary
+    isNonCollapseAndProcessed = isCollapseCaseLIST == 0 & isProcessedLIST == 1;
     fprintf('CLOUD processing summary (%s):\n', eqListForCloud_Name);
     fprintf('  records: %d, processed: %d, collapse cases: %d, run errors: %d\n', ...
         numberOfRecords, sum(isProcessedLIST), sum(isCollapseCaseLIST), sum(isRunErrorLIST));
     fprintf('  Sa range: %.3f - %.3f g;  MIDR range (non-collapse): %.4f - %.4f\n', ...
         min(saLevelForCloudLIST), max(saLevelForCloudLIST), ...
-        min(cloudData.maxDriftRatioForFullStr(isNonCollapseAndProcessed)), max(cloudData.maxDriftRatioForFullStr(isNonCollapseAndProcessed)));
-    fprintf('  saved: DATA_CloudData_%s.mat, CloudData_%s.csv, CloudData_%s_Sa_MIDR.txt\n', ...
-        eqListForCloud_Name, eqListForCloud_Name, eqListForCloud_Name);
+        min(maxDriftRatioForCloudLIST(isNonCollapseAndProcessed)), max(maxDriftRatioForCloudLIST(isNonCollapseAndProcessed)));
+    fprintf('  saved: DATA_collapseCLOUDPlotDataForThisEQ.mat in %d EQ folder(s)\n', numberOfSavedFiles);
 end
 
 cd(startDir);

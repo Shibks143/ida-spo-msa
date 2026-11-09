@@ -6,7 +6,7 @@
 %
 % Output (same folder layout as MSA):
 %   Output/<analysisType>/EQ_<eqNumber>/Sa_<own Sa, 2 decimals>/...   (OpenSees results)
-%   Output/<analysisType>/EQ_<eqNumber>/DATA_CloudRunForThisEQ.mat     (summary for this record)
+%   Output/<analysisType>/EQ_<eqNumber>/DATA_CollapseResultsForThisSingleEQ.mat  (same name as IDA/MSA; variable cloudRun)
 %
 % Author: Shivakumar K S, IIT Madras (based on the IDA/MSA runners of C. Haselton and P. S. Badal)
 % Date:   09-Nov-2026
@@ -154,7 +154,7 @@ for sensModelIndex = 1:length(sensModelLIST)
                 cloudRun.isRunError = 1;
                 fprintf('CLOUD: could not read results for EQ %d in %s (%s)\n', eqNumber, runInfoDir, readError.message);
             end
-            sks_saveCloudRun(fullfile(eqFolder, 'DATA_CloudRunForThisEQ.mat'), cloudRun);
+            sks_saveCloudRun(fullfile(eqFolder, 'DATA_CollapseResultsForThisSingleEQ.mat'), cloudRun);   % same file name as IDA/MSA
         end
     end
 end

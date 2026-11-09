@@ -21,10 +21,11 @@ function sks_CDFIdaOrMsaOrCLOUD(IDA_or_MSA_or_CLOUD, idaInputs, msaInputs, cloud
 
     elseif strcmp(IDA_or_MSA_or_CLOUD, 'CLOUD')
 
-        % Step1: cloud fit: ln(EDP) = ln(a) + b*ln(Sa) on non-collapse runs + logistic P(C|Sa); saves DATA_CloudFragility_<name>.mat (Phase 2)
+        % Step1: cloud fit (ControlComp + AllComp): ln(EDP) = ln(a) + b*ln(Sa) on non-collapse points + logistic P(C|Sa);
+        %        saves DATA_FragilityParams_SaGeoMean_<name>.mat (same name as IDA/MSA)
         sks_FitCloudFragility(cloudInputs);
 
-        % Step2: cloud scatter + fragility curves for MIDR, RDR, PFA (Phase 2)
+        % Step2: CollapseCLOUD_<comp>_SaGeoMean[_RDR|_PFA] and CollapseCDF_<comp>_SaGeoMean_CLOUD_<MIDR|RDR|PFA> figures
         sks_PlotCloud(cloudInputs);
         disp('CLOUD fragility plots - DONE')
 

@@ -1,13 +1,15 @@
 % -------------------
 % Procedure: sks_PlotCloud.m
-% Cloud analysis figures for MIDR, RDR and PFA (axis labels follow the IDA/MSA plots; no titles):
-%   CloudScatter_<demand>_<setName> : log-log cloud of EDP (x) vs Sa (y), like the IDA/MSA response plots:
-%                                     non-collapse runs, collapse cases, fitted ln(EDP) = ln(a) + b ln(Sa),
-%                                     +/- 1 beta band, limit-state levels as vertical lines
-%   CloudFragility_<demand>_<setName>: Pr[LS >= ls_i | IM = im] for each limit state, like the IDA/MSA fragility plots
-%                                     (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
+% Cloud analysis figures for MIDR, RDR and PFA, for both component cases (ControlComp and AllComp, as in IDA/MSA);
+% axis labels follow the IDA/MSA plots; no titles:
+% File names as in IDA/MSA, with IDA/MSA replaced by CLOUD:
+%   CollapseCLOUD_<ControlComp|AllComp>_SaGeoMean[_RDR|_PFA]   (like CollapseMSA_<comp>_SaGeoMean...):
+%       log-log cloud of EDP (x) vs Sa (y): non-collapse points, collapse cases, fitted ln(EDP) = ln(a) + b ln(Sa),
+%       +/- 1 beta band, limit-state levels as vertical lines (no suffix = MIDR)
+%   CollapseCDF_<ControlComp|AllComp>_SaGeoMean_CLOUD_<MIDR|RDR|PFA>   (like CollapseCDF_<comp>_SaGeoMean_MSA_<...>):
+%       Pr[LS >= ls_i | IM = im] for each limit state (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
 %
-% Reads : Output/<analysisType>/DATA_CloudFragility_<setName>.mat (written by sks_FitCloudFragility.m)
+% Reads : Output/<analysisType>/DATA_FragilityParams_SaGeoMean_<setName>.mat (written by sks_FitCloudFragility.m)
 % Writes: figures in Output/<analysisType>/ via sks_figureFormat + sks_figureExport (same as the MSA CDF plots)
 %
 % All figure text is LaTeX, because sks_figureFormat sets 'Interpreter' = 'latex' for labels and legends.
@@ -26,6 +28,7 @@ demandAxisLabels = {'$\mathrm{Max\ Interstory\ Drift\ Ratio\ (\%)}$', ...       
                     '$\mathrm{Max\ Interstory\ Residual\ Drift\ Ratio\ (\%)}$', ...
                     '$\mathrm{Peak\ Floor\ Acceleration\ (g)}$'};
 demandPlotFactorList = [100, 100, 1];                                                 % drift ratios plotted in %, PFA in g
+responseFigureSuffixList = {'', '_RDR', '_PFA'};                                      % CollapseCLOUD_<comp>_SaGeoMean[...] (no suffix = MIDR, as in MSA)
 
 startDir             = pwd;
 fixedOutputDirectory = fullfile(startDir, '..', 'Output');
@@ -33,13 +36,17 @@ fixedOutputDirectory = fullfile(startDir, '..', 'Output');
 for analysisTypeNum = 1:length(analysisTypeLIST)
     analysisType           = analysisTypeLIST{analysisTypeNum};
     analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType);
-    fileNameToLoad         = fullfile(analysisTypeFolderPath, sprintf('DATA_CloudFragility_%s.mat', eqListForCloud_Name));
+    fileNameToLoad         = fullfile(analysisTypeFolderPath, sprintf('DATA_FragilityParams_SaGeoMean_%s.mat', eqListForCloud_Name));
     if ~isfile(fileNameToLoad)
-        error('sksCode:cloudFragility', 'CLOUD: %s not found; run sks_FitCloudFragility first.', fileNameToLoad);
+        error('sksCode:cloudFragility', 'CLOUD: %s not found; run the CLOUD fit (flag 4) first.', fileNameToLoad);
     end
-    loadedFragilityData = load(fileNameToLoad, 'cloudFragility');
+    loadedFragilityData = load(fileNameToLoad);
+    if ~isfield(loadedFragilityData, 'cloudFragility') || ~isfield(loadedFragilityData.cloudFragility, 'componentCaseList')
+        error('sksCode:cloudFragilityNotCloud', ['CLOUD: %s does not hold CLOUD results (same file name as IDA/MSA; ' ...
+            'the last analysis written was IDA/MSA). Rerun the CLOUD fit (flag 4).'], fileNameToLoad);
+    end
     cloudFragility      = loadedFragilityData.cloudFragility;
-    collapseFit         = cloudFragility.collapseFit;
+    componentCaseList   = cloudFragility.componentCaseList;    % {'ControlComp', 'AllComp'}, as in the IDA/MSA plots
     saGridForPlot       = cloudFragility.saGridForPlot;
 
     % Sa axis labels in the same form as the IDA/MSA plots
@@ -54,10 +61,15 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         saSubscript, cloudFragility.periodUsedForScalingGroundMotions);
     fragilityAxisLabel = '$\mathrm{Pr}[\mathrm{LS} \ge ls_i \mid \mathrm{IM} = im]$';
 
-    for demandIndex = 1:numel(demandNameList)
+    % One scatter + one fragility figure per demand and component case
+    numberOfFigureSets = numel(demandNameList) * numel(componentCaseList);
+    for figureSetIndex = 1:numberOfFigureSets
+        [demandIndex, componentCaseIndex] = ind2sub([numel(demandNameList), numel(componentCaseList)], figureSetIndex);
+        componentCase       = componentCaseList{componentCaseIndex};
+        collapseFit         = cloudFragility.(componentCase).collapseFit;
         demandName          = demandNameList{demandIndex};
         demandPlotFactor    = demandPlotFactorList(demandIndex);
-        demandFit           = cloudFragility.(demandName);
+        demandFit           = cloudFragility.(componentCase).(demandName);
         limitStateLevels    = demandFit.limitStateLevels;
         limitStateLabels    = demandFit.limitStateLabels;
         numberOfLimitStates = numel(limitStateLevels);
@@ -116,17 +128,27 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         xticks(xTickValues);
         xticklabels(arrayfun(@(tickValue) sprintf('%g', tickValue), xTickValues, 'UniformOutput', false));
 
+        % y ticks (Sa) as plain numbers on a 1-2-5 sequence inside the y range (e.g. 0.1 0.2 0.5 1)
+        yAxisLimits      = ylim;
+        decadesInYRange  = 10.^(floor(log10(yAxisLimits(1))):ceil(log10(yAxisLimits(2))));
+        yTickValues      = reshape([1; 2; 5] * decadesInYRange, [], 1);
+        yTickValues      = yTickValues(yTickValues >= yAxisLimits(1) & yTickValues <= yAxisLimits(2));
+        if numel(yTickValues) >= 2
+            yticks(yTickValues);
+            yticklabels(arrayfun(@(tickValue) sprintf('%g', tickValue), yTickValues, 'UniformOutput', false));
+        end
+
         xlabel(demandAxisLabels{demandIndex}, 'Interpreter', 'latex');
         ylabel(saAxisLabelForResponse, 'Interpreter', 'latex');
         legend(legendHandles, legendEntries, 'Location', 'southeast');
 
         sks_figureFormat(formatMode);
-        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudScatter_%s_%s', demandName, eqListForCloud_Name)));
+        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CollapseCLOUD_%s_SaGeoMean%s', componentCase, responseFigureSuffixList{demandIndex})));
         close(gcf);
 
         % ---------------- Fragility curves: Pr[LS >= ls_i | IM = im] ----------------
         if ~isRegressionFitted || demandFit.b <= 0
-            fprintf('CLOUD %s: no fragility figure (regression not available).\n', demandName);
+            fprintf('CLOUD %s %s: no fragility figure (regression not available).\n', componentCase, demandName);
             continue;
         end
         figure; hold on; box on; grid on;
@@ -155,7 +177,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         legend(legendHandles, legendEntries, 'Location', 'southeast');
 
         sks_figureFormat(formatMode);
-        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudFragility_%s_%s', demandName, eqListForCloud_Name)));
+        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CollapseCDF_%s_SaGeoMean_CLOUD_%s', componentCase, demandName)));
         close(gcf);
     end
 end

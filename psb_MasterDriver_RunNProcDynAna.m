@@ -373,7 +373,7 @@ cloudInputs = idaInputs;                                                % CLOUD 
 
 % CLOUD-specific inputs
 cloudInputs.eqNumberLIST_forCloud = eqNumberLIST;                           % records run once, unscaled (scale factor = 1)
-cloudInputs.eqListForCloud_Name   = [eqListForCollapseIDAs_Name '_Cloud'];  % e.g. 'GMSetTest_Cloud' (used in output file names)
+cloudInputs.eqListForCloud_Name   = eqListForCollapseIDAs_Name;             % same set name as IDA/MSA, e.g. 'GMSetC' (same output file names)
 cloudInputs.imType                = 'geoMean';                              % IM = Sa_geoMean(T1), same as IDA/MSA
 cloudInputs.collapseModel         = 'logistic';                             % P(C|Sa) by logistic regression
 cloudInputs.nBootstrap            = 0;                                      % 0 = off (bootstrap bands added later)
