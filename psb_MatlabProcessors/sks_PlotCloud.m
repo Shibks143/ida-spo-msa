@@ -2,13 +2,14 @@
 % Procedure: sks_PlotCloud.m
 % Cloud analysis figures for MIDR, RDR and PFA, for both component cases (ControlComp and AllComp, as in IDA/MSA);
 % axis labels follow the IDA/MSA plots; no titles:
-%   CloudScatter_<demand>_<componentCase>_<setName> : log-log cloud of EDP (x) vs Sa (y), like the IDA/MSA response plots:
-%                                     non-collapse points, collapse cases, fitted ln(EDP) = ln(a) + b ln(Sa),
-%                                     +/- 1 beta band, limit-state levels as vertical lines
-%   CloudFragility_<demand>_<componentCase>_<setName>: Pr[LS >= ls_i | IM = im] for each limit state, like the IDA/MSA
-%                                     fragility plots (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
+% File names as in IDA/MSA, with IDA/MSA replaced by CLOUD:
+%   CollapseCLOUD_<ControlComp|AllComp>_SaGeoMean[_RDR|_PFA]   (like CollapseMSA_<comp>_SaGeoMean...):
+%       log-log cloud of EDP (x) vs Sa (y): non-collapse points, collapse cases, fitted ln(EDP) = ln(a) + b ln(Sa),
+%       +/- 1 beta band, limit-state levels as vertical lines (no suffix = MIDR)
+%   CollapseCDF_<ControlComp|AllComp>_SaGeoMean_CLOUD_<MIDR|RDR|PFA>   (like CollapseCDF_<comp>_SaGeoMean_MSA_<...>):
+%       Pr[LS >= ls_i | IM = im] for each limit state (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
 %
-% Reads : Output/<analysisType>/DATA_CloudFragility_<setName>.mat (written by sks_FitCloudFragility.m)
+% Reads : Output/<analysisType>/DATA_FragilityParams_SaGeoMean_<setName>.mat (written by sks_FitCloudFragility.m)
 % Writes: figures in Output/<analysisType>/ via sks_figureFormat + sks_figureExport (same as the MSA CDF plots)
 %
 % All figure text is LaTeX, because sks_figureFormat sets 'Interpreter' = 'latex' for labels and legends.
@@ -27,6 +28,7 @@ demandAxisLabels = {'$\mathrm{Max\ Interstory\ Drift\ Ratio\ (\%)}$', ...       
                     '$\mathrm{Max\ Interstory\ Residual\ Drift\ Ratio\ (\%)}$', ...
                     '$\mathrm{Peak\ Floor\ Acceleration\ (g)}$'};
 demandPlotFactorList = [100, 100, 1];                                                 % drift ratios plotted in %, PFA in g
+responseFigureSuffixList = {'', '_RDR', '_PFA'};                                      % CollapseCLOUD_<comp>_SaGeoMean[...] (no suffix = MIDR, as in MSA)
 
 startDir             = pwd;
 fixedOutputDirectory = fullfile(startDir, '..', 'Output');
@@ -34,15 +36,16 @@ fixedOutputDirectory = fullfile(startDir, '..', 'Output');
 for analysisTypeNum = 1:length(analysisTypeLIST)
     analysisType           = analysisTypeLIST{analysisTypeNum};
     analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType);
-    fileNameToLoad         = fullfile(analysisTypeFolderPath, sprintf('DATA_CloudFragility_%s.mat', eqListForCloud_Name));
+    fileNameToLoad         = fullfile(analysisTypeFolderPath, sprintf('DATA_FragilityParams_SaGeoMean_%s.mat', eqListForCloud_Name));
     if ~isfile(fileNameToLoad)
-        error('sksCode:cloudFragility', 'CLOUD: %s not found; run sks_FitCloudFragility first.', fileNameToLoad);
+        error('sksCode:cloudFragility', 'CLOUD: %s not found; run the CLOUD fit (flag 4) first.', fileNameToLoad);
     end
-    loadedFragilityData = load(fileNameToLoad, 'cloudFragility');
+    loadedFragilityData = load(fileNameToLoad);
+    if ~isfield(loadedFragilityData, 'cloudFragility') || ~isfield(loadedFragilityData.cloudFragility, 'componentCaseList')
+        error('sksCode:cloudFragilityNotCloud', ['CLOUD: %s does not hold CLOUD results (same file name as IDA/MSA; ' ...
+            'the last analysis written was IDA/MSA). Rerun the CLOUD fit (flag 4).'], fileNameToLoad);
+    end
     cloudFragility      = loadedFragilityData.cloudFragility;
-    if ~isfield(cloudFragility, 'componentCaseList')
-        error('sksCode:cloudFragilityOld', 'CLOUD: %s was made by an older version (no ControlComp/AllComp); rerun the fit (flag 4).', fileNameToLoad);
-    end
     componentCaseList   = cloudFragility.componentCaseList;    % {'ControlComp', 'AllComp'}, as in the IDA/MSA plots
     saGridForPlot       = cloudFragility.saGridForPlot;
 
@@ -130,7 +133,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         legend(legendHandles, legendEntries, 'Location', 'southeast');
 
         sks_figureFormat(formatMode);
-        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudScatter_%s_%s_%s', demandName, componentCase, eqListForCloud_Name)));
+        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CollapseCLOUD_%s_SaGeoMean%s', componentCase, responseFigureSuffixList{demandIndex})));
         close(gcf);
 
         % ---------------- Fragility curves: Pr[LS >= ls_i | IM = im] ----------------
@@ -164,7 +167,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         legend(legendHandles, legendEntries, 'Location', 'southeast');
 
         sks_figureFormat(formatMode);
-        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudFragility_%s_%s_%s', demandName, componentCase, eqListForCloud_Name)));
+        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CollapseCDF_%s_SaGeoMean_CLOUD_%s', componentCase, demandName)));
         close(gcf);
     end
 end

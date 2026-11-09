@@ -1,7 +1,12 @@
 % -------------------
 % Procedure: sks_FitCloudFragility.m
 % Cloud analysis fragility (Cornell et al. 2002; Jalayer et al. 2017), for both component cases used by IDA/MSA
-% (ControlComp and AllComp, see sks_ProcessCloudRuns.m):
+% (ControlComp and AllComp):
+%   AllComp     : one point per record component
+%   ControlComp : one point per record pair, same rules as sks_ProcessFragilityParams_MSA.m:
+%                 demand = max(component 1, component 2); collapse case if EITHER component is a collapse case;
+%                 pair excluded if EITHER component is a non-collapse run that is singular or non-converged,
+%                 or if a component is missing / had a run error
 %   non-collapse runs : ln(EDP) = ln(a) + b*ln(Sa) + error,  betaEdpGivenSa = std of residuals (n-2 dof)
 %   collapse cases    : P(C|Sa) = 1 / (1 + exp(-(alpha0 + alpha1*ln(Sa))))    (logistic regression)
 %   limit state LS    : P(LS|Sa) = Phi( (ln(a*Sa^b) - ln(C_LS)) / betaEdpGivenSa ) * (1 - P(C|Sa)) + P(C|Sa)
@@ -9,9 +14,10 @@
 %                       betaTotal = sqrt(betaRecordToRecord^2 + sigmaLnModeling^2 + sigmaLnDesignReq^2 + sigmaLnTestData^2)
 %   (fragilityCurveWithTotalBeta uses the same formula with the EDP dispersion increased by the additional sigmas)
 %
-% Reads : Output/<analysisType>/DATA_CloudData_<setName>.mat      (tables cloudDataControlComp, cloudDataAllComp)
-% Writes: Output/<analysisType>/DATA_CloudFragility_<setName>.mat (struct cloudFragility.ControlComp / .AllComp,
-%                                                                   each with .MIDR, .RDR, .PFA and .collapseFit)
+% Reads : Output/<analysisType>/EQ_<n>/DATA_collapseCLOUDPlotDataForThisEQ.mat   (written by sks_ProcessCloudRuns.m)
+% Writes: Output/<analysisType>/DATA_FragilityParams_SaGeoMean_<setName>.mat     (same name as IDA/MSA; struct
+%         cloudFragility.ControlComp / .AllComp, each with .MIDR, .RDR, .PFA and .collapseFit, plus the tables
+%         cloudDataControlComp and cloudDataAllComp)
 %
 % Must be called from psb_MatlabProcessors. PFA is converted from mm/s^2 to g (/9810), as in sks_ProcessFragilityParams_MSA.m.
 % Author: Shivakumar K S, IIT Madras
@@ -20,6 +26,7 @@
 function sks_FitCloudFragility(cloudInputs)
 
 analysisTypeLIST                  = cloudInputs.analysisTypeLIST;
+eqNumberLIST                      = cloudInputs.eqNumberLIST_forCloud;
 eqListForCloud_Name               = cloudInputs.eqListForCloud_Name;
 imType                            = cloudInputs.imType;
 periodUsedForScalingGroundMotions = cloudInputs.periodUsedForScalingGroundMotions;
@@ -49,19 +56,14 @@ fixedOutputDirectory = fullfile(startDir, '..', 'Output');
 for analysisTypeNum = 1:length(analysisTypeLIST)
     analysisType           = analysisTypeLIST{analysisTypeNum};
     analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType);
-    fileNameToLoad         = fullfile(analysisTypeFolderPath, sprintf('DATA_CloudData_%s.mat', eqListForCloud_Name));
-    if ~isfile(fileNameToLoad)
-        error('sksCode:cloudData', 'CLOUD: %s not found; run the processing step (flag 2) first.', fileNameToLoad);
-    end
-    loadedCloudData = load(fileNameToLoad, 'cloudDataControlComp', 'cloudDataAllComp');
-    if ~isfield(loadedCloudData, 'cloudDataControlComp')
-        error('sksCode:cloudDataOld', 'CLOUD: %s has no ControlComp table (made by an older version); rerun the processing step (flag 2).', fileNameToLoad);
-    end
+    % AllComp and ControlComp tables from the per-EQ processed files (as sks_ProcessFragilityParams_MSA.m does for MSA)
+    [cloudDataAllComp, cloudDataControlComp] = sks_BuildCloudComponentCaseTables(eqNumberLIST, analysisTypeFolderPath, imType);
+    cloudDataForCaseList = {cloudDataControlComp, cloudDataAllComp};
 
     cloudFragility = struct();
     for componentCaseIndex = 1:numel(componentCaseList)
         componentCase    = componentCaseList{componentCaseIndex};
-        cloudDataForCase = loadedCloudData.(['cloudData' componentCase]);
+        cloudDataForCase = cloudDataForCaseList{componentCaseIndex};
         fprintf('\nCLOUD fragility fit: %s, %s (%s)\n', eqListForCloud_Name, componentCase, analysisType);
         cloudFragility.(componentCase) = sks_FitCloudFragilityForOneComponentCase(cloudDataForCase, componentCase, fitSettings);
     end
@@ -77,13 +79,94 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     cloudFragility.sigmaLnDesignReq                  = sigmaLnDesignReq;
     cloudFragility.sigmaLnTestData                   = sigmaLnTestData;
 
-    fileNameToSave = fullfile(analysisTypeFolderPath, sprintf('DATA_CloudFragility_%s.mat', eqListForCloud_Name));
-    save(fileNameToSave, 'cloudFragility');
-    fprintf('  saved: DATA_CloudFragility_%s.mat (ControlComp and AllComp)\n', eqListForCloud_Name);
+    fileNameToSave = fullfile(analysisTypeFolderPath, sprintf('DATA_FragilityParams_SaGeoMean_%s.mat', eqListForCloud_Name));
+    save(fileNameToSave, 'cloudFragility', 'cloudDataControlComp', 'cloudDataAllComp');
+    fprintf('  saved: DATA_FragilityParams_SaGeoMean_%s.mat (ControlComp and AllComp)\n', eqListForCloud_Name);
 end
 
 cd(startDir);
 disp('CLOUD fragility fit - DONE')
+end
+
+
+% ---------------- AllComp and ControlComp tables from the per-EQ processed files ----------------
+function [cloudDataAllComp, cloudDataControlComp] = sks_BuildCloudComponentCaseTables(eqNumberLIST, analysisTypeFolderPath, imType)
+
+numberOfRecords = numel(eqNumberLIST);
+cloudPlotDataLIST = cell(numberOfRecords, 1);
+for eqNumberIndex = 1:numberOfRecords
+    eqNumber       = eqNumberLIST(eqNumberIndex);
+    fileNameToLoad = fullfile(analysisTypeFolderPath, sprintf('EQ_%d', eqNumber), 'DATA_collapseCLOUDPlotDataForThisEQ.mat');
+    if isfile(fileNameToLoad)
+        cloudPlotDataLIST{eqNumberIndex} = load(fileNameToLoad);
+    else
+        warning('sks:cloudPlotDataMissing', 'CLOUD: missing %s (run the processing step, flag 2); EQ %d is excluded.', fileNameToLoad, eqNumber);
+        cloudPlotDataLIST{eqNumberIndex} = struct('eqNumber', eqNumber, 'eqNumberForGeoMean', floor(eqNumber / 10), ...
+            'saOwn', NaN, 'saCompOwn', NaN, 'maxDriftRatioForFullStr', NaN, 'maxResidualDriftRatioForFullStr', NaN, ...
+            'maxPFAForFullStr', NaN, 'isCollapsed', NaN, 'isNonConv', NaN, 'isSingular', NaN, 'isCollapseCase', 0, ...
+            'isRunError', 1, 'isProcessed', 0, 'analysisType', '');
+    end
+end
+cloudPlotDataArray = [cloudPlotDataLIST{:}];
+
+% ---------------- AllComp: one point per record component ----------------
+cloudDataAllComp = table([cloudPlotDataArray.eqNumber]', [cloudPlotDataArray.eqNumberForGeoMean]', ...
+    [cloudPlotDataArray.saOwn]', [cloudPlotDataArray.saCompOwn]', ...
+    [cloudPlotDataArray.maxDriftRatioForFullStr]', [cloudPlotDataArray.maxResidualDriftRatioForFullStr]', [cloudPlotDataArray.maxPFAForFullStr]', ...
+    [cloudPlotDataArray.isCollapsed]', [cloudPlotDataArray.isNonConv]', [cloudPlotDataArray.isSingular]', ...
+    [cloudPlotDataArray.isCollapseCase]', [cloudPlotDataArray.isRunError]', [cloudPlotDataArray.isProcessed]', ...
+    'VariableNames', {'eqNumber', 'eqNumberForGeoMean', 'saOwn', 'saCompOwn', ...
+                      'maxDriftRatioForFullStr', 'maxResidualDriftRatioForFullStr', 'maxPFAForFullStr', ...
+                      'isCollapsed', 'isNonConv', 'isSingular', 'isCollapseCase', 'isRunError', 'isProcessed'});
+cloudDataAllComp.isExcluded = cloudDataAllComp.isRunError;          % component not usable at all
+
+% ---------------- ControlComp: one point per record pair (same rules as MSA) ----------------
+if ~strcmp(imType, 'geoMean')
+    warning('sks:cloudControlCompIM', ['CLOUD: ControlComp uses one Sa per pair; with imType = ''%s'' the two components ' ...
+        'have different Sa, so the Sa of component 1 is used for the pair.'], imType);
+end
+eqNumberForGeoMeanLIST = unique(cloudDataAllComp.eqNumberForGeoMean, 'stable');
+numberOfPairs          = numel(eqNumberForGeoMeanLIST);
+
+saLevelForPairLIST               = NaN(numberOfPairs, 1);
+maxDriftRatioForPairLIST         = NaN(numberOfPairs, 1);
+maxResidualDriftRatioForPairLIST = NaN(numberOfPairs, 1);
+maxPFAForPairLIST                = NaN(numberOfPairs, 1);
+isCollapseCaseForPairLIST        = zeros(numberOfPairs, 1);
+isProcessedForPairLIST           = zeros(numberOfPairs, 1);
+isExcludedForPairLIST            = ones(numberOfPairs, 1);
+numberOfComponentsForPairLIST    = zeros(numberOfPairs, 1);
+
+for pairIndex = 1:numberOfPairs
+    componentRowsOfPair = cloudDataAllComp(cloudDataAllComp.eqNumberForGeoMean == eqNumberForGeoMeanLIST(pairIndex), :);
+    numberOfComponentsForPairLIST(pairIndex) = height(componentRowsOfPair);
+
+    % Exclusion rules (as MSA ControlComp): both components present and run, and no non-collapse singular/non-converged run
+    isAnyComponentMissingOrError = height(componentRowsOfPair) < 2 || any(componentRowsOfPair.isRunError == 1);
+    isAnyNonCollapseBadRun       = any(componentRowsOfPair.isCollapsed == 0 & ...
+                                       (componentRowsOfPair.isSingular == 1 | componentRowsOfPair.isNonConv == 1));
+    if isAnyComponentMissingOrError || isAnyNonCollapseBadRun
+        continue;
+    end
+
+    saLevelForPairLIST(pairIndex)               = componentRowsOfPair.saOwn(1);     % Sa_geoM is the same for both components
+    maxDriftRatioForPairLIST(pairIndex)         = max(componentRowsOfPair.maxDriftRatioForFullStr);
+    maxResidualDriftRatioForPairLIST(pairIndex) = max(componentRowsOfPair.maxResidualDriftRatioForFullStr);
+    maxPFAForPairLIST(pairIndex)                = max(componentRowsOfPair.maxPFAForFullStr);
+    isCollapseCaseForPairLIST(pairIndex)        = double(any(componentRowsOfPair.isCollapseCase == 1));
+    isProcessedForPairLIST(pairIndex)           = double(all(componentRowsOfPair.isProcessed == 1));
+    isExcludedForPairLIST(pairIndex)            = 0;
+end
+
+cloudDataControlComp = table(eqNumberForGeoMeanLIST(:), saLevelForPairLIST, ...
+    maxDriftRatioForPairLIST, maxResidualDriftRatioForPairLIST, maxPFAForPairLIST, ...
+    isCollapseCaseForPairLIST, isProcessedForPairLIST, isExcludedForPairLIST, numberOfComponentsForPairLIST, ...
+    'VariableNames', {'eqNumberForGeoMean', 'saOwn', ...
+                      'maxDriftRatioForFullStr', 'maxResidualDriftRatioForFullStr', 'maxPFAForFullStr', ...
+                      'isCollapseCase', 'isProcessed', 'isExcluded', 'numberOfComponents'});
+
+fprintf('\nCLOUD data: AllComp %d component(s) (%d used), ControlComp %d pair(s) (%d used)\n', ...
+    height(cloudDataAllComp), sum(cloudDataAllComp.isExcluded == 0), height(cloudDataControlComp), sum(cloudDataControlComp.isExcluded == 0));
 end
 
 
