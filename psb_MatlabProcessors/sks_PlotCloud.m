@@ -128,6 +128,16 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         xticks(xTickValues);
         xticklabels(arrayfun(@(tickValue) sprintf('%g', tickValue), xTickValues, 'UniformOutput', false));
 
+        % y ticks (Sa) as plain numbers on a 1-2-5 sequence inside the y range (e.g. 0.1 0.2 0.5 1)
+        yAxisLimits      = ylim;
+        decadesInYRange  = 10.^(floor(log10(yAxisLimits(1))):ceil(log10(yAxisLimits(2))));
+        yTickValues      = reshape([1; 2; 5] * decadesInYRange, [], 1);
+        yTickValues      = yTickValues(yTickValues >= yAxisLimits(1) & yTickValues <= yAxisLimits(2));
+        if numel(yTickValues) >= 2
+            yticks(yTickValues);
+            yticklabels(arrayfun(@(tickValue) sprintf('%g', tickValue), yTickValues, 'UniformOutput', false));
+        end
+
         xlabel(demandAxisLabels{demandIndex}, 'Interpreter', 'latex');
         ylabel(saAxisLabelForResponse, 'Interpreter', 'latex');
         legend(legendHandles, legendEntries, 'Location', 'southeast');
