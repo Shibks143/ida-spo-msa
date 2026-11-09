@@ -1,11 +1,12 @@
 % -------------------
 % Procedure: sks_PlotCloud.m
-% Cloud analysis figures for MIDR, RDR and PFA (axis labels follow the IDA/MSA plots; no titles):
-%   CloudScatter_<demand>_<setName> : log-log cloud of EDP (x) vs Sa (y), like the IDA/MSA response plots:
-%                                     non-collapse runs, collapse cases, fitted ln(EDP) = ln(a) + b ln(Sa),
+% Cloud analysis figures for MIDR, RDR and PFA, for both component cases (ControlComp and AllComp, as in IDA/MSA);
+% axis labels follow the IDA/MSA plots; no titles:
+%   CloudScatter_<demand>_<componentCase>_<setName> : log-log cloud of EDP (x) vs Sa (y), like the IDA/MSA response plots:
+%                                     non-collapse points, collapse cases, fitted ln(EDP) = ln(a) + b ln(Sa),
 %                                     +/- 1 beta band, limit-state levels as vertical lines
-%   CloudFragility_<demand>_<setName>: Pr[LS >= ls_i | IM = im] for each limit state, like the IDA/MSA fragility plots
-%                                     (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
+%   CloudFragility_<demand>_<componentCase>_<setName>: Pr[LS >= ls_i | IM = im] for each limit state, like the IDA/MSA
+%                                     fragility plots (solid: RTR Var., dashed: RTR + MDL + TD + DR), plus Pr[collapse] when fitted
 %
 % Reads : Output/<analysisType>/DATA_CloudFragility_<setName>.mat (written by sks_FitCloudFragility.m)
 % Writes: figures in Output/<analysisType>/ via sks_figureFormat + sks_figureExport (same as the MSA CDF plots)
@@ -39,7 +40,10 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     end
     loadedFragilityData = load(fileNameToLoad, 'cloudFragility');
     cloudFragility      = loadedFragilityData.cloudFragility;
-    collapseFit         = cloudFragility.collapseFit;
+    if ~isfield(cloudFragility, 'componentCaseList')
+        error('sksCode:cloudFragilityOld', 'CLOUD: %s was made by an older version (no ControlComp/AllComp); rerun the fit (flag 4).', fileNameToLoad);
+    end
+    componentCaseList   = cloudFragility.componentCaseList;    % {'ControlComp', 'AllComp'}, as in the IDA/MSA plots
     saGridForPlot       = cloudFragility.saGridForPlot;
 
     % Sa axis labels in the same form as the IDA/MSA plots
@@ -54,10 +58,15 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         saSubscript, cloudFragility.periodUsedForScalingGroundMotions);
     fragilityAxisLabel = '$\mathrm{Pr}[\mathrm{LS} \ge ls_i \mid \mathrm{IM} = im]$';
 
-    for demandIndex = 1:numel(demandNameList)
+    % One scatter + one fragility figure per demand and component case
+    numberOfFigureSets = numel(demandNameList) * numel(componentCaseList);
+    for figureSetIndex = 1:numberOfFigureSets
+        [demandIndex, componentCaseIndex] = ind2sub([numel(demandNameList), numel(componentCaseList)], figureSetIndex);
+        componentCase       = componentCaseList{componentCaseIndex};
+        collapseFit         = cloudFragility.(componentCase).collapseFit;
         demandName          = demandNameList{demandIndex};
         demandPlotFactor    = demandPlotFactorList(demandIndex);
-        demandFit           = cloudFragility.(demandName);
+        demandFit           = cloudFragility.(componentCase).(demandName);
         limitStateLevels    = demandFit.limitStateLevels;
         limitStateLabels    = demandFit.limitStateLabels;
         numberOfLimitStates = numel(limitStateLevels);
@@ -121,12 +130,12 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         legend(legendHandles, legendEntries, 'Location', 'southeast');
 
         sks_figureFormat(formatMode);
-        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudScatter_%s_%s', demandName, eqListForCloud_Name)));
+        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudScatter_%s_%s_%s', demandName, componentCase, eqListForCloud_Name)));
         close(gcf);
 
         % ---------------- Fragility curves: Pr[LS >= ls_i | IM = im] ----------------
         if ~isRegressionFitted || demandFit.b <= 0
-            fprintf('CLOUD %s: no fragility figure (regression not available).\n', demandName);
+            fprintf('CLOUD %s %s: no fragility figure (regression not available).\n', componentCase, demandName);
             continue;
         end
         figure; hold on; box on; grid on;
@@ -155,7 +164,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         legend(legendHandles, legendEntries, 'Location', 'southeast');
 
         sks_figureFormat(formatMode);
-        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudFragility_%s_%s', demandName, eqListForCloud_Name)));
+        sks_figureExport(fullfile(analysisTypeFolderPath, sprintf('CloudFragility_%s_%s_%s', demandName, componentCase, eqListForCloud_Name)));
         close(gcf);
     end
 end

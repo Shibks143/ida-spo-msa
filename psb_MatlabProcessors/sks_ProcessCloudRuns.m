@@ -2,12 +2,18 @@
 % Procedure: sks_ProcessCloudRuns.m
 % Cloud analysis processing: for each record (one unscaled run, see sks_RunCollapseAnaMATLAB_CLOUD.m)
 % computes the maximum interstory drift ratio, residual drift ratio and peak floor acceleration with the
-% existing single-run processor, and collects everything in one table.
+% existing single-run processor, and collects them for the two component cases used by IDA/MSA:
+%   AllComp     : one point per record component
+%   ControlComp : one point per record pair, same rules as sks_ProcessFragilityParams_MSA.m:
+%                 demand = max(component 1, component 2); collapse case if EITHER component is a collapse case;
+%                 pair excluded if EITHER component is a non-collapse run that is singular or non-converged,
+%                 or if a component is missing / had a run error
 %
 % Reads : Output/<analysisType>/EQ_<n>/DATA_CloudRunForThisEQ.mat (written by the cloud runner)
-% Writes: Output/<analysisType>/DATA_CloudData_<setName>.mat     (table cloudData, one row per record component)
-%         Output/<analysisType>/CloudData_<setName>.csv          (same table, for Excel)
-%         Output/<analysisType>/CloudData_<setName>_Sa_MIDR.txt  (2 columns Sa, MIDR of non-collapse runs; Robust Fragility Tool format)
+% Writes: Output/<analysisType>/DATA_CloudData_<setName>.mat                  (tables cloudDataAllComp, cloudDataControlComp)
+%         Output/<analysisType>/CloudData_<setName>_<AllComp|ControlComp>.csv          (same tables, for Excel)
+%         Output/<analysisType>/CloudData_<setName>_<AllComp|ControlComp>_Sa_MIDR.txt  (2 columns Sa, MIDR of non-collapse
+%                                                                                        points; Robust Fragility Tool format)
 %
 % Must be called from psb_MatlabProcessors (the driver cd's there before processing).
 % Author: Shivakumar K S, IIT Madras
@@ -83,35 +89,90 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
     end
     cd(startDir);   % the single-run processor changes folders; make sure we are back
 
+    % ---------------- AllComp: one point per record component ----------------
     % Collapse case = collapsed, non-converged or singular (cloud definition)
     isCollapseCaseLIST = double(isCollapsedLIST == 1 | isNonConvLIST == 1 | isSingularLIST == 1);
+    isExcludedLIST     = isRunErrorLIST;                       % component not usable at all
 
-    cloudData = table(eqNumberLIST(:), floor(eqNumberLIST(:)/10), saLevelForCloudLIST, saCompForCloudLIST, ...
+    cloudDataAllComp = table(eqNumberLIST(:), floor(eqNumberLIST(:)/10), saLevelForCloudLIST, saCompForCloudLIST, ...
         maxDriftRatioForCloudLIST, maxResidualDriftRatioForCloudLIST, maxPFAForCloudLIST, ...
-        isCollapsedLIST, isNonConvLIST, isSingularLIST, isCollapseCaseLIST, isRunErrorLIST, isProcessedLIST, ...
+        isCollapsedLIST, isNonConvLIST, isSingularLIST, isCollapseCaseLIST, isRunErrorLIST, isProcessedLIST, isExcludedLIST, ...
         'VariableNames', {'eqNumber', 'eqNumberForGeoMean', 'saOwn', 'saCompOwn', ...
                           'maxDriftRatioForFullStr', 'maxResidualDriftRatioForFullStr', 'maxPFAForFullStr', ...
-                          'isCollapsed', 'isNonConv', 'isSingular', 'isCollapseCase', 'isRunError', 'isProcessed'});
+                          'isCollapsed', 'isNonConv', 'isSingular', 'isCollapseCase', 'isRunError', 'isProcessed', 'isExcluded'});
 
-    % Save
-    analysisTypeFolderPath    = fullfile(fixedOutputDirectory, analysisType);
-    isNonCollapseAndProcessed = cloudData.isCollapseCase == 0 & cloudData.isProcessed == 1;
+    % ---------------- ControlComp: one point per record pair (same rules as MSA) ----------------
+    if ~strcmp(imType, 'geoMean')
+        warning('sks:cloudControlCompIM', ['CLOUD: ControlComp uses one Sa per pair; with imType = ''%s'' the two components ' ...
+            'have different Sa, so the Sa of component 1 is used for the pair.'], imType);
+    end
+    eqNumberForGeoMeanLIST = unique(cloudDataAllComp.eqNumberForGeoMean, 'stable');
+    numberOfPairs          = numel(eqNumberForGeoMeanLIST);
 
+    saLevelForPairLIST               = NaN(numberOfPairs, 1);
+    maxDriftRatioForPairLIST         = NaN(numberOfPairs, 1);
+    maxResidualDriftRatioForPairLIST = NaN(numberOfPairs, 1);
+    maxPFAForPairLIST                = NaN(numberOfPairs, 1);
+    isCollapseCaseForPairLIST        = zeros(numberOfPairs, 1);
+    isProcessedForPairLIST           = zeros(numberOfPairs, 1);
+    isExcludedForPairLIST            = ones(numberOfPairs, 1);
+    numberOfComponentsForPairLIST    = zeros(numberOfPairs, 1);
+
+    for pairIndex = 1:numberOfPairs
+        componentRowsOfPair = cloudDataAllComp(cloudDataAllComp.eqNumberForGeoMean == eqNumberForGeoMeanLIST(pairIndex), :);
+        numberOfComponentsForPairLIST(pairIndex) = height(componentRowsOfPair);
+
+        % Exclusion rules (as MSA ControlComp): both components present and run, and no non-collapse singular/non-converged run
+        isAnyComponentMissingOrError = height(componentRowsOfPair) < 2 || any(componentRowsOfPair.isRunError == 1);
+        isAnyNonCollapseBadRun       = any(componentRowsOfPair.isCollapsed == 0 & ...
+                                           (componentRowsOfPair.isSingular == 1 | componentRowsOfPair.isNonConv == 1));
+        if isAnyComponentMissingOrError || isAnyNonCollapseBadRun
+            continue;
+        end
+
+        saLevelForPairLIST(pairIndex)               = componentRowsOfPair.saOwn(1);     % Sa_geoM is the same for both components
+        maxDriftRatioForPairLIST(pairIndex)         = max(componentRowsOfPair.maxDriftRatioForFullStr);
+        maxResidualDriftRatioForPairLIST(pairIndex) = max(componentRowsOfPair.maxResidualDriftRatioForFullStr);
+        maxPFAForPairLIST(pairIndex)                = max(componentRowsOfPair.maxPFAForFullStr);
+        isCollapseCaseForPairLIST(pairIndex)        = double(any(componentRowsOfPair.isCollapseCase == 1));
+        isProcessedForPairLIST(pairIndex)           = double(all(componentRowsOfPair.isProcessed == 1));
+        isExcludedForPairLIST(pairIndex)            = 0;
+    end
+
+    cloudDataControlComp = table(eqNumberForGeoMeanLIST(:), saLevelForPairLIST, ...
+        maxDriftRatioForPairLIST, maxResidualDriftRatioForPairLIST, maxPFAForPairLIST, ...
+        isCollapseCaseForPairLIST, isProcessedForPairLIST, isExcludedForPairLIST, numberOfComponentsForPairLIST, ...
+        'VariableNames', {'eqNumberForGeoMean', 'saOwn', ...
+                          'maxDriftRatioForFullStr', 'maxResidualDriftRatioForFullStr', 'maxPFAForFullStr', ...
+                          'isCollapseCase', 'isProcessed', 'isExcluded', 'numberOfComponents'});
+
+    % ---------------- Save ----------------
+    analysisTypeFolderPath = fullfile(fixedOutputDirectory, analysisType);
     fileNameToSave = fullfile(analysisTypeFolderPath, sprintf('DATA_CloudData_%s.mat', eqListForCloud_Name));
-    save(fileNameToSave, 'cloudData', 'analysisType', 'eqListForCloud_Name', 'imType', 'periodUsedForScalingGroundMotions');
-    writetable(cloudData, fullfile(analysisTypeFolderPath, sprintf('CloudData_%s.csv', eqListForCloud_Name)));
-    writematrix([cloudData.saOwn(isNonCollapseAndProcessed) cloudData.maxDriftRatioForFullStr(isNonCollapseAndProcessed)], ...
-        fullfile(analysisTypeFolderPath, sprintf('CloudData_%s_Sa_MIDR.txt', eqListForCloud_Name)), 'Delimiter', 'tab');
+    save(fileNameToSave, 'cloudDataAllComp', 'cloudDataControlComp', 'analysisType', 'eqListForCloud_Name', ...
+        'imType', 'periodUsedForScalingGroundMotions');
 
-    % Summary
+    componentCaseList = {'ControlComp', 'AllComp'};
+    cloudDataForCaseList = {cloudDataControlComp, cloudDataAllComp};
     fprintf('CLOUD processing summary (%s):\n', eqListForCloud_Name);
-    fprintf('  records: %d, processed: %d, collapse cases: %d, run errors: %d\n', ...
-        numberOfRecords, sum(isProcessedLIST), sum(isCollapseCaseLIST), sum(isRunErrorLIST));
-    fprintf('  Sa range: %.3f - %.3f g;  MIDR range (non-collapse): %.4f - %.4f\n', ...
-        min(saLevelForCloudLIST), max(saLevelForCloudLIST), ...
-        min(cloudData.maxDriftRatioForFullStr(isNonCollapseAndProcessed)), max(cloudData.maxDriftRatioForFullStr(isNonCollapseAndProcessed)));
-    fprintf('  saved: DATA_CloudData_%s.mat, CloudData_%s.csv, CloudData_%s_Sa_MIDR.txt\n', ...
-        eqListForCloud_Name, eqListForCloud_Name, eqListForCloud_Name);
+    for componentCaseIndex = 1:numel(componentCaseList)
+        componentCase    = componentCaseList{componentCaseIndex};
+        cloudDataForCase = cloudDataForCaseList{componentCaseIndex};
+        isNonCollapseAndProcessed = cloudDataForCase.isExcluded == 0 & cloudDataForCase.isCollapseCase == 0 & cloudDataForCase.isProcessed == 1;
+
+        writetable(cloudDataForCase, fullfile(analysisTypeFolderPath, sprintf('CloudData_%s_%s.csv', eqListForCloud_Name, componentCase)));
+        writematrix([cloudDataForCase.saOwn(isNonCollapseAndProcessed) cloudDataForCase.maxDriftRatioForFullStr(isNonCollapseAndProcessed)], ...
+            fullfile(analysisTypeFolderPath, sprintf('CloudData_%s_%s_Sa_MIDR.txt', eqListForCloud_Name, componentCase)), 'Delimiter', 'tab');
+
+        fprintf('  %-11s: points: %d, used: %d, collapse cases: %d, excluded: %d\n', componentCase, height(cloudDataForCase), ...
+            sum(cloudDataForCase.isExcluded == 0), sum(cloudDataForCase.isExcluded == 0 & cloudDataForCase.isCollapseCase == 1), ...
+            sum(cloudDataForCase.isExcluded == 1));
+        fprintf('               Sa range: %.3f - %.3f g;  MIDR range (non-collapse): %.4f - %.4f\n', ...
+            min(cloudDataForCase.saOwn), max(cloudDataForCase.saOwn), ...
+            min(cloudDataForCase.maxDriftRatioForFullStr(isNonCollapseAndProcessed)), ...
+            max(cloudDataForCase.maxDriftRatioForFullStr(isNonCollapseAndProcessed)));
+    end
+    fprintf('  saved: DATA_CloudData_%s.mat, CloudData_%s_<ControlComp|AllComp>.csv / _Sa_MIDR.txt\n', eqListForCloud_Name, eqListForCloud_Name);
 end
 
 cd(startDir);
