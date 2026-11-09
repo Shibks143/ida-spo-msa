@@ -61,7 +61,11 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
         limitStateLevels    = demandFit.limitStateLevels;
         limitStateLabels    = demandFit.limitStateLabels;
         numberOfLimitStates = numel(limitStateLevels);
-        limitStateColors    = lines(numberOfLimitStates);
+        limitStateColorOrder = [0.00 0.00 1.00;   % blue    - level 1 (IO / DS1)   same order as the IDA/MSA plots
+                                1.00 0.00 1.00;   % magenta - level 2 (LS / DS2)
+                                0.00 0.00 0.00;   % black   - level 3 (CP / DS3)
+                                1.00 0.00 0.00];  % red     - level 4 (Coll / DS4)
+        limitStateColors     = limitStateColorOrder(mod((1:numberOfLimitStates) - 1, size(limitStateColorOrder, 1)) + 1, :);
         isRegressionFitted  = isfinite(demandFit.b);
 
         % ---------------- Cloud scatter: EDP (x) vs Sa (y), log-log ----------------
@@ -136,7 +140,7 @@ for analysisTypeNum = 1:length(analysisTypeLIST)
                 'Color', limitStateColors(limitStateIndex, :), 'LineWidth', 1.0);
         end
         if collapseFit.isFitted
-            legendHandles(end+1) = plot(saGridForPlot, collapseFit.probabilityOfCollapse, 'k-.', 'LineWidth', 1.5); %#ok<AGROW>
+            legendHandles(end+1) = plot(saGridForPlot, collapseFit.probabilityOfCollapse, '-.', 'Color', [0.5 0.5 0.5], 'LineWidth', 1.5); %#ok<AGROW>   % grey: distinct from CP (black) and Coll (red)
             legendEntries{end+1} = sprintf('$\\mathrm{Pr}[\\mathrm{collapse}]$, logistic: median %.2f g', collapseFit.medianSaCollapse); %#ok<AGROW>
         end
         % line-style key, worded as in the IDA/MSA CDF plots
