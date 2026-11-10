@@ -68,7 +68,7 @@ analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
 %%%%%%%%%%%%%%%%%%%%%%%%% ANALYSIS OPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-IDA_or_MSA_or_CLOUD = 'CLOUD';    % 'IDA', 'MSA' or 'CLOUD'
+IDA_or_MSA_or_CLOUD = 'IDA';    % 'IDA', 'MSA' or 'CLOUD'
 
          % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
@@ -82,7 +82,7 @@ IDA_or_MSA_or_CLOUD = 'CLOUD';    % 'IDA', 'MSA' or 'CLOUD'
 
 
 %                           analyze  process   IDA/MSA/CLOUD    CDF   defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0            1           1       0              0                  0];
+    analyzeProcessPlotIndex = [0        0            1           0       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -120,9 +120,9 @@ IDA_or_MSA_or_CLOUD = 'CLOUD';    % 'IDA', 'MSA' or 'CLOUD'
     dataSavingOption = 2;                                                   % Decide what data files to save (1 - save all data; 2 - save 
                                                                             % reduced amount of data; 3 - save both of the above files)
     
-    lineColor = [0.5 0.5 0.5];      % gray
-    markerTypeLine = '-';           % 'b'  earlier one
-    markerTypeDot = 'o';            % 'bo' earlier one
+    lineColor = [0 0 1.0];          % gray [0.5 0.5 0.5]
+    markerTypeLine = 'b';           % 'b'  earlier one
+    markerTypeDot = 'bo';           % 'bo' earlier one
     isPlotIndividualPoints = 1;
     formatMode = 'powerpoint';
     % Change the variable called eqTimeHistoryPreFormatted in psb_DefineVariablesAtMeanValues.tcl (now included here in MATLAB itself)
