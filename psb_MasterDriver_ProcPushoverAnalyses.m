@@ -17,16 +17,17 @@ addpath(genpath(fullfile(rootDir, 'Models')));
 if isunix
     setenv('PATH', ['/home/apps/MLDL/DL-CondaPy3/envs/opensees/bin:' getenv('PATH')]);
 end
-% setenv('PATH', ['/home/apps/MLDL/DL-CondaPy3/envs/opensees/bin:' getenv('PATH')]);
+
 
 %% Conventional code starts from here
 
-fileNameLIST = {'ID46053_R5_5Story_v.02';};  % 'ID2433_R5_5Story_v.02' as per IS 1893 (2002) and 'ID46053_R5_5Story_v.02' as 2025 update
+fileNameLIST = {'ID46083_R5_8Story_v.04'};       % ID35053_R5_5Story_v.03 | ID35083_R5_8Story_v.03 | ID35123_R5_12Story_v.03 | ID46053_R5_5Story_v.04 | ID46083_R5_8Story_v.04 | ID46123_R5_12Story_v.04 
+% fileNameLIST = {'ID35053_R5_5Story_v.03'; 'ID35083_R5_8Story_v.03'; 'ID35123_R5_12Story_v.03'; 'ID46053_R5_5Story_v.04'; 'ID46083_R5_8Story_v.04'; 'ID46123_R5_12Story_v.04'};       
 
-shearHingeOrNot = 0; % if there is a shear Hinge then different opensees file is used; using 1 would always work 
-                     % but may not be the fastest in case of haselton-type models with flexural-only hinges
+shearHingeOrNot = 0;                            % if there is a shear Hinge then different opensees file is used; using 1 would always work 
+                                                % but may not be the fastest in case of haselton-type models with flexural-only hinges
 
-plotDefoShape = 1;                    % plot deformed shape
+plotDefoShape = 1;                              % plot deformed shape
 
 for buildingIndex = 1:size(fileNameLIST, 1)
     fileName = fileNameLIST{buildingIndex, 1};
@@ -39,9 +40,6 @@ fprintf('Running %i/%i... Building: %s  \n', buildingIndex, length(fileNameLIST)
 %% Common code block %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 system('OpenSees psb_RunMeanAnalysis.tcl');
-
-% !OpenSees psb_RunMeanAnalysis.tcl > "..\outp_spo.txt" 2>&1
-
 cd(baseFolder)
 
 %% comment out above portion, if only plotting of the pushover curve is required to be done
@@ -80,7 +78,7 @@ analysisType_forPO = sprintf('(%s)_(AllVar)_(0.00)_(clough)', fileName);
     maxNumPoints = 10000000;                % Large number does not limit the length of the plot       
     markerType_PO = 'b-';
     lineWidth_PO = 3;
-    plotDefoShape = 1;                      % plot deformed shape
+    plotDefoShape = 0;                      % plot deformed shape
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
     % No need to change this stuff

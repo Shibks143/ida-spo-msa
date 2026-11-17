@@ -46365,6 +46365,8 @@ plasticRotCapOfMaterialNum(202031) = 0.0107958795032532;
 
 
 
+
+
 %-----------------------------------------------------------------------------------------------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
 %--- 46053 (As per IS 1893 (2025)) added on Jun-18-2026 by Shivakumar K S at IIT Madras --------------------------------
@@ -46381,7 +46383,7 @@ plasticRotCapOfMaterialNum(202031) = 0.0107958795032532;
 %### DEFINE BUILDING INFORMATION FOR VISUAL PROCESSING
 
 
-% Pasted from "46053v05_20260313General Excel Sheet-v23.xlsm" on  Jun-18-2026 by PSB
+% Pasted from "46053v04_20260313General Excel Sheet-v23.xlsm" on  Jun-18-2026 by PSB
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Design ID  46053 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46605,7 +46607,7 @@ plasticRotCapOfMaterialNum(202032) = 0.070235074308997;
 %-----------------------------------------------------------------------------------------------------------------------
 
 
-% Pasted from "35053v05_20260313General Excel Sheet 2016.xlsm" on  Jun-29-2026 by PSB						
+% Pasted from "35053v03_20260313General Excel Sheet 2016.xlsm" on  Jun-29-2026 by PSB						
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%						
 %%%%%% Design ID  35053 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%						
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%						
@@ -46819,3 +46821,1541 @@ plasticRotCapOfMaterialNum(202032) = 0.0549409821639936;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%						
 
 
+
+% Pasted from "46083v04_20261101General Excel Sheet-v24.xlsm" on  Nov-17-2026 by Shivakumar K S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  46083 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ 
+% Define General Geometry Information
+      bldgID = 46083;
+      buildingInfo{bldgID}.bayWidth = 8200 * ones(1, 3); % (Size of this vector = numBays)
+      buildingInfo{bldgID}.storyHeight_firstStory = 4500;
+      buildingInfo{bldgID}.storyHeight_upperStories = 3900 * ones(1, 7); % (Size of this vector = numStories - 1)
+      buildingInfo{bldgID}.jointWidth = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1). Let's keep it same on each floor (for display only)
+      buildingInfo{bldgID}.jointHeight = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1)
+
+      buildingInfo{bldgID}.numBays = 3;
+      buildingInfo{bldgID}.numStories = 8;
+      buildingInfo{bldgID}.collapseDriftThreshold = 0.12;
+      buildingInfo{bldgID}.lowestFloorWithBeam = 2; % fdn is floor no 1
+
+% Define the plastic rotation capacities of the column materials
+plasticRotCapOfMaterialNum(308011) = 0.0606000447593406;
+plasticRotCapOfMaterialNum(308021) = 0.0589426731505802;
+plasticRotCapOfMaterialNum(308031) = 0.0589426731505802;
+plasticRotCapOfMaterialNum(308041) = 0.0214503450695507;
+
+plasticRotCapOfMaterialNum(307011) = 0.0587978997730888;
+plasticRotCapOfMaterialNum(307021) = 0.0556795819405526;
+plasticRotCapOfMaterialNum(307031) = 0.0556795819405526;
+plasticRotCapOfMaterialNum(307041) = 0.0210135076324328;
+
+plasticRotCapOfMaterialNum(306011) = 0.0570697777029884;
+plasticRotCapOfMaterialNum(306021) = 0.0526709097350848;
+plasticRotCapOfMaterialNum(306031) = 0.0526709097350848;
+plasticRotCapOfMaterialNum(306041) = 0.0205996172369359;
+
+plasticRotCapOfMaterialNum(305011) = 0.0556334947610331;
+plasticRotCapOfMaterialNum(305021) = 0.0501059704966074;
+plasticRotCapOfMaterialNum(305031) = 0.0501059704966074;
+plasticRotCapOfMaterialNum(305041) = 0.0204153780216316;
+
+plasticRotCapOfMaterialNum(304011) = 0.0521993980488023;
+plasticRotCapOfMaterialNum(304021) = 0.0465824683500112;
+plasticRotCapOfMaterialNum(304031) = 0.0465824683500112;
+plasticRotCapOfMaterialNum(304041) = 0.0196781045780634;
+
+plasticRotCapOfMaterialNum(303011) = 0.0508771925824672;
+plasticRotCapOfMaterialNum(303021) = 0.044148893049279;
+plasticRotCapOfMaterialNum(303031) = 0.044148893049279;
+plasticRotCapOfMaterialNum(303041) = 0.0193477533100965;
+
+plasticRotCapOfMaterialNum(302011) = 0.049603003009227;
+plasticRotCapOfMaterialNum(302021) = 0.0416549705686683;
+plasticRotCapOfMaterialNum(302031) = 0.0416549705686683;
+plasticRotCapOfMaterialNum(302041) = 0.0190328624511657;
+
+plasticRotCapOfMaterialNum(301011) = 0.0501942094782803;
+plasticRotCapOfMaterialNum(301021) = 0.0404603331250135;
+plasticRotCapOfMaterialNum(301031) = 0.0404603331250135;
+plasticRotCapOfMaterialNum(301041) = 0.0197219861306639;
+
+% Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
+plasticRotCapOfMaterialNum(209011) = 0.0445609319752075;
+plasticRotCapOfMaterialNum(209012) = 0.0402909344646947;
+plasticRotCapOfMaterialNum(209021) = 0.0445609319752075;
+plasticRotCapOfMaterialNum(209022) = 0.0402909344646947;
+plasticRotCapOfMaterialNum(209031) = 0.0445609319752075;
+plasticRotCapOfMaterialNum(209032) = 0.0402909344646947;
+
+plasticRotCapOfMaterialNum(208011) = 0.0557504511899978;
+plasticRotCapOfMaterialNum(208012) = 0.0476663291705347;
+plasticRotCapOfMaterialNum(208021) = 0.0557504511899978;
+plasticRotCapOfMaterialNum(208022) = 0.0476663291705347;
+plasticRotCapOfMaterialNum(208031) = 0.0557504511899978;
+plasticRotCapOfMaterialNum(208032) = 0.0476663291705347;
+
+plasticRotCapOfMaterialNum(207011) = 0.0718856972760363;
+plasticRotCapOfMaterialNum(207012) = 0.0631896642885596;
+plasticRotCapOfMaterialNum(207021) = 0.0718856972760363;
+plasticRotCapOfMaterialNum(207022) = 0.0631896642885596;
+plasticRotCapOfMaterialNum(207031) = 0.0718856972760363;
+plasticRotCapOfMaterialNum(207032) = 0.0631896642885596;
+
+plasticRotCapOfMaterialNum(206011) = 0.0814930026342713;
+plasticRotCapOfMaterialNum(206012) = 0.0744397472106034;
+plasticRotCapOfMaterialNum(206021) = 0.0814930026342713;
+plasticRotCapOfMaterialNum(206022) = 0.0744397472106034;
+plasticRotCapOfMaterialNum(206031) = 0.0814930026342713;
+plasticRotCapOfMaterialNum(206032) = 0.0744397472106034;
+
+plasticRotCapOfMaterialNum(205011) = 0.0852243129570125;
+plasticRotCapOfMaterialNum(205012) = 0.0801717213196434;
+plasticRotCapOfMaterialNum(205021) = 0.0852243129570125;
+plasticRotCapOfMaterialNum(205022) = 0.0801717213196434;
+plasticRotCapOfMaterialNum(205031) = 0.0852243129570125;
+plasticRotCapOfMaterialNum(205032) = 0.0801717213196434;
+
+plasticRotCapOfMaterialNum(204011) = 0.0890036387214884;
+plasticRotCapOfMaterialNum(204012) = 0.0842172330276063;
+plasticRotCapOfMaterialNum(204021) = 0.0890036387214884;
+plasticRotCapOfMaterialNum(204022) = 0.0842172330276063;
+plasticRotCapOfMaterialNum(204031) = 0.0890036387214884;
+plasticRotCapOfMaterialNum(204032) = 0.0842172330276063;
+
+plasticRotCapOfMaterialNum(203011) = 0.0890036387214884;
+plasticRotCapOfMaterialNum(203012) = 0.0842172330276063;
+plasticRotCapOfMaterialNum(203021) = 0.0890036387214884;
+plasticRotCapOfMaterialNum(203022) = 0.0842172330276063;
+plasticRotCapOfMaterialNum(203031) = 0.0890036387214884;
+plasticRotCapOfMaterialNum(203032) = 0.0842172330276063;
+
+plasticRotCapOfMaterialNum(202011) = 0.0848104377499544;
+plasticRotCapOfMaterialNum(202012) = 0.0793766721531381;
+plasticRotCapOfMaterialNum(202021) = 0.0848104377499544;
+plasticRotCapOfMaterialNum(202022) = 0.0793766721531381;
+plasticRotCapOfMaterialNum(202031) = 0.0848104377499544;
+plasticRotCapOfMaterialNum(202032) = 0.0793766721531381;
+
+% Define the plastic rotation capacities of shear panel material (40000) and the dummy material (49999) used in locations where no element connects to the joint
+     plasticRotCapOfMaterialNum(40000) = 99;
+     plasticRotCapOfMaterialNum(49999) = 999;
+ 
+% Define the column base rotational spring PHR capacities
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+ 
+% Define the PHR capacities at all 5 material locations of each joint (4 PHs and 1 shear panel).  When there is not an elements connected to a specific portion of a joint, I use the dummy material #49999.  Make all beam materials be positive (end in 1).
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(1) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(2) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(1) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(2) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(4) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(1) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(2) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(4) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(1) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(4) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(1) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(2) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(3) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(1) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(2) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(3) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(4) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(1) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(2) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(3) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(4) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(1) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(3) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(4) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(1) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(2) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(3) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(1) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(2) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(3) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(4) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(1) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(2) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(3) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(4) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(1) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(3) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(4) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(1) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(2) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(3) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(1) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(2) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(3) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(4) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(1) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(2) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(3) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(4) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(1) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(3) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(4) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(1) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(2) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(3) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(1) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(2) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(3) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(4) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(1) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(2) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(3) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(4) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(1) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(3) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(4) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(1) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(2) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(3) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(1) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(2) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(3) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(4) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(1) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(2) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(3) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(4) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(1) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(3) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(4) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(1) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(2) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(3) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(1) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(2) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(3) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(4) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(1) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(2) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(3) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(4) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(1) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(3) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(4) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(2) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(3) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(2) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(3) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(4) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(2) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(3) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(4) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(3) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(4) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     % Define the joint numbers at each location in the frame
+         for colLineNum = 1:4
+             for floorNum = 2:9
+                 buildingInfo{bldgID}.jointNumber(floorNum, colLineNum) = 40000 + (100.0 * floorNum) + colLineNum;
+             end
+         end
+ 
+      % Define the hinge element numbers that are used at the base columns
+         for colLineNum = 1:4
+             buildingInfo{bldgID}.hingeElementNumAtColBase(colLineNum) = 6000 + colLineNum * 10 + 2; % The PH Spring at the column base
+         end
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  46083 - End %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%--- 46123 (As per IS 1893 (2025)) added on Nov-12-2026 by Shivakumar K S at IIT Madras --------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+
+% Pasted from "46123v04_20261031General Excel Sheet-v24.xlsm" on  Nov-13-2026 by Shivakumar K S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  46123 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ 
+% Define General Geometry Information
+      bldgID = 46123;
+      buildingInfo{bldgID}.bayWidth = 8200 * ones(1, 3); % (Size of this vector = numBays)
+      buildingInfo{bldgID}.storyHeight_firstStory = 4500;
+      buildingInfo{bldgID}.storyHeight_upperStories = 3900 * ones(1, 11); % (Size of this vector = numStories - 1)
+      buildingInfo{bldgID}.jointWidth = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1). Let's keep it same on each floor (for display only)
+      buildingInfo{bldgID}.jointHeight = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1)
+
+      buildingInfo{bldgID}.numBays = 3;
+      buildingInfo{bldgID}.numStories = 12;
+      buildingInfo{bldgID}.collapseDriftThreshold = 0.12;
+      buildingInfo{bldgID}.lowestFloorWithBeam = 2; % fdn is floor no 1
+
+% Define the plastic rotation capacities of the column materials
+plasticRotCapOfMaterialNum(312011) = 0.0569436951453326;
+plasticRotCapOfMaterialNum(312021) = 0.0555482376302815;
+plasticRotCapOfMaterialNum(312031) = 0.0555482376302815;
+plasticRotCapOfMaterialNum(312041) = 0.0206173184728313;
+
+plasticRotCapOfMaterialNum(311011) = 0.0554108431723959;
+plasticRotCapOfMaterialNum(311021) = 0.0527645799148752;
+plasticRotCapOfMaterialNum(311031) = 0.0527645799148752;
+plasticRotCapOfMaterialNum(311041) = 0.0202207120263909;
+
+plasticRotCapOfMaterialNum(310011) = 0.0539331458296913;
+plasticRotCapOfMaterialNum(310021) = 0.0501705322914003;
+plasticRotCapOfMaterialNum(310031) = 0.0501705322914003;
+plasticRotCapOfMaterialNum(310041) = 0.0198418370323907;
+
+plasticRotCapOfMaterialNum(309011) = 0.0525088631132253;
+plasticRotCapOfMaterialNum(309021) = 0.0477547326495311;
+plasticRotCapOfMaterialNum(309031) = 0.0477547326495311;
+plasticRotCapOfMaterialNum(309041) = 0.0194801058421557;
+
+plasticRotCapOfMaterialNum(308011) = 0.0513158944086697;
+plasticRotCapOfMaterialNum(308021) = 0.0456726745030168;
+plasticRotCapOfMaterialNum(308031) = 0.0456726745030168;
+plasticRotCapOfMaterialNum(308041) = 0.0193053514043979;
+
+plasticRotCapOfMaterialNum(307011) = 0.0499902042590369;
+plasticRotCapOfMaterialNum(307021) = 0.0432470436966881;
+plasticRotCapOfMaterialNum(307031) = 0.0432470436966881;
+plasticRotCapOfMaterialNum(307041) = 0.0189735940675982;
+
+plasticRotCapOfMaterialNum(306011) = 0.0487131537482407;
+plasticRotCapOfMaterialNum(306021) = 0.0407811929252382;
+plasticRotCapOfMaterialNum(306031) = 0.0407811929252382;
+plasticRotCapOfMaterialNum(306041) = 0.0186574874321181;
+
+plasticRotCapOfMaterialNum(305011) = 0.0476517960558784;
+plasticRotCapOfMaterialNum(305021) = 0.038597009603738;
+plasticRotCapOfMaterialNum(305031) = 0.038597009603738;
+plasticRotCapOfMaterialNum(305041) = 0.0185177736381281;
+
+plasticRotCapOfMaterialNum(304011) = 0.0448403396227542;
+plasticRotCapOfMaterialNum(304021) = 0.0378505020740578;
+plasticRotCapOfMaterialNum(304031) = 0.0378505020740578;
+plasticRotCapOfMaterialNum(304041) = 0.017991425925928;
+
+plasticRotCapOfMaterialNum(303011) = 0.0439228852532264;
+plasticRotCapOfMaterialNum(303021) = 0.0361680474962878;
+plasticRotCapOfMaterialNum(303031) = 0.0361680474962878;
+plasticRotCapOfMaterialNum(303041) = 0.0177377827999472;
+
+plasticRotCapOfMaterialNum(302011) = 0.0430319197738467;
+plasticRotCapOfMaterialNum(302021) = 0.0345700791760326;
+plasticRotCapOfMaterialNum(302031) = 0.0345700791760326;
+plasticRotCapOfMaterialNum(302041) = 0.0174932698702628;
+
+plasticRotCapOfMaterialNum(301011) = 0.0453129572196027;
+plasticRotCapOfMaterialNum(301021) = 0.0351506530794179;
+plasticRotCapOfMaterialNum(301031) = 0.0351506530794179;
+plasticRotCapOfMaterialNum(301041) = 0.0186733850449364;
+
+% Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
+plasticRotCapOfMaterialNum(213011) = 0.0391699781821933;
+plasticRotCapOfMaterialNum(213012) = 0.0350784927893107;
+plasticRotCapOfMaterialNum(213021) = 0.0391699781821933;
+plasticRotCapOfMaterialNum(213022) = 0.0350784927893107;
+plasticRotCapOfMaterialNum(213031) = 0.0391699781821933;
+plasticRotCapOfMaterialNum(213032) = 0.0350784927893107;
+
+plasticRotCapOfMaterialNum(212011) = 0.050875641545006;
+plasticRotCapOfMaterialNum(212012) = 0.0427910862701403;
+plasticRotCapOfMaterialNum(212021) = 0.050875641545006;
+plasticRotCapOfMaterialNum(212022) = 0.0427910862701403;
+plasticRotCapOfMaterialNum(212031) = 0.050875641545006;
+plasticRotCapOfMaterialNum(212032) = 0.0427910862701403;
+
+plasticRotCapOfMaterialNum(211011) = 0.0664435821688424;
+plasticRotCapOfMaterialNum(211012) = 0.0564829485217308;
+plasticRotCapOfMaterialNum(211021) = 0.0664435821688424;
+plasticRotCapOfMaterialNum(211022) = 0.0564829485217308;
+plasticRotCapOfMaterialNum(211031) = 0.0664435821688424;
+plasticRotCapOfMaterialNum(211032) = 0.0564829485217308;
+
+plasticRotCapOfMaterialNum(210011) = 0.0770492090877454;
+plasticRotCapOfMaterialNum(210012) = 0.0672996271116371;
+plasticRotCapOfMaterialNum(210021) = 0.0770492090877454;
+plasticRotCapOfMaterialNum(210022) = 0.0672996271116371;
+plasticRotCapOfMaterialNum(210031) = 0.0770492090877454;
+plasticRotCapOfMaterialNum(210032) = 0.0672996271116371;
+
+plasticRotCapOfMaterialNum(209011) = 0.0835091757520879;
+plasticRotCapOfMaterialNum(209012) = 0.0755589186067644;
+plasticRotCapOfMaterialNum(209021) = 0.0835091757520879;
+plasticRotCapOfMaterialNum(209022) = 0.0755589186067644;
+plasticRotCapOfMaterialNum(209031) = 0.0835091757520879;
+plasticRotCapOfMaterialNum(209032) = 0.0755589186067644;
+
+plasticRotCapOfMaterialNum(208011) = 0.0849975094469117;
+plasticRotCapOfMaterialNum(208012) = 0.0791474026661804;
+plasticRotCapOfMaterialNum(208021) = 0.0849975094469117;
+plasticRotCapOfMaterialNum(208022) = 0.0791474026661804;
+plasticRotCapOfMaterialNum(208031) = 0.0849975094469117;
+plasticRotCapOfMaterialNum(208032) = 0.0791474026661804;
+
+plasticRotCapOfMaterialNum(207011) = 0.0758112535435431;
+plasticRotCapOfMaterialNum(207012) = 0.0718464657728515;
+plasticRotCapOfMaterialNum(207021) = 0.0758112535435431;
+plasticRotCapOfMaterialNum(207022) = 0.0718464657728515;
+plasticRotCapOfMaterialNum(207031) = 0.0758112535435431;
+plasticRotCapOfMaterialNum(207032) = 0.0718464657728515;
+
+plasticRotCapOfMaterialNum(206011) = 0.092355664082748;
+plasticRotCapOfMaterialNum(206012) = 0.087167345525648;
+plasticRotCapOfMaterialNum(206021) = 0.092355664082748;
+plasticRotCapOfMaterialNum(206022) = 0.087167345525648;
+plasticRotCapOfMaterialNum(206031) = 0.092355664082748;
+plasticRotCapOfMaterialNum(206032) = 0.087167345525648;
+
+plasticRotCapOfMaterialNum(205011) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(205012) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(205021) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(205022) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(205031) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(205032) = 0.0881393814000358;
+
+plasticRotCapOfMaterialNum(204011) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(204012) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(204021) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(204022) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(204031) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(204032) = 0.0881393814000358;
+
+plasticRotCapOfMaterialNum(203011) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(203012) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(203021) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(203022) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(203031) = 0.0924027494624791;
+plasticRotCapOfMaterialNum(203032) = 0.0881393814000358;
+
+plasticRotCapOfMaterialNum(202011) = 0.0834922436745889;
+plasticRotCapOfMaterialNum(202012) = 0.0785144292880299;
+plasticRotCapOfMaterialNum(202021) = 0.0834922436745889;
+plasticRotCapOfMaterialNum(202022) = 0.0785144292880299;
+plasticRotCapOfMaterialNum(202031) = 0.0834922436745889;
+plasticRotCapOfMaterialNum(202032) = 0.0785144292880299;
+
+% Define the plastic rotation capacities of shear panel material (40000) and the dummy material (49999) used in locations where no element connects to the joint
+     plasticRotCapOfMaterialNum(40000) = 99;
+     plasticRotCapOfMaterialNum(49999) = 999;
+ 
+% Define the column base rotational spring PHR capacities
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+ 
+% Define the PHR capacities at all 5 material locations of each joint (4 PHs and 1 shear panel).  When there is not an elements connected to a specific portion of a joint, I use the dummy material #49999.  Make all beam materials be positive (end in 1).
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(1) = plasticRotCapOfMaterialNum(312011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(2) = plasticRotCapOfMaterialNum(213011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(1) = plasticRotCapOfMaterialNum(312021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(2) = plasticRotCapOfMaterialNum(213021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(4) = plasticRotCapOfMaterialNum(213011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(1) = plasticRotCapOfMaterialNum(312031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(2) = plasticRotCapOfMaterialNum(213031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(4) = plasticRotCapOfMaterialNum(213021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(1) = plasticRotCapOfMaterialNum(312041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(4) = plasticRotCapOfMaterialNum(213031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(1) = plasticRotCapOfMaterialNum(311011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(2) = plasticRotCapOfMaterialNum(212011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(3) = plasticRotCapOfMaterialNum(312011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(1) = plasticRotCapOfMaterialNum(311021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(2) = plasticRotCapOfMaterialNum(212021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(3) = plasticRotCapOfMaterialNum(312021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(4) = plasticRotCapOfMaterialNum(212011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(1) = plasticRotCapOfMaterialNum(311031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(2) = plasticRotCapOfMaterialNum(212031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(3) = plasticRotCapOfMaterialNum(312031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(4) = plasticRotCapOfMaterialNum(212021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(1) = plasticRotCapOfMaterialNum(311041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(3) = plasticRotCapOfMaterialNum(312041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(4) = plasticRotCapOfMaterialNum(212031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(1) = plasticRotCapOfMaterialNum(310011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(2) = plasticRotCapOfMaterialNum(211011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(3) = plasticRotCapOfMaterialNum(311011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(1) = plasticRotCapOfMaterialNum(310021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(2) = plasticRotCapOfMaterialNum(211021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(3) = plasticRotCapOfMaterialNum(311021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(4) = plasticRotCapOfMaterialNum(211011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(1) = plasticRotCapOfMaterialNum(310031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(2) = plasticRotCapOfMaterialNum(211031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(3) = plasticRotCapOfMaterialNum(311031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(4) = plasticRotCapOfMaterialNum(211021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(1) = plasticRotCapOfMaterialNum(310041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(3) = plasticRotCapOfMaterialNum(311041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(4) = plasticRotCapOfMaterialNum(211031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(1) = plasticRotCapOfMaterialNum(309011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(2) = plasticRotCapOfMaterialNum(210011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(3) = plasticRotCapOfMaterialNum(310011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(1) = plasticRotCapOfMaterialNum(309021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(2) = plasticRotCapOfMaterialNum(210021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(3) = plasticRotCapOfMaterialNum(310021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(4) = plasticRotCapOfMaterialNum(210011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(1) = plasticRotCapOfMaterialNum(309031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(2) = plasticRotCapOfMaterialNum(210031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(3) = plasticRotCapOfMaterialNum(310031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(4) = plasticRotCapOfMaterialNum(210021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(1) = plasticRotCapOfMaterialNum(309041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(3) = plasticRotCapOfMaterialNum(310041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(4) = plasticRotCapOfMaterialNum(210031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(1) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(2) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(3) = plasticRotCapOfMaterialNum(309011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(1) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(2) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(3) = plasticRotCapOfMaterialNum(309021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(4) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(1) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(2) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(3) = plasticRotCapOfMaterialNum(309031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(4) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(1) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(3) = plasticRotCapOfMaterialNum(309041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(4) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(1) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(2) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(3) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(1) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(2) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(3) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(4) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(1) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(2) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(3) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(4) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(1) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(3) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(4) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(1) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(2) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(3) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(1) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(2) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(3) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(4) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(1) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(2) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(3) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(4) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(1) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(3) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(4) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(1) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(2) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(3) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(1) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(2) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(3) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(4) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(1) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(2) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(3) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(4) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(1) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(3) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(4) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(1) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(2) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(3) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(1) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(2) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(3) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(4) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(1) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(2) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(3) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(4) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(1) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(3) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(4) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(1) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(2) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(3) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(1) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(2) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(3) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(4) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(1) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(2) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(3) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(4) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(1) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(3) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(4) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(1) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(2) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(3) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(1) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(2) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(3) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(4) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(1) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(2) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(3) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(4) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(1) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(3) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(4) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(2) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(3) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(2) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(3) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(4) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(2) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(3) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(4) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(3) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(4) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     % Define the joint numbers at each location in the frame
+         for colLineNum = 1:4
+             for floorNum = 2:13
+                 buildingInfo{bldgID}.jointNumber(floorNum, colLineNum) = 40000 + (100.0 * floorNum) + colLineNum;
+             end
+         end
+ 
+      % Define the hinge element numbers that are used at the base columns
+         for colLineNum = 1:4
+             buildingInfo{bldgID}.hingeElementNumAtColBase(colLineNum) = 6000 + colLineNum * 10 + 2; % The PH Spring at the column base
+         end
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  46123 - End %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%--- 35083 (As per IS 1893 (2016)) added on Nov-12-2026 by Shivakumar K S at IIT Madras --------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+
+
+% Pasted from "35083v03_20261101General Excel Sheet-v24.xlsm" on  Nov-15-2026 by Shivakumar K S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  35083 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ 
+% Define General Geometry Information
+      bldgID = 35083;
+      buildingInfo{bldgID}.bayWidth = 8200 * ones(1, 3); % (Size of this vector = numBays)
+      buildingInfo{bldgID}.storyHeight_firstStory = 4500;
+      buildingInfo{bldgID}.storyHeight_upperStories = 3900 * ones(1, 7); % (Size of this vector = numStories - 1)
+      buildingInfo{bldgID}.jointWidth = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1). Let's keep it same on each floor (for display only)
+      buildingInfo{bldgID}.jointHeight = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1)
+
+      buildingInfo{bldgID}.numBays = 3;
+      buildingInfo{bldgID}.numStories = 8;
+      buildingInfo{bldgID}.collapseDriftThreshold = 0.12;
+      buildingInfo{bldgID}.lowestFloorWithBeam = 2; % fdn is floor no 1
+
+% Define the plastic rotation capacities of the column materials
+plasticRotCapOfMaterialNum(308011) = 0.0534350248074186;
+plasticRotCapOfMaterialNum(308021) = 0.051457401279185;
+plasticRotCapOfMaterialNum(308031) = 0.051457401279185;
+plasticRotCapOfMaterialNum(308041) = 0.0224695794749263;
+
+plasticRotCapOfMaterialNum(307011) = 0.051342353813503;
+plasticRotCapOfMaterialNum(307021) = 0.0477469119382164;
+plasticRotCapOfMaterialNum(307031) = 0.0477469119382164;
+plasticRotCapOfMaterialNum(307041) = 0.021901916828962;
+
+plasticRotCapOfMaterialNum(306011) = 0.0493812775354631;
+plasticRotCapOfMaterialNum(306021) = 0.0435504312672821;
+plasticRotCapOfMaterialNum(306031) = 0.0435504312672821;
+plasticRotCapOfMaterialNum(306041) = 0.0213821204967533;
+
+plasticRotCapOfMaterialNum(305011) = 0.0475447260648059;
+plasticRotCapOfMaterialNum(305021) = 0.0395364111913708;
+plasticRotCapOfMaterialNum(305031) = 0.0395364111913708;
+plasticRotCapOfMaterialNum(305041) = 0.020907527618986;
+
+plasticRotCapOfMaterialNum(304011) = 0.0438662314350939;
+plasticRotCapOfMaterialNum(304021) = 0.0364473901775188;
+plasticRotCapOfMaterialNum(304031) = 0.0364473901775188;
+plasticRotCapOfMaterialNum(304041) = 0.019879890923047;
+
+plasticRotCapOfMaterialNum(303011) = 0.0424966359870378;
+plasticRotCapOfMaterialNum(303021) = 0.033525244800584;
+plasticRotCapOfMaterialNum(303031) = 0.033525244800584;
+plasticRotCapOfMaterialNum(303041) = 0.0195023940195995;
+
+plasticRotCapOfMaterialNum(302011) = 0.0407316445773109;
+plasticRotCapOfMaterialNum(302021) = 0.0309417995463267;
+plasticRotCapOfMaterialNum(302031) = 0.0309417995463267;
+plasticRotCapOfMaterialNum(302041) = 0.0187886065446702;
+
+plasticRotCapOfMaterialNum(301011) = 0.0395269116073935;
+plasticRotCapOfMaterialNum(301021) = 0.0288674252981095;
+plasticRotCapOfMaterialNum(301031) = 0.0288674252981095;
+plasticRotCapOfMaterialNum(301041) = 0.0184866284423093;
+
+% Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
+plasticRotCapOfMaterialNum(209011) = 0.045434447454486;
+plasticRotCapOfMaterialNum(209012) = 0.045434447454486;
+plasticRotCapOfMaterialNum(209021) = 0.045434447454486;
+plasticRotCapOfMaterialNum(209022) = 0.045434447454486;
+plasticRotCapOfMaterialNum(209031) = 0.045434447454486;
+plasticRotCapOfMaterialNum(209032) = 0.045434447454486;
+
+plasticRotCapOfMaterialNum(208011) = 0.0531424509600976;
+plasticRotCapOfMaterialNum(208012) = 0.0465345803112281;
+plasticRotCapOfMaterialNum(208021) = 0.0531424509600976;
+plasticRotCapOfMaterialNum(208022) = 0.0465345803112281;
+plasticRotCapOfMaterialNum(208031) = 0.0531424509600976;
+plasticRotCapOfMaterialNum(208032) = 0.0465345803112281;
+
+plasticRotCapOfMaterialNum(207011) = 0.0590797888578507;
+plasticRotCapOfMaterialNum(207012) = 0.0496306173373296;
+plasticRotCapOfMaterialNum(207021) = 0.0590797888578507;
+plasticRotCapOfMaterialNum(207022) = 0.0496306173373296;
+plasticRotCapOfMaterialNum(207031) = 0.0590797888578507;
+plasticRotCapOfMaterialNum(207032) = 0.0496306173373296;
+
+plasticRotCapOfMaterialNum(206011) = 0.0643271980671939;
+plasticRotCapOfMaterialNum(206012) = 0.0551313101066283;
+plasticRotCapOfMaterialNum(206021) = 0.0643271980671939;
+plasticRotCapOfMaterialNum(206022) = 0.0551313101066283;
+plasticRotCapOfMaterialNum(206031) = 0.0643271980671939;
+plasticRotCapOfMaterialNum(206032) = 0.0551313101066283;
+
+plasticRotCapOfMaterialNum(205011) = 0.068350615038041;
+plasticRotCapOfMaterialNum(205012) = 0.0575653373493053;
+plasticRotCapOfMaterialNum(205021) = 0.068350615038041;
+plasticRotCapOfMaterialNum(205022) = 0.0575653373493053;
+plasticRotCapOfMaterialNum(205031) = 0.068350615038041;
+plasticRotCapOfMaterialNum(205032) = 0.0575653373493053;
+
+plasticRotCapOfMaterialNum(204011) = 0.0685307829082616;
+plasticRotCapOfMaterialNum(204012) = 0.0584693815880188;
+plasticRotCapOfMaterialNum(204021) = 0.0685307829082616;
+plasticRotCapOfMaterialNum(204022) = 0.0584693815880188;
+plasticRotCapOfMaterialNum(204031) = 0.0685307829082616;
+plasticRotCapOfMaterialNum(204032) = 0.0584693815880188;
+
+plasticRotCapOfMaterialNum(203011) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(203012) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(203021) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(203022) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(203031) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(203032) = 0.0586792784896861;
+
+plasticRotCapOfMaterialNum(202011) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(202012) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(202021) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(202022) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(202031) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(202032) = 0.0586792784896861;
+
+% Define the plastic rotation capacities of shear panel material (40000) and the dummy material (49999) used in locations where no element connects to the joint
+     plasticRotCapOfMaterialNum(40000) = 99;
+     plasticRotCapOfMaterialNum(49999) = 999;
+ 
+% Define the column base rotational spring PHR capacities
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+ 
+% Define the PHR capacities at all 5 material locations of each joint (4 PHs and 1 shear panel).  When there is not an elements connected to a specific portion of a joint, I use the dummy material #49999.  Make all beam materials be positive (end in 1).
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(1) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(2) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(1) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(2) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(4) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(1) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(2) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(4) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(1) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(4) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(1) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(2) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(3) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(1) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(2) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(3) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(4) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(1) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(2) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(3) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(4) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(1) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(3) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(4) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(1) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(2) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(3) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(1) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(2) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(3) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(4) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(1) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(2) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(3) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(4) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(1) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(3) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(4) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(1) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(2) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(3) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(1) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(2) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(3) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(4) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(1) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(2) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(3) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(4) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(1) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(3) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(4) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(1) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(2) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(3) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(1) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(2) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(3) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(4) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(1) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(2) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(3) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(4) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(1) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(3) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(4) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(1) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(2) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(3) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(1) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(2) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(3) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(4) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(1) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(2) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(3) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(4) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(1) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(3) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(4) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(1) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(2) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(3) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(1) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(2) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(3) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(4) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(1) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(2) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(3) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(4) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(1) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(3) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(4) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(2) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(3) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(2) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(3) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(4) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(2) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(3) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(4) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(3) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(4) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     % Define the joint numbers at each location in the frame
+         for colLineNum = 1:4
+             for floorNum = 2:9
+                 buildingInfo{bldgID}.jointNumber(floorNum, colLineNum) = 40000 + (100.0 * floorNum) + colLineNum;
+             end
+         end
+ 
+      % Define the hinge element numbers that are used at the base columns
+         for colLineNum = 1:4
+             buildingInfo{bldgID}.hingeElementNumAtColBase(colLineNum) = 6000 + colLineNum * 10 + 2; % The PH Spring at the column base
+         end
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  35083 - End %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%--- 35123 (As per IS 1893 (2016)) added on Nov-12-2026 by Shivakumar K S at IIT Madras --------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+
+
+% Pasted from "35123v03_20261105General Excel Sheet-v24.xlsm" on  Nov-13-2026 by Prakash Singh
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  35123 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ 
+% Define General Geometry Information
+      bldgID = 35123;
+      buildingInfo{bldgID}.bayWidth = 8200 * ones(1, 3); % (Size of this vector = numBays)
+      buildingInfo{bldgID}.storyHeight_firstStory = 4500;
+      buildingInfo{bldgID}.storyHeight_upperStories = 3900 * ones(1, 11); % (Size of this vector = numStories - 1)
+      buildingInfo{bldgID}.jointWidth = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1). Let's keep it same on each floor (for display only)
+      buildingInfo{bldgID}.jointHeight = 600 * ones(1, 4); % Just for plotting. (Size of this vector = numBays + 1)
+
+      buildingInfo{bldgID}.numBays = 3;
+      buildingInfo{bldgID}.numStories = 12;
+      buildingInfo{bldgID}.collapseDriftThreshold = 0.12;
+      buildingInfo{bldgID}.lowestFloorWithBeam = 2; % fdn is floor no 1
+
+% Define the plastic rotation capacities of the column materials
+plasticRotCapOfMaterialNum(312011) = 0.04913915882312;
+plasticRotCapOfMaterialNum(312021) = 0.0473753681691267;
+plasticRotCapOfMaterialNum(312031) = 0.0473753681691267;
+plasticRotCapOfMaterialNum(312041) = 0.0206428275533832;
+
+plasticRotCapOfMaterialNum(311011) = 0.0472728133283255;
+plasticRotCapOfMaterialNum(311021) = 0.044071235329111;
+plasticRotCapOfMaterialNum(311031) = 0.044071235329111;
+plasticRotCapOfMaterialNum(311041) = 0.0201645240389164;
+
+plasticRotCapOfMaterialNum(310011) = 0.0455256860819726;
+plasticRotCapOfMaterialNum(310021) = 0.0402663224257292;
+plasticRotCapOfMaterialNum(310031) = 0.0402663224257292;
+plasticRotCapOfMaterialNum(310041) = 0.0197291852633158;
+
+plasticRotCapOfMaterialNum(309011) = 0.0438914199548808;
+plasticRotCapOfMaterialNum(309021) = 0.0366044994973305;
+plasticRotCapOfMaterialNum(309031) = 0.0366044994973305;
+plasticRotCapOfMaterialNum(309041) = 0.01933442221865;
+
+plasticRotCapOfMaterialNum(308011) = 0.0404667979613772;
+plasticRotCapOfMaterialNum(308021) = 0.0337336531407638;
+plasticRotCapOfMaterialNum(308031) = 0.0337336531407638;
+plasticRotCapOfMaterialNum(308041) = 0.0183778577796131;
+
+plasticRotCapOfMaterialNum(307011) = 0.03924831574222;
+plasticRotCapOfMaterialNum(307021) = 0.031202133374743;
+plasticRotCapOfMaterialNum(307031) = 0.031202133374743;
+plasticRotCapOfMaterialNum(307041) = 0.0180628216897439;
+
+plasticRotCapOfMaterialNum(306011) = 0.0376405535484343;
+plasticRotCapOfMaterialNum(306021) = 0.0287638375399993;
+plasticRotCapOfMaterialNum(306031) = 0.0287638375399993;
+plasticRotCapOfMaterialNum(306041) = 0.017422940181286;
+
+plasticRotCapOfMaterialNum(305011) = 0.0358867167557628;
+plasticRotCapOfMaterialNum(305021) = 0.0277154204544563;
+plasticRotCapOfMaterialNum(305031) = 0.0277154204544563;
+plasticRotCapOfMaterialNum(305041) = 0.0170917496990731;
+
+plasticRotCapOfMaterialNum(304011) = 0.0346353026841594;
+plasticRotCapOfMaterialNum(304021) = 0.0258063084179445;
+plasticRotCapOfMaterialNum(304031) = 0.0258063084179445;
+plasticRotCapOfMaterialNum(304041) = 0.016575762764616;
+
+plasticRotCapOfMaterialNum(303011) = 0.0334092860709939;
+plasticRotCapOfMaterialNum(303021) = 0.0258377625191141;
+plasticRotCapOfMaterialNum(303031) = 0.0258377625191141;
+plasticRotCapOfMaterialNum(303041) = 0.0162372594425026;
+
+plasticRotCapOfMaterialNum(302011) = 0.0326798876387867;
+plasticRotCapOfMaterialNum(302021) = 0.024583591090543;
+plasticRotCapOfMaterialNum(302031) = 0.024583591090543;
+plasticRotCapOfMaterialNum(302041) = 0.0160149904990587;
+
+plasticRotCapOfMaterialNum(301011) = 0.032184449703437;
+plasticRotCapOfMaterialNum(301021) = 0.0236166512266348;
+plasticRotCapOfMaterialNum(301031) = 0.0236166512266348;
+plasticRotCapOfMaterialNum(301041) = 0.0159772794071456;
+
+% Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
+plasticRotCapOfMaterialNum(213011) = 0.0409448345262524;
+plasticRotCapOfMaterialNum(213012) = 0.0435848677198872;
+plasticRotCapOfMaterialNum(213021) = 0.0409448345262524;
+plasticRotCapOfMaterialNum(213022) = 0.0435848677198872;
+plasticRotCapOfMaterialNum(213031) = 0.0409448345262524;
+plasticRotCapOfMaterialNum(213032) = 0.0435848677198872;
+
+plasticRotCapOfMaterialNum(212011) = 0.0524172121531877;
+plasticRotCapOfMaterialNum(212012) = 0.0468062485227779;
+plasticRotCapOfMaterialNum(212021) = 0.0524172121531877;
+plasticRotCapOfMaterialNum(212022) = 0.0468062485227779;
+plasticRotCapOfMaterialNum(212031) = 0.0524172121531877;
+plasticRotCapOfMaterialNum(212032) = 0.0468062485227779;
+
+plasticRotCapOfMaterialNum(211011) = 0.063935219289858;
+plasticRotCapOfMaterialNum(211012) = 0.0540185839012173;
+plasticRotCapOfMaterialNum(211021) = 0.063935219289858;
+plasticRotCapOfMaterialNum(211022) = 0.0540185839012173;
+plasticRotCapOfMaterialNum(211031) = 0.063935219289858;
+plasticRotCapOfMaterialNum(211032) = 0.0540185839012173;
+
+plasticRotCapOfMaterialNum(210011) = 0.0646680573026595;
+plasticRotCapOfMaterialNum(210012) = 0.0545661014810802;
+plasticRotCapOfMaterialNum(210021) = 0.0646680573026595;
+plasticRotCapOfMaterialNum(210022) = 0.0545661014810802;
+plasticRotCapOfMaterialNum(210031) = 0.0646680573026595;
+plasticRotCapOfMaterialNum(210032) = 0.0545661014810802;
+
+plasticRotCapOfMaterialNum(209011) = 0.0678583515371715;
+plasticRotCapOfMaterialNum(209012) = 0.0574693567730632;
+plasticRotCapOfMaterialNum(209021) = 0.0678583515371715;
+plasticRotCapOfMaterialNum(209022) = 0.0574693567730632;
+plasticRotCapOfMaterialNum(209031) = 0.0678583515371715;
+plasticRotCapOfMaterialNum(209032) = 0.0574693567730632;
+
+plasticRotCapOfMaterialNum(208011) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(208012) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(208021) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(208022) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(208031) = 0.0684175355275745;
+plasticRotCapOfMaterialNum(208032) = 0.0586792784896861;
+
+plasticRotCapOfMaterialNum(207011) = 0.0717067177274809;
+plasticRotCapOfMaterialNum(207012) = 0.0619868972686645;
+plasticRotCapOfMaterialNum(207021) = 0.0717067177274809;
+plasticRotCapOfMaterialNum(207022) = 0.0619868972686645;
+plasticRotCapOfMaterialNum(207031) = 0.0717067177274809;
+plasticRotCapOfMaterialNum(207032) = 0.0619868972686645;
+
+plasticRotCapOfMaterialNum(206011) = 0.071708272059843;
+plasticRotCapOfMaterialNum(206012) = 0.0619898602495018;
+plasticRotCapOfMaterialNum(206021) = 0.071708272059843;
+plasticRotCapOfMaterialNum(206022) = 0.0619898602495018;
+plasticRotCapOfMaterialNum(206031) = 0.071708272059843;
+plasticRotCapOfMaterialNum(206032) = 0.0619898602495018;
+
+plasticRotCapOfMaterialNum(205011) = 0.072720431683059;
+plasticRotCapOfMaterialNum(205012) = 0.0623176725728885;
+plasticRotCapOfMaterialNum(205021) = 0.072720431683059;
+plasticRotCapOfMaterialNum(205022) = 0.0623176725728885;
+plasticRotCapOfMaterialNum(205031) = 0.072720431683059;
+plasticRotCapOfMaterialNum(205032) = 0.0623176725728885;
+
+plasticRotCapOfMaterialNum(204011) = 0.071711446503523;
+plasticRotCapOfMaterialNum(204012) = 0.0619959116037825;
+plasticRotCapOfMaterialNum(204021) = 0.071711446503523;
+plasticRotCapOfMaterialNum(204022) = 0.0619959116037825;
+plasticRotCapOfMaterialNum(204031) = 0.071711446503523;
+plasticRotCapOfMaterialNum(204032) = 0.0619959116037825;
+
+plasticRotCapOfMaterialNum(203011) = 0.071711446503523;
+plasticRotCapOfMaterialNum(203012) = 0.0619959116037825;
+plasticRotCapOfMaterialNum(203021) = 0.071711446503523;
+plasticRotCapOfMaterialNum(203022) = 0.0619959116037825;
+plasticRotCapOfMaterialNum(203031) = 0.071711446503523;
+plasticRotCapOfMaterialNum(203032) = 0.0619959116037825;
+
+plasticRotCapOfMaterialNum(202011) = 0.0647119916578002;
+plasticRotCapOfMaterialNum(202012) = 0.0554330361964088;
+plasticRotCapOfMaterialNum(202021) = 0.0647119916578002;
+plasticRotCapOfMaterialNum(202022) = 0.0554330361964088;
+plasticRotCapOfMaterialNum(202031) = 0.0647119916578002;
+plasticRotCapOfMaterialNum(202032) = 0.0554330361964088;
+
+% Define the plastic rotation capacities of shear panel material (40000) and the dummy material (49999) used in locations where no element connects to the joint
+     plasticRotCapOfMaterialNum(40000) = 99;
+     plasticRotCapOfMaterialNum(49999) = 999;
+ 
+% Define the column base rotational spring PHR capacities
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(1, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+ 
+% Define the PHR capacities at all 5 material locations of each joint (4 PHs and 1 shear panel).  When there is not an elements connected to a specific portion of a joint, I use the dummy material #49999.  Make all beam materials be positive (end in 1).
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(1) = plasticRotCapOfMaterialNum(312011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(2) = plasticRotCapOfMaterialNum(213011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(1) = plasticRotCapOfMaterialNum(312021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(2) = plasticRotCapOfMaterialNum(213021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(4) = plasticRotCapOfMaterialNum(213011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(1) = plasticRotCapOfMaterialNum(312031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(2) = plasticRotCapOfMaterialNum(213031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(4) = plasticRotCapOfMaterialNum(213021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(1) = plasticRotCapOfMaterialNum(312041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(3) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(4) = plasticRotCapOfMaterialNum(213031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(13, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(1) = plasticRotCapOfMaterialNum(311011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(2) = plasticRotCapOfMaterialNum(212011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(3) = plasticRotCapOfMaterialNum(312011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(1) = plasticRotCapOfMaterialNum(311021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(2) = plasticRotCapOfMaterialNum(212021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(3) = plasticRotCapOfMaterialNum(312021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(4) = plasticRotCapOfMaterialNum(212011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(1) = plasticRotCapOfMaterialNum(311031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(2) = plasticRotCapOfMaterialNum(212031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(3) = plasticRotCapOfMaterialNum(312031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(4) = plasticRotCapOfMaterialNum(212021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(1) = plasticRotCapOfMaterialNum(311041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(3) = plasticRotCapOfMaterialNum(312041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(4) = plasticRotCapOfMaterialNum(212031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(12, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(1) = plasticRotCapOfMaterialNum(310011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(2) = plasticRotCapOfMaterialNum(211011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(3) = plasticRotCapOfMaterialNum(311011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(1) = plasticRotCapOfMaterialNum(310021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(2) = plasticRotCapOfMaterialNum(211021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(3) = plasticRotCapOfMaterialNum(311021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(4) = plasticRotCapOfMaterialNum(211011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(1) = plasticRotCapOfMaterialNum(310031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(2) = plasticRotCapOfMaterialNum(211031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(3) = plasticRotCapOfMaterialNum(311031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(4) = plasticRotCapOfMaterialNum(211021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(1) = plasticRotCapOfMaterialNum(310041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(3) = plasticRotCapOfMaterialNum(311041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(4) = plasticRotCapOfMaterialNum(211031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(11, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(1) = plasticRotCapOfMaterialNum(309011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(2) = plasticRotCapOfMaterialNum(210011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(3) = plasticRotCapOfMaterialNum(310011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(1) = plasticRotCapOfMaterialNum(309021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(2) = plasticRotCapOfMaterialNum(210021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(3) = plasticRotCapOfMaterialNum(310021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(4) = plasticRotCapOfMaterialNum(210011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(1) = plasticRotCapOfMaterialNum(309031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(2) = plasticRotCapOfMaterialNum(210031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(3) = plasticRotCapOfMaterialNum(310031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(4) = plasticRotCapOfMaterialNum(210021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(1) = plasticRotCapOfMaterialNum(309041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(3) = plasticRotCapOfMaterialNum(310041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(4) = plasticRotCapOfMaterialNum(210031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(10, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(1) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(2) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(3) = plasticRotCapOfMaterialNum(309011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(1) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(2) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(3) = plasticRotCapOfMaterialNum(309021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(4) = plasticRotCapOfMaterialNum(209011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(1) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(2) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(3) = plasticRotCapOfMaterialNum(309031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(4) = plasticRotCapOfMaterialNum(209021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(1) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(3) = plasticRotCapOfMaterialNum(309041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(4) = plasticRotCapOfMaterialNum(209031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(9, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(1) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(2) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(3) = plasticRotCapOfMaterialNum(308011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(1) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(2) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(3) = plasticRotCapOfMaterialNum(308021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(4) = plasticRotCapOfMaterialNum(208011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(1) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(2) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(3) = plasticRotCapOfMaterialNum(308031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(4) = plasticRotCapOfMaterialNum(208021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(1) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(3) = plasticRotCapOfMaterialNum(308041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(4) = plasticRotCapOfMaterialNum(208031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(8, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(1) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(2) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(3) = plasticRotCapOfMaterialNum(307011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(1) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(2) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(3) = plasticRotCapOfMaterialNum(307021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(4) = plasticRotCapOfMaterialNum(207011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(1) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(2) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(3) = plasticRotCapOfMaterialNum(307031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(4) = plasticRotCapOfMaterialNum(207021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(1) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(3) = plasticRotCapOfMaterialNum(307041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(4) = plasticRotCapOfMaterialNum(207031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(7, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(1) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(2) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(3) = plasticRotCapOfMaterialNum(306011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(1) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(2) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(3) = plasticRotCapOfMaterialNum(306021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(4) = plasticRotCapOfMaterialNum(206011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(1) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(2) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(3) = plasticRotCapOfMaterialNum(306031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(4) = plasticRotCapOfMaterialNum(206021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(1) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(3) = plasticRotCapOfMaterialNum(306041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(4) = plasticRotCapOfMaterialNum(206031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(6, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(1) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(2) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(3) = plasticRotCapOfMaterialNum(305011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(1) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(2) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(3) = plasticRotCapOfMaterialNum(305021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(4) = plasticRotCapOfMaterialNum(205011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(1) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(2) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(3) = plasticRotCapOfMaterialNum(305031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(4) = plasticRotCapOfMaterialNum(205021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(1) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(3) = plasticRotCapOfMaterialNum(305041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(4) = plasticRotCapOfMaterialNum(205031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(5, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(1) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(2) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(3) = plasticRotCapOfMaterialNum(304011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(1) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(2) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(3) = plasticRotCapOfMaterialNum(304021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(4) = plasticRotCapOfMaterialNum(204011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(1) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(2) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(3) = plasticRotCapOfMaterialNum(304031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(4) = plasticRotCapOfMaterialNum(204021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(1) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(3) = plasticRotCapOfMaterialNum(304041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(4) = plasticRotCapOfMaterialNum(204031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(4, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(1) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(2) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(3) = plasticRotCapOfMaterialNum(303011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(1) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(2) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(3) = plasticRotCapOfMaterialNum(303021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(4) = plasticRotCapOfMaterialNum(203011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(1) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(2) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(3) = plasticRotCapOfMaterialNum(303031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(4) = plasticRotCapOfMaterialNum(203021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(1) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(3) = plasticRotCapOfMaterialNum(303041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(4) = plasticRotCapOfMaterialNum(203031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(3, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(1) = plasticRotCapOfMaterialNum(301011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(2) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(3) = plasticRotCapOfMaterialNum(302011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(4) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 1).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(1) = plasticRotCapOfMaterialNum(301021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(2) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(3) = plasticRotCapOfMaterialNum(302021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(4) = plasticRotCapOfMaterialNum(202011);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 2).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(1) = plasticRotCapOfMaterialNum(301031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(2) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(3) = plasticRotCapOfMaterialNum(302031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(4) = plasticRotCapOfMaterialNum(202021);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 3).node(5) = plasticRotCapOfMaterialNum(40000);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(1) = plasticRotCapOfMaterialNum(301041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(2) = plasticRotCapOfMaterialNum(49999);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(3) = plasticRotCapOfMaterialNum(302041);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(4) = plasticRotCapOfMaterialNum(202031);
+     buildingInfo{bldgID}.plastHingeRotCapAtJoint(2, 4).node(5) = plasticRotCapOfMaterialNum(40000);
+
+     % Define the joint numbers at each location in the frame
+         for colLineNum = 1:4
+             for floorNum = 2:13
+                 buildingInfo{bldgID}.jointNumber(floorNum, colLineNum) = 40000 + (100.0 * floorNum) + colLineNum;
+             end
+         end
+ 
+      % Define the hinge element numbers that are used at the base columns
+         for colLineNum = 1:4
+             buildingInfo{bldgID}.hingeElementNumAtColBase(colLineNum) = 6000 + colLineNum * 10 + 2; % The PH Spring at the column base
+         end
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% Design ID  35123 - End %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

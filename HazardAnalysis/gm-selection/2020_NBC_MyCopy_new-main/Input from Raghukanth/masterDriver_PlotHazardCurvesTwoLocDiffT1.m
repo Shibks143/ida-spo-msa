@@ -27,17 +27,17 @@ switch locName
         error('Unknown locName: %s', locName);
 end
 
-locName2 = 'Delhi';   % second location for the combined UHS comparison
-switch locName2
-    case 'Delhi'
-        latLon2 = [28.62  77.22]; earthquakeZone2 = 'IV';
-    case 'Guwahati'
-        latLon2 = [26.17  91.77]; earthquakeZone2 = 'VI';
-    otherwise
-        error('Unknown locName2: %s', locName2);
-end
+% locName2 = 'Delhi';   % second location for the combined UHS comparison
+% switch locName2
+%     case 'Delhi'
+%         latLon2 = [28.62  77.22]; earthquakeZone2 = 'IV';
+%     case 'Guwahati'
+%         latLon2 = [26.17  91.77]; earthquakeZone2 = 'VI';
+%     otherwise
+%         error('Unknown locName2: %s', locName2);
+% end
 
-Tcond = 1.56; % conditioning period for return-period-based Sa extraction
+Tcond = 2.43; % conditioning period for return-period-based Sa extraction
 returnPeriods_SaTcond = [75 175 275 475 975 1275 2475 4975 9975];
 returnPeriods_UHS     = returnPeriods_SaTcond;
 % returnPeriods_UHS     = [75 175 275 475 975 1275 2475 4975 9975]; 

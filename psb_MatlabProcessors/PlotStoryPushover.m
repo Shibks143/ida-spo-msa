@@ -93,8 +93,6 @@ load(fileName);
 
     hold on
     grid on
-    %axes(haxes);
-    %axes('FontSize', axisNumberFontSize)
     titleText = sprintf('Story Pushover %s: Story %d', analysisType, storyNum);
     title(titleText);
     %set(htitle, 'FontSize', titleFontSize);
@@ -115,7 +113,7 @@ load(fileName);
         cd ..;
         % Save the plot as a .fig file
         exportName = sprintf('Pushover_%s_Story_%d_storyShear', analysisType, storyNum);
-        hgsave(exportName); % .fig file for Matlab
+        savefig(exportName); % .fig file for Matlab
         print('-depsc', exportName); % .eps file for Linux (LaTeX)
         print('-dmeta', exportName); % .emf file for Windows (MSWORD)
         

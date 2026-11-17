@@ -35,33 +35,30 @@ if isunix
 end
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Define building information - change modelNameLIST, bldgID and periodUsedForScalingGroundMotions together
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Define building information - change this for the building being used
-   
-    % analysisTypeLIST = {'(ID35053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
-analysisTypeLIST = {'(ID46053_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
-    % analysisTypeLIST = {'(ID2433_R5_5Story_v.02)_(AllVar)_(0.00)_(clough)'};
-    analysisType = analysisTypeLIST{1};                                     % Just renaming variable and changing variable format for some of the processors
-     % modelNameLIST = {'ID35053_R5_5Story_v.02'};
-    modelNameLIST = {'ID46053_R5_5Story_v.02'};
-    sensModelLIST = modelNameLIST;              
+modelNameLIST    = {'ID35083_R5_8Story_v.03'};                             % ID35053_R5_5Story_v.03 | ID35083_R5_8Story_v.03 | ID35123_R5_12Story_v.03 | ID46053_R5_5Story_v.04 | ID46083_R5_8Story_v.04 | ID46123_R5_12Story_v.04 
+bldgID           = 35083;                                                   % 35053 | 35083 | 35123 | 46053 | 46083 | 46123 
+periodUsedForScalingGroundMotions = 2.43;                                   % T1 (s):  ID35053 = 1.56 | ID35083 = 2.43 | ID35123 = 3.39 | ID46053 = 1.36 | ID46083 = 2.04 | ID46123 = 2.79 | ID2433 = 
+                                                                            % Ta (s):  ID35053 = 0.71 | ID35083 = 1.00 | ID35123 = 1.36 | ID46053 = 0.65 | ID46083 = 0.90 | ID46123 = 1.19 | ID2433 = 
+analysisTypeLIST = {['(' modelNameLIST{1} ')_(AllVar)_(0.00)_(clough)']};
+analysisType     = analysisTypeLIST{1};                                     % Just renaming variable and changing variable format for some of the processors
+sensModelLIST    = modelNameLIST;
 
-    % bldgID = 35053;
-    bldgID =46053;
-    % bldgID = 2433;      % WARNING - When sensitivity analyses are run, this defines the PHR capacities of the original archetype 
+
+
+
+ % WARNING - When sensitivity analyses are run, this defines the PHR capacities of the original archetype 
                         % and not of the modified sensitivity model (this will not affect collapse capacities in any way, but will 
                         % affect the colors on the collapse mode plots, but more importantly affect the PADI or DDI values computed
                         % for loss analyses in the stripe files).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%% UPDATE TIMEPERIODS IN DEFINEVARIABLE FILE AS WELL %%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    periodUsedForScalingGroundMotions = 1.36;                               % Note 1) input the proper period for scaling the ground motions for the building you would 
-                                                                            % like to run (haselton
-                                                                            % used T1) for 35053 =0.71 % s % and 46053 = 0.65 s
-                                                                            % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the 
-                                                                            % plots to do not use this as input; they open the files that Opensees creates 
-                                                                            %(value will be same as this)
+
+                        % Note 1) input the proper period for scaling the ground motions for the building you would like to run (haselton used T1) 
+                        % Note 2) This is sent to Opensees and used for the analysis.  A random detail is that the plots to do not use this as input; 
+                        % they open the files that Opensees creates (value will be same as this)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,17 +69,17 @@ IDA_or_MSA_or_CLOUD = 'IDA';    % 'IDA', 'MSA' or 'CLOUD'
 
          % eqListID = 'SetCS_30'; maxScalingTH = 4; 
          % eqListID = 'SetTestCS_02'; maxScalingTH = 4;
-         eqListID = 'setC';  
+         % eqListID = 'setC';  
          % eqListID = 'setD' ;
          % eqListID = 'setDNotC'; 
          % eqListID = 'setG';
-         % eqListID = 'setTest';
+         eqListID = 'setTest';
 
 
 
 
 %                           analyze  process   IDA/MSA/CLOUD    CDF   defoAtCol    defoJustBefCol     IDR/RDR/PFA   
-    analyzeProcessPlotIndex = [0        0            1           0       0              0                  0];
+    analyzeProcessPlotIndex = [1        1            1           1       0              0                  0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,7 +101,7 @@ IDA_or_MSA_or_CLOUD = 'IDA';    % 'IDA', 'MSA' or 'CLOUD'
             collapseDriftThreshold = 0.04;                                  % MSA: plot only - separation line / red-blue split at 4%;
         case 'CLOUD'
             collapseDriftThreshold = minStoryDriftRatioForCollapseMATLAB;   % CLOUD: runs above 12% (or non-converged) are treated as collapse
-    end                                                                    % saved collapses and MLE collapse fragility use the OpenSees flag (12%)
+    end                                                                     % saved collapses and MLE collapse fragility use the OpenSees flag (12%)
 
 
     minStoryResidualDriftRatioMATLAB = 0.01;                                % Use either 0.5 or 1% for residual drift ratio

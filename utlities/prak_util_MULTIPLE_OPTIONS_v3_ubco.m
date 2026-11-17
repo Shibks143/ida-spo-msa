@@ -26,7 +26,7 @@ baseFolder = pwd; baseF = pwd;
 %   whatToDo = '5d.extractEqDetailsGM_2211_Del22';
 %  whatToDo = '6.extractTimePeriodsForAllEQ';
 %   whatToDo = '6a.extractTimePeriodsForAllBldgs';
-%  whatToDo = '7.extractResponseSpectra';
+ whatToDo = '7.extractResponseSpectra';
 %   whatToDo = '7a.extractResponseSpectraWithScaledIS1893';
 %   whatToDo = '7a1.extractResponseSpectraWithScaledSiteSpecificUHSDelhiOrGuwahati';
 %   whatToDo = '7a2.extractResponseSpectraWithScaledSiteSpecificUHS_CMSDelhiOrGuwahati';
@@ -34,7 +34,7 @@ baseFolder = pwd; baseF = pwd;
 %   whatToDo = '7b.extractSaValForVariousEQs';
 %   whatToDo = '7c.plotUHS_CMS_WithGMPM';
 %  whatToDo = '8.compareOrPlotGroundMotionTH';
- whatToDo = '9.curtailGroundMotionBasedOnPGA';
+ % whatToDo = '9.curtailGroundMotionBasedOnPGA';
 %   whatToDo = '9a.curtailGroundMotionBasedOnPGAForMumbai250';
 %   whatToDo = '9b.curtailGroundMotionBasedOnPGAForMumbai50Remaining';
 %   whatToDo = '9c.curtailGroundMotionBasedOnPGAForMumbai22Remaining';
@@ -1336,124 +1336,73 @@ disp(T);
 %%
 eqNumberLIST_forProcessing_SetC = [120111, 120112, 120121, 120122,	120411, 120412,	120521, 120522,	120611, 120612,	120621, 120622,	120711, 120712,	120721, 120722,	120811, 120812,	120821, 120822,	120911, 120912,	120921, 120922,	121011, 121012,	121021, 121022,	121111, 121112,	121211, 121212,	121221, 121222,	121321, 121322,	121411, 121412,	121421, 121422,	121511, 121512,	121711, 121712];
 eqNumberLIST_forProcessing_SetD = [120111	120112	120121	120122	120131	120132	120141	120142	120151	120152	120161	120162	120411	120412	120521	120522	120611	120612	120621	120622	120631	120632	120641	120642	120711	120712	120721	120722	120731	120732	120741	120742	120811	120812	120821	120822	120911	120912	120921	120922	120931	120932	121011	121012	121021	121022	121031	121032	121041	121042	121051	121052	121061	121062	121111	121112	121211	121212	121221	121222	121231	121232	121321	121322	121411	121412	121421	121422	121431	121432	121441	121442	121451	121452	121461	121462	121511	121512	121711	121712];
-   eqLIST = eqNumberLIST_forProcessing_SetC;
-   dampRat = 0.05;
-   plotDomainLogLog = 1; % 0- linear domain, 1- log log domain
-%    plotPercentiles = [0.16, 0.84];
-   plotPercentiles = [0.05, 0.95];
-
    
-cd C:\OpenSeesProcessingFiles\EQ_Spectra_Saved
+eqLIST = eqNumberLIST_forProcessing_SetC;
+dampRat = 0.05;
+plotDomainLogLog = 1;                            % 0- linear domain, 1- log log domain
+plotPercentiles = [0.05, 0.95];                  % [0.16, 0.84] for +/- 1 sigma
+spectraDir      = 'C:\OpenSeesProcessingFiles\EQ_Spectra_Saved';
+exportFolder    = 'E:\StaticDynamicAnalysis\ida-spo-msa\Output\EQ_TimeHistory';
 
 totNumOfEQs = length(eqLIST);
+groundMotionDetails = cell(1, totNumOfEQs);
 
-eqDetails = zeros(totNumOfEQs, 4); %First col is for eqNumber, second for dt, third for NPts and forth for duration of EQ.
-
+figure; hold on; grid on; box on;
 for eqIndex = 1:totNumOfEQs
     eqNumber = eqLIST(eqIndex);
-    respSpecFile = sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber);
+    respSpecFile = fullfile(spectraDir, sprintf('SaEQSpectrum_EQ_%i.mat', eqNumber));
     load(respSpecFile, 'dampRatioLIST', 'periodVector', 'SaAbs');
 
-    dampRatIndex = find(dampRatioLIST == dampRat);
-    
+    dampRatIndex = find(abs(dampRatioLIST - dampRat) < 1e-6, 1);
+    if isempty(dampRatIndex)
+        error('Damping ratio %.3f not found in %s', dampRat, respSpecFile);
+    end
+
     groundMotionDetails{eqIndex}.eqNumber = eqNumber;
     groundMotionDetails{eqIndex}.periodVector = periodVector;
     groundMotionDetails{eqIndex}.SaList = SaAbs(:, dampRatIndex);
-    
-%     plot(periodVector, SaAbs(:, dampRatIndex), 'k-', 'LineWidth', 0.5); grid on; hold on;
-    if plotDomainLogLog == 0
-        plot(periodVector, SaAbs(:, dampRatIndex), '-', 'color', [0.5 0.5 0.5], 'LineWidth', 1); hold on; grid on; box on; 
-    elseif plotDomainLogLog == 1
-        loglog(periodVector, SaAbs(:, dampRatIndex), '-', 'color', [0.5 0.5 0.5], 'LineWidth', 1); hold on; grid on; box on;
-    end
+
+    plot(periodVector, SaAbs(:, dampRatIndex), '-', 'color', [0.5 0.5 0.5], 'LineWidth', 1);
 end
 
-lenPeriodVector = length(groundMotionDetails{1}.periodVector); % choosing first periodVector for plotting fractiles.
+% Interpolate every record onto the period vector of the first record
+lenPeriodVector = length(groundMotionDetails{1}.periodVector);
 saList = zeros(lenPeriodVector, totNumOfEQs);
-
-    for periodIndex = 1:lenPeriodVector 
-        currentPeriod = groundMotionDetails{1}.periodVector(periodIndex);
-        for eqIndex = 1:totNumOfEQs
-            currenEqPeriodList = groundMotionDetails{eqIndex}.periodVector;
-            currenSaList = groundMotionDetails{eqIndex}.SaList;
-            saList(periodIndex, eqIndex) = interp1(currenEqPeriodList, currenSaList, currentPeriod);
-        end
-    end
-
-if plotDomainLogLog == 0
-    fractileSaList1 = quantile(saList, 0.50, 2);
-    h1 = plot(groundMotionDetails{1}.periodVector, fractileSaList1, 'r-', 'LineWidth', 3);
-
-    fractileSaList2 = quantile(saList, plotPercentiles(1), 2);
-    h2 = plot(groundMotionDetails{1}.periodVector, fractileSaList2, 'r--', 'LineWidth', 3);
-
-    fractileSaList3 = quantile(saList, plotPercentiles(2), 2);
-    h3 = plot(groundMotionDetails{1}.periodVector, fractileSaList3, 'r--', 'LineWidth', 3);
-
-%     fractileSaList4 = quantile(saList, 0.97725, 2);
-%     h4 = plot(groundMotionDetails{1}.periodVector, fractileSaList4, 'r-.', 'LineWidth', 3);
-    
-elseif plotDomainLogLog == 1
-    fractileSaList1 = quantile(saList, 0.50, 2);
-    h1 = loglog(groundMotionDetails{1}.periodVector, fractileSaList1, 'r-', 'LineWidth', 3);
-
-    fractileSaList2 = quantile(saList, plotPercentiles(1), 2);
-    h2 = loglog(groundMotionDetails{1}.periodVector, fractileSaList2, 'r--', 'LineWidth', 3);
-
-    fractileSaList3 = quantile(saList, plotPercentiles(2), 2);
-    h3 = loglog(groundMotionDetails{1}.periodVector, fractileSaList3, 'r--', 'LineWidth', 3);
-
-%     fractileSaList4 = quantile(saList, 0.97725, 2);
-%     h4 = loglog(groundMotionDetails{1}.periodVector, fractileSaList4, 'r-.', 'LineWidth', 3);
+for eqIndex = 1:totNumOfEQs
+    currenEqPeriodList = groundMotionDetails{eqIndex}.periodVector;
+    currenSaList = groundMotionDetails{eqIndex}.SaList;
+    saList(:, eqIndex) = interp1(currenEqPeriodList, currenSaList, groundMotionDetails{1}.periodVector);
 end
 
-    % For sigma function, second input; 0- normalized by (n - 1), 1- normalized by n.
-    % third input is for dimension of the matrix
+fractileSaList1 = quantile(saList, 0.50, 2);
+fractileSaList2 = quantile(saList, plotPercentiles(1), 2);
+fractileSaList3 = quantile(saList, plotPercentiles(2), 2);
+h1 = plot(groundMotionDetails{1}.periodVector, fractileSaList1, 'r-',  'LineWidth', 3);
+h2 = plot(groundMotionDetails{1}.periodVector, fractileSaList2, 'r--', 'LineWidth', 3);
+h3 = plot(groundMotionDetails{1}.periodVector, fractileSaList3, 'r--', 'LineWidth', 3);
 
-%     h4 = plot(groundMotionDetails{1}.periodVector, mean(saList, 2) + 1.96 * std(saList, 0, 2), 'b--', 'LineWidth', 3);
+if plotDomainLogLog == 1
+    set(gca, 'XScale', 'log', 'YScale', 'log');
+end
+xlim([0.05 5]); ylim([0.01 3]);
 
-%     strForLegend = { 'Median'
-%                     '\pm 1 \sigma'};
-%                     %' 97.5%ile'};
+strForLegend = {'Median' sprintf('%g and %g \\%%ile', 100*plotPercentiles(1), 100*plotPercentiles(2))};
+xlabel('Time period (s)');
+ylabel('$S_a$ (g)');
+title('Pseudo Acceleration Response Spectra');
+legh = legend([h1, h2], strForLegend);
 
-    strForLegend = { 'Median'
-                    '5 and 95 %ile'};
+sks_figureFormat('default');
+set(legh, 'Location', 'northeast');      
 
-% 	axisNumberFontSize = 16; xAxisLabelFontSize = 20; yAxisLabelFontSize = 20; 
-% 	legendFontSize = 16; titleFontSize = 20;
+if plotDomainLogLog == 1
+    exportName = fullfile(exportFolder, sprintf('responseSpectrumFarFieldFEMAP695_%g_%g_Loglog', 100*plotPercentiles(1), 100*plotPercentiles(2)));
+else
+    exportName = fullfile(exportFolder, sprintf('responseSpectrumFarFieldFEMAP695_%g_%g_Linear', 100*plotPercentiles(1), 100*plotPercentiles(2)));
+end
+sks_figureExport(exportName);
+disp(['Plot saved as- ' exportName]);
 
-    hx = xlabel('Time period (sec)');
-    hy = ylabel('S_a (g)'); 
-    htitle = title('Pseudo Acceleration Response Spectra');
-    
-%     legh = legend([h1, h2], strForLegend);    
-    legh = legend([h1, h2], strForLegend);    
-    psb_FigureFormatScript
-%     FigureFormatScript
-    
-%     hx = xlabel(str1, 'Interpreter', 'latex'); hy = ylabel(str2, 'Interpreter', 'latex');
-%     htitle = title(str3); 
-%     h_legend = legend([h1, h2], strForLegend);    
-
-%     h_legend = legend([h1, h2, h4], strForLegend);    
-    
-%     set(hx, 'FontSize', xAxisLabelFontSize); set(hy, 'FontSize', yAxisLabelFontSize);
-%     set(htitle, 'FontSize', titleFontSize);
-%     set(h_legend,'FontSize', legendFontSize, 'Location', 'northeast');
-
-%     set(gca, 'FontSize', axisNumberFontSize); 
-    xlim([0.05 10]); ylim([0.01 4]);
-    
-% cd H:\PrakRuns\Output
-cd H:\GM_FEMAP695
-   exportName = sprintf('responseSpectrumFarFiledFEMAP695_5_95_Loglog');
-   hgsave(exportName); % .fig file for Matlab
-   print('-depsc', exportName); % .eps file for Linux (LaTeX)
-   print('-dmeta', exportName); % .emf file for Windows (MSWORD)
-   print('-dpng', exportName); % .png file for small sized files
-    
-    
-disp(['Plot saved as- ' fullfile(pwd, exportName)]);
 
     case '7a.extractResponseSpectraWithScaledIS1893'
 %%
