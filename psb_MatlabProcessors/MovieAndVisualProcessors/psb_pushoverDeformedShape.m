@@ -239,10 +239,6 @@ for bldgIndex = 1:length(bldgID_LIST)
    analysisDir = analysisDirLIST{bldgIndex};
    modelName = strtok(analysisDir, ')'); modelName = modelName(2:end);
    
-   % cd ..
-   % cd ..
-   % cd Output
-   % cd(analysisDir)
    cd(fullfile(baseFolder, '..', '..', 'Output', analysisDir));
 
    exportName = sprintf('PushoverDeformedShape_%s_%s', pushoverStepNameIdentifier, modelName);
@@ -252,5 +248,5 @@ for bldgIndex = 1:length(bldgID_LIST)
    cd(baseFolder)
    close;
 end 
-% toc
+
 

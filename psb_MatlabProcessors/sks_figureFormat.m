@@ -41,7 +41,7 @@ switch formatMode
         legendTextFontSize = 14;    % changed on 12-Mar-2026, just to check (old size =20)
         titleFontSize      = 24;    % changed on 12-Mar-2026, just to check (old size =20)
         axisLineWidth      = 0.75;  % changed on 17-June-2026, just to check (old size =1.0)
-        textFontSize       = 24;    % added on 17-July-2026, for dimensional lines
+        textFontSize       = 20;    % added on 17-July-2026, for dimensional lines
 
     case 'report'
         xAxisLabelFontSize = 14;
