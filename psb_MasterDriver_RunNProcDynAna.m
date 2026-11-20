@@ -557,20 +557,20 @@ end
 %% If we reached here, save a file on desktop stating the same. Since, I am running two analyses back to back, I wouldn't be able to know if there 
 % was any error in running the first analyses
 
-tElapsed = toc(tStart);
-fileName = sprintf('CheckFile %s.mat', analysisType);
-
-if ispc
-    homeDir = getenv('USERPROFILE');   % Windows home folder
-else
-    homeDir = getenv('HOME');          % Linux/Mac home folder
-end
-desktopDir = fullfile(homeDir, 'Desktop');
-
-if ~exist(desktopDir, 'dir')
-    desktopDir = baseFolder;   % fallback if no Desktop folder exists (common on Linux)
-end
-save(fullfile(desktopDir, fileName), 'tElapsed');
+% tElapsed = toc(tStart);
+% fileName = sprintf('CheckFile %s.mat', analysisType);
+% 
+% if ispc
+%     homeDir = getenv('USERPROFILE');   % Windows home folder
+% else
+%     homeDir = getenv('HOME');          % Linux/Mac home folder
+% end
+% desktopDir = fullfile(homeDir, 'Desktop');
+% 
+% if ~exist(desktopDir, 'dir')
+%     desktopDir = baseFolder;   % fallback if no Desktop folder exists (common on Linux)
+% end
+% save(fullfile(desktopDir, fileName), 'tElapsed');
 
 % Go back to starting folder
 cd(baseFolder)

@@ -46822,7 +46822,13 @@ plasticRotCapOfMaterialNum(202032) = 0.0549409821639936;
 
 
 
-% Pasted from "46083v04_20261101General Excel Sheet-v24.xlsm" on  Nov-17-2026 by Shivakumar K S
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%--- 46083 (As per IS 1893 (2025)) added on Nov-18-2026 by Shivakumar K S at IIT Madras --------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------------------
+
+% Pasted from "46083v04_20261101General Excel Sheet-v24.xlsm" on  Nov-18-2026 by Shivakumar K S
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Design ID  46083 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46843,101 +46849,101 @@ plasticRotCapOfMaterialNum(202032) = 0.0549409821639936;
 
 % Define the plastic rotation capacities of the column materials
 plasticRotCapOfMaterialNum(308011) = 0.0606000447593406;
-plasticRotCapOfMaterialNum(308021) = 0.0589426731505802;
-plasticRotCapOfMaterialNum(308031) = 0.0589426731505802;
-plasticRotCapOfMaterialNum(308041) = 0.0214503450695507;
+plasticRotCapOfMaterialNum(308021) = 0.0558948581694563;
+plasticRotCapOfMaterialNum(308031) = 0.0558948581694563;
+plasticRotCapOfMaterialNum(308041) = 0.0606000447593406;
 
 plasticRotCapOfMaterialNum(307011) = 0.0587978997730888;
-plasticRotCapOfMaterialNum(307021) = 0.0556795819405526;
-plasticRotCapOfMaterialNum(307031) = 0.0556795819405526;
-plasticRotCapOfMaterialNum(307041) = 0.0210135076324328;
+plasticRotCapOfMaterialNum(307021) = 0.0532351983749582;
+plasticRotCapOfMaterialNum(307031) = 0.0532351983749582;
+plasticRotCapOfMaterialNum(307041) = 0.0587978997730888;
 
 plasticRotCapOfMaterialNum(306011) = 0.0570697777029884;
-plasticRotCapOfMaterialNum(306021) = 0.0526709097350848;
-plasticRotCapOfMaterialNum(306031) = 0.0526709097350848;
-plasticRotCapOfMaterialNum(306041) = 0.0205996172369359;
+plasticRotCapOfMaterialNum(306021) = 0.0515016862315221;
+plasticRotCapOfMaterialNum(306031) = 0.0515016862315221;
+plasticRotCapOfMaterialNum(306041) = 0.0570697777029884;
 
 plasticRotCapOfMaterialNum(305011) = 0.0556334947610331;
-plasticRotCapOfMaterialNum(305021) = 0.0501059704966074;
-plasticRotCapOfMaterialNum(305031) = 0.0501059704966074;
-plasticRotCapOfMaterialNum(305041) = 0.0204153780216316;
+plasticRotCapOfMaterialNum(305021) = 0.0498139197444453;
+plasticRotCapOfMaterialNum(305031) = 0.0498139197444453;
+plasticRotCapOfMaterialNum(305041) = 0.0556334947610331;
 
 plasticRotCapOfMaterialNum(304011) = 0.0521993980488023;
-plasticRotCapOfMaterialNum(304021) = 0.0465824683500112;
-plasticRotCapOfMaterialNum(304031) = 0.0465824683500112;
-plasticRotCapOfMaterialNum(304041) = 0.0196781045780634;
+plasticRotCapOfMaterialNum(304021) = 0.0454525547867232;
+plasticRotCapOfMaterialNum(304031) = 0.0454525547867232;
+plasticRotCapOfMaterialNum(304041) = 0.0521993980488023;
 
 plasticRotCapOfMaterialNum(303011) = 0.0508771925824672;
-plasticRotCapOfMaterialNum(303021) = 0.044148893049279;
-plasticRotCapOfMaterialNum(303031) = 0.044148893049279;
-plasticRotCapOfMaterialNum(303041) = 0.0193477533100965;
+plasticRotCapOfMaterialNum(303021) = 0.0438229406866774;
+plasticRotCapOfMaterialNum(303031) = 0.0438229406866774;
+plasticRotCapOfMaterialNum(303041) = 0.0508771925824672;
 
 plasticRotCapOfMaterialNum(302011) = 0.049603003009227;
-plasticRotCapOfMaterialNum(302021) = 0.0416549705686683;
-plasticRotCapOfMaterialNum(302031) = 0.0416549705686683;
-plasticRotCapOfMaterialNum(302041) = 0.0190328624511657;
+plasticRotCapOfMaterialNum(302021) = 0.0422810636486609;
+plasticRotCapOfMaterialNum(302031) = 0.0422810636486609;
+plasticRotCapOfMaterialNum(302041) = 0.049603003009227;
 
 plasticRotCapOfMaterialNum(301011) = 0.0501942094782803;
-plasticRotCapOfMaterialNum(301021) = 0.0404603331250135;
-plasticRotCapOfMaterialNum(301031) = 0.0404603331250135;
-plasticRotCapOfMaterialNum(301041) = 0.0197219861306639;
+plasticRotCapOfMaterialNum(301021) = 0.0418840529019837;
+plasticRotCapOfMaterialNum(301031) = 0.0418840529019837;
+plasticRotCapOfMaterialNum(301041) = 0.0501942094782803;
 
 % Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
 plasticRotCapOfMaterialNum(209011) = 0.0445609319752075;
 plasticRotCapOfMaterialNum(209012) = 0.0402909344646947;
-plasticRotCapOfMaterialNum(209021) = 0.0445609319752075;
-plasticRotCapOfMaterialNum(209022) = 0.0402909344646947;
+plasticRotCapOfMaterialNum(209021) = 0.0464352297359936;
+plasticRotCapOfMaterialNum(209022) = 0.0393692883694634;
 plasticRotCapOfMaterialNum(209031) = 0.0445609319752075;
 plasticRotCapOfMaterialNum(209032) = 0.0402909344646947;
 
 plasticRotCapOfMaterialNum(208011) = 0.0557504511899978;
 plasticRotCapOfMaterialNum(208012) = 0.0476663291705347;
-plasticRotCapOfMaterialNum(208021) = 0.0557504511899978;
-plasticRotCapOfMaterialNum(208022) = 0.0476663291705347;
+plasticRotCapOfMaterialNum(208021) = 0.0538240172353092;
+plasticRotCapOfMaterialNum(208022) = 0.0456031783964658;
 plasticRotCapOfMaterialNum(208031) = 0.0557504511899978;
 plasticRotCapOfMaterialNum(208032) = 0.0476663291705347;
 
 plasticRotCapOfMaterialNum(207011) = 0.0718856972760363;
 plasticRotCapOfMaterialNum(207012) = 0.0631896642885596;
-plasticRotCapOfMaterialNum(207021) = 0.0718856972760363;
-plasticRotCapOfMaterialNum(207022) = 0.0631896642885596;
+plasticRotCapOfMaterialNum(207021) = 0.0656997095112459;
+plasticRotCapOfMaterialNum(207022) = 0.0584137375331524;
 plasticRotCapOfMaterialNum(207031) = 0.0718856972760363;
 plasticRotCapOfMaterialNum(207032) = 0.0631896642885596;
 
 plasticRotCapOfMaterialNum(206011) = 0.0814930026342713;
 plasticRotCapOfMaterialNum(206012) = 0.0744397472106034;
-plasticRotCapOfMaterialNum(206021) = 0.0814930026342713;
-plasticRotCapOfMaterialNum(206022) = 0.0744397472106034;
+plasticRotCapOfMaterialNum(206021) = 0.0789879488197602;
+plasticRotCapOfMaterialNum(206022) = 0.0716054197420704;
 plasticRotCapOfMaterialNum(206031) = 0.0814930026342713;
 plasticRotCapOfMaterialNum(206032) = 0.0744397472106034;
 
-plasticRotCapOfMaterialNum(205011) = 0.0852243129570125;
-plasticRotCapOfMaterialNum(205012) = 0.0801717213196434;
-plasticRotCapOfMaterialNum(205021) = 0.0852243129570125;
-plasticRotCapOfMaterialNum(205022) = 0.0801717213196434;
-plasticRotCapOfMaterialNum(205031) = 0.0852243129570125;
-plasticRotCapOfMaterialNum(205032) = 0.0801717213196434;
+plasticRotCapOfMaterialNum(205011) = 0.0852257814763661;
+plasticRotCapOfMaterialNum(205012) = 0.0801738949594503;
+plasticRotCapOfMaterialNum(205021) = 0.0852272603861868;
+plasticRotCapOfMaterialNum(205022) = 0.0801760839787841;
+plasticRotCapOfMaterialNum(205031) = 0.0852257814763661;
+plasticRotCapOfMaterialNum(205032) = 0.0801738949594503;
 
-plasticRotCapOfMaterialNum(204011) = 0.0890036387214884;
-plasticRotCapOfMaterialNum(204012) = 0.0842172330276063;
-plasticRotCapOfMaterialNum(204021) = 0.0890036387214884;
-plasticRotCapOfMaterialNum(204022) = 0.0842172330276063;
-plasticRotCapOfMaterialNum(204031) = 0.0890036387214884;
-plasticRotCapOfMaterialNum(204032) = 0.0842172330276063;
+plasticRotCapOfMaterialNum(204011) = 0.0890052035556081;
+plasticRotCapOfMaterialNum(204012) = 0.0842195015678677;
+plasticRotCapOfMaterialNum(204021) = 0.0864008414931987;
+plasticRotCapOfMaterialNum(204022) = 0.081791110348612;
+plasticRotCapOfMaterialNum(204031) = 0.0890052035556081;
+plasticRotCapOfMaterialNum(204032) = 0.0842195015678677;
 
-plasticRotCapOfMaterialNum(203011) = 0.0890036387214884;
-plasticRotCapOfMaterialNum(203012) = 0.0842172330276063;
-plasticRotCapOfMaterialNum(203021) = 0.0890036387214884;
-plasticRotCapOfMaterialNum(203022) = 0.0842172330276063;
-plasticRotCapOfMaterialNum(203031) = 0.0890036387214884;
-plasticRotCapOfMaterialNum(203032) = 0.0842172330276063;
+plasticRotCapOfMaterialNum(203011) = 0.0890052035556081;
+plasticRotCapOfMaterialNum(203012) = 0.0842195015678677;
+plasticRotCapOfMaterialNum(203021) = 0.0859909205260135;
+plasticRotCapOfMaterialNum(203022) = 0.0815585994859596;
+plasticRotCapOfMaterialNum(203031) = 0.0890052035556081;
+plasticRotCapOfMaterialNum(203032) = 0.0842195015678677;
 
-plasticRotCapOfMaterialNum(202011) = 0.0848104377499544;
-plasticRotCapOfMaterialNum(202012) = 0.0793766721531381;
-plasticRotCapOfMaterialNum(202021) = 0.0848104377499544;
-plasticRotCapOfMaterialNum(202022) = 0.0793766721531381;
-plasticRotCapOfMaterialNum(202031) = 0.0848104377499544;
-plasticRotCapOfMaterialNum(202032) = 0.0793766721531381;
+plasticRotCapOfMaterialNum(202011) = 0.0848118516811428;
+plasticRotCapOfMaterialNum(202012) = 0.0793787920558818;
+plasticRotCapOfMaterialNum(202021) = 0.0813273563698166;
+plasticRotCapOfMaterialNum(202022) = 0.0755520396806947;
+plasticRotCapOfMaterialNum(202031) = 0.0848118516811428;
+plasticRotCapOfMaterialNum(202032) = 0.0793787920558818;
 
 % Define the plastic rotation capacities of shear panel material (40000) and the dummy material (49999) used in locations where no element connects to the joint
      plasticRotCapOfMaterialNum(40000) = 99;
@@ -47135,13 +47141,15 @@ plasticRotCapOfMaterialNum(202032) = 0.0793766721531381;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
 %-----------------------------------------------------------------------------------------------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
-%--- 46123 (As per IS 1893 (2025)) added on Nov-12-2026 by Shivakumar K S at IIT Madras --------------------------------
+%--- 46123 (As per IS 1893 (2025)) added on Nov-18-2026 by Shivakumar K S at IIT Madras --------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
 
-% Pasted from "46123v04_20261031General Excel Sheet-v24.xlsm" on  Nov-13-2026 by Shivakumar K S
+
+% Pasted from "46123v04_20261031General Excel Sheet-v24.xlsm" on  Nov-18-2026 by Shivakumar K S
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Design ID  46123 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47162,147 +47170,147 @@ plasticRotCapOfMaterialNum(202032) = 0.0793766721531381;
 
 % Define the plastic rotation capacities of the column materials
 plasticRotCapOfMaterialNum(312011) = 0.0569436951453326;
-plasticRotCapOfMaterialNum(312021) = 0.0555482376302815;
-plasticRotCapOfMaterialNum(312031) = 0.0555482376302815;
-plasticRotCapOfMaterialNum(312041) = 0.0206173184728313;
+plasticRotCapOfMaterialNum(312021) = 0.0527384987423672;
+plasticRotCapOfMaterialNum(312031) = 0.0527384987423672;
+plasticRotCapOfMaterialNum(312041) = 0.0569436951453326;
 
 plasticRotCapOfMaterialNum(311011) = 0.0554108431723959;
-plasticRotCapOfMaterialNum(311021) = 0.0527645799148752;
-plasticRotCapOfMaterialNum(311031) = 0.0527645799148752;
-plasticRotCapOfMaterialNum(311041) = 0.0202207120263909;
+plasticRotCapOfMaterialNum(311021) = 0.0504398990234487;
+plasticRotCapOfMaterialNum(311031) = 0.0504398990234487;
+plasticRotCapOfMaterialNum(311041) = 0.0554108431723959;
 
 plasticRotCapOfMaterialNum(310011) = 0.0539331458296913;
-plasticRotCapOfMaterialNum(310021) = 0.0501705322914003;
-plasticRotCapOfMaterialNum(310031) = 0.0501705322914003;
-plasticRotCapOfMaterialNum(310041) = 0.0198418370323907;
+plasticRotCapOfMaterialNum(310021) = 0.04827890809036;
+plasticRotCapOfMaterialNum(310031) = 0.04827890809036;
+plasticRotCapOfMaterialNum(310041) = 0.0539331458296913;
 
 plasticRotCapOfMaterialNum(309011) = 0.0525088631132253;
-plasticRotCapOfMaterialNum(309021) = 0.0477547326495311;
-plasticRotCapOfMaterialNum(309031) = 0.0477547326495311;
-plasticRotCapOfMaterialNum(309041) = 0.0194801058421557;
+plasticRotCapOfMaterialNum(309021) = 0.046592601221249;
+plasticRotCapOfMaterialNum(309031) = 0.046592601221249;
+plasticRotCapOfMaterialNum(309041) = 0.0525088631132253;
 
 plasticRotCapOfMaterialNum(308011) = 0.0513158944086697;
-plasticRotCapOfMaterialNum(308021) = 0.0456726745030168;
-plasticRotCapOfMaterialNum(308031) = 0.0456726745030168;
-plasticRotCapOfMaterialNum(308041) = 0.0193053514043979;
+plasticRotCapOfMaterialNum(308021) = 0.0451686247095639;
+plasticRotCapOfMaterialNum(308031) = 0.0451686247095639;
+plasticRotCapOfMaterialNum(308041) = 0.0513158944086697;
 
 plasticRotCapOfMaterialNum(307011) = 0.0499902042590369;
-plasticRotCapOfMaterialNum(307021) = 0.0432470436966881;
-plasticRotCapOfMaterialNum(307031) = 0.0432470436966881;
-plasticRotCapOfMaterialNum(307041) = 0.0189735940675982;
+plasticRotCapOfMaterialNum(307021) = 0.0421330426268036;
+plasticRotCapOfMaterialNum(307031) = 0.0421330426268036;
+plasticRotCapOfMaterialNum(307041) = 0.0499902042590369;
 
 plasticRotCapOfMaterialNum(306011) = 0.0487131537482407;
-plasticRotCapOfMaterialNum(306021) = 0.0407811929252382;
-plasticRotCapOfMaterialNum(306031) = 0.0407811929252382;
-plasticRotCapOfMaterialNum(306041) = 0.0186574874321181;
+plasticRotCapOfMaterialNum(306021) = 0.0407366168946708;
+plasticRotCapOfMaterialNum(306031) = 0.0407366168946708;
+plasticRotCapOfMaterialNum(306041) = 0.0487131537482407;
 
 plasticRotCapOfMaterialNum(305011) = 0.0476517960558784;
-plasticRotCapOfMaterialNum(305021) = 0.038597009603738;
-plasticRotCapOfMaterialNum(305031) = 0.038597009603738;
-plasticRotCapOfMaterialNum(305041) = 0.0185177736381281;
+plasticRotCapOfMaterialNum(305021) = 0.0394079500539009;
+plasticRotCapOfMaterialNum(305031) = 0.0394079500539009;
+plasticRotCapOfMaterialNum(305041) = 0.0476517960558784;
 
 plasticRotCapOfMaterialNum(304011) = 0.0448403396227542;
-plasticRotCapOfMaterialNum(304021) = 0.0378505020740578;
-plasticRotCapOfMaterialNum(304031) = 0.0378505020740578;
-plasticRotCapOfMaterialNum(304041) = 0.017991425925928;
+plasticRotCapOfMaterialNum(304021) = 0.0380839688189678;
+plasticRotCapOfMaterialNum(304031) = 0.0380839688189678;
+plasticRotCapOfMaterialNum(304041) = 0.0448403396227542;
 
 plasticRotCapOfMaterialNum(303011) = 0.0439228852532264;
-plasticRotCapOfMaterialNum(303021) = 0.0361680474962878;
-plasticRotCapOfMaterialNum(303031) = 0.0361680474962878;
-plasticRotCapOfMaterialNum(303041) = 0.0177377827999472;
+plasticRotCapOfMaterialNum(303021) = 0.036570521869596;
+plasticRotCapOfMaterialNum(303031) = 0.036570521869596;
+plasticRotCapOfMaterialNum(303041) = 0.0439228852532264;
 
 plasticRotCapOfMaterialNum(302011) = 0.0430319197738467;
-plasticRotCapOfMaterialNum(302021) = 0.0345700791760326;
-plasticRotCapOfMaterialNum(302031) = 0.0345700791760326;
-plasticRotCapOfMaterialNum(302041) = 0.0174932698702628;
+plasticRotCapOfMaterialNum(302021) = 0.0351256696914702;
+plasticRotCapOfMaterialNum(302031) = 0.0351256696914702;
+plasticRotCapOfMaterialNum(302041) = 0.0430319197738467;
 
 plasticRotCapOfMaterialNum(301011) = 0.0453129572196027;
-plasticRotCapOfMaterialNum(301021) = 0.0351506530794179;
-plasticRotCapOfMaterialNum(301031) = 0.0351506530794179;
-plasticRotCapOfMaterialNum(301041) = 0.0186733850449364;
+plasticRotCapOfMaterialNum(301021) = 0.0350750077724491;
+plasticRotCapOfMaterialNum(301031) = 0.0350750077724491;
+plasticRotCapOfMaterialNum(301041) = 0.0453129572196027;
 
 % Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
 plasticRotCapOfMaterialNum(213011) = 0.0391699781821933;
 plasticRotCapOfMaterialNum(213012) = 0.0350784927893107;
-plasticRotCapOfMaterialNum(213021) = 0.0391699781821933;
-plasticRotCapOfMaterialNum(213022) = 0.0350784927893107;
+plasticRotCapOfMaterialNum(213021) = 0.0391353907997115;
+plasticRotCapOfMaterialNum(213022) = 0.0338356474236627;
 plasticRotCapOfMaterialNum(213031) = 0.0391699781821933;
 plasticRotCapOfMaterialNum(213032) = 0.0350784927893107;
 
 plasticRotCapOfMaterialNum(212011) = 0.050875641545006;
 plasticRotCapOfMaterialNum(212012) = 0.0427910862701403;
-plasticRotCapOfMaterialNum(212021) = 0.050875641545006;
-plasticRotCapOfMaterialNum(212022) = 0.0427910862701403;
+plasticRotCapOfMaterialNum(212021) = 0.0477831558061236;
+plasticRotCapOfMaterialNum(212022) = 0.0404185806193988;
 plasticRotCapOfMaterialNum(212031) = 0.050875641545006;
 plasticRotCapOfMaterialNum(212032) = 0.0427910862701403;
 
 plasticRotCapOfMaterialNum(211011) = 0.0664435821688424;
 plasticRotCapOfMaterialNum(211012) = 0.0564829485217308;
-plasticRotCapOfMaterialNum(211021) = 0.0664435821688424;
-plasticRotCapOfMaterialNum(211022) = 0.0564829485217308;
+plasticRotCapOfMaterialNum(211021) = 0.0573011865703226;
+plasticRotCapOfMaterialNum(211022) = 0.050086664501072;
 plasticRotCapOfMaterialNum(211031) = 0.0664435821688424;
 plasticRotCapOfMaterialNum(211032) = 0.0564829485217308;
 
 plasticRotCapOfMaterialNum(210011) = 0.0770492090877454;
 plasticRotCapOfMaterialNum(210012) = 0.0672996271116371;
-plasticRotCapOfMaterialNum(210021) = 0.0770492090877454;
-plasticRotCapOfMaterialNum(210022) = 0.0672996271116371;
+plasticRotCapOfMaterialNum(210021) = 0.0713683389631502;
+plasticRotCapOfMaterialNum(210022) = 0.0645392932262877;
 plasticRotCapOfMaterialNum(210031) = 0.0770492090877454;
 plasticRotCapOfMaterialNum(210032) = 0.0672996271116371;
 
 plasticRotCapOfMaterialNum(209011) = 0.0835091757520879;
 plasticRotCapOfMaterialNum(209012) = 0.0755589186067644;
-plasticRotCapOfMaterialNum(209021) = 0.0835091757520879;
-plasticRotCapOfMaterialNum(209022) = 0.0755589186067644;
+plasticRotCapOfMaterialNum(209021) = 0.0780812774530821;
+plasticRotCapOfMaterialNum(209022) = 0.0710402993311915;
 plasticRotCapOfMaterialNum(209031) = 0.0835091757520879;
 plasticRotCapOfMaterialNum(209032) = 0.0755589186067644;
 
-plasticRotCapOfMaterialNum(208011) = 0.0849975094469117;
-plasticRotCapOfMaterialNum(208012) = 0.0791474026661804;
-plasticRotCapOfMaterialNum(208021) = 0.0849975094469117;
-plasticRotCapOfMaterialNum(208022) = 0.0791474026661804;
-plasticRotCapOfMaterialNum(208031) = 0.0849975094469117;
-plasticRotCapOfMaterialNum(208032) = 0.0791474026661804;
+plasticRotCapOfMaterialNum(208011) = 0.0850005012684658;
+plasticRotCapOfMaterialNum(208012) = 0.0791520142565395;
+plasticRotCapOfMaterialNum(208021) = 0.0842608601968012;
+plasticRotCapOfMaterialNum(208022) = 0.0788215106774079;
+plasticRotCapOfMaterialNum(208031) = 0.0850005012684658;
+plasticRotCapOfMaterialNum(208032) = 0.0791520142565395;
 
-plasticRotCapOfMaterialNum(207011) = 0.0758112535435431;
-plasticRotCapOfMaterialNum(207012) = 0.0718464657728515;
-plasticRotCapOfMaterialNum(207021) = 0.0758112535435431;
-plasticRotCapOfMaterialNum(207022) = 0.0718464657728515;
-plasticRotCapOfMaterialNum(207031) = 0.0758112535435431;
-plasticRotCapOfMaterialNum(207032) = 0.0718464657728515;
+plasticRotCapOfMaterialNum(207011) = 0.0758144429393466;
+plasticRotCapOfMaterialNum(207012) = 0.0718513759484403;
+plasticRotCapOfMaterialNum(207021) = 0.0849855780164962;
+plasticRotCapOfMaterialNum(207022) = 0.0810708579119475;
+plasticRotCapOfMaterialNum(207031) = 0.0758144429393466;
+plasticRotCapOfMaterialNum(207032) = 0.0718513759484403;
 
-plasticRotCapOfMaterialNum(206011) = 0.092355664082748;
-plasticRotCapOfMaterialNum(206012) = 0.087167345525648;
-plasticRotCapOfMaterialNum(206021) = 0.092355664082748;
-plasticRotCapOfMaterialNum(206022) = 0.087167345525648;
-plasticRotCapOfMaterialNum(206031) = 0.092355664082748;
-plasticRotCapOfMaterialNum(206032) = 0.087167345525648;
+plasticRotCapOfMaterialNum(206011) = 0.0923590473233025;
+plasticRotCapOfMaterialNum(206012) = 0.0871722626883724;
+plasticRotCapOfMaterialNum(206021) = 0.0891650692414637;
+plasticRotCapOfMaterialNum(206022) = 0.0852278355864963;
+plasticRotCapOfMaterialNum(206031) = 0.0923590473233025;
+plasticRotCapOfMaterialNum(206032) = 0.0871722626883724;
 
 plasticRotCapOfMaterialNum(205011) = 0.0924027494624791;
 plasticRotCapOfMaterialNum(205012) = 0.0881393814000358;
-plasticRotCapOfMaterialNum(205021) = 0.0924027494624791;
-plasticRotCapOfMaterialNum(205022) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(205021) = 0.0891650692414637;
+plasticRotCapOfMaterialNum(205022) = 0.0852278355864963;
 plasticRotCapOfMaterialNum(205031) = 0.0924027494624791;
 plasticRotCapOfMaterialNum(205032) = 0.0881393814000358;
 
 plasticRotCapOfMaterialNum(204011) = 0.0924027494624791;
 plasticRotCapOfMaterialNum(204012) = 0.0881393814000358;
-plasticRotCapOfMaterialNum(204021) = 0.0924027494624791;
-plasticRotCapOfMaterialNum(204022) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(204021) = 0.0891650692414637;
+plasticRotCapOfMaterialNum(204022) = 0.0852278355864963;
 plasticRotCapOfMaterialNum(204031) = 0.0924027494624791;
 plasticRotCapOfMaterialNum(204032) = 0.0881393814000358;
 
 plasticRotCapOfMaterialNum(203011) = 0.0924027494624791;
 plasticRotCapOfMaterialNum(203012) = 0.0881393814000358;
-plasticRotCapOfMaterialNum(203021) = 0.0924027494624791;
-plasticRotCapOfMaterialNum(203022) = 0.0881393814000358;
+plasticRotCapOfMaterialNum(203021) = 0.0891650692414637;
+plasticRotCapOfMaterialNum(203022) = 0.0852278355864963;
 plasticRotCapOfMaterialNum(203031) = 0.0924027494624791;
 plasticRotCapOfMaterialNum(203032) = 0.0881393814000358;
 
 plasticRotCapOfMaterialNum(202011) = 0.0834922436745889;
 plasticRotCapOfMaterialNum(202012) = 0.0785144292880299;
-plasticRotCapOfMaterialNum(202021) = 0.0834922436745889;
-plasticRotCapOfMaterialNum(202022) = 0.0785144292880299;
+plasticRotCapOfMaterialNum(202021) = 0.0778861487582821;
+plasticRotCapOfMaterialNum(202022) = 0.0721035931076132;
 plasticRotCapOfMaterialNum(202031) = 0.0834922436745889;
 plasticRotCapOfMaterialNum(202032) = 0.0785144292880299;
 
@@ -47586,16 +47594,14 @@ plasticRotCapOfMaterialNum(202032) = 0.0785144292880299;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-
 %-----------------------------------------------------------------------------------------------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
-%--- 35083 (As per IS 1893 (2016)) added on Nov-12-2026 by Shivakumar K S at IIT Madras --------------------------------
+%--- 35083 (As per IS 1893 (2016)) added on Nov-18-2026 by Shivakumar K S at IIT Madras --------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
 
 
-% Pasted from "35083v03_20261101General Excel Sheet-v24.xlsm" on  Nov-15-2026 by Shivakumar K S
+% Pasted from "35083v03_20261101General Excel Sheet-v24.xlsm" on  Nov-18-2026 by Shivakumar K S
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Design ID  35083 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47616,50 +47622,50 @@ plasticRotCapOfMaterialNum(202032) = 0.0785144292880299;
 
 % Define the plastic rotation capacities of the column materials
 plasticRotCapOfMaterialNum(308011) = 0.0534350248074186;
-plasticRotCapOfMaterialNum(308021) = 0.051457401279185;
-plasticRotCapOfMaterialNum(308031) = 0.051457401279185;
-plasticRotCapOfMaterialNum(308041) = 0.0224695794749263;
+plasticRotCapOfMaterialNum(308021) = 0.0533683056606753;
+plasticRotCapOfMaterialNum(308031) = 0.0533683056606753;
+plasticRotCapOfMaterialNum(308041) = 0.0534350248074186;
 
 plasticRotCapOfMaterialNum(307011) = 0.051342353813503;
-plasticRotCapOfMaterialNum(307021) = 0.0477469119382164;
-plasticRotCapOfMaterialNum(307031) = 0.0477469119382164;
-plasticRotCapOfMaterialNum(307041) = 0.021901916828962;
+plasticRotCapOfMaterialNum(307021) = 0.0503065495440483;
+plasticRotCapOfMaterialNum(307031) = 0.0503065495440483;
+plasticRotCapOfMaterialNum(307041) = 0.051342353813503;
 
 plasticRotCapOfMaterialNum(306011) = 0.0493812775354631;
-plasticRotCapOfMaterialNum(306021) = 0.0435504312672821;
-plasticRotCapOfMaterialNum(306031) = 0.0435504312672821;
-plasticRotCapOfMaterialNum(306041) = 0.0213821204967533;
+plasticRotCapOfMaterialNum(306021) = 0.0475021277289387;
+plasticRotCapOfMaterialNum(306031) = 0.0475021277289387;
+plasticRotCapOfMaterialNum(306041) = 0.0493812775354631;
 
 plasticRotCapOfMaterialNum(305011) = 0.0475447260648059;
-plasticRotCapOfMaterialNum(305021) = 0.0395364111913708;
-plasticRotCapOfMaterialNum(305031) = 0.0395364111913708;
-plasticRotCapOfMaterialNum(305041) = 0.020907527618986;
+plasticRotCapOfMaterialNum(305021) = 0.0441156415426502;
+plasticRotCapOfMaterialNum(305031) = 0.0441156415426502;
+plasticRotCapOfMaterialNum(305041) = 0.0475447260648059;
 
 plasticRotCapOfMaterialNum(304011) = 0.0438662314350939;
-plasticRotCapOfMaterialNum(304021) = 0.0364473901775188;
-plasticRotCapOfMaterialNum(304031) = 0.0364473901775188;
-plasticRotCapOfMaterialNum(304041) = 0.019879890923047;
+plasticRotCapOfMaterialNum(304021) = 0.0410745752528586;
+plasticRotCapOfMaterialNum(304031) = 0.0410745752528586;
+plasticRotCapOfMaterialNum(304041) = 0.0438662314350939;
 
 plasticRotCapOfMaterialNum(303011) = 0.0424966359870378;
-plasticRotCapOfMaterialNum(303021) = 0.033525244800584;
-plasticRotCapOfMaterialNum(303031) = 0.033525244800584;
-plasticRotCapOfMaterialNum(303041) = 0.0195023940195995;
+plasticRotCapOfMaterialNum(303021) = 0.0385840537534352;
+plasticRotCapOfMaterialNum(303031) = 0.0385840537534352;
+plasticRotCapOfMaterialNum(303041) = 0.0424966359870378;
 
 plasticRotCapOfMaterialNum(302011) = 0.0407316445773109;
-plasticRotCapOfMaterialNum(302021) = 0.0309417995463267;
-plasticRotCapOfMaterialNum(302031) = 0.0309417995463267;
-plasticRotCapOfMaterialNum(302041) = 0.0187886065446702;
+plasticRotCapOfMaterialNum(302021) = 0.0362681445603975;
+plasticRotCapOfMaterialNum(302031) = 0.0362681445603975;
+plasticRotCapOfMaterialNum(302041) = 0.0407316445773109;
 
 plasticRotCapOfMaterialNum(301011) = 0.0395269116073935;
-plasticRotCapOfMaterialNum(301021) = 0.0288674252981095;
-plasticRotCapOfMaterialNum(301031) = 0.0288674252981095;
-plasticRotCapOfMaterialNum(301041) = 0.0184866284423093;
+plasticRotCapOfMaterialNum(301021) = 0.0344923438266486;
+plasticRotCapOfMaterialNum(301031) = 0.0344923438266486;
+plasticRotCapOfMaterialNum(301041) = 0.0395269116073935;
 
 % Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
 plasticRotCapOfMaterialNum(209011) = 0.045434447454486;
 plasticRotCapOfMaterialNum(209012) = 0.045434447454486;
-plasticRotCapOfMaterialNum(209021) = 0.045434447454486;
-plasticRotCapOfMaterialNum(209022) = 0.045434447454486;
+plasticRotCapOfMaterialNum(209021) = 0.0467567823169217;
+plasticRotCapOfMaterialNum(209022) = 0.0441786831590951;
 plasticRotCapOfMaterialNum(209031) = 0.045434447454486;
 plasticRotCapOfMaterialNum(209032) = 0.045434447454486;
 
@@ -47686,8 +47692,8 @@ plasticRotCapOfMaterialNum(206032) = 0.0551313101066283;
 
 plasticRotCapOfMaterialNum(205011) = 0.068350615038041;
 plasticRotCapOfMaterialNum(205012) = 0.0575653373493053;
-plasticRotCapOfMaterialNum(205021) = 0.068350615038041;
-plasticRotCapOfMaterialNum(205022) = 0.0575653373493053;
+plasticRotCapOfMaterialNum(205021) = 0.065818048140123;
+plasticRotCapOfMaterialNum(205022) = 0.0556457164056768;
 plasticRotCapOfMaterialNum(205031) = 0.068350615038041;
 plasticRotCapOfMaterialNum(205032) = 0.0575653373493053;
 
@@ -47707,8 +47713,8 @@ plasticRotCapOfMaterialNum(203032) = 0.0586792784896861;
 
 plasticRotCapOfMaterialNum(202011) = 0.0684175355275745;
 plasticRotCapOfMaterialNum(202012) = 0.0586792784896861;
-plasticRotCapOfMaterialNum(202021) = 0.0684175355275745;
-plasticRotCapOfMaterialNum(202022) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(202021) = 0.0653452958360063;
+plasticRotCapOfMaterialNum(202022) = 0.055541660583627;
 plasticRotCapOfMaterialNum(202031) = 0.0684175355275745;
 plasticRotCapOfMaterialNum(202032) = 0.0586792784896861;
 
@@ -47908,7 +47914,6 @@ plasticRotCapOfMaterialNum(202032) = 0.0586792784896861;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
 %-----------------------------------------------------------------------------------------------------------------------
 %-----------------------------------------------------------------------------------------------------------------------
 %--- 35123 (As per IS 1893 (2016)) added on Nov-12-2026 by Shivakumar K S at IIT Madras --------------------------------
@@ -47916,7 +47921,7 @@ plasticRotCapOfMaterialNum(202032) = 0.0586792784896861;
 %-----------------------------------------------------------------------------------------------------------------------
 
 
-% Pasted from "35123v03_20261105General Excel Sheet-v24.xlsm" on  Nov-13-2026 by Prakash Singh
+% Pasted from "35123v03_20261105General Excel Sheet-v24.xlsm" on  Nov-18-2026 by Prakash Singh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Design ID  35123 - Start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -47937,140 +47942,140 @@ plasticRotCapOfMaterialNum(202032) = 0.0586792784896861;
 
 % Define the plastic rotation capacities of the column materials
 plasticRotCapOfMaterialNum(312011) = 0.04913915882312;
-plasticRotCapOfMaterialNum(312021) = 0.0473753681691267;
-plasticRotCapOfMaterialNum(312031) = 0.0473753681691267;
-plasticRotCapOfMaterialNum(312041) = 0.0206428275533832;
+plasticRotCapOfMaterialNum(312021) = 0.0429268688728118;
+plasticRotCapOfMaterialNum(312031) = 0.0429268688728118;
+plasticRotCapOfMaterialNum(312041) = 0.04913915882312;
 
 plasticRotCapOfMaterialNum(311011) = 0.0472728133283255;
-plasticRotCapOfMaterialNum(311021) = 0.044071235329111;
-plasticRotCapOfMaterialNum(311031) = 0.044071235329111;
-plasticRotCapOfMaterialNum(311041) = 0.0201645240389164;
+plasticRotCapOfMaterialNum(311021) = 0.040676152571178;
+plasticRotCapOfMaterialNum(311031) = 0.040676152571178;
+plasticRotCapOfMaterialNum(311041) = 0.0472728133283255;
 
 plasticRotCapOfMaterialNum(310011) = 0.0455256860819726;
-plasticRotCapOfMaterialNum(310021) = 0.0402663224257292;
-plasticRotCapOfMaterialNum(310031) = 0.0402663224257292;
-plasticRotCapOfMaterialNum(310041) = 0.0197291852633158;
+plasticRotCapOfMaterialNum(310021) = 0.0386194776976314;
+plasticRotCapOfMaterialNum(310031) = 0.0386194776976314;
+plasticRotCapOfMaterialNum(310041) = 0.0455256860819726;
 
 plasticRotCapOfMaterialNum(309011) = 0.0438914199548808;
-plasticRotCapOfMaterialNum(309021) = 0.0366044994973305;
-plasticRotCapOfMaterialNum(309031) = 0.0366044994973305;
-plasticRotCapOfMaterialNum(309041) = 0.01933442221865;
+plasticRotCapOfMaterialNum(309021) = 0.0359499210564;
+plasticRotCapOfMaterialNum(309031) = 0.0359499210564;
+plasticRotCapOfMaterialNum(309041) = 0.0438914199548808;
 
 plasticRotCapOfMaterialNum(308011) = 0.0404667979613772;
-plasticRotCapOfMaterialNum(308021) = 0.0337336531407638;
-plasticRotCapOfMaterialNum(308031) = 0.0337336531407638;
-plasticRotCapOfMaterialNum(308041) = 0.0183778577796131;
+plasticRotCapOfMaterialNum(308021) = 0.0334749170117267;
+plasticRotCapOfMaterialNum(308031) = 0.0334749170117267;
+plasticRotCapOfMaterialNum(308041) = 0.0404667979613772;
 
 plasticRotCapOfMaterialNum(307011) = 0.03924831574222;
-plasticRotCapOfMaterialNum(307021) = 0.031202133374743;
-plasticRotCapOfMaterialNum(307031) = 0.031202133374743;
-plasticRotCapOfMaterialNum(307041) = 0.0180628216897439;
+plasticRotCapOfMaterialNum(307021) = 0.031509135443042;
+plasticRotCapOfMaterialNum(307031) = 0.031509135443042;
+plasticRotCapOfMaterialNum(307041) = 0.03924831574222;
 
 plasticRotCapOfMaterialNum(306011) = 0.0376405535484343;
-plasticRotCapOfMaterialNum(306021) = 0.0287638375399993;
-plasticRotCapOfMaterialNum(306031) = 0.0287638375399993;
-plasticRotCapOfMaterialNum(306041) = 0.017422940181286;
+plasticRotCapOfMaterialNum(306021) = 0.029679766148492;
+plasticRotCapOfMaterialNum(306031) = 0.029679766148492;
+plasticRotCapOfMaterialNum(306041) = 0.0376405535484343;
 
 plasticRotCapOfMaterialNum(305011) = 0.0358867167557628;
-plasticRotCapOfMaterialNum(305021) = 0.0277154204544563;
-plasticRotCapOfMaterialNum(305031) = 0.0277154204544563;
-plasticRotCapOfMaterialNum(305041) = 0.0170917496990731;
+plasticRotCapOfMaterialNum(305021) = 0.028489425094199;
+plasticRotCapOfMaterialNum(305031) = 0.028489425094199;
+plasticRotCapOfMaterialNum(305041) = 0.0358867167557628;
 
 plasticRotCapOfMaterialNum(304011) = 0.0346353026841594;
-plasticRotCapOfMaterialNum(304021) = 0.0258063084179445;
-plasticRotCapOfMaterialNum(304031) = 0.0258063084179445;
-plasticRotCapOfMaterialNum(304041) = 0.016575762764616;
+plasticRotCapOfMaterialNum(304021) = 0.0270544812411834;
+plasticRotCapOfMaterialNum(304031) = 0.0270544812411834;
+plasticRotCapOfMaterialNum(304041) = 0.0346353026841594;
 
 plasticRotCapOfMaterialNum(303011) = 0.0334092860709939;
-plasticRotCapOfMaterialNum(303021) = 0.0258377625191141;
-plasticRotCapOfMaterialNum(303031) = 0.0258377625191141;
-plasticRotCapOfMaterialNum(303041) = 0.0162372594425026;
+plasticRotCapOfMaterialNum(303021) = 0.0267895155676699;
+plasticRotCapOfMaterialNum(303031) = 0.0267895155676699;
+plasticRotCapOfMaterialNum(303041) = 0.0334092860709939;
 
 plasticRotCapOfMaterialNum(302011) = 0.0326798876387867;
-plasticRotCapOfMaterialNum(302021) = 0.024583591090543;
-plasticRotCapOfMaterialNum(302031) = 0.024583591090543;
-plasticRotCapOfMaterialNum(302041) = 0.0160149904990587;
+plasticRotCapOfMaterialNum(302021) = 0.025720961714347;
+plasticRotCapOfMaterialNum(302031) = 0.025720961714347;
+plasticRotCapOfMaterialNum(302041) = 0.0326798876387867;
 
 plasticRotCapOfMaterialNum(301011) = 0.032184449703437;
-plasticRotCapOfMaterialNum(301021) = 0.0236166512266348;
-plasticRotCapOfMaterialNum(301031) = 0.0236166512266348;
-plasticRotCapOfMaterialNum(301041) = 0.0159772794071456;
+plasticRotCapOfMaterialNum(301021) = 0.0246896743313208;
+plasticRotCapOfMaterialNum(301031) = 0.0246896743313208;
+plasticRotCapOfMaterialNum(301041) = 0.032184449703437;
 
 % Define the plastic rotation capacities of the beam materials - make all materials be positive (end in 1)
 plasticRotCapOfMaterialNum(213011) = 0.0409448345262524;
 plasticRotCapOfMaterialNum(213012) = 0.0435848677198872;
-plasticRotCapOfMaterialNum(213021) = 0.0409448345262524;
-plasticRotCapOfMaterialNum(213022) = 0.0435848677198872;
+plasticRotCapOfMaterialNum(213021) = 0.0431395121297749;
+plasticRotCapOfMaterialNum(213022) = 0.0419200070524027;
 plasticRotCapOfMaterialNum(213031) = 0.0409448345262524;
 plasticRotCapOfMaterialNum(213032) = 0.0435848677198872;
 
 plasticRotCapOfMaterialNum(212011) = 0.0524172121531877;
 plasticRotCapOfMaterialNum(212012) = 0.0468062485227779;
-plasticRotCapOfMaterialNum(212021) = 0.0524172121531877;
-plasticRotCapOfMaterialNum(212022) = 0.0468062485227779;
+plasticRotCapOfMaterialNum(212021) = 0.0522409503027749;
+plasticRotCapOfMaterialNum(212022) = 0.0468631378216233;
 plasticRotCapOfMaterialNum(212031) = 0.0524172121531877;
 plasticRotCapOfMaterialNum(212032) = 0.0468062485227779;
 
 plasticRotCapOfMaterialNum(211011) = 0.063935219289858;
 plasticRotCapOfMaterialNum(211012) = 0.0540185839012173;
-plasticRotCapOfMaterialNum(211021) = 0.063935219289858;
-plasticRotCapOfMaterialNum(211022) = 0.0540185839012173;
+plasticRotCapOfMaterialNum(211021) = 0.0581899401731989;
+plasticRotCapOfMaterialNum(211022) = 0.0498472727922092;
 plasticRotCapOfMaterialNum(211031) = 0.063935219289858;
 plasticRotCapOfMaterialNum(211032) = 0.0540185839012173;
 
 plasticRotCapOfMaterialNum(210011) = 0.0646680573026595;
 plasticRotCapOfMaterialNum(210012) = 0.0545661014810802;
-plasticRotCapOfMaterialNum(210021) = 0.0646680573026595;
-plasticRotCapOfMaterialNum(210022) = 0.0545661014810802;
+plasticRotCapOfMaterialNum(210021) = 0.0651465662400584;
+plasticRotCapOfMaterialNum(210022) = 0.0551781289031524;
 plasticRotCapOfMaterialNum(210031) = 0.0646680573026595;
 plasticRotCapOfMaterialNum(210032) = 0.0545661014810802;
 
 plasticRotCapOfMaterialNum(209011) = 0.0678583515371715;
 plasticRotCapOfMaterialNum(209012) = 0.0574693567730632;
-plasticRotCapOfMaterialNum(209021) = 0.0678583515371715;
-plasticRotCapOfMaterialNum(209022) = 0.0574693567730632;
+plasticRotCapOfMaterialNum(209021) = 0.0653452958360063;
+plasticRotCapOfMaterialNum(209022) = 0.055541660583627;
 plasticRotCapOfMaterialNum(209031) = 0.0678583515371715;
 plasticRotCapOfMaterialNum(209032) = 0.0574693567730632;
 
 plasticRotCapOfMaterialNum(208011) = 0.0684175355275745;
 plasticRotCapOfMaterialNum(208012) = 0.0586792784896861;
-plasticRotCapOfMaterialNum(208021) = 0.0684175355275745;
-plasticRotCapOfMaterialNum(208022) = 0.0586792784896861;
+plasticRotCapOfMaterialNum(208021) = 0.0658987364994064;
+plasticRotCapOfMaterialNum(208022) = 0.0567312900902163;
 plasticRotCapOfMaterialNum(208031) = 0.0684175355275745;
 plasticRotCapOfMaterialNum(208032) = 0.0586792784896861;
 
 plasticRotCapOfMaterialNum(207011) = 0.0717067177274809;
 plasticRotCapOfMaterialNum(207012) = 0.0619868972686645;
-plasticRotCapOfMaterialNum(207021) = 0.0717067177274809;
-plasticRotCapOfMaterialNum(207022) = 0.0619868972686645;
+plasticRotCapOfMaterialNum(207021) = 0.0665583828412639;
+plasticRotCapOfMaterialNum(207022) = 0.0577205852497206;
 plasticRotCapOfMaterialNum(207031) = 0.0717067177274809;
 plasticRotCapOfMaterialNum(207032) = 0.0619868972686645;
 
 plasticRotCapOfMaterialNum(206011) = 0.071708272059843;
 plasticRotCapOfMaterialNum(206012) = 0.0619898602495018;
-plasticRotCapOfMaterialNum(206021) = 0.071708272059843;
-plasticRotCapOfMaterialNum(206022) = 0.0619898602495018;
+plasticRotCapOfMaterialNum(206021) = 0.068999919152156;
+plasticRotCapOfMaterialNum(206022) = 0.0598794903115566;
 plasticRotCapOfMaterialNum(206031) = 0.071708272059843;
 plasticRotCapOfMaterialNum(206032) = 0.0619898602495018;
 
 plasticRotCapOfMaterialNum(205011) = 0.072720431683059;
 plasticRotCapOfMaterialNum(205012) = 0.0623176725728885;
-plasticRotCapOfMaterialNum(205021) = 0.072720431683059;
-plasticRotCapOfMaterialNum(205022) = 0.0623176725728885;
+plasticRotCapOfMaterialNum(205021) = 0.068999919152156;
+plasticRotCapOfMaterialNum(205022) = 0.0598794903115566;
 plasticRotCapOfMaterialNum(205031) = 0.072720431683059;
 plasticRotCapOfMaterialNum(205032) = 0.0623176725728885;
 
 plasticRotCapOfMaterialNum(204011) = 0.071711446503523;
 plasticRotCapOfMaterialNum(204012) = 0.0619959116037825;
-plasticRotCapOfMaterialNum(204021) = 0.071711446503523;
-plasticRotCapOfMaterialNum(204022) = 0.0619959116037825;
+plasticRotCapOfMaterialNum(204021) = 0.069003093595836;
+plasticRotCapOfMaterialNum(204022) = 0.0598855416658372;
 plasticRotCapOfMaterialNum(204031) = 0.071711446503523;
 plasticRotCapOfMaterialNum(204032) = 0.0619959116037825;
 
 plasticRotCapOfMaterialNum(203011) = 0.071711446503523;
 plasticRotCapOfMaterialNum(203012) = 0.0619959116037825;
-plasticRotCapOfMaterialNum(203021) = 0.071711446503523;
-plasticRotCapOfMaterialNum(203022) = 0.0619959116037825;
+plasticRotCapOfMaterialNum(203021) = 0.069460021324785;
+plasticRotCapOfMaterialNum(203022) = 0.0589828511433336;
 plasticRotCapOfMaterialNum(203031) = 0.071711446503523;
 plasticRotCapOfMaterialNum(203032) = 0.0619959116037825;
 
@@ -48359,3 +48364,7 @@ plasticRotCapOfMaterialNum(202032) = 0.0554330361964088;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% Design ID  35123 - End %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+

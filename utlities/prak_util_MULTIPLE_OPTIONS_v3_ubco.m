@@ -26,7 +26,7 @@ baseFolder = pwd; baseF = pwd;
 %   whatToDo = '5d.extractEqDetailsGM_2211_Del22';
 %  whatToDo = '6.extractTimePeriodsForAllEQ';
 %   whatToDo = '6a.extractTimePeriodsForAllBldgs';
- whatToDo = '7.extractResponseSpectra';
+ % whatToDo = '7.extractResponseSpectra';
 %   whatToDo = '7a.extractResponseSpectraWithScaledIS1893';
 %   whatToDo = '7a1.extractResponseSpectraWithScaledSiteSpecificUHSDelhiOrGuwahati';
 %   whatToDo = '7a2.extractResponseSpectraWithScaledSiteSpecificUHS_CMSDelhiOrGuwahati';
@@ -129,8 +129,11 @@ baseFolder = pwd; baseF = pwd;
 % whatToDo = '41.scriptBulkDownload';
 % whatToDo = '42.fun_correctInBulk_GMReport';
 % whatToDo = '43.combineMultipleMatFiles';
+whatToDo = '44.sks_extractEigenvalues';  
 
-    fprintf('What to Do? Executing %s.\n', whatToDo);
+
+
+ fprintf('What to Do? Executing %s.\n', whatToDo);
 
  axisNumberFontSize = 16; xAxisLabelFontSize = 20; yAxisLabelFontSize = 20; legendFontSize = 16;
  titleFontSize = 20;
@@ -10908,6 +10911,59 @@ singleVarWithAllData = [data1.singleVarWithAllData; data2.singleVarWithAllData];
 
 save(outpMatFileName, 'allGlulamColLocalForcePVData', 'criticalFloorGlulamCap', 'saValForGlulamCapacity', 'singleVarWithAllData');
 
+
+case '44.sks_extractEigenvalues'
+    %%
+    % extractModalPeriods.m
+    % Reads eigenvaluesOUT.out (OpenSees eigenvalues, omega^2 in (rad/s)^2) for each
+    % building, drops the first (unrealistic, fixed 0.02) value, and builds
+    % tables of circular frequency omega (rad/s) and time periods T1..T5 (s).
+    % clear; clc;
+
+    fileNameLIST = {'ID35053_R5_5Story_v.03'; 'ID35083_R5_8Story_v.03'; 'ID35123_R5_12Story_v.03'; 'ID46053_R5_5Story_v.04'; 'ID46083_R5_8Story_v.04'; 'ID46123_R5_12Story_v.04'};
+
+    outputFolder = 'E:\StaticDynamicAnalysis\ida-spo-msa\Output';
+    folderSuffix = '_(AllVar)_(0.00)_(clough)';
+    numModes     = 5;       % T1 .. T5
+
+    numBuildings  = length(fileNameLIST);
+    omegaMATRIX   = NaN(numBuildings, numModes);    % omega (rad/s)
+    periodMATRIX  = NaN(numBuildings, numModes);    % T (s)
+
+    for buildingIndex = 1:numBuildings
+        eigenFile = fullfile(outputFolder, ['(' fileNameLIST{buildingIndex} ')' folderSuffix], 'MatlabInformation', 'eigenvaluesOUT.out');
+
+        if ~isfile(eigenFile)
+            warning('File not found: %s', eigenFile);
+            continue;
+        end
+
+        eigenValues = load(eigenFile);
+        eigenValues = eigenValues(2:end);           % drop first value (unrealistic)
+
+        omegaMATRIX(buildingIndex, :)  = sqrt(eigenValues(1:numModes));          % rad/s
+        periodMATRIX(buildingIndex, :) = 2*pi ./ omegaMATRIX(buildingIndex, :);  % s
+    end
+
+    % ---------- Tables ----------
+    omegaTABLE  = array2table(round(omegaMATRIX, 2),  'RowNames', fileNameLIST, ...
+        'VariableNames', {'w1(rad/s)', 'w2(rad/s)', 'w3(rad/s)', 'w4(rad/s)', 'w5(rad/s)'});
+    periodTABLE = array2table(round(periodMATRIX, 2), 'RowNames', fileNameLIST, ...
+        'VariableNames', {'T1(s)', 'T2(s)', 'T3(s)', 'T4(s)', 'T5(s)'});
+
+    disp('Circular frequency omega (rad/s), first eigenvalue excluded:');
+    disp(omegaTABLE);
+    disp('Time periods T (s), first eigenvalue excluded:');
+    disp(periodTABLE);
+
+    % Optional: save to Excel in the Output folder
+    writetable(periodTABLE, fullfile(outputFolder, 'ModalPeriods_T1toT5.xlsx'), 'WriteRowNames', true, 'Sheet', 'Periods');
+
+
+
+
+
+
     case '99.EmptyCaseWriteOtherCasesAboveThis'
 %%        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11065,3 +11121,8 @@ title([]); % grid on; % set(legh, 'Visible', 'off'); % for 9b and 9c
 if doSave == 1; cd(dirToWrite); for k = 1:length(extensions); saveas(gcf, exportName, extensions{k}); end; end
 cd(baseF);
 end
+
+
+
+
+

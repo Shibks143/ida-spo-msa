@@ -21,7 +21,7 @@ end
 
 %% Conventional code starts from here
 
-fileNameLIST = {'ID46083_R5_8Story_v.04'};       % ID35053_R5_5Story_v.03 | ID35083_R5_8Story_v.03 | ID35123_R5_12Story_v.03 | ID46053_R5_5Story_v.04 | ID46083_R5_8Story_v.04 | ID46123_R5_12Story_v.04 
+fileNameLIST = {'ID35053_R5_5Story_v.03'};       % ID35053_R5_5Story_v.03 | ID35083_R5_8Story_v.03 | ID35123_R5_12Story_v.03 | ID46053_R5_5Story_v.04 | ID46083_R5_8Story_v.04 | ID46123_R5_12Story_v.04 
 % fileNameLIST = {'ID35053_R5_5Story_v.03'; 'ID35083_R5_8Story_v.03'; 'ID35123_R5_12Story_v.03'; 'ID46053_R5_5Story_v.04'; 'ID46083_R5_8Story_v.04'; 'ID46123_R5_12Story_v.04'};       
 
 shearHingeOrNot = 0;                            % if there is a shear Hinge then different opensees file is used; using 1 would always work 
@@ -78,7 +78,7 @@ analysisType_forPO = sprintf('(%s)_(AllVar)_(0.00)_(clough)', fileName);
     maxNumPoints = 10000000;                % Large number does not limit the length of the plot       
     markerType_PO = 'b-';
     lineWidth_PO = 3;
-    plotDefoShape = 0;                      % plot deformed shape
+    plotDefoShape = 1;                      % plot deformed shape
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
     % No need to change this stuff

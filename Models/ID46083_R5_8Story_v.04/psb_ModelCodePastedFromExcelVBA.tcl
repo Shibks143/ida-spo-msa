@@ -2,43 +2,43 @@
 	# Define Joint Shear Panel Materials																																											
 		#	Elastic	matTag	Force-Defo_Slope																																							
 		uniaxialMaterial	Elastic	40901	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40902	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40903	2235854999.94968																																							
+		uniaxialMaterial	Elastic	40902	3043247083.26485																																							
+		uniaxialMaterial	Elastic	40903	3043247083.26485																																							
 		uniaxialMaterial	Elastic	40904	2235854999.94968																																							
 																																												
 		uniaxialMaterial	Elastic	40801	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40802	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40803	2235854999.94968																																							
+		uniaxialMaterial	Elastic	40802	3043247083.26485																																							
+		uniaxialMaterial	Elastic	40803	3043247083.26485																																							
 		uniaxialMaterial	Elastic	40804	2235854999.94968																																							
 																																												
 		uniaxialMaterial	Elastic	40701	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40702	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40703	2235854999.94968																																							
+		uniaxialMaterial	Elastic	40702	3043247083.26485																																							
+		uniaxialMaterial	Elastic	40703	3043247083.26485																																							
 		uniaxialMaterial	Elastic	40704	2235854999.94968																																							
 																																												
 		uniaxialMaterial	Elastic	40601	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40602	2235854999.94968																																							
-		uniaxialMaterial	Elastic	40603	2235854999.94968																																							
+		uniaxialMaterial	Elastic	40602	3043247083.26485																																							
+		uniaxialMaterial	Elastic	40603	3043247083.26485																																							
 		uniaxialMaterial	Elastic	40604	2235854999.94968																																							
 																																												
 		uniaxialMaterial	Elastic	40501	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40502	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40503	2811454575.82959																																							
+		uniaxialMaterial	Elastic	40502	4542689523.70729																																							
+		uniaxialMaterial	Elastic	40503	4542689523.70729																																							
 		uniaxialMaterial	Elastic	40504	2811454575.82959																																							
 																																												
 		uniaxialMaterial	Elastic	40401	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40402	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40403	2811454575.82959																																							
+		uniaxialMaterial	Elastic	40402	4542689523.70729																																							
+		uniaxialMaterial	Elastic	40403	4542689523.70729																																							
 		uniaxialMaterial	Elastic	40404	2811454575.82959																																							
 																																												
 		uniaxialMaterial	Elastic	40301	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40302	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40303	2811454575.82959																																							
+		uniaxialMaterial	Elastic	40302	4542689523.70729																																							
+		uniaxialMaterial	Elastic	40303	4542689523.70729																																							
 		uniaxialMaterial	Elastic	40304	2811454575.82959																																							
 																																												
 		uniaxialMaterial	Elastic	40201	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40202	2811454575.82959																																							
-		uniaxialMaterial	Elastic	40203	2811454575.82959																																							
+		uniaxialMaterial	Elastic	40202	4542689523.70729																																							
+		uniaxialMaterial	Elastic	40203	4542689523.70729																																							
 		uniaxialMaterial	Elastic	40204	2811454575.82959																																							
 	################################################################																																											
 																																												
@@ -46,44 +46,44 @@
 	# Define the Column Plastic Hinge Materials																																											
 		#	matTag	EIeff	mYPos	mYNeg	mcOverMy	thetaCapPos	thetaCapNeg	thetaPC	lambda	c	resStrRatio	stiffFactor1	stiffFactor2	eleLength																												
 		CreateIbarraMaterial	308011	192369496254.75	1750174.115	-1750174.115	1.193401971	0.060600045	-0.060600045	0.1	115.5490685	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	308021	192369496254.75	1841118.173	-1841118.173	1.190769141	0.058942673	-0.058942673	0.1	112.7170054	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	308031	192369496254.75	1841118.173	-1841118.173	1.190769141	0.058942673	-0.058942673	0.1	112.7170054	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	308041	192369496254.75	1196032.115	-1196032.115	1.193401971	0.021450345	-0.021450345	0.013083422	115.5490685	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	308021	224431078963.875	2019253.144	-2019253.144	1.191520785	0.055894858	-0.055894858	0.1	113.5190079	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	308031	224431078963.875	2019253.144	-2019253.144	1.191520785	0.055894858	-0.055894858	0.1	113.5190079	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	308041	192369496254.75	1750174.115	-1750174.115	1.193401971	0.060600045	-0.060600045	0.1	115.5490685	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	307011	192369496254.75	1849186.28	-1849186.28	1.190534562	0.0587979	-0.0587979	0.1	112.4677697	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	307021	192369496254.75	2028256.702	-2028256.702	1.185287349	0.055679582	-0.055679582	0.1	107.0222481	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	307031	192369496254.75	2028256.702	-2028256.702	1.185287349	0.055679582	-0.055679582	0.1	107.0222481	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	307041	192369496254.75	1283348.414	-1283348.414	1.190534562	0.021013508	-0.021013508	0.012178071	112.4677697	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	307021	224431078963.875	2210471.461	-2210471.461	1.186784188	0.053235198	-0.053235198	0.1	108.5506327	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	307031	224431078963.875	2210471.461	-2210471.461	1.186784188	0.053235198	-0.053235198	0.1	108.5506327	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	307041	192369496254.75	1849186.28	-1849186.28	1.190534562	0.0587979	-0.0587979	0.1	112.4677697	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	306011	192369496254.75	1947132.11	-1947132.11	1.187674044	0.057069778	-0.057069778	0.1	109.4686387	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	306021	192369496254.75	2211834.833	-2211834.833	1.179830792	0.05267091	-0.05267091	0.1	101.6152049	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	306031	192369496254.75	2211834.833	-2211834.833	1.179830792	0.05267091	-0.05267091	0.1	101.6152049	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	306041	192369496254.75	1369889.286	-1369889.286	1.187674044	0.020599617	-0.020599617	0.011335369	109.4686387	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	306021	224431078963.875	2557815.743	-2557815.743	1.182066421	0.051501686	-0.051501686	0.1	103.7997079	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	306031	224431078963.875	2557815.743	-2557815.743	1.182066421	0.051501686	-0.051501686	0.1	103.7997079	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	306041	192369496254.75	1947132.11	-1947132.11	1.187674044	0.057069778	-0.057069778	0.1	109.4686387	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	305011	192369496254.75	2124869.901	-2124869.901	1.184820398	0.055633495	-0.055633495	0.1	106.5494842	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	305021	192369496254.75	2467994.713	-2467994.713	1.174399356	0.05010597	-0.05010597	0.097668538	96.48133961	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	305031	192369496254.75	2467994.713	-2467994.713	1.174399356	0.05010597	-0.05010597	0.097668538	96.48133961	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	305041	192369496254.75	1531735.795	-1531735.795	1.184820398	0.020415378	-0.020415378	0.010550981	106.5494842	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	305021	224431078963.875	2921703.831	-2921703.831	1.177367408	0.04981392	-0.04981392	0.091313552	99.25671643	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	305031	224431078963.875	2921703.831	-2921703.831	1.177367408	0.04981392	-0.04981392	0.091313552	99.25671643	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	305041	192369496254.75	2124869.901	-2124869.901	1.184820398	0.055633495	-0.055633495	0.1	106.5494842	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	304011	256323240044.253	2419737.302	-2419737.302	1.183911436	0.052199398	-0.052199398	0.1	108.4766617	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	304021	256323240044.253	2882572.997	-2882572.997	1.172701189	0.046582468	-0.046582468	0.086850107	97.47927331	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	304031	256323240044.253	2882572.997	-2882572.997	1.172701189	0.046582468	-0.046582468	0.086850107	97.47927331	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	304041	256323240044.253	1776093.105	-1776093.105	1.183911436	0.019678105	-0.019678105	0.010312341	108.4766617	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	304021	382869512468.151	3655007.743	-3655007.743	1.178119317	0.045452555	-0.045452555	0.082403772	105.0422732	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	304031	382869512468.151	3655007.743	-3655007.743	1.178119317	0.045452555	-0.045452555	0.082403772	105.0422732	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	304041	256323240044.253	2419737.302	-2419737.302	1.183911436	0.052199398	-0.052199398	0.1	108.4766617	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	303011	256323240044.253	2523408.914	-2523408.914	1.181428063	0.050877193	-0.050877193	0.1	105.9473618	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	303021	271001742568.706	3072400.671	-3072400.671	1.168016727	0.044148893	-0.044148893	0.077082023	93.19257511	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	303031	271001742568.706	3072400.671	-3072400.671	1.168016727	0.044148893	-0.044148893	0.077082023	93.19257511	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	303041	256323240044.253	1869183.049	-1869183.049	1.181428063	0.019347753	-0.019347753	0.009686644	105.9473618	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	303021	382869512468.151	3867980.243	-3867980.243	1.174477742	0.043822941	-0.043822941	0.075139649	101.4513736	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	303031	382869512468.151	3867980.243	-3867980.243	1.174477742	0.043822941	-0.043822941	0.075139649	101.4513736	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	303041	256323240044.253	2523408.914	-2523408.914	1.181428063	0.050877193	-0.050877193	0.1	105.9473618	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	302011	256323240044.253	2626187.633	-2626187.633	1.178949898	0.049603003	-0.049603003	0.1	103.4770364	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	302021	295652786149.344	3259646.401	-3259646.401	1.163350977	0.041654971	-0.041654971	0.06841256	89.09438653	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	302031	295652786149.344	3259646.401	-3259646.401	1.163350977	0.041654971	-0.041654971	0.06841256	89.09438653	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
-		CreateIbarraMaterial	302041	256323240044.253	1961558.629	-1961558.629	1.178949898	0.019032862	-0.019032862	0.009098911	103.4770364	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	302021	382869512468.151	4078345.54	-4078345.54	1.170847423	0.042281064	-0.042281064	0.068515879	97.98322983	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	302031	382869512468.151	4078345.54	-4078345.54	1.170847423	0.042281064	-0.042281064	0.068515879	97.98322983	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
+		CreateIbarraMaterial	302041	256323240044.253	2626187.633	-2626187.633	1.178949898	0.049603003	-0.049603003	0.1	103.4770364	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3150																												
 																																												
 		CreateIbarraMaterial	301011	256323240044.253	2902573.626	-2902573.626	1.176432783	0.050194209	-0.050194209	0.095477171	101.0217067	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
-		CreateIbarraMaterial	301021	346899625987.975	3620246.461	-3620246.461	1.158660383	0.040460333	-0.040460333	0.060650274	85.14051156	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
-		CreateIbarraMaterial	301031	346899625987.975	3620246.461	-3620246.461	1.158660383	0.040460333	-0.040460333	0.060650274	85.14051156	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
-		CreateIbarraMaterial	301041	256323240044.253	2133868.151	-2133868.151	1.176432783	0.019721986	-0.019721986	0.008537283	101.0217067	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
+		CreateIbarraMaterial	301021	435349279449.725	4595652.86	-4595652.86	1.167184523	0.041884053	-0.041884053	0.062406163	94.59375263	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
+		CreateIbarraMaterial	301031	435349279449.725	4595652.86	-4595652.86	1.167184523	0.041884053	-0.041884053	0.062406163	94.59375263	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
+		CreateIbarraMaterial	301041	256323240044.253	2902573.626	-2902573.626	1.176432783	0.050194209	-0.050194209	0.095477171	101.0217067	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	3750																												
 	################################################################																																											
 																																												
 # 2b. Ibarra-Medina-Krawinkler Material for Beam Joints																																												
@@ -91,68 +91,68 @@
 		#	matTag	EIeff	mYPos	mYNeg	mcOverMy	thetaCapPos	thetaCapNeg	thetaPC	lambda	c	resStrRatio	stiffFactor1	stiffFactor2	eleLength																												
 		CreateIbarraMaterial	209011	242239545536.327	619765.2936	-872723.1187	1.196276286	0.044560932	-0.040290934	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	209012	242239545536.327	872723.1187	-619765.2936	1.196276286	0.040290934	-0.044560932	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	209021	242239545536.327	619765.2936	-872723.1187	1.196276286	0.044560932	-0.040290934	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	209022	242239545536.327	872723.1187	-619765.2936	1.196276286	0.040290934	-0.044560932	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	209021	242239545536.327	567090.623	-1005001.26	1.196276286	0.04643523	-0.039369288	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	209022	242239545536.327	1005001.26	-567090.623	1.196276286	0.039369288	-0.04643523	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	209031	242239545536.327	619765.2936	-872723.1187	1.196276286	0.044560932	-0.040290934	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	209032	242239545536.327	872723.1187	-619765.2936	1.196276286	0.040290934	-0.044560932	0.1	104.4023777	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 																																												
 		CreateIbarraMaterial	208011	242239545536.327	810954.496	-1543904.78	1.196276286	0.055750451	-0.047666329	0.1	111.2380968	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	208012	242239545536.327	1543904.78	-810954.496	1.196276286	0.047666329	-0.055750451	0.1	111.2380968	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	208021	242239545536.327	810954.496	-1543904.78	1.196276286	0.055750451	-0.047666329	0.1	111.2380968	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	208022	242239545536.327	1543904.78	-810954.496	1.196276286	0.047666329	-0.055750451	0.1	111.2380968	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	208021	242239545536.327	757847.0013	-1478120.316	1.196276286	0.053824017	-0.045603178	0.1	109.4209482	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	208022	242239545536.327	1478120.316	-757847.0013	1.196276286	0.045603178	-0.053824017	0.1	109.4209482	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	208031	242239545536.327	810954.496	-1543904.78	1.196276286	0.055750451	-0.047666329	0.1	111.2380968	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	208032	242239545536.327	1543904.78	-810954.496	1.196276286	0.047666329	-0.055750451	0.1	111.2380968	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 																																												
 		CreateIbarraMaterial	207011	242239545536.327	1112470.297	-2005776.42	1.196276286	0.071885697	-0.063189664	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	207012	242239545536.327	2005776.42	-1112470.297	1.196276286	0.063189664	-0.071885697	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	207021	242239545536.327	1112470.297	-2005776.42	1.196276286	0.071885697	-0.063189664	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	207022	242239545536.327	2005776.42	-1112470.297	1.196276286	0.063189664	-0.071885697	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	207021	242239545536.327	1136465.967	-2006188.891	1.196276286	0.06569971	-0.058413738	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	207022	242239545536.327	2006188.891	-1136465.967	1.196276286	0.058413738	-0.06569971	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	207031	242239545536.327	1112470.297	-2005776.42	1.196276286	0.071885697	-0.063189664	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	207032	242239545536.327	2005776.42	-1112470.297	1.196276286	0.063189664	-0.071885697	0.1	118.8135174	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 																																												
 		CreateIbarraMaterial	206011	242239545536.327	1500592.194	-2483532.749	1.196276286	0.081493003	-0.074439747	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	206012	242239545536.327	2483532.749	-1500592.194	1.196276286	0.074439747	-0.081493003	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	206021	242239545536.327	1500592.194	-2483532.749	1.196276286	0.081493003	-0.074439747	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
-		CreateIbarraMaterial	206022	242239545536.327	2483532.749	-1500592.194	1.196276286	0.074439747	-0.081493003	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	206021	242239545536.327	1433792.076	-2481341.523	1.196276286	0.078987949	-0.07160542	0.1	122.7925461	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
+		CreateIbarraMaterial	206022	242239545536.327	2481341.523	-1433792.076	1.196276286	0.07160542	-0.078987949	0.1	122.7925461	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	206031	242239545536.327	1500592.194	-2483532.749	1.196276286	0.081493003	-0.074439747	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 		CreateIbarraMaterial	206032	242239545536.327	2483532.749	-1500592.194	1.196276286	0.074439747	-0.081493003	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7500																												
 																																												
-		CreateIbarraMaterial	205011	240549502195.376	1803702.667	-2669763.873	1.196276286	0.085224313	-0.080171721	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	205012	240549502195.376	2669763.873	-1803702.667	1.196276286	0.080171721	-0.085224313	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	205021	240549502195.376	1803702.667	-2669763.873	1.196276286	0.085224313	-0.080171721	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	205022	240549502195.376	2669763.873	-1803702.667	1.196276286	0.080171721	-0.085224313	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	205031	240549502195.376	1803702.667	-2669763.873	1.196276286	0.085224313	-0.080171721	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	205032	240549502195.376	2669763.873	-1803702.667	1.196276286	0.080171721	-0.085224313	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
+		CreateIbarraMaterial	205011	239704480524.9	1803702.667	-2669763.873	1.196276286	0.085225781	-0.080173895	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	205012	239704480524.9	2669763.873	-1803702.667	1.196276286	0.080173895	-0.085225781	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	205021	238859458854.424	1803702.667	-2669763.873	1.196276286	0.08522726	-0.080176084	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	205022	238859458854.424	2669763.873	-1803702.667	1.196276286	0.080176084	-0.08522726	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	205031	239704480524.9	1803702.667	-2669763.873	1.196276286	0.085225781	-0.080173895	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	205032	239704480524.9	2669763.873	-1803702.667	1.196276286	0.080173895	-0.085225781	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
 																																												
-		CreateIbarraMaterial	204011	240549502195.376	1922000.87	-2786324.953	1.196276286	0.089003639	-0.084217233	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	204012	240549502195.376	2786324.953	-1922000.87	1.196276286	0.084217233	-0.089003639	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	204021	240549502195.376	1922000.87	-2786324.953	1.196276286	0.089003639	-0.084217233	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	204022	240549502195.376	2786324.953	-1922000.87	1.196276286	0.084217233	-0.089003639	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	204031	240549502195.376	1922000.87	-2786324.953	1.196276286	0.089003639	-0.084217233	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	204032	240549502195.376	2786324.953	-1922000.87	1.196276286	0.084217233	-0.089003639	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
+		CreateIbarraMaterial	204011	239704480524.9	1922000.87	-2786324.953	1.196276286	0.089005204	-0.084219502	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	204012	239704480524.9	2786324.953	-1922000.87	1.196276286	0.084219502	-0.089005204	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	204021	238859458854.424	1922777.284	-2850098.038	1.196276286	0.086400841	-0.08179111	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	204022	238859458854.424	2850098.038	-1922777.284	1.196276286	0.08179111	-0.086400841	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	204031	239704480524.9	1922000.87	-2786324.953	1.196276286	0.089005204	-0.084219502	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	204032	239704480524.9	2786324.953	-1922000.87	1.196276286	0.084219502	-0.089005204	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
 																																												
-		CreateIbarraMaterial	203011	240549502195.376	1922000.87	-2786324.953	1.196276286	0.089003639	-0.084217233	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	203012	240549502195.376	2786324.953	-1922000.87	1.196276286	0.084217233	-0.089003639	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	203021	240549502195.376	1922000.87	-2786324.953	1.196276286	0.089003639	-0.084217233	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	203022	240549502195.376	2786324.953	-1922000.87	1.196276286	0.084217233	-0.089003639	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	203031	240549502195.376	1922000.87	-2786324.953	1.196276286	0.089003639	-0.084217233	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	203032	240549502195.376	2786324.953	-1922000.87	1.196276286	0.084217233	-0.089003639	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
+		CreateIbarraMaterial	203011	239704480524.9	1922000.87	-2786324.953	1.196276286	0.089005204	-0.084219502	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	203012	239704480524.9	2786324.953	-1922000.87	1.196276286	0.084219502	-0.089005204	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	203021	238859458854.424	1922000.87	-2786324.953	1.196276286	0.085990921	-0.081558599	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	203022	238859458854.424	2786324.953	-1922000.87	1.196276286	0.081558599	-0.085990921	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	203031	239704480524.9	1922000.87	-2786324.953	1.196276286	0.089005204	-0.084219502	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	203032	239704480524.9	2786324.953	-1922000.87	1.196276286	0.084219502	-0.089005204	0.1	129.012334	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
 																																												
-		CreateIbarraMaterial	202011	240549502195.376	1736654.985	-2603761.553	1.196276286	0.084810438	-0.079376672	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	202012	240549502195.376	2603761.553	-1736654.985	1.196276286	0.079376672	-0.084810438	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	202021	240549502195.376	1736654.985	-2603761.553	1.196276286	0.084810438	-0.079376672	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	202022	240549502195.376	2603761.553	-1736654.985	1.196276286	0.079376672	-0.084810438	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	202031	240549502195.376	1736654.985	-2603761.553	1.196276286	0.084810438	-0.079376672	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
-		CreateIbarraMaterial	202032	240549502195.376	2603761.553	-1736654.985	1.196276286	0.079376672	-0.084810438	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7450																												
+		CreateIbarraMaterial	202011	239704480524.9	1736654.985	-2603761.553	1.196276286	0.084811852	-0.079378792	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	202012	239704480524.9	2603761.553	-1736654.985	1.196276286	0.079378792	-0.084811852	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	202021	238859458854.424	1618198.252	-2487267.916	1.196276286	0.081327356	-0.07555204	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	202022	238859458854.424	2487267.916	-1618198.252	1.196276286	0.07555204	-0.081327356	0.1	124.8317562	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7400																												
+		CreateIbarraMaterial	202031	239704480524.9	1736654.985	-2603761.553	1.196276286	0.084811852	-0.079378792	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
+		CreateIbarraMaterial	202032	239704480524.9	2603761.553	-1736654.985	1.196276286	0.079378792	-0.084811852	0.1	126.9048314	$c	$resStrRatio	$stiffFactor1	$stiffFactor2	7425																												
 	################################################################																																											
 																																												
 # 3. Footing rotational stiffness																																												
 	# Define the Elastic Footing Rotational Stiffness Materials (this is supposed to include link beam and footing-soil stiffness)																																											
 		#	Elastic	matTag	Force-Defo_Slope																																							
-		uniaxialMaterial	Elastic	601	17858981514.91																																							
-		uniaxialMaterial	Elastic	602	64149197529.63																																				
+		uniaxialMaterial	Elastic	601	17858981514.91																																				
+		uniaxialMaterial	Elastic	602	64149197529.63																																							
 		uniaxialMaterial	Elastic	603	64149197529.63																																							
-		uniaxialMaterial	Elastic	604	17858981514.91																																						
+		uniaxialMaterial	Elastic	604	17858981514.91																																							
 	################################################################																																											
 																																												
 																																												
@@ -181,13 +181,13 @@
 		node	202013	0	4500																																							
 		node	202014	-375	4125																																							
 		node	202021	8200	3750																																							
-		node	202022	8575	4125																																							
+		node	202022	8600	4125																																							
 		node	202023	8200	4500																																							
-		node	202024	7825	4125																																							
+		node	202024	7800	4125																																							
 		node	202031	16400	3750																																							
-		node	202032	16775	4125																																							
+		node	202032	16800	4125																																							
 		node	202033	16400	4500																																							
-		node	202034	16025	4125																																							
+		node	202034	16000	4125																																							
 		node	202041	24600	3750																																							
 		node	202042	24975	4125																																							
 		node	202043	24600	4500																																							
@@ -198,13 +198,13 @@
 		node	203013	0	8400																																							
 		node	203014	-375	8025																																							
 		node	203021	8200	7650																																							
-		node	203022	8575	8025																																							
+		node	203022	8600	8025																																							
 		node	203023	8200	8400																																							
-		node	203024	7825	8025																																							
+		node	203024	7800	8025																																							
 		node	203031	16400	7650																																							
-		node	203032	16775	8025																																							
+		node	203032	16800	8025																																							
 		node	203033	16400	8400																																							
-		node	203034	16025	8025																																							
+		node	203034	16000	8025																																							
 		node	203041	24600	7650																																							
 		node	203042	24975	8025																																							
 		node	203043	24600	8400																																							
@@ -215,13 +215,13 @@
 		node	204013	0	12300																																							
 		node	204014	-375	11925																																							
 		node	204021	8200	11550																																							
-		node	204022	8575	11925																																							
+		node	204022	8600	11925																																							
 		node	204023	8200	12300																																							
-		node	204024	7825	11925																																							
+		node	204024	7800	11925																																							
 		node	204031	16400	11550																																							
-		node	204032	16775	11925																																							
+		node	204032	16800	11925																																							
 		node	204033	16400	12300																																							
-		node	204034	16025	11925																																							
+		node	204034	16000	11925																																							
 		node	204041	24600	11550																																							
 		node	204042	24975	11925																																							
 		node	204043	24600	12300																																							
@@ -232,13 +232,13 @@
 		node	205013	0	16200																																							
 		node	205014	-375	15825																																							
 		node	205021	8200	15450																																							
-		node	205022	8575	15825																																							
+		node	205022	8600	15825																																							
 		node	205023	8200	16200																																							
-		node	205024	7825	15825																																							
+		node	205024	7800	15825																																							
 		node	205031	16400	15450																																							
-		node	205032	16775	15825																																							
+		node	205032	16800	15825																																							
 		node	205033	16400	16200																																							
-		node	205034	16025	15825																																							
+		node	205034	16000	15825																																							
 		node	205041	24600	15450																																							
 		node	205042	24975	15825																																							
 		node	205043	24600	16200																																							
@@ -340,43 +340,43 @@
 # 6a. Elastic Column elements																																												
 		#	#	$eleTag	$iNode	$jNode	$A	$E	$Iz	$transfTag																																		
 		element	elasticBeamColumn	30801	208013	209011	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30802	208023	209021	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30803	208033	209031	420000	32.04822928	6002500000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30802	208023	209021	490000	32.04822928	7002916667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30803	208033	209031	490000	32.04822928	7002916667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30804	208043	209041	420000	32.04822928	6002500000	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30701	207013	208011	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30702	207023	208021	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30703	207033	208031	420000	32.04822928	6002500000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30702	207023	208021	490000	32.04822928	7002916667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30703	207033	208031	490000	32.04822928	7002916667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30704	207043	208041	420000	32.04822928	6002500000	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30601	206013	207011	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30602	206023	207021	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30603	206033	207031	420000	32.04822928	6002500000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30602	206023	207021	490000	32.04822928	7002916667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30603	206033	207031	490000	32.04822928	7002916667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30604	206043	207041	420000	32.04822928	6002500000	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30501	205013	206011	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30502	205023	206021	420000	32.04822928	6002500000	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30503	205033	206031	420000	32.04822928	6002500000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30502	205023	206021	490000	32.04822928	7002916667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30503	205033	206031	490000	32.04822928	7002916667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30504	205043	206041	420000	32.04822928	6002500000	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30401	204013	205011	487500	32.04822928	7998046875	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30402	204023	205021	487500	32.04822928	7998046875	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30403	204033	205031	487500	32.04822928	7998046875	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30402	204023	205021	640000	32.04822928	11946666667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30403	204033	205031	640000	32.04822928	11946666667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30404	204043	205041	487500	32.04822928	7998046875	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30301	203013	204011	487500	32.04822928	7998046875	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30302	203023	204021	487500	32.04822928	8456059778	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30303	203033	204031	487500	32.04822928	8456059778	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30302	203023	204021	640000	32.04822928	11946666667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30303	203033	204031	640000	32.04822928	11946666667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30304	203043	204041	487500	32.04822928	7998046875	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30201	202013	203011	487500	32.04822928	7998046875	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30202	202023	203021	487500	32.04822928	9225245600	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30203	202033	203031	487500	32.04822928	9225245600	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30202	202023	203021	640000	32.04822928	11946666667	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30203	202033	203031	640000	32.04822928	11946666667	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30204	202043	203041	487500	32.04822928	7998046875	$primaryGeomTransT																																		
 																																												
 		element	elasticBeamColumn	30101	201013	202011	487500	32.04822928	7998046875	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30102	201023	202021	487500	32.04822928	10824299307	$primaryGeomTransT																																		
-		element	elasticBeamColumn	30103	201033	202031	487500	32.04822928	10824299307	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30102	201023	202021	640000	32.04822928	13584191365	$primaryGeomTransT																																		
+		element	elasticBeamColumn	30103	201033	202031	640000	32.04822928	13584191365	$primaryGeomTransT																																		
 		element	elasticBeamColumn	30104	201043	202041	487500	32.04822928	7998046875	$primaryGeomTransT																																		
 																																												
 # 6b. Elastic Beam elements																																												
@@ -396,21 +396,21 @@
 		element	elasticBeamColumn	20602	206022	206034	375000	32.04822928	7558593750	$primaryGeomTransT																																		
 		element	elasticBeamColumn	20603	206032	206044	375000	32.04822928	7558593750	$primaryGeomTransT																																		
 																																												
-		element	elasticBeamColumn	20501	205012	205024	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20502	205022	205034	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20503	205032	205044	375000	32.04822928	7505859375	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20501	205012	205024	375000	32.04822928	7479492188	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20502	205022	205034	375000	32.04822928	7453125000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20503	205032	205044	375000	32.04822928	7479492188	$primaryGeomTransT																																		
 																																												
-		element	elasticBeamColumn	20401	204012	204024	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20402	204022	204034	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20403	204032	204044	375000	32.04822928	7505859375	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20401	204012	204024	375000	32.04822928	7479492188	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20402	204022	204034	375000	32.04822928	7453125000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20403	204032	204044	375000	32.04822928	7479492188	$primaryGeomTransT																																		
 																																												
-		element	elasticBeamColumn	20301	203012	203024	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20302	203022	203034	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20303	203032	203044	375000	32.04822928	7505859375	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20301	203012	203024	375000	32.04822928	7479492188	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20302	203022	203034	375000	32.04822928	7453125000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20303	203032	203044	375000	32.04822928	7479492188	$primaryGeomTransT																																		
 																																												
-		element	elasticBeamColumn	20201	202012	202024	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20202	202022	202034	375000	32.04822928	7505859375	$primaryGeomTransT																																		
-		element	elasticBeamColumn	20203	202032	202044	375000	32.04822928	7505859375	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20201	202012	202024	375000	32.04822928	7479492188	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20202	202022	202034	375000	32.04822928	7453125000	$primaryGeomTransT																																		
+		element	elasticBeamColumn	20203	202032	202044	375000	32.04822928	7479492188	$primaryGeomTransT																																		
 	################################################################																																											
 																																												
 # 6c. Define the column base rotational spring																																												
@@ -509,29 +509,29 @@
 		eleLoad -ele	20601	-type -beamUniform	-0.098873778																																							
 		eleLoad -ele	20602	-type -beamUniform	-0.098873778																																							
 		eleLoad -ele	20603	-type -beamUniform	-0.098873778																																							
-		eleLoad -ele	20501	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20502	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20503	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20401	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20402	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20403	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20301	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20302	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20303	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20201	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20202	-type -beamUniform	-0.09953736																																							
-		eleLoad -ele	20203	-type -beamUniform	-0.09953736																																							
+		eleLoad -ele	20501	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20502	-type -beamUniform	-0.10020991																																							
+		eleLoad -ele	20503	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20401	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20402	-type -beamUniform	-0.10020991																																							
+		eleLoad -ele	20403	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20301	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20302	-type -beamUniform	-0.10020991																																							
+		eleLoad -ele	20303	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20201	-type -beamUniform	-0.099872503																																							
+		eleLoad -ele	20202	-type -beamUniform	-0.10020991																																							
+		eleLoad -ele	20203	-type -beamUniform	-0.099872503																																							
 																																												
 	# 7b. Leaning Column Point Loads 																																											
 		#	node	X	Y	M																																						
-		load	309	0	-132.3	0																																						
-		load	308	0	-132.3	0																																						
-		load	307	0	-132.3	0																																						
-		load	306	0	-132.3	0																																						
-		load	305	0	-153.5625	0																																						
-		load	304	0	-153.5625	0																																						
-		load	303	0	-153.5625	0																																						
-		load	302	0	-182.8125	0																																						
+		load	309	0	-143.325	0																																						
+		load	308	0	-143.325	0																																						
+		load	307	0	-143.325	0																																						
+		load	306	0	-143.325	0																																						
+		load	305	0	-177.58125	0																																						
+		load	304	0	-177.58125	0																																						
+		load	303	0	-177.58125	0																																						
+		load	302	0	-211.40625	0																																						
 																																												
 				}																																								
 	################################################################																																											
@@ -559,14 +559,14 @@
 		mass	209012	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	209013	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	209014	0.010291837	0.010291837	[expr $smallMass3]																																						
-		mass	209021	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209022	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209023	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209024	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209031	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209032	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209033	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	209034	0.019740783	0.019740783	[expr $smallMass3]																																						
+		mass	209021	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209022	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209023	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209024	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209031	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209032	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209033	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	209034	0.019881265	0.019881265	[expr $smallMass3]																																						
 		mass	209041	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	209042	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	209043	0.010291837	0.010291837	[expr $smallMass3]																																						
@@ -576,14 +576,14 @@
 		mass	208012	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	208013	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	208014	0.010291837	0.010291837	[expr $smallMass3]																																						
-		mass	208021	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208022	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208023	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208024	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208031	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208032	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208033	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	208034	0.019740783	0.019740783	[expr $smallMass3]																																						
+		mass	208021	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208022	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208023	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208024	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208031	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208032	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208033	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	208034	0.019881265	0.019881265	[expr $smallMass3]																																						
 		mass	208041	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	208042	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	208043	0.010291837	0.010291837	[expr $smallMass3]																																						
@@ -593,14 +593,14 @@
 		mass	207012	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	207013	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	207014	0.010291837	0.010291837	[expr $smallMass3]																																						
-		mass	207021	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207022	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207023	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207024	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207031	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207032	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207033	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	207034	0.019740783	0.019740783	[expr $smallMass3]																																						
+		mass	207021	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207022	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207023	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207024	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207031	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207032	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207033	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	207034	0.019881265	0.019881265	[expr $smallMass3]																																						
 		mass	207041	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	207042	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	207043	0.010291837	0.010291837	[expr $smallMass3]																																						
@@ -610,14 +610,14 @@
 		mass	206012	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	206013	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	206014	0.010291837	0.010291837	[expr $smallMass3]																																						
-		mass	206021	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206022	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206023	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206024	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206031	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206032	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206033	0.019740783	0.019740783	[expr $smallMass3]																																						
-		mass	206034	0.019740783	0.019740783	[expr $smallMass3]																																						
+		mass	206021	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206022	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206023	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206024	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206031	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206032	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206033	0.019881265	0.019881265	[expr $smallMass3]																																						
+		mass	206034	0.019881265	0.019881265	[expr $smallMass3]																																						
 		mass	206041	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	206042	0.010291837	0.010291837	[expr $smallMass3]																																						
 		mass	206043	0.010291837	0.010291837	[expr $smallMass3]																																						
@@ -627,14 +627,14 @@
 		mass	205012	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	205013	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	205014	0.010427301	0.010427301	[expr $smallMass3]																																						
-		mass	205021	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205022	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205023	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205024	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205031	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205032	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205033	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	205034	0.019876248	0.019876248	[expr $smallMass3]																																						
+		mass	205021	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205022	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205023	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205024	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205031	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205032	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205033	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	205034	0.020182297	0.020182297	[expr $smallMass3]																																						
 		mass	205041	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	205042	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	205043	0.010427301	0.010427301	[expr $smallMass3]																																						
@@ -644,14 +644,14 @@
 		mass	204012	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	204013	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	204014	0.010427301	0.010427301	[expr $smallMass3]																																						
-		mass	204021	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204022	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204023	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204024	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204031	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204032	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204033	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	204034	0.019876248	0.019876248	[expr $smallMass3]																																						
+		mass	204021	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204022	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204023	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204024	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204031	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204032	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204033	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	204034	0.020182297	0.020182297	[expr $smallMass3]																																						
 		mass	204041	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	204042	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	204043	0.010427301	0.010427301	[expr $smallMass3]																																						
@@ -661,14 +661,14 @@
 		mass	203012	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	203013	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	203014	0.010427301	0.010427301	[expr $smallMass3]																																						
-		mass	203021	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203022	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203023	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203024	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203031	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203032	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203033	0.019876248	0.019876248	[expr $smallMass3]																																						
-		mass	203034	0.019876248	0.019876248	[expr $smallMass3]																																						
+		mass	203021	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203022	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203023	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203024	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203031	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203032	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203033	0.020182297	0.020182297	[expr $smallMass3]																																						
+		mass	203034	0.020182297	0.020182297	[expr $smallMass3]																																						
 		mass	203041	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	203042	0.010427301	0.010427301	[expr $smallMass3]																																						
 		mass	203043	0.010427301	0.010427301	[expr $smallMass3]																																						
@@ -678,20 +678,20 @@
 		mass	202012	0.010613654	0.010613654	[expr $smallMass3]																																						
 		mass	202013	0.010613654	0.010613654	[expr $smallMass3]																																						
 		mass	202014	0.010613654	0.010613654	[expr $smallMass3]																																						
-		mass	202021	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202022	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202023	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202024	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202031	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202032	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202033	0.020062601	0.020062601	[expr $smallMass3]																																						
-		mass	202034	0.020062601	0.020062601	[expr $smallMass3]																																						
+		mass	202021	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202022	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202023	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202024	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202031	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202032	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202033	0.020426945	0.020426945	[expr $smallMass3]																																						
+		mass	202034	0.020426945	0.020426945	[expr $smallMass3]																																						
 		mass	202041	0.010613654	0.010613654	[expr $smallMass3]																																						
 		mass	202042	0.010613654	0.010613654	[expr $smallMass3]																																						
 		mass	202043	0.010613654	0.010613654	[expr $smallMass3]																																						
 		mass	202044	0.010613654	0.010613654	[expr $smallMass3]																																						
 	################################################################																																											
-	##################### total mass is 1.93373904179409 (kN-s^2 /mm) ##############																																											
+	##################### total mass is 1.94849439347605 (kN-s^2 /mm) ##############																																											
 	################################################################																																											
 																																												
 # 9. Define Damping																																												

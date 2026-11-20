@@ -92,14 +92,6 @@ if runOpenSees_and_ProcResults == 1
                 system(sprintf('set SPO_INDEX=%d && OpenSees_64-kNmmMPa-PSB-11-01-16 psb_RunMeanAnalysis.tcl > C:\\temp\\outp_SPO%d.txt 2>&1', SPO_index, SPO_index));
             end
     
-    
-            % if shearHingeOrNot == 0
-            %     !OpenSees psb_RunMeanAnalysis.tcl > "C:\Users\Shivakumar K S\OneDrive\Desktop\outp_opensees_2025_.txt" 2>&1
-            % else
-            %     !OpenSees_64-kNmmMPa-PSB-11-01-16 psb_RunMeanAnalysis.tcl > "C:\Users\Shivakumar K S\OneDrive\Desktop\outp_opensees_2025_.txt" 2>&1
-            % end
-    
-    
         cd(baseFolder)
     
         %% comment out above portion, if only plotting of the pushover curve is required to be done
@@ -111,7 +103,7 @@ if runOpenSees_and_ProcResults == 1
                                             eqNumber_PO, isPlotPO, plotRoofDriftRatio, maxNumPoints, markerType_PO, lineWidth_PO, isPlotStoryPO, ...
                                             storyNumLIST, isPlotPOMaxDriftLevel, determinePeriodBasedDuctility, SPO_index);
             cd ..
-        %     (6-1-16, PSB) store oushover results to plot together
+        %     (6-1-16, PSB) store pushover results to plot together
             cd Output
             cd(analysisType_forPO)
             SPO_dataFileName = sprintf('DATA_pushover_%i.mat', SPO_index);
