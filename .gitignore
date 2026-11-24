@@ -30,6 +30,12 @@ HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Database/Original/
 HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Input from Raghukanth/_superseded/
 HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Input from Raghukanth/DATA_files/
 HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/Input from Raghukanth/hazardCurves/
+# GM Selection results and summary folders
+/HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/GMSelection_NGA_KiK_mixed/Results_*/
+/HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/GMSelection_NGA_KiK_mixed/Summary_*/
+/HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/GMSelection_NGA_KiK_mixed/_superseded/
+/HazardAnalysis/gm-selection/2020_NBC_MyCopy_new-main/GMSelection_NGA_KiK_mixed/UHS/
+
 
 # HazardAnalysis figures and data (keep local only)
 HazardAnalysis/**/*.pdf

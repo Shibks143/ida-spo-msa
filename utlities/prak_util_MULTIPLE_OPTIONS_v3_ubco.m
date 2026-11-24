@@ -630,7 +630,7 @@ end
 % Save the plot as a .fig file in Output folder
     cd E:\MyOPENSEES\THESIS\HaseltonRuns\Output
         plotName = sprintf('IDA_EQ_%d_BldgID_%d.fig', eqNumber, buildingID);
-        hgsave(plotName);
+        savefig(plotName);
 % Export the plot as a .emf file 
 %          exportName = sprintf('IDA_EQ_%d_BldgID_%d.emf', eqNumber, buildingID);
 %         print('-dmeta', exportName);
@@ -731,7 +731,7 @@ end
 %     cd E:\MyOPENSEES\THESIS\HaseltonRuns\Output
     cd I:\PrakRuns_I\Output
         plotName = sprintf('IDA_EQ_%d_BldgID_%s.fig', eqNumber, plotNameID);
-        hgsave(plotName);
+        savefig(plotName);
 % Export the plot as a .emf file 
 %          exportName = sprintf('IDA_EQ_%d_BldgID_%d.emf', eqNumber, plotNameID);
 %         print('-dmeta', exportName);
@@ -10917,14 +10917,16 @@ case '44.sks_extractEigenvalues'
     % extractModalPeriods.m
     % Reads eigenvaluesOUT.out (OpenSees eigenvalues, omega^2 in (rad/s)^2) for each
     % building, drops the first (unrealistic, fixed 0.02) value, and builds
-    % tables of circular frequency omega (rad/s) and time periods T1..T5 (s).
+    % tables of circular frequency omega (rad/s) and time periods T1..Tn (n = numModes).
     % clear; clc;
 
-    fileNameLIST = {'ID35053_R5_5Story_v.03'; 'ID35083_R5_8Story_v.03'; 'ID35123_R5_12Story_v.03'; 'ID46053_R5_5Story_v.04'; 'ID46083_R5_8Story_v.04'; 'ID46123_R5_12Story_v.04'};
+    fileNameLIST = {'ID2433_R5_5Story_v.02'}; 
+
+    % fileNameLIST = {'ID35053_R5_5Story_v.03'; 'ID35083_R5_8Story_v.03'; 'ID35123_R5_12Story_v.03'; 'ID46053_R5_5Story_v.04'; 'ID46083_R5_8Story_v.04'; 'ID46123_R5_12Story_v.04'};
 
     outputFolder = 'E:\StaticDynamicAnalysis\ida-spo-msa\Output';
     folderSuffix = '_(AllVar)_(0.00)_(clough)';
-    numModes     = 5;       % T1 .. T5
+    numModes     = 6;       % T1 .. T6
 
     numBuildings  = length(fileNameLIST);
     omegaMATRIX   = NaN(numBuildings, numModes);    % omega (rad/s)
@@ -10945,19 +10947,23 @@ case '44.sks_extractEigenvalues'
         periodMATRIX(buildingIndex, :) = 2*pi ./ omegaMATRIX(buildingIndex, :);  % s
     end
 
-    % ---------- Tables ----------
-    omegaTABLE  = array2table(round(omegaMATRIX, 2),  'RowNames', fileNameLIST, ...
-        'VariableNames', {'w1(rad/s)', 'w2(rad/s)', 'w3(rad/s)', 'w4(rad/s)', 'w5(rad/s)'});
-    periodTABLE = array2table(round(periodMATRIX, 2), 'RowNames', fileNameLIST, ...
-        'VariableNames', {'T1(s)', 'T2(s)', 'T3(s)', 'T4(s)', 'T5(s)'});
+        % ---------- Table: w1, T1, w2, T2, ... ----------
+    modeNumberLIST    = 1:numModes;
+    omegaColumnLIST   = compose('w%d(rad/s)', modeNumberLIST);   % {'w1(rad/s)', ..., 'w6(rad/s)'}
+    periodColumnLIST  = compose('T%d(s)', modeNumberLIST);       % {'T1(s)', ..., 'T6(s)'}
+    modalColumnLIST   = reshape([omegaColumnLIST; periodColumnLIST], 1, []);   % {'w1(rad/s)', 'T1(s)', 'w2(rad/s)', 'T2(s)', ...}
 
-    disp('Circular frequency omega (rad/s), first eigenvalue excluded:');
-    disp(omegaTABLE);
-    disp('Time periods T (s), first eigenvalue excluded:');
-    disp(periodTABLE);
+    modalMATRIX            = NaN(numBuildings, 2*numModes);
+    modalMATRIX(:, 1:2:end) = omegaMATRIX;     % odd columns  -> omega (rad/s)
+    modalMATRIX(:, 2:2:end) = periodMATRIX;    % even columns -> T (s)
+
+    modalTABLE = array2table(round(modalMATRIX, 2), 'RowNames', fileNameLIST, 'VariableNames', modalColumnLIST);
+
+    disp('Circular frequency omega (rad/s) and time period T (s), first eigenvalue excluded:');
+    disp(modalTABLE);
 
     % Optional: save to Excel in the Output folder
-    writetable(periodTABLE, fullfile(outputFolder, 'ModalPeriods_T1toT5.xlsx'), 'WriteRowNames', true, 'Sheet', 'Periods');
+    writetable(modalTABLE, fullfile(outputFolder, sprintf('ModalProperties_Mode1to%d.xlsx', numModes)), 'WriteRowNames', true, 'Sheet', 'Modal');
 
 
 

@@ -51,8 +51,8 @@
 ##########################################################################################
 
 	# Define the periods to use for the Rayleigh damping calculations
-	set periodForRayleighDamping_1 2.04;	# Mode 1 period - NEEDS to be UPDATED
-	set periodForRayleighDamping_2 0.37;	# Mode 3 period - NEEDS to be UPDATED
+	set periodForRayleighDamping_1 1.98;	# Mode 1 period - NEEDS to be UPDATED
+	set periodForRayleighDamping_2 0.36;	# Mode 3 period - NEEDS to be UPDATED
 
 	set numModeRequested 14; # Number of modes requested. This is used in psb_WriteNeededInformationToFilesForMatlab.tcl while performing eigen value and eigen vector analyses.
 

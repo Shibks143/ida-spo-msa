@@ -32,30 +32,7 @@ function [] = psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotO
 % clear;
 % tic
 baseFolder = pwd; 
-%% sample input
-% bldgID_LIST = [30401 30402 30421 30422 30441 30442 30451 30452 30471 30472];
-% analysisDirLIST = { '(ID30401_XZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30402_YZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30421_XZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30422_YZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30441_XZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30442_YZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30451_XZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30452_YZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30471_XZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';
-%                     '(ID30472_YZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)';};
-% % bldgID_LIST = 30401;
-% % analysisDirLIST = {'(ID30401_XZ_R0_4Story_v.02)_(AllVar)_(0.00)_(clough)'};
-% 
-% driftPlotOption = 2;    % Plot the drifts at the last time step of the analysis (to show the collapse mechanism better), 1- undeformed building
-% maxOnDemandCapacityRatioToPlot = 3.0;   % Limit the demand/capacity ratio to 3, so the plots won't be too crazy at collapse.
-% pushoverStepNameIdentifier = 'lastStep'; 
-% % subsequently, I plan to plot the deformed pushover shape at different base shear level. 
-% % This text can be made to depend on the baseShear level. When it is an
-% % empty text, we simply plot the deformed shape at the last analyzed step.
-% % Later on, it may be assigned a string value on the lines of '0.80Vmax' etc.
-% 
-% % end of sample input
+
 
 %% more inputs; can choose to change them for specific plots
 lateralDispDOF = 1;
