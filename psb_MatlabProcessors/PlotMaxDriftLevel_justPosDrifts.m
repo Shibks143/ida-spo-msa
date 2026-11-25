@@ -121,7 +121,8 @@ load(fileName);
         cd ..;
         cd ..;
         
-        exportName = sprintf('PushoverMaxDriftLevel_Num_%d_%s',eqNumber, analysisType);
+        if SPO_index == -999, spoSuffix = ''; else, spoSuffix = sprintf('_SPO_%d', SPO_index); end   % (26-Nov-2026, sks) one figure per pushover pattern
+        exportName = sprintf('PushoverMaxDriftLevel_Num_%d_%s%s', eqNumber, analysisType, spoSuffix);
         sks_figureExport(exportName);
 
     hold on

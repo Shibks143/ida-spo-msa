@@ -1,5 +1,5 @@
 
-function [] = psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotOption, maxOnDemandCapacityRatioToPlot, pushoverStepNameIdentifier)
+function [] = psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotOption, maxOnDemandCapacityRatioToPlot, pushoverStepNameIdentifier, SPO_index)
 %
 % Function: psb_pushoverDeformedShape.m
 % -------------------
@@ -10,8 +10,12 @@ function [] = psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotO
 %       analysisDirLIST- Directory for analysis outputs; could contain a list
 %       driftPlotOption- Plot the drifts at the last time step of the analysis (to show 
 %                        the collapse mechanism better), 1- undeformed building
-%       maxOnDemandCapacityRatioToPlot- Limit the demand/capacity ratio to 3, so the plots 
+%       maxOnDemandCapacityRatioToPlot- Limit the demand/capacity ratio to 3, so the plots
 %                        won't be too crazy at collapse.
+%       SPO_index- (optional, 26-Nov-2026 sks) pushover pattern number; -999 (default) = single pattern.
+%                  Uses DATA_allDataForThisSingleRun_<SPO_index>.mat and adds _SPO_<SPO_index> to the figure name.
+%                  NOTE: hinge/joint rotations are read from the raw OpenSees files in EQ_9991\Sa_0.00, which
+%                  hold only the LAST pushover run, so call this right after that pattern's run.
 %
 % Assumptions and Notices: 
 %       - So far, I have only considered the deformed shape at the last step of the pushover 
@@ -31,7 +35,15 @@ function [] = psb_pushoverDeformedShape(bldgID_LIST, analysisDirLIST, driftPlotO
 
 % clear;
 % tic
-baseFolder = pwd; 
+baseFolder = pwd;
+if nargin < 6, SPO_index = -999; end
+if SPO_index == -999
+    runDataFileName = 'DATA_allDataForThisSingleRun.mat';
+    spoSuffix = '';
+else
+    runDataFileName = sprintf('DATA_allDataForThisSingleRun_%i.mat', SPO_index);
+    spoSuffix = sprintf('_SPO_%d', SPO_index);
+end
 
 
 %% more inputs; can choose to change them for specific plots
@@ -62,7 +74,7 @@ for bldgIndex = 1:length(bldgID_LIST)
     cd EQ_9991
     cd Sa_0.00
  
-    load('DATA_allDataForThisSingleRun.mat', 'nodeArray', 'nodeNumsAtEachFloorLIST', 'elementArray');
+    load(runDataFileName, 'nodeArray', 'nodeNumsAtEachFloorLIST', 'elementArray');
 
 %% floorDispVECTOR 
     numColLines = buildingInfo{bldgID}.numBays + 1;
@@ -190,7 +202,7 @@ cd(tempDir)
 
 %% update elementArray in the existing .mat file.
 % save('DATA_allDataForThisSingleRun.mat', 'elementArray', '-append')
-m = matfile('DATA_allDataForThisSingleRun.mat', 'Writable', true);
+m = matfile(runDataFileName, 'Writable', true);
 m.elementArray = elementArray;
 
 % cd ..\..\..\.. % come back four levels to reach main folder
@@ -218,7 +230,7 @@ for bldgIndex = 1:length(bldgID_LIST)
    
    cd(fullfile(baseFolder, '..', '..', 'Output', analysisDir));
 
-   exportName = sprintf('PushoverDeformedShape_%s_%s', pushoverStepNameIdentifier, modelName);
+   exportName = sprintf('PushoverDeformedShape_%s_%s%s', pushoverStepNameIdentifier, modelName, spoSuffix);
    sks_figureExport(exportName)
    sks_figureFormat('powerpoint')
    

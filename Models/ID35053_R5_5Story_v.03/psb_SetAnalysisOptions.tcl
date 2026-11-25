@@ -61,7 +61,8 @@
 
 		# Maximum displacement for pushover (of control node)
  			# set maxPushoverDisp 1500.0;  # added by shivakumar on June-18-2026 for IS 1893 (2025) models
-			set maxPushoverDisp 720.0;     # added by shivakumar on June-29-2026 for IS 1893 (2016) models
+			# set maxPushoverDisp 720.0;     # added by shivakumar on June-29-2026 for IS 1893 (2016) models
+			set maxPushoverDisp 3500.0;    # (26-Nov-2026, sks) same pushover limit for all models
 			# set maxPushoverDisp 1045.0;	
             # set maxPushoverDisp 820.0;	
 

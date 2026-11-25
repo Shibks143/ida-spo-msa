@@ -112,7 +112,8 @@ load(fileName);
         cd ..;
         cd ..;
         % Save the plot as a .fig file
-        exportName = sprintf('Pushover_%s_Story_%d_storyShear', analysisType, storyNum);
+        if SPO_index == -999, spoSuffix = ''; else, spoSuffix = sprintf('_SPO_%d', SPO_index); end   % (26-Nov-2026, sks) one figure per pushover pattern
+        exportName = sprintf('Pushover_%s_Story_%d_storyShear%s', analysisType, storyNum, spoSuffix);
         savefig(exportName); % .fig file for Matlab
         print('-depsc', exportName); % .eps file for Linux (LaTeX)
         print('-dmeta', exportName); % .emf file for Windows (MSWORD)

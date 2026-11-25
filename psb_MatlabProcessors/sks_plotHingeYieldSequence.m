@@ -1,5 +1,5 @@
 
-function [] = sks_plotHingeYieldSequence(bldgID_LIST, analysisDirLIST, rootFolder, figureOutputFolder)
+function [] = sks_plotHingeYieldSequence(bldgID_LIST, analysisDirLIST, rootFolder, figureOutputFolder, SPO_index)
 %
 % Function: sks_plotHingeYieldSequence.m
 % -------------------
@@ -30,6 +30,14 @@ function [] = sks_plotHingeYieldSequence(bldgID_LIST, analysisDirLIST, rootFolde
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if nargin < 4, figureOutputFolder = ''; end
+if nargin < 5, SPO_index = -999; end           % (26-Nov-2026, sks) -999 = single (default) pushover pattern
+if SPO_index == -999
+    runDataFileName = 'DATA_allDataForThisSingleRun.mat';
+    spoSuffix = '';
+else
+    runDataFileName = sprintf('DATA_allDataForThisSingleRun_%i.mat', SPO_index);
+    spoSuffix = sprintf('_SPO_%d', SPO_index);
+end
 yieldPlasticRotation = 0.0005;   % (rad)
 lateralDispDOF = 1;
 hingeStyle.beam   = struct('marker', 'o', 'color', [0 0.45 0.74], 'name', 'Beam hinge');
@@ -53,7 +61,7 @@ for bldgIndex = 1:numBuildings
     analysisDir = analysisDirLIST{bldgIndex};
     runFolder = fullfile(rootFolder, 'Output', analysisDir, 'EQ_9991', 'Sa_0.00');
     modelName = strtok(analysisDir, ')'); modelName = modelName(2:end);
-    load(fullfile(runFolder, 'DATA_allDataForThisSingleRun.mat'), 'nodeArray', 'baseShear', 'poControlNodeNum', 'floorHeightsLIST');
+    load(fullfile(runFolder, runDataFileName), 'nodeArray', 'baseShear', 'poControlNodeNum', 'floorHeightsLIST');
     numColLines = buildingInfo{bldgID}.numBays + 1;
     maxFloorNum = buildingInfo{bldgID}.numStories + 1;
 
@@ -194,7 +202,7 @@ for bldgIndex = 1:numBuildings
     else
         singleFigureFolder = figureOutputFolder;
     end
-    formatAndExportFigure(singleFigure, singleFigureFormatMode, 2, fullfile(singleFigureFolder, sprintf('HingeYieldSequence_%s', modelName)));
+    formatAndExportFigure(singleFigure, singleFigureFormatMode, 2, fullfile(singleFigureFolder, sprintf('HingeYieldSequence_%s%s', modelName, spoSuffix)));
     close(singleFigure);
 end
 
@@ -207,7 +215,7 @@ if isempty(figureOutputFolder)
 else
     comparisonFigureFolder = figureOutputFolder;
 end
-comparisonFileName = ['HingeYieldSequence_comparison_', strjoin(arrayfun(@(bldgID) sprintf('ID%i', bldgID), bldgID_LIST, 'UniformOutput', false), '_')];
+comparisonFileName = ['HingeYieldSequence_comparison_', strjoin(arrayfun(@(bldgID) sprintf('ID%i', bldgID), bldgID_LIST, 'UniformOutput', false), '_'), spoSuffix];
 formatAndExportFigure(comparisonFigure, comparisonFigureFormatMode, 1, fullfile(comparisonFigureFolder, comparisonFileName));
 % comparison figure is left open (like the combined pushover figures); close it when done
 end

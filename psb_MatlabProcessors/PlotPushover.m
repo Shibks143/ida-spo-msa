@@ -264,7 +264,8 @@ end
 
         % Save the plot
         modifiedAnaType = strrep(analysisType, '.', '_'); % having a dot in the name itself makes matlab
-        exportName = fullfile(pwd, sprintf('Pushover_Num_%d_%s', eqNumber, modifiedAnaType));
+        if SPO_index == -999, spoSuffix = ''; else, spoSuffix = sprintf('_SPO_%d', SPO_index); end   % (26-Nov-2026, sks) one figure per pushover pattern
+        exportName = fullfile(pwd, sprintf('Pushover_Num_%d_%s%s', eqNumber, modifiedAnaType, spoSuffix));
         sks_figureExport(exportName); 
         disp(exportName)
         hold off
