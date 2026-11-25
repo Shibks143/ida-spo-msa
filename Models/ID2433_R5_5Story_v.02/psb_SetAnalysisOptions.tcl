@@ -60,7 +60,8 @@
 			# set runPushover NO
 
 		# Maximum displacement for pushover (of control node)
- 			set maxPushoverDisp 1045.0;	
+ 			# set maxPushoverDisp 1045.0;	
+ 			set maxPushoverDisp 3500.0;    # (26-Nov-2026, sks) same pushover limit for all models
             # set maxPushoverDisp 820.0;	
 
 		# Define the PO number - for output files/folders and post-processing - this allows you to keep results from 

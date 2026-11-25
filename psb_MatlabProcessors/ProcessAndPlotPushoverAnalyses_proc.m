@@ -51,12 +51,12 @@ end
         for storyIndex = 1:length(storyNumLIST)
             storyNum = storyNumLIST(storyIndex);
             figure(figNum);
-            PlotStoryPushover(storyNum, analysisType_forPO, eqNumber_PO, saTOneForRun_PO, plotRoofDriftRatio, maxNumPoints, markerType_PO, lineWidth_PO);
+            PlotStoryPushover(storyNum, analysisType_forPO, eqNumber_PO, saTOneForRun_PO, plotRoofDriftRatio, maxNumPoints, markerType_PO, lineWidth_PO, SPO_index);
             disp('Plot Story Pushover versus story shear - DONE')
             figNum = figNum + 1;
 
             figure(figNum);
-            PlotStoryPushover_vsBaseShear(storyNum, analysisType_forPO, eqNumber_PO, saTOneForRun_PO, plotRoofDriftRatio, maxNumPoints, markerType_PO, lineWidth_PO);
+            PlotStoryPushover_vsBaseShear(storyNum, analysisType_forPO, eqNumber_PO, saTOneForRun_PO, plotRoofDriftRatio, maxNumPoints, markerType_PO, lineWidth_PO, SPO_index);
             disp('Plot Story Pushover versus base shear - DONE')
             figNum = figNum + 1;
         end
